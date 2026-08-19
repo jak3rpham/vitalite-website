@@ -1,0 +1,1 @@
+https://console.firebase.google.com/project/ai-riser-namdosan-fa737/firestore/data/~2Fhouseholds

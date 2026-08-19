@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Expanded:wght@700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #F4F4F4; }
+  body { font-family: Archivo, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: inherit; opacity: .6; }
+  * { box-sizing: border-box; }
+  ::selection { background: #0A0A0A; color: #fff; }
+</style>
+</helmet>
+
+<div style="background: #F4F4F4; color: #0A0A0A; min-height: 100vh; overflow-x: hidden;">
+
+  <header style="position: fixed; top: 0; left: 0; right: 0; z-index: 60; transition: background .35s ease, color .35s ease, border-color .35s ease; border-bottom: 1px solid; background: {{ headerBg }}; color: {{ headerColor }}; border-color: {{ headerBorder }}; backdrop-filter: blur(6px);">
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 0 32px; height: 76px;">
+
+      <div style="display: flex; align-items: center; gap: 32px; flex: 1 1 auto; min-width: 0; overflow: hidden;">
+        <sc-if value="{{ logoLeft }}" hint-placeholder-val="{{ true }}">
+          <a href="#" style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+            <div style="width: 19px; height: 24px; background: currentColor; -webkit-mask: url(assets/vitalite-mark-trim.png) center/contain no-repeat; mask: url(assets/vitalite-mark-trim.png) center/contain no-repeat;"></div>
+            <div style="width: 112px; height: 22px; background: currentColor; -webkit-mask: url(assets/vitalite-wordmark-trim.png) left center/contain no-repeat; mask: url(assets/vitalite-wordmark-trim.png) left center/contain no-repeat;"></div>
+          </a>
+        </sc-if>
+        <nav style="display: flex; align-items: center; gap: {{ navGap }}; min-width: 0; flex-wrap: nowrap;">
+          <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
+            <a href="#" style="font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; padding: 6px 0; border-bottom: 1px solid transparent; transition: border-color .2s;" style-hover="border-bottom-color: currentColor; opacity: 1;">{{ item.en }}</a>
+          </sc-for>
+        </nav>
+        <sc-if value="{{ compact }}" hint-placeholder-val="{{ false }}">
+          <button style="display: flex; align-items: center; gap: 10px; background: none; border: 0; padding: 6px 0; cursor: pointer; color: inherit; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .16em;">
+            <span style="display: flex; flex-direction: column; gap: 4px;"><span style="width: 18px; height: 1.5px; background: currentColor; display: block;"></span><span style="width: 18px; height: 1.5px; background: currentColor; display: block;"></span></span>
+            MENU
+          </button>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ logoCenter }}" hint-placeholder-val="{{ false }}">
+        <a href="#" style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+          <div style="width: 19px; height: 24px; background: currentColor; -webkit-mask: url(assets/vitalite-mark-trim.png) center/contain no-repeat; mask: url(assets/vitalite-mark-trim.png) center/contain no-repeat;"></div>
+          <div style="width: 118px; height: 23px; background: currentColor; -webkit-mask: url(assets/vitalite-wordmark-trim.png) center/contain no-repeat; mask: url(assets/vitalite-wordmark-trim.png) center/contain no-repeat;"></div>
+        </a>
+      </sc-if>
+
+      <div style="display: flex; align-items: center; justify-content: flex-end; gap: 20px; flex: 0 0 auto; white-space: nowrap; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em;">
+        <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: center; gap: 6px; opacity: .75;">
+            <span style="font-weight: 500;">VI</span><span>/</span><span>EN</span>
+          </div>
+        </sc-if>
+        <a href="#" style="letter-spacing: .1em;">SEARCH</a>
+        <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+          <a href="#" style="letter-spacing: .1em;">ACCOUNT</a>
+        </sc-if>
+        <a href="#" style="letter-spacing: .1em; border: 1px solid currentColor; padding: 6px 12px; border-radius: 999px;">CART (0)</a>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div>
+
+    <section style="position: relative; height: 100vh; min-height: 720px; overflow: hidden; background: #0A0A0A;">
+      <sc-for list="{{ slides }}" as="s" hint-placeholder-count="3">
+        <div style="position: absolute; inset: 0; transition: opacity .9s ease; background: {{ s.bg }}; opacity: {{ s.op }};">
+          <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 52%; display: flex; align-items: center; justify-content: center; padding: 60px 32px 0;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .18em; text-align: center; line-height: 2; color: {{ s.stampColor }};">{{ s.stamp }}</div>
+          </div>
+          <div style="position: absolute; inset: 0; background: {{ s.scrim }};"></div>
+          <div style="position: absolute; left: 32px; bottom: 132px; right: 32px; color: {{ s.fg }};">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .2em; margin-bottom: 20px; opacity: .8;">{{ s.tag }}</div>
+            <h1 style="font-family: 'Archivo Expanded', Archivo, sans-serif; font-weight: 900; font-size: clamp(56px, 8.4vw, 152px); line-height: 1.02; letter-spacing: -.03em; margin: 0; text-transform: uppercase; max-width: 16ch;">{{ s.title }}</h1>
+            <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-top: 28px; flex-wrap: wrap;">
+              <p style="margin: 0; max-width: 46ch; font-size: 15px; line-height: 1.6; opacity: .82;">{{ s.sub }}</p>
+              <a href="#" style="display: inline-flex; align-items: center; gap: 14px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; padding: 16px 30px; border-radius: 999px; background: {{ s.btnBg }}; color: {{ s.btnFg }}; transition: transform .25s;" style-hover="transform: translateY(-2px); opacity: 1;">{{ s.cta }} <span style="font-family: 'JetBrains Mono', monospace;">→</span></a>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+
+      <div style="position: absolute; left: 32px; right: 32px; bottom: 44px; display: flex; align-items: center; gap: 14px; z-index: 5;">
+        <sc-for list="{{ slides }}" as="s" hint-placeholder-count="3">
+          <button onClick="{{ s.go }}" style="flex: 1 1 0; background: none; border: 0; padding: 0; cursor: pointer; text-align: left;">
+            <div style="height: 2px; background: {{ s.trackBg }}; overflow: hidden;">
+              <div style="height: 100%; background: {{ s.barFg }}; width: {{ s.barW }}; transition: width .4s linear;"></div>
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; margin-top: 10px; color: {{ s.barFg }}; opacity: {{ s.labelOp }};">{{ s.index }} — {{ s.label }}</div>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="padding: 96px 32px 24px;">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; border-bottom: 1px solid #0A0A0A; padding-bottom: 22px; flex-wrap: wrap;">
+        <div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .2em; color: #7A7A7A; margin-bottom: 14px;">01 — FEATURED / NỔI BẬT</div>
+          <h2 style="font-family: 'Archivo Expanded', Archivo, sans-serif; font-weight: 900; font-size: clamp(38px, 5.4vw, 84px); line-height: 1.02; letter-spacing: -.03em; margin: 0; text-transform: uppercase;">Áo / Tops</h2>
+        </div>
+        <a href="#" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .16em; border-bottom: 1px solid #0A0A0A; padding-bottom: 4px;">XEM TẤT CẢ / VIEW ALL →</a>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat({{ showcaseCols }}, minmax(0, 1fr)); gap: 2px; margin-top: 2px; background: #E6E6E6;">
+        <sc-for list="{{ featured }}" as="p" hint-placeholder-count="8">
+          <a href="#" onMouseEnter="{{ p.enter }}" onMouseLeave="{{ p.leave }}" style="display: block; background: #F4F4F4; padding: 0; grid-column: {{ p.span }}; grid-row: {{ p.rowSpan }};">
+            <div style="position: relative; overflow: hidden; aspect-ratio: {{ p.ratio }}; background: #EDEDED;">
+              <div style="position: absolute; inset: 0; background: repeating-linear-gradient(135deg,#EFEFEF 0 14px,#E4E4E4 14px 28px); display: flex; align-items: center; justify-content: center; transition: opacity .45s ease, transform .8s ease; opacity: {{ p.frontOp }}; transform: {{ p.frontTf }};">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #9B9B9B;">{{ p.frontLabel }}</span>
+              </div>
+              <div style="position: absolute; inset: 0; background: repeating-linear-gradient(135deg,#E4E4E4 0 14px,#D8D8D8 14px 28px); display: flex; align-items: center; justify-content: center; transition: opacity .45s ease, transform .8s ease; opacity: {{ p.backOp }}; transform: {{ p.backTf }};">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #8F8F8F;">{{ p.backLabel }}</span>
+              </div>
+              <div style="position: absolute; left: 14px; top: 14px; display: flex; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .12em;">
+                <span style="background: #0A0A0A; color: #fff; padding: 4px 8px; opacity: {{ p.badgeOp }};">{{ p.badge }}</span>
+              </div>
+              <div style="position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; gap: 6px; transition: opacity .3s ease, transform .3s ease; opacity: {{ p.quickOp }}; transform: {{ p.quickTf }};">
+                <sc-for list="{{ p.sizes }}" as="sz" hint-placeholder-count="4">
+                  <span style="flex: 1 1 0; text-align: center; background: rgba(255,255,255,.94); border: 1px solid #0A0A0A; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .1em; padding: 9px 0;">{{ sz }}</span>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 14px 2px 26px;">
+              <div style="font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;">{{ p.name }}</div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px;">{{ p.price }}</div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="padding: 72px 32px 0;">
+      <div style="position: relative; background: #0A0A0A; color: #fff; padding: 0; overflow: hidden;">
+        <div style="display: grid; grid-template-columns: 1.15fr 1fr; min-height: 560px;">
+          <div style="padding: 64px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .2em; opacity: .6;">02 — NEW COLLECTION / BST MỚI</div>
+            <div>
+              <h2 style="font-family: 'Archivo Expanded', Archivo, sans-serif; font-weight: 900; font-size: clamp(44px, 6vw, 96px); line-height: 1.02; letter-spacing: -.03em; margin: 0 0 24px; text-transform: uppercase;">Đường<br />Phố / SS26</h2>
+              <p style="margin: 0 0 32px; max-width: 42ch; font-size: 15px; line-height: 1.65; opacity: .72;">Bộ sưu tập lấy chất liệu từ nhịp sống Sài Gòn: cotton dày, form rộng, in lụa thủ công. 24 mẫu, phát hành theo đợt.</p>
+              <a href="#" style="display: inline-flex; align-items: center; gap: 14px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; padding: 16px 30px; border-radius: 999px; background: #fff; color: #0A0A0A;">Khám phá BST <span style="font-family: 'JetBrains Mono', monospace;">→</span></a>
+            </div>
+          </div>
+          <div style="background: repeating-linear-gradient(135deg,#1C1C1C 0 16px,#141414 16px 32px); display: flex; align-items: center; justify-content: center;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .18em; color: #6B6B6B; text-align: center; line-height: 2;">CAMPAIGN IMAGE<br />1200 × 1400 · MODEL SHOT</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 96px 0 0;">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; padding: 0 32px 22px; border-bottom: 1px solid #0A0A0A; margin: 0 32px; flex-wrap: wrap;">
+        <div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .2em; color: #7A7A7A; margin-bottom: 14px;">03 — GALLERY / HÌNH ẢNH</div>
+          <h2 style="font-family: 'Archivo Expanded', Archivo, sans-serif; font-weight: 900; font-size: clamp(38px, 5.4vw, 84px); line-height: 1.02; letter-spacing: -.03em; margin: 0; text-transform: uppercase;">On The Street</h2>
+        </div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .16em; color: #7A7A7A;">#VITALITEDAILY</div>
+      </div>
+
+      <sc-if value="{{ galleryMosaic }}" hint-placeholder-val="{{ true }}">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; gap: 2px; margin-top: 32px;">
+          <sc-for list="{{ gallery }}" as="g" hint-placeholder-count="7">
+            <div style="grid-column: {{ g.col }}; grid-row: {{ g.row }}; background: {{ g.bg }}; display: flex; align-items: flex-end; justify-content: space-between; padding: 16px; overflow: hidden;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; color: {{ g.fg }};">{{ g.label }}</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; color: {{ g.fg }}; opacity: .55;">{{ g.size }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ galleryStrip }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; gap: 2px; overflow-x: auto; margin-top: 32px; padding-bottom: 8px;">
+          <sc-for list="{{ gallery }}" as="g" hint-placeholder-count="7">
+            <div style="flex: 0 0 clamp(280px, 26vw, 460px); height: 560px; background: {{ g.bg }}; display: flex; align-items: flex-end; padding: 16px;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; color: {{ g.fg }};">{{ g.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+    </section>
+
+    <section style="padding: 96px 32px;">
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: #E6E6E6; border-top: 1px solid #0A0A0A;">
+        <sc-for list="{{ services }}" as="sv" hint-placeholder-count="3">
+          <div style="background: #F4F4F4; padding: 36px 8px 12px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .16em; margin-bottom: 10px;">{{ sv.title }}</div>
+            <div style="font-size: 14px; color: #6E6E6E; line-height: 1.6;">{{ sv.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isListing }}" hint-placeholder-val="{{ false }}">
+  <div style="padding-top: 76px;">
+    <div style="padding: 56px 32px 26px; border-bottom: 1px solid #0A0A0A;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .16em; color: #7A7A7A; margin-bottom: 22px;">TRANG CHỦ / SHOP ALL / ÁO</div>
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap;">
+        <h1 style="font-family: 'Archivo Expanded', Archivo, sans-serif; font-weight: 900; font-size: clamp(44px, 6.6vw, 108px); line-height: 1.02; letter-spacing: -.03em; margin: 0; text-transform: uppercase;">Áo / Tops</h1>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6E6E6E;">{{ productCount }} SẢN PHẨM</div>
+      </div>
+    </div>
+
+    <div style="position: sticky; top: 76px; z-index: 40; background: #F4F4F4; border-bottom: 1px solid #DDD; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 32px; flex-wrap: wrap;">
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+          <button style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .12em; padding: 9px 16px; border: 1px solid #0A0A0A; border-radius: 999px; background: none; color: #0A0A0A; cursor: pointer;" style-hover="background: #0A0A0A; color: #fff;">{{ f }}</button>
+        </sc-for>
+      </div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .12em; color: #6E6E6E;">SẮP XẾP: MỚI NHẤT ▾</div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; background: #E6E6E6; padding: 2px 0;">
+      <sc-for list="{{ products }}" as="p" hint-placeholder-count="12">
+        <a href="#" onMouseEnter="{{ p.enter }}" onMouseLeave="{{ p.leave }}" style="display: block; background: #F4F4F4;">
+          <div style="position: relative; overflow: hidden; aspect-ratio: 3 / 4; background: #EDEDED;">
+            <div style="position: absolute; inset: 0; background: repeating-linear-gradient(135deg,#EFEFEF 0 14px,#E4E4E4 14px 28px); display: flex; align-items: center; justify-content: center; transition: opacity .45s ease, transform .8s ease; opacity: {{ p.frontOp }}; transform: {{ p.frontTf }};">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #9B9B9B;">{{ p.frontLabel }}</span>
+            </div>
+            <div style="position: absolute; inset: 0; background: repeating-linear-gradient(135deg,#E4E4E4 0 14px,#D8D8D8 14px 28px); display: flex; align-items: center; justify-content: center; transition: opacity .45s ease, transform .8s ease; opacity: {{ p.backOp }}; transform: {{ p.backTf }};">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #8F8F8F;">{{ p.backLabel }}</span>
+            </div>
+            <div style="position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; gap: 6px; transition: opacity .3s ease, transform .3s ease; opacity: {{ p.quickOp }}; transform: {{ p.quickTf }};">
+              <sc-for list="{{ p.sizes }}" as="sz" hint-placeholder-count="4">
+                <span style="flex: 1 1 0; text-align: center; background: rgba(255,255,255,.94); border: 1px solid #0A0A0A; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .1em; padding: 9px 0;">{{ sz }}</span>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 14px 2px 26px;">
+            <div style="font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;">{{ p.name }}</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px;">{{ p.price }}</div>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+
+    <div style="display: flex; justify-content: center; padding: 64px 32px 96px;">
+      <button style="font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; padding: 17px 44px; border-radius: 999px; border: 1px solid #0A0A0A; background: none; cursor: pointer;" style-hover="background: #0A0A0A; color: #fff;">Xem thêm / Load more</button>
+    </div>
+  </div>
+  </sc-if>
+
+  <footer style="background: #0A0A0A; color: #fff; padding: 88px 32px 32px;">
+    <div style="display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: 48px; padding-bottom: 72px; border-bottom: 1px solid #262626;">
+      <div>
+        <div style="width: 168px; height: 33px; background: #fff; -webkit-mask: url(assets/vitalite-wordmark-trim.png) left center/contain no-repeat; mask: url(assets/vitalite-wordmark-trim.png) left center/contain no-repeat; margin-bottom: 24px;"></div>
+        <p style="margin: 0; max-width: 34ch; font-size: 14px; line-height: 1.7; color: #8E8E8E;">Streetwear made in Vietnam. Sản xuất giới hạn, phát hành theo đợt.</p>
+      </div>
+      <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="2">
+        <div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .18em; color: #6B6B6B; margin-bottom: 20px;">{{ col.title }}</div>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="5">
+              <a href="#" style="font-size: 14px; color: #E4E4E4;">{{ l }}</a>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .18em; color: #6B6B6B; margin-bottom: 20px;">NEWSLETTER</div>
+        <div style="display: flex; border-bottom: 1px solid #3A3A3A; padding-bottom: 10px; gap: 12px;">
+          <input placeholder="Email của bạn" style="flex: 1 1 0; background: none; border: 0; outline: none; color: #fff; font-family: Archivo, sans-serif; font-size: 14px;" />
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px;">→</span>
+        </div>
+        <div style="display: flex; gap: 18px; margin-top: 28px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; color: #8E8E8E;">
+          <a href="#">IG</a><a href="#">TIKTOK</a><a href="#">FB</a>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; gap: 24px; padding-top: 28px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #6B6B6B; flex-wrap: wrap;">
+      <span>© 2026 VITALITÉ®</span>
+      <span>SAIGON, VIETNAM</span>
+    </div>
+  </footer>
+
+  <div style="position: fixed; left: 24px; bottom: 24px; z-index: 90; display: flex; gap: 2px; background: #0A0A0A; padding: 3px; border-radius: 999px;">
+    <button onClick="{{ goHome }}" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; padding: 9px 18px; border: 0; border-radius: 999px; cursor: pointer; background: {{ homeBtnBg }}; color: {{ homeBtnFg }};">HOMEPAGE</button>
+    <button onClick="{{ goListing }}" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; padding: 9px 18px; border: 0; border-radius: 999px; cursor: pointer; background: {{ listBtnBg }}; color: {{ listBtnFg }};">LISTING</button>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;headerVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;left-logo&quot;,&quot;centered-logo&quot;],&quot;default&quot;:&quot;left-logo&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;showcaseLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;featured&quot;,&quot;uniform&quot;],&quot;default&quot;:&quot;featured&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;galleryLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;mosaic&quot;,&quot;strip&quot;],&quot;default&quot;:&quot;mosaic&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;}}">
+const SLIDES = [
+  { tone: 'dark', label: 'SS26 CAMPAIGN', tagNum: '01', stamp: 'BANNER VIDEO — MP4 / WEBM · 1920×1080 · AUTOPLAY MUTED LOOP', title: 'Sống Hết Công Suất', sub: 'BST Đường Phố SS26 — cotton dày, form rộng, in lụa thủ công. Phát hành 20.08.', cta: 'Shop SS26',
+    bg: 'repeating-linear-gradient(135deg,#181818 0 18px,#101010 18px 36px)', scrim: 'linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.15) 55%, rgba(0,0,0,.35) 100%)', fg: '#fff', stampColor: '#4E4E4E', btnBg: '#fff', btnFg: '#0A0A0A' },
+  { tone: 'light', label: 'STUDIO SERIES', tagNum: '02', stamp: 'BANNER VIDEO — MP4 / WEBM · 1920×1080 · AUTOPLAY MUTED LOOP', title: 'Basics Không Cơ Bản', sub: 'Tee & hoodie dệt riêng, 280 GSM. Ba màu: trắng, xám, đen.', cta: 'Xem Basics',
+    bg: 'repeating-linear-gradient(135deg,#F0F0F0 0 18px,#E2E2E2 18px 36px)', scrim: 'linear-gradient(to top, rgba(255,255,255,.75) 0%, rgba(255,255,255,.1) 55%, rgba(255,255,255,.4) 100%)', fg: '#0A0A0A', stampColor: '#A8A8A8', btnBg: '#0A0A0A', btnFg: '#fff' },
+  { tone: 'dark', label: 'LOOKBOOK', tagNum: '03', stamp: 'BANNER VIDEO — MP4 / WEBM · 1920×1080 · AUTOPLAY MUTED LOOP', title: 'Đêm Sài Gòn', sub: 'Lookbook quay tại Quận 4. 18 look, chụp bởi studio nội bộ.', cta: 'Xem lookbook',
+    bg: 'repeating-linear-gradient(135deg,#232323 0 18px,#151515 18px 36px)', scrim: 'linear-gradient(to top, rgba(0,0,0,.72) 0%, rgba(0,0,0,.12) 55%, rgba(0,0,0,.3) 100%)', fg: '#fff', stampColor: '#585858', btnBg: '#fff', btnFg: '#0A0A0A' }
+];
+
+const NAMES = [
+  ['Boxy Tee "Vitalité Mark"', '480.000₫', 'NEW'],
+  ['Heavyweight Hoodie 480GSM', '1.290.000₫', ''],
+  ['Washed Tee "Đường Phố"', '520.000₫', 'NEW'],
+  ['Longsleeve Ribbed Grey', '650.000₫', ''],
+  ['Cropped Zip Jacket', '1.450.000₫', 'NEW'],
+  ['Baggy Tee Monochrome', '450.000₫', ''],
+  ['Knit Polo Charcoal', '790.000₫', ''],
+  ['Utility Shirt Overdyed', '980.000₫', 'SALE'],
+  ['Tank Top Heavy Cotton', '380.000₫', ''],
+  ['Oversize Crewneck', '890.000₫', ''],
+  ['Half-Zip Fleece', '1.150.000₫', 'NEW'],
+  ['Graphic Tee "Số 4"', '490.000₫', '']
+];
+
+const GALLERY = [
+  { col: 'span 2', row: 'span 2', bg: 'repeating-linear-gradient(135deg,#1E1E1E 0 16px,#151515 16px 32px)', fg: '#7C7C7C', label: 'MODEL SHOT — FULL BODY', size: '1600×1800' },
+  { col: 'span 1', row: 'span 1', bg: 'repeating-linear-gradient(135deg,#EDEDED 0 14px,#E1E1E1 14px 28px)', fg: '#9B9B9B', label: 'DETAIL', size: '800×800' },
+  { col: 'span 1', row: 'span 2', bg: 'repeating-linear-gradient(135deg,#E6E6E6 0 14px,#DADADA 14px 28px)', fg: '#8F8F8F', label: 'STREET', size: '800×1600' },
+  { col: 'span 1', row: 'span 1', bg: 'repeating-linear-gradient(135deg,#232323 0 14px,#181818 14px 28px)', fg: '#7C7C7C', label: 'BTS', size: '800×800' },
+  { col: 'span 2', row: 'span 1', bg: 'repeating-linear-gradient(135deg,#E9E9E9 0 14px,#DDDDDD 14px 28px)', fg: '#8F8F8F', label: 'GROUP SHOT', size: '1600×800' },
+  { col: 'span 1', row: 'span 1', bg: 'repeating-linear-gradient(135deg,#1A1A1A 0 14px,#121212 14px 28px)', fg: '#7C7C7C', label: 'FLATLAY', size: '800×800' },
+  { col: 'span 1', row: 'span 1', bg: 'repeating-linear-gradient(135deg,#E2E2E2 0 14px,#D6D6D6 14px 28px)', fg: '#8F8F8F', label: 'DETAIL — FABRIC', size: '800×800' },
+  { col: 'span 4', row: 'span 1', bg: 'repeating-linear-gradient(135deg,#EFEFEF 0 14px,#E3E3E3 14px 28px)', fg: '#9B9B9B', label: 'CAMPAIGN BANNER — FULLWIDTH', size: '2400×600' }
+];
+
+class Component extends DCLogic {
+  state = { slide: 0, progress: 0, hover: null, screen: 'home', scrolled: false };
+
+  componentDidMount() {
+    this.tick = setInterval(() => {
+      this.setState(s => {
+        const p = s.progress + 2;
+        if (p >= 100) return { progress: 0, slide: (s.slide + 1) % SLIDES.length };
+        return { progress: p };
+      });
+    }, 120);
+    this.onScroll = () => {
+      const past = window.scrollY > window.innerHeight - 90 || this.state.screen === 'listing';
+      if (past !== this.state.scrolled) this.setState({ scrolled: past });
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.onScroll();
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+  }
+  componentWillUnmount() { clearInterval(this.tick); window.removeEventListener('scroll', this.onScroll); window.removeEventListener('resize', this.onResize); }
+
+  product(i, big) {
+    const [name, price, badge] = NAMES[i % NAMES.length];
+    const on = this.state.hover === i;
+    return {
+      name, price, badge: badge || '', badgeOp: badge ? 1 : 0,
+      frontLabel: big ? 'PRODUCT FRONT — 1200×1600' : 'FRONT',
+      backLabel: big ? 'PRODUCT BACK — 1200×1600' : 'BACK',
+      frontOp: on ? 0 : 1, backOp: on ? 1 : 0,
+      frontTf: on ? 'scale(1.04)' : 'scale(1)', backTf: on ? 'scale(1.04)' : 'scale(1.08)',
+      quickOp: on ? 1 : 0, quickTf: on ? 'translateY(0)' : 'translateY(8px)',
+      sizes: ['S', 'M', 'L', 'XL'],
+      ratio: big ? '3 / 4' : '3 / 4',
+      span: big ? 'span 2' : 'span 1', rowSpan: big ? 'span 2' : 'span 1',
+      enter: () => this.setState({ hover: i }), leave: () => this.setState({ hover: null })
+    };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const cur = SLIDES[st.slide];
+    const listing = st.screen === 'listing';
+    const solid = st.scrolled || listing;
+    const dark = cur.tone === 'dark';
+    const headerVariant = this.props.headerVariant ?? 'left-logo';
+    const showcase = this.props.showcaseLayout ?? 'featured';
+    const gallery = this.props.galleryLayout ?? 'mosaic';
+    const vw = st.vw ?? 1440;
+    const compact = vw < 1240;
+
+    const featCount = showcase === 'featured' ? 9 : 8;
+    const featured = [];
+    for (let i = 0; i < featCount; i++) featured.push(this.product(i, showcase === 'featured' && i === 0));
+
+    return {
+      isHome: !listing, isListing: listing,
+      goHome: () => this.setState({ screen: 'home', scrolled: false }),
+      goListing: () => { this.setState({ screen: 'listing', scrolled: true }); window.scrollTo(0, 0); },
+      homeBtnBg: listing ? 'transparent' : '#fff', homeBtnFg: listing ? '#8E8E8E' : '#0A0A0A',
+      listBtnBg: listing ? '#fff' : 'transparent', listBtnFg: listing ? '#0A0A0A' : '#8E8E8E',
+
+      logoLeft: headerVariant === 'left-logo', logoCenter: headerVariant === 'centered-logo',
+      headerBg: solid ? 'rgba(244,244,244,.94)' : 'transparent',
+      headerColor: solid ? '#0A0A0A' : (dark ? '#FFFFFF' : '#0A0A0A'),
+      headerBorder: solid ? '#DDDDDD' : 'rgba(255,255,255,0)',
+
+      compact, wide: !compact, navGap: vw < 1420 ? '18px' : '26px',
+      navItems: compact ? [] : [
+        { en: 'Shop All' }, { en: 'New Arrivals' }, { en: 'Áo' }, { en: 'Quần' },
+        { en: 'Collection' }, { en: 'About' }, { en: 'Sale' }
+      ],
+
+      slides: SLIDES.map((s, i) => ({
+        ...s,
+        op: i === st.slide ? 1 : 0,
+        index: '0' + (i + 1),
+        tag: s.label + '  —  0' + (i + 1) + ' / 0' + SLIDES.length,
+        go: () => this.setState({ slide: i, progress: 0 }),
+        barW: i < st.slide ? '100%' : i === st.slide ? st.progress + '%' : '0%',
+        trackBg: dark ? 'rgba(255,255,255,.25)' : 'rgba(10,10,10,.2)',
+        barFg: dark ? '#FFFFFF' : '#0A0A0A',
+        labelOp: i === st.slide ? 1 : 0.5
+      })),
+
+      showcaseCols: showcase === 'featured' ? 4 : 4,
+      featured,
+      products: NAMES.map((_, i) => this.product(i, false)),
+      productCount: NAMES.length,
+      filters: ['SIZE', 'MÀU SẮC', 'GIÁ', 'BST', 'CÒN HÀNG'],
+
+      galleryMosaic: gallery === 'mosaic', galleryStrip: gallery === 'strip',
+      gallery: GALLERY,
+
+      services: [
+        { title: 'GIAO HÀNG 24H', desc: 'Nội thành TP.HCM và Hà Nội. Miễn phí cho đơn từ 800.000₫.' },
+        { title: 'ĐỔI TRẢ 14 NGÀY', desc: 'Giữ nguyên tem mác, đổi size tại store hoặc qua đơn vị vận chuyển.' },
+        { title: 'SẢN XUẤT GIỚI HẠN', desc: 'Mỗi mẫu chỉ chạy một đợt. Hết là hết, không tái bản.' }
+      ],
+
+      footerCols: [
+        { title: 'SHOP', links: ['Shop All', 'New Arrivals', 'Áo / Tops', 'Quần / Bottoms', 'Sale'] },
+        { title: 'HỖ TRỢ', links: ['Bảng size', 'Vận chuyển', 'Đổi trả', 'Liên hệ'] }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

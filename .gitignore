@@ -1,0 +1,36 @@
+# OS generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+
+# --- Media: raw/master video KHÔNG commit ---
+# Chỉ file NHẸ đang được theme reference mới được track, để clone về máy khác
+# là site chạy được ngay. Master gốc chuyển máy bằng Drive/USB, không qua git.
+#
+# Thư mục master nằm ngoài theme, không bao giờ commit:
+_not-in-theme/
+
+*.mov
+*.avi
+*.mkv
+*.mp4
+*.webm
+# Video hero đã nén (2.4MB + 1.7MB) — track. Tên cũ *_optimized giữ lại phòng
+# lịch sử; luật mới bám theo tên hero-* để không phải sửa .gitignore mỗi lần nén.
+!vitalite-theme/vitalite-theme/video/hero-*.mp4
+!vitalite-theme/vitalite-theme/video/hero-*.webm
+!vitalite-theme/vitalite-theme/video/*_optimized.mp4
+!vitalite-theme/vitalite-theme/video/*_optimized.webm
+
+# Prototype / build artifacts
+node_modules/
+dc-runtime/
