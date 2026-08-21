@@ -871,6 +871,12 @@ body.vt-banner-top .site-main { padding-top: 0; }
   border-block: 1px solid var(--vt-line); margin-bottom: clamp(24px, 3vw, 40px);
 }
 
+/* Điều hướng bài trước / bài sau — chỉ dùng ở single.php */
+.vt-postnav {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap; padding-top: 22px; border-top: 1px solid var(--vt-line);
+}
+
 /* ==========================================================================
    GIỎ HÀNG · THANH TOÁN · TÀI KHOẢN
    --------------------------------------------------------------------------

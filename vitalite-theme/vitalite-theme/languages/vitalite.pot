@@ -1,0 +1,402 @@
+# VITALITE - mau dich cua theme (.pot)
+#
+# CACH DUNG
+#   1. Ban tieng Anh la msgid, KHONG can file dich - theme viet bang tieng Anh.
+#   2. Dich sang tieng Viet: mo file nay bang Poedit -> "Create new translation"
+#      -> chon Vietnamese -> dien msgstr -> luu. Poedit sinh ra ca .po lan .mo.
+#   3. Dat ten dung chuan: `vitalite-vi.po` va `vitalite-vi.mo`, tha vao chinh
+#      thu muc nay. `load_theme_textdomain()` trong inc/setup.php se tu nap.
+#
+#   CANH BAO 1: chi chuoi GIAO DIEN nam o day (nut, nhan, thong bao).
+#   Ten san pham, mo ta, gia, chinh sach KHONG nam o day - chung la noi dung
+#   trong WordPress va dich bang Polylang.
+#
+#   CANH BAO 2: sinh lai sau MOI lan sua theme, neu khong chuoi moi khong dich duoc.
+#   Lenh: python docs/make-pot.py   (chay tu thu muc goc du an)
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: VITALITE Theme 2.0.0\n"
+"Report-Msgid-Bugs-To: vitalitevn@gmail.com\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: VITALITE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: vitalite\n"
+
+
+#: 404.php:22
+msgid "This page does not exist"
+msgstr ""
+
+#: 404.php:25
+msgid "The link may be old, or the page may have moved."
+msgstr ""
+
+#: 404.php:32 front-page.php:75 inc/woocommerce.php:159 search.php:97
+#: template-parts/hero.php:56 template-parts/site-footer.php:52 template-parts/site-header.php:69 template-parts/site-header.php:162
+msgid "Shop All"
+msgstr ""
+
+#: front-page.php:34
+msgid "Featured"
+msgstr ""
+
+#: front-page.php:35 template-parts/hero.php:78 template-parts/site-footer.php:54 template-parts/site-header.php:71
+#: template-parts/site-header.php:164
+msgid "T-Shirts"
+msgstr ""
+
+#: front-page.php:48
+msgid "New Collection"
+msgstr ""
+
+#: front-page.php:50
+msgid "Crafted with 500+ GSM premium cotton blend for a structured silhouette that holds its shape all day."
+msgstr ""
+
+#: front-page.php:53
+msgid "Model wearing VITALITÉ in Saigon"
+msgstr ""
+
+#: front-page.php:55
+msgid "Shop outerwear"
+msgstr ""
+
+#: front-page.php:63
+msgid "Gallery"
+msgstr ""
+
+#: front-page.php:64
+msgid "On The Street"
+msgstr ""
+
+#: front-page.php:82 template-parts/hero.php:67 template-parts/site-footer.php:55 template-parts/site-header.php:72
+#: template-parts/site-header.php:165
+msgid "Outerwear"
+msgstr ""
+
+#: front-page.php:83
+msgid "Heavyweight"
+msgstr ""
+
+#: header.php:31
+msgid "Skip to content"
+msgstr ""
+
+#: inc/seo.php:198 inc/woocommerce.php:243
+msgid "Home"
+msgstr ""
+
+#: inc/seo.php:201 template-parts/site-footer.php:40 woocommerce/archive-product.php:38
+msgid "Shop"
+msgstr ""
+
+#: inc/seo.php:265
+msgid "Search engines are blocked."
+msgstr ""
+
+#: inc/seo.php:267
+msgid "Settings → Reading → uncheck “Discourage search engines”. Do this on launch day, not before."
+msgstr ""
+
+#: inc/setup.php:46
+msgid "Primary menu"
+msgstr ""
+
+#: inc/setup.php:47
+msgid "Footer — Shop"
+msgstr ""
+
+#: inc/setup.php:48
+msgid "Footer — Support"
+msgstr ""
+
+#: inc/setup.php:116
+msgid "Login failed. Check your details and try again."
+msgstr ""
+
+#: inc/woocommerce.php:155 template-parts/product-card.php:55 template-parts/site-footer.php:56 template-parts/site-header.php:73
+#: template-parts/site-header.php:166
+msgid "Sale"
+msgstr ""
+
+#: inc/woocommerce.php:156 template-parts/section-products.php:21 template-parts/site-footer.php:53 template-parts/site-header.php:70
+#: template-parts/site-header.php:163
+msgid "New Arrivals"
+msgstr ""
+
+#: inc/woocommerce.php:158
+msgid "Search results"
+msgstr ""
+
+#: inc/woocommerce.php:178
+msgid "Size chart in centimetres"
+msgstr ""
+
+#: inc/woocommerce.php:181
+msgid "Size"
+msgstr ""
+
+#: inc/woocommerce.php:182
+msgid "Length (cm)"
+msgstr ""
+
+#: inc/woocommerce.php:183
+msgid "Width (cm)"
+msgstr ""
+
+#: inc/woocommerce.php:184
+msgid "Height"
+msgstr ""
+
+#: inc/woocommerce.php:185
+msgid "Weight"
+msgstr ""
+
+#: inc/woocommerce.php:196
+msgid "Measurements may vary by 2–3 cm due to batch production."
+msgstr ""
+
+#: inc/woocommerce.php:210
+msgid "Size guide"
+msgstr ""
+
+#: inc/woocommerce.php:222
+msgid "Details"
+msgstr ""
+
+#: inc/woocommerce.php:232
+msgid "Add to cart"
+msgstr ""
+
+#: inc/woocommerce.php:241
+msgid "Breadcrumb"
+msgstr ""
+
+#: inc/woocommerce.php:277
+msgid "VITALITÉ — image convention"
+msgstr ""
+
+#: inc/woocommerce.php:279
+msgid "Product image"
+msgstr ""
+
+#: inc/woocommerce.php:279
+msgid "FRONT of the garment"
+msgstr ""
+
+#: inc/woocommerce.php:280
+msgid "Gallery, first image"
+msgstr ""
+
+#: inc/woocommerce.php:280
+msgid "BACK of the garment"
+msgstr ""
+
+#: inc/woocommerce.php:281
+msgid "Hover on the shop grid swaps front to back. Any other order breaks it."
+msgstr ""
+
+#: index.php:24
+msgid "Journal"
+msgstr ""
+
+#: index.php:25
+msgid "Latest"
+msgstr ""
+
+#: index.php:47
+msgid "Nothing here yet."
+msgstr ""
+
+#. translators: %s: search term
+#: search.php:32 search.php:36 searchform.php:30 template-parts/site-header.php:121
+#: template-parts/site-header.php:176
+msgid "Search"
+msgstr ""
+
+#. translators: %s: search term
+#: search.php:35
+msgid "Results for “%s”"
+msgstr ""
+
+#. translators: %s: số kết quả
+#: search.php:43 search.php:95
+msgid "No results"
+msgstr ""
+
+#: search.php:53
+msgid "Refine"
+msgstr ""
+
+#. translators: %s: số kết quả
+#: search.php:40
+msgid "%s result"
+msgid_plural "%s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: searchform.php:18
+msgid "Search products"
+msgstr ""
+
+#: searchform.php:24
+msgid "Search products…"
+msgstr ""
+
+#: single.php:72
+msgid "Post navigation"
+msgstr ""
+
+#: template-parts/empty-state.php:17
+msgid "Products are being added."
+msgstr ""
+
+#: template-parts/empty-state.php:19
+msgid "Shop on Shopee"
+msgstr ""
+
+#: template-parts/hero.php:53
+msgid "The Iconic · T-Shirt"
+msgstr ""
+
+#: template-parts/hero.php:55
+msgid "Two sides of the same street culture."
+msgstr ""
+
+#: template-parts/hero.php:64
+msgid "The Moments · Boxy Hoodie"
+msgstr ""
+
+#: template-parts/hero.php:66
+msgid "500+ GSM heavyweight cotton blend. Signature boxy fit."
+msgstr ""
+
+#: template-parts/hero.php:75
+msgid "Archive"
+msgstr ""
+
+#: template-parts/hero.php:77
+msgid "Earlier drops, still in stock."
+msgstr ""
+
+#: template-parts/hero.php:95
+msgid "Featured campaigns"
+msgstr ""
+
+#: template-parts/hero.php:151
+msgid "Choose slide"
+msgstr ""
+
+#: template-parts/product-card.php:53
+msgid "Sold out"
+msgstr ""
+
+#: template-parts/product-card.php:57
+msgid "New"
+msgstr ""
+
+#: template-parts/product-card.php:113
+msgid "Available colours"
+msgstr ""
+
+#: template-parts/section-gallery.php:30
+msgid "Lookbook"
+msgstr ""
+
+#: template-parts/section-products.php:73
+msgid "View all"
+msgstr ""
+
+#: template-parts/section-services.php:24
+msgid "Made in Vietnam"
+msgstr ""
+
+#: template-parts/section-services.php:25
+msgid "Cut and printed in Saigon."
+msgstr ""
+
+#: template-parts/section-services.php:35
+msgid "Exchanges"
+msgstr ""
+
+#: template-parts/section-services.php:36
+msgid "One exchange per order, within 5 days of delivery."
+msgstr ""
+
+#: template-parts/section-services.php:48
+msgid "Worldwide shipping"
+msgstr ""
+
+#: template-parts/section-services.php:49
+msgid "We ship internationally from Saigon."
+msgstr ""
+
+#: template-parts/section-services.php:65
+msgid "Read more"
+msgstr ""
+
+#: template-parts/site-footer.php:36
+msgid "Streetwear made in Vietnam."
+msgstr ""
+
+#: template-parts/site-footer.php:63
+msgid "Support"
+msgstr ""
+
+#: template-parts/site-footer.php:76
+msgid "Size Guide"
+msgstr ""
+
+#: template-parts/site-footer.php:77
+msgid "Shipping"
+msgstr ""
+
+#: template-parts/site-footer.php:78
+msgid "Returns"
+msgstr ""
+
+#: template-parts/site-footer.php:79
+msgid "Contact"
+msgstr ""
+
+#: template-parts/site-footer.php:87
+msgid "Follow"
+msgstr ""
+
+#: template-parts/site-header.php:41
+msgid "Open menu"
+msgstr ""
+
+#: template-parts/site-header.php:51
+msgid "Primary"
+msgstr ""
+
+#: template-parts/site-header.php:76 template-parts/site-header.php:167
+msgid "Collection"
+msgstr ""
+
+#: template-parts/site-header.php:76 template-parts/site-header.php:167
+msgid "About"
+msgstr ""
+
+#: template-parts/site-header.php:125 template-parts/site-header.php:177
+msgid "Account"
+msgstr ""
+
+#: template-parts/site-header.php:130
+msgid "Cart"
+msgstr ""
+
+#: template-parts/site-header.php:147
+msgid "Close menu"
+msgstr ""
+
+#. translators: %s: số sản phẩm
+#: woocommerce/archive-product.php:44
+msgid "%s product"
+msgid_plural "%s products"
+msgstr[0] ""
+msgstr[1] ""
