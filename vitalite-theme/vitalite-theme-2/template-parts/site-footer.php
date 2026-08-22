@@ -84,6 +84,42 @@ $vt_shop    = vt_shop_url();
       </div>
 
       <div>
+        <?php
+        /*
+         * CỘT PHÁP LÝ.
+         * Luật TMĐT Việt Nam bắt buộc hiển thị: thông tin người bán, chính sách bảo mật,
+         * điều khoản dịch vụ, cơ chế giải quyết khiếu nại. Chúng phải có lối vào từ
+         * MỌI trang, và footer là chỗ khách quen tìm.
+         *
+         * Cùng cơ chế với cột Support: vt_maybe_link() im lặng bỏ qua page chưa tồn tại,
+         * nên cột này tự đầy lên khi user publish từng trang. Không phải sửa lại code.
+         * HTML của các trang: deliverables/pages-html/ — sinh bằng docs/make-pages.py
+         */
+        $vt_legal = array(
+            'payment'            => __('Payment', 'vitalite'),
+            'privacy'            => __('Privacy', 'vitalite'),
+            'terms'              => __('Terms', 'vitalite'),
+            'complaints'         => __('Complaints', 'vitalite'),
+            'seller-information' => __('Seller Information', 'vitalite'),
+        );
+        $vt_has_legal = false;
+        foreach ($vt_legal as $vt_slug => $vt_label) {
+            if (vt_page_url($vt_slug)) { $vt_has_legal = true; break; }
+        }
+        if ($vt_has_legal) :
+        ?>
+        <div class="vt-footer-col-title"><?php esc_html_e('Legal', 'vitalite'); ?></div>
+        <div class="vt-footer-links">
+          <?php
+          foreach ($vt_legal as $vt_slug => $vt_label) {
+              vt_maybe_link($vt_slug, $vt_label, '');
+          }
+          ?>
+        </div>
+        <?php endif; ?>
+      </div>
+
+      <div>
         <div class="vt-footer-col-title"><?php esc_html_e('Follow', 'vitalite'); ?></div>
         <div class="vt-footer-links">
           <?php foreach (vt_social_links() as $vt_label => $vt_href) : ?>

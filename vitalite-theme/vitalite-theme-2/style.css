@@ -1170,8 +1170,12 @@ body.vt-banner-top .site-main { padding-top: 0; }
 .vt-footer a { color: inherit; text-decoration: none; }
 .vt-footer-grid {
   display: grid; gap: clamp(28px, 4vw, 56px);
-  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  /* 5 cột: thương hiệu · Shop · Support · Legal · Follow.
+     Cột Legal tự ẩn khi chưa có trang pháp lý nào được publish — lúc đó ô
+     rỗng chỉ để lại khoảng trắng, lưới không vỡ. */
+  grid-template-columns: 1.6fr repeat(4, 1fr);
 }
+@media (max-width: 1100px) { .vt-footer-grid { grid-template-columns: 1fr 1fr 1fr; } }
 @media (max-width: 900px) { .vt-footer-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .vt-footer-grid { grid-template-columns: 1fr; } }
 
