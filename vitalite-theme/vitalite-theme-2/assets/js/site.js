@@ -401,8 +401,20 @@
       });
     }, { rootMargin: '100px' });
 
+    /*
+     * 🔴 KHÔNG đặt `is-idle` làm mặc định.
+     *
+     * Bản cũ gắn `is-idle` ngay rồi chờ observer gỡ ra. Vấn đề: nếu callback của
+     * IntersectionObserver không chạy — tab nền, trình duyệt tiết kiệm pin, một
+     * script khác ném lỗi trước đó — thì lớp váng dầu ĐỨNG IM VĨNH VIỄN và không
+     * có gì báo lỗi cả. Nó chỉ trông như một cái nền gradient chết.
+     *
+     * Mặc định là CHẠY. Observer chỉ có nhiệm vụ TẮT khi cuộn ra khỏi màn hình.
+     * Hỏng observer thì hậu quả tệ nhất là animation chạy hơi thừa — chứ không
+     * phải mất hẳn hiệu ứng.
+     */
     Array.prototype.forEach.call(bands, function (b) {
-      b.classList.add('is-idle');   // mặc định dừng, observer bật lên khi vào màn hình
+      b.classList.remove('is-idle');
       io.observe(b);
     });
   })();

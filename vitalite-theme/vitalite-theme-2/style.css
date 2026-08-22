@@ -113,6 +113,15 @@ body {
 img, video, svg { max-width: 100%; height: auto; display: block; }
 
 a { color: inherit; }
+/* 🔴 BẮT BUỘC — đừng xoá.
+   `reset.css` của Hello Elementor (theme cha) đặt:
+       a           { color: #cc3366 }   hồng
+       a:hover     { color: #333366 }   XANH NAVY ĐẬM
+   Ta đã đè `a` ở dòng trên, nhưng KHÔNG có rule cho `:hover` thì reset.css thắng
+   → rê chuột vào link trên header nền đen là chữ thành navy đậm, mất hút hoàn toàn.
+   Trả về `inherit` để link luôn ăn theo màu chữ của khối chứa nó.
+   Component nào cần màu hover riêng đều có selector đặc hiệu hơn nên vẫn thắng. */
+a:hover, a:focus, a:active { color: inherit; }
 
 h1, h2, h3, h4 { text-wrap: balance; }
 
@@ -440,7 +449,8 @@ body.vt-banner-top .site-main { padding-top: 0; }
 
 .vt-slide-content {
   position: absolute; left: var(--vt-gutter); right: var(--vt-gutter);
-  bottom: clamp(112px, 15vh, 150px);
+  /* Phải cao hơn .vt-hero-nav đủ để không chạm vào nhãn của nó */
+  bottom: clamp(128px, 17vh, 176px);
 }
 .vt-slide-tag {
   font-family: var(--vt-font-mono); font-size: var(--vt-t-xs);
@@ -468,8 +478,11 @@ body.vt-banner-top .site-main { padding-top: 0; }
    chấm tròn không cho biết còn bao lâu nữa thì chuyển. */
 .vt-hero-nav {
   position: absolute; left: var(--vt-gutter); right: var(--vt-gutter);
-  bottom: clamp(28px, 5vh, 48px); z-index: 6;
-  display: flex; align-items: flex-start; gap: 14px;
+  /* Đẩy lên khỏi mép dưới. Ở 28px nó dính sát viền màn hình, trông như bị cắt
+     chứ không phải được đặt. Khoảng thở dưới phải LỚN HƠN khoảng cách giữa
+     track và nhãn, nếu không mắt gom cả cụm vào với mép màn hình. */
+  bottom: clamp(40px, 6.5vh, 68px); z-index: 6;
+  display: flex; align-items: flex-start; gap: clamp(14px, 1.8vw, 26px);
   /* Thanh nav là ANH EM của .vt-slide, không nằm trong nó — nên nó KHÔNG
      thừa hưởng màu của slide đang hiện. Trước đây nó luôn trắng, và trên
      slide 3 nền trắng thì mất hút hoàn toàn. JS gắn data-tone lên .vt-hero. */
@@ -487,8 +500,13 @@ body.vt-banner-top .site-main { padding-top: 0; }
   cursor: pointer; text-align: left; color: inherit;
 }
 .vt-hero-dot:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
-.vt-hero-track { height: 2px; background: currentColor; opacity: .28; overflow: hidden; }
-.vt-hero-bar { height: 100%; background: currentColor; width: 0; }
+/* Track dày hơn 2px và bo tròn. 2px vuông đọc như đường kẻ bảng; 3px bo tròn
+   đọc như thanh tiến trình — khách hiểu ngay là bấm được. */
+.vt-hero-track { height: 3px; border-radius: 999px; background: currentColor; opacity: .26; overflow: hidden; }
+.vt-hero-bar { height: 100%; border-radius: 999px; background: currentColor; width: 0; }
+/* Vùng bấm cao hơn phần nhìn thấy — 3px là quá mỏng để nhắm trúng bằng chuột,
+   và dưới ngưỡng 24px tối thiểu cho ngón tay. */
+.vt-hero-dot { padding-block: 10px 0; margin-top: -10px; }
 .vt-hero-dot.is-active .vt-hero-bar { animation: vt-hero-fill var(--vt-hero-dur, 7s) linear forwards; }
 .vt-hero.is-paused .vt-hero-bar { animation-play-state: paused; }
 .vt-hero-dot.is-done .vt-hero-bar { width: 100%; }
@@ -496,14 +514,15 @@ body.vt-banner-top .site-main { padding-top: 0; }
 
 .vt-hero-dot-label {
   font-family: var(--vt-font-mono); font-size: 10px; letter-spacing: .16em;
-  text-transform: uppercase; margin-top: 10px; opacity: .5;
+  text-transform: uppercase; margin-top: 12px; opacity: .45;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .vt-hero-dot.is-active .vt-hero-dot-label { opacity: 1; }
 
 @media (max-width: 640px) {
   .vt-hero-dot-label { font-size: 9px; letter-spacing: .1em; }
-  .vt-slide-content { bottom: clamp(96px, 14vh, 130px); }
+  .vt-hero-nav { gap: 10px; bottom: clamp(32px, 5vh, 48px); }
+  .vt-slide-content { bottom: clamp(108px, 16vh, 146px); }
 }
 
 /* Sentinel — 1px vô hình ở ĐÁY BANNER cho IntersectionObserver của header.
@@ -535,15 +554,51 @@ body.vt-banner-top .site-main { padding-top: 0; }
     radial-gradient(52% 46% at 78% 36%, var(--vt-iri-2), transparent 64%),
     radial-gradient(44% 52% at 58% 78%, var(--vt-iri-3), transparent 62%),
     radial-gradient(60% 60% at 12% 88%, var(--vt-iri-4), transparent 66%);
-  filter: blur(26px) saturate(1.2);
+  filter: blur(26px) saturate(1.45);
   /* Bốn chu kỳ là số nguyên tố, không chia hết nhau → tổ hợp gần như không lặp.
-     Đây là cách làm chuyển động "không trật tự" mà vẫn 0 KB JS và chạy trên GPU. */
-  animation: vt-iri-slide 17s linear infinite,
-             vt-iri-grow 23s ease-in-out infinite alternate,
-             vt-iri-turn 31s ease-in-out infinite alternate,
-             vt-iri-hue 41s ease-in-out infinite alternate;
+     Đây là cách làm chuyển động "không trật tự" mà vẫn 0 KB JS và chạy trên GPU.
+
+     Chu kỳ ĐÃ RÚT NGẮN so với bản đầu (17/23/31/41s). Ở nhịp cũ, trong 5 giây
+     đầu — tức là toàn bộ thời gian khách thật sự nhìn vào banner — chuyển động
+     nhỏ tới mức không phân biệt được với ảnh tĩnh. Vẫn giữ số nguyên tố. */
+  animation: vt-iri-slide 13s linear infinite,
+             vt-iri-grow 19s ease-in-out infinite alternate,
+             vt-iri-turn 23s ease-in-out infinite alternate,
+             vt-iri-hue 29s ease-in-out infinite alternate;
 }
-.vt-iri.is-idle > .vt-iri-layer { animation-play-state: paused; }
+
+/* ---- Lớp ánh kim: đây là thứ biến gradient thành VÁNG DẦU ----
+   Bốn radial-gradient ở trên chỉ cho ra một khối màu loang. Váng dầu thật có
+   các DẢI QUANG PHỔ chạy vòng — hiện tượng giao thoa màng mỏng. Mô phỏng bằng
+   một conic-gradient lặp, làm mờ mạnh rồi trộn `screen` để nó ánh lên chứ không
+   phủ đè. Xoay chậm ngược chiều với lớp dưới → hai lớp trượt lên nhau.
+
+   Vẫn 0 KB: không ảnh, không JS, chạy bằng `rotate` trên GPU. */
+.vt-iri > .vt-iri-layer::after {
+  content: ''; position: absolute; inset: -12%;
+  background: repeating-conic-gradient(from 210deg at 50% 50%,
+      hsl(276 92% 62% / .60)   0deg,
+      hsl(192 95% 58% / .60)  38deg,
+      hsl(322 92% 62% / .58)  76deg,
+      hsl(152 88% 56% / .52) 114deg,
+      hsl(248 94% 62% / .60) 152deg,
+      hsl(276 92% 62% / .60) 190deg);
+  filter: blur(44px);
+  mix-blend-mode: screen;
+  /* Giữ ở mức này. Cao hơn là chữ trắng trên banner mất tương phản. */
+  opacity: .34;
+  animation: vt-iri-spin 37s linear infinite reverse;
+}
+@keyframes vt-iri-spin { to { rotate: 360deg; } }
+
+.vt-iri.is-idle > .vt-iri-layer,
+.vt-iri.is-idle > .vt-iri-layer::after { animation-play-state: paused; }
+
+/* Tôn trọng người tắt chuyển động: giữ nguyên màu, bỏ hẳn animation. */
+@media (prefers-reduced-motion: reduce) {
+  .vt-iri > .vt-iri-layer,
+  .vt-iri > .vt-iri-layer::after { animation: none; }
+}
 .vt-iri > .vt-wrap, .vt-iri > .vt-iri-content { position: relative; z-index: 1; }
 
 /* ---- Banner đầu trang archive / category ----
@@ -1088,7 +1143,10 @@ body.vt-banner-top .site-main { padding-top: 0; }
 @media (max-width: 900px) { .vt-footer-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .vt-footer-grid { grid-template-columns: 1fr; } }
 
-.vt-footer-brand img { height: 22px; width: auto; filter: invert(1); }
+/* Logo footer to gấp đôi header. Header phải nhường chỗ cho điều hướng;
+   footer thì không — đây là chỗ ký tên, để nhỏ bằng header là phí. */
+.vt-footer-brand img { height: 44px; width: auto; filter: invert(1); }
+@media (max-width: 520px) { .vt-footer-brand img { height: 34px; } }
 .vt-footer-desc { margin-top: 16px; color: var(--vt-on-dark-muted); font-size: var(--vt-t-sm); max-width: 34ch; }
 .vt-footer-col-title {
   font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); letter-spacing: .18em;

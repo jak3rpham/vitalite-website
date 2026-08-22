@@ -106,6 +106,20 @@ add_action('init', function () {
     add_action('woocommerce_before_main_content', 'vt_woo_wrapper_start', 10);
     add_action('woocommerce_after_main_content', 'vt_woo_wrapper_end', 10);
 
+    /*
+     * 🔴 Breadcrumb mặc định của Woo — PHẢI gỡ.
+     *
+     * WooCommerce gắn `woocommerce_breadcrumb` vào `woocommerce_before_main_content`
+     * ở ƯU TIÊN 20. Khung bọc của ta chạy ở ưu tiên 10, nên thứ tự in ra là:
+     *     [khung mở]  →  [breadcrumb của Woo]  →  [banner của ta]
+     * Breadcrumb chữ đen trên nền trắng chen VÀO TRƯỚC banner → đúng cái vệt trắng
+     * nằm giữa header và banner.
+     *
+     * Và nó còn bị in HAI LẦN: `archive-product.php` đã tự gọi woocommerce_breadcrumb()
+     * ở .vt-shop-head, đúng chỗ nó phải nằm — DƯỚI banner.
+     */
+    remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
+
     // Sidebar mặc định — không dùng, lọc đi bằng Premmerce ở toolbar
     remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
 
