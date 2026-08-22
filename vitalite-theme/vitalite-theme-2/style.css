@@ -123,6 +123,20 @@ a { color: inherit; }
    Component nào cần màu hover riêng đều có selector đặc hiệu hơn nên vẫn thắng. */
 a:hover, a:focus, a:active { color: inherit; }
 
+/* 🔴 CÙNG MỘT THỦ PHẠM, LỖI THỨ HAI — cũng đừng xoá.
+   `reset.css` của Hello Elementor còn đặt:
+       button:hover, button:focus,
+       [type=button]:hover, [type=submit]:hover  { background: #cc3366; color: #fff }
+   Nút nào của theme không tự khai `:hover` là bị tô HỒNG nguyên khối khi rê chuột.
+   Thanh chuyển slide hero dính đúng lỗi này — nó là <button>.
+   Component có màu hover riêng đều đặc hiệu hơn (1 class + 1 pseudo) nên vẫn thắng. */
+button:hover, button:focus,
+[type="button"]:hover, [type="button"]:focus,
+[type="submit"]:hover, [type="submit"]:focus {
+  background-color: transparent;
+  color: inherit;
+}
+
 h1, h2, h3, h4 { text-wrap: balance; }
 
 :focus-visible {
@@ -502,8 +516,19 @@ body.vt-banner-top .site-main { padding-top: 0; }
 .vt-hero-dot:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 /* Track dày hơn 2px và bo tròn. 2px vuông đọc như đường kẻ bảng; 3px bo tròn
    đọc như thanh tiến trình — khách hiểu ngay là bấm được. */
-.vt-hero-track { height: 3px; border-radius: 999px; background: currentColor; opacity: .26; overflow: hidden; }
-.vt-hero-bar { height: 100%; border-radius: 999px; background: currentColor; width: 0; }
+/* 🔴 `display: block` BẮT BUỘC.
+   Cả hai là <span>, mà <span> mặc định là INLINE — `height` KHÔNG có tác dụng lên
+   phần tử inline non-replaced. Thiếu dòng này thì `height: 3px` bị bỏ qua, hộp cao
+   bằng line-height (24px), `background` tô kín cả khối đó, và nhãn "01 — THE ICONIC"
+   nằm LỌT BÊN TRONG dải màu. Trông như một thanh đặc, không phải đường tiến trình. */
+.vt-hero-track {
+  display: block; height: 3px; border-radius: 999px;
+  background: currentColor; opacity: .26; overflow: hidden;
+}
+.vt-hero-bar {
+  display: block; height: 100%; border-radius: 999px;
+  background: currentColor; width: 0;
+}
 /* Vùng bấm cao hơn phần nhìn thấy — 3px là quá mỏng để nhắm trúng bằng chuột,
    và dưới ngưỡng 24px tối thiểu cho ngón tay. */
 .vt-hero-dot { padding-block: 10px 0; margin-top: -10px; }
@@ -682,13 +707,20 @@ body.vt-banner-top .site-main { padding-top: 0; }
 /* Lưới sản phẩm: KHÔNG có khoảng cách rộng giữa các ô.
    gap 2px trên nền màu đường kẻ → khe hở trở thành hairline, ô sát nhau như tấm lịch.
    Đây là điểm khác biệt lớn nhất so với lưới thương mại điện tử thông thường. */
+/* 🔴 KHÔNG tô nền lưới rồi để khe hở làm hairline.
+   Mẹo cũ (`background: var(--vt-line)` trên lưới + gap 2px) chỉ đẹp khi lưới ĐẦY.
+   Có 1 sản phẩm trên lưới 4 cột thì ba cột trống lộ nguyên mảng xám to đùng —
+   khách tưởng ảnh vỡ. Category mới, hàng sắp hết, kết quả lọc… đều rơi vào cảnh này.
+
+   Cách đúng: lưới trong suốt, mỗi Ô tự vẽ viền 1px bằng box-shadow. Hai ô cạnh nhau
+   lấp đầy khe 2px thành một đường liền — nhìn y hệt, nhưng cột trống thì trống thật. */
 .vt-grid {
   display: grid; gap: var(--vt-hair);
   grid-template-columns: repeat(4, 1fr);
-  background: var(--vt-line);
+  background: transparent;
   grid-auto-flow: dense;
 }
-.vt-grid > * { background: var(--vt-paper); }
+.vt-grid > * { background: var(--vt-paper); box-shadow: 0 0 0 1px var(--vt-line); }
 @media (max-width: 1100px) { .vt-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 768px)  { .vt-grid { grid-template-columns: repeat(2, 1fr); } }
 
