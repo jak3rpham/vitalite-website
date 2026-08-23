@@ -29,6 +29,19 @@ và phần lớn đang chờ những con số chỉ user mới có.
 📍 **User đọc `docs/VIEC-CUA-BAN.md`** — đó là bản tổng hợp việc, viết cho user chứ không
 phải cho Claude. Đừng bắt user đọc lại toàn bộ tài liệu.
 
+### 📋 Bộ câu hỏi cho brand
+
+`deliverables/CAU-HOI-CHO-BRAND.md` + bản Word `CAU-HOI-CHO-BRAND.docx` (24/08).
+**50 câu**, gom từ 22 ô cam trên 10 trang, các mục `[NEED]` trong `deliverables/content/`,
+mục 10 của `BRAND_FACTS_OBSERVED.md` và mục 7 của `CLAUDE.md`.
+
+Bản `.md` là **gốc**, bản `.docx` **sinh ra** bằng `node docs/make-brand-docx.js`.
+Đừng sửa tay file Word, lần chạy sau ghi đè.
+
+Chia 5 nhóm theo cái nó chặn: **A** chặn launch (21) · **B** chặn một trang (12) ·
+**C** quyết định kinh doanh (8) · **D** dữ liệu brand (5) · **E** cần chuyên môn pháp lý (4).
+Trả lời được nhóm **A1 + A2** là mở khoá được nhiều nhất.
+
 ### Đang chờ user làm
 
 ```

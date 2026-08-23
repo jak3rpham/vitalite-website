@@ -13,7 +13,7 @@ File này gom tất cả lại một chỗ. **50 câu.** Trả lời được ba
 
 1. **Không biết thì để trống.** Đừng đoán. Một con số sai trên trang chính sách không phải là lỗi
    chính tả, nó là một cam kết sai với khách hàng, và khách có quyền bắt mình thực hiện.
-2. Điền thẳng vào dấu `............` bên dưới mỗi câu.
+2. Gõ thẳng vào **ô trống** bên dưới mỗi câu. (Bản Word: ô xám. Bản markdown: dòng chấm.)
 3. Câu nào không áp dụng thì ghi **KHÔNG** thay vì bỏ trống, để bên kia biết là đã cân nhắc rồi.
 
 ## Ưu tiên
@@ -410,6 +410,17 @@ là thiếu tính năng.
 
 ---
 
-*File này sinh từ toàn bộ ô cam trong `deliverables/pages-html/`, các mục `[NEED]` trong
+*File này gom từ toàn bộ ô cam trong `deliverables/pages-html/`, các mục `[NEED]` trong
 `deliverables/content/`, mục 10 của `reference/BRAND_FACTS_OBSERVED.md` và mục 7 của `CLAUDE.md`.
 Sửa ở đâu thì sửa luôn ở đây, đừng để hai bản lệch nhau.*
+
+---
+
+**🔴 Bản `.md` này là bản GỐC. Bản `.docx` là bản xuất ra, đừng sửa tay.**
+Sửa câu hỏi ở file này rồi chạy lại để sinh bản Word:
+
+```
+cd "E:\Vitalite website"; node docs/make-brand-docx.js
+```
+
+Sửa thẳng vào `.docx` thì lần chạy sau bị ghi đè, và hai bản sẽ lệch nhau.
