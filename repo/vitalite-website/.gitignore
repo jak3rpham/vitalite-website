@@ -1,0 +1,44 @@
+# OS generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+
+# --- Media: raw/master video KHÔNG commit ---
+# Chỉ file NHẸ đang được theme reference mới được track, để clone về máy khác
+# là site chạy được ngay. Master gốc chuyển máy bằng Drive/USB, không qua git.
+#
+# Thư mục master nằm ngoài theme, không bao giờ commit:
+_not-in-theme/
+
+*.mov
+*.avi
+*.mkv
+*.mp4
+*.webm
+# Video hero đã nén (2,3MB + 1,6MB) — TRACK.
+#
+# 🔴 Bốn dòng dưới đây từng trỏ vào `vitalite-theme/vitalite-theme/video/`.
+# Commit 65aed7d đổi tên thư mục theme thành `vitalite-theme-2`, negation hết khớp,
+# và `*.mp4` ở trên nuốt mất hero video suốt từ đó. Không ai thấy vì git im lặng.
+# Clone về máy khác là hero slide 1 KHÔNG CÓ VIDEO. Sửa 23/08.
+#
+# Đổi tên thư mục theme lần nữa thì phải sửa lại bốn dòng này. Kiểm bằng:
+#   git check-ignore -v repo/vitalite-website/vitalite-theme/<ten-theme>/video/hero-1280.mp4
+# Không ra dòng nào là đúng.
+!vitalite-theme/*/video/hero-*.mp4
+!vitalite-theme/*/video/hero-*.webm
+!vitalite-theme/*/video/*_optimized.mp4
+!vitalite-theme/*/video/*_optimized.webm
+
+# Prototype / build artifacts
+node_modules/
+dc-runtime/
