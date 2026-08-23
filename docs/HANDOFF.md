@@ -12,6 +12,13 @@
 Theme **đã deploy và đang chạy thật** trên `vitalite.io.vn`, thư mục
 `wp-content/themes/vitalite-theme-2/`. Git sạch, đã push, lịch sử đã gỡ 93MB video.
 
+> 🔴 **23/08/2026: repo git chuyển lên GỐC PROJECT.**
+> Trước đây `.git` nằm ở `repo/vitalite-website/` và chỉ track theme.
+> Bây giờ nó ở `E:\Vitalite website\` và track **tất cả**: `docs/`, `deliverables/`,
+> `reference/`, `CLAUDE.md`, `Logo/`, `mockup-all/`, `model/`, và theme ở vị trí cũ.
+> Lịch sử giữ nguyên (62 rename), `git log --follow` vẫn chạy.
+> Chạy `git` từ gốc project, **đừng `cd repo/vitalite-website`** nữa.
+
 Phần code coi như xong. **Thứ còn lại là NỘI DUNG và DỮ LIỆU, không phải code** —
 và phần lớn đang chờ những con số chỉ user mới có.
 
@@ -401,6 +408,13 @@ Luôn đặt `PYTHONIOENCODING=utf-8` trước lệnh python nào có in tiếng
 ## 11. Việc lặt vặt còn treo
 
 - [x] ~~Gỡ 93MB video khỏi lịch sử git~~ ✅ **XONG 21/08.** Remote đã sạch, `.git` 121MB → 5,5MB
+- [x] ~~Đưa docs/deliverables lên git~~ ✅ **XONG 23/08.** `.git` chuyển lên gốc project,
+      **355 file** trên remote (trước là 68), `.git` 5,6MB → 34MB. Video master vẫn ngoài git
+      (`_not-in-theme/` 115MB, `0823.mov` 32MB) — đi Drive như cũ. 96 frame WebP thì CÓ commit
+      (11MB, user quyết) để clone về là trang About chạy được ngay
+- [x] ~~Hero video không vào git~~ ✅ **XONG 23/08.** Negation trong `.gitignore` trỏ tên thư mục
+      theme cũ từ commit `65aed7d`, `*.mp4` nuốt mất `hero-1280.mp4` + `.webm` (3,9MB) mà không
+      báo gì. Đổi sang `vitalite-theme/*/video/` để lần đổi tên sau không tái phát
 - [x] ~~Nén video hero~~ ✅ **XONG.** 2,43MB mp4 + 1,66MB webm. Kết quả + SSIM: `deliverables/video/encode.md`
 - [ ] 🔴 **Đổi link trong bio Instagram** — hiện trỏ về `shopee.vn/vitalitevn`, không phải site.
       7.002 follower là đúng tệp khách website sinh ra để phục vụ. Không đổi link vào ngày
