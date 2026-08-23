@@ -43,7 +43,14 @@ CSS = """
   -webkit-font-smoothing:antialiased;
 }
 .vtp *,.vtp *::before,.vtp *::after{box-sizing:border-box;}
-.vtp p,.vtp ul,.vtp ol,.vtp table,.vtp h1,.vtp h2,.vtp h3{margin:0;}
+
+/* 🔴 `:where()` KHONG PHAI TRANG TRI, DUNG DOI VE SELECTOR THUONG.
+   Ban cu viet `.vtp p,.vtp ul,...{margin:0}` -- do dac hieu (0,1,1), CAO HON
+   moi class nhu `.vtp-lede{margin-top:20px}` (0,1,0). Ket qua: TOAN BO khoang
+   cach giua cac doan trong 9 trang chinh sach bi nuot, computed margin = 0px.
+   `:where()` dong gop do dac hieu BANG 0 nen moi class thang no.
+   Kiem lai: getComputedStyle($('.vtp-lede')).marginTop === '20px' */
+:where(.vtp) :where(p,ul,ol,table,h1,h2,h3){margin:0;}
 
 /* ---- Đầu trang: eyebrow đánh số + tiêu đề lớn + đường kẻ đen ---- */
 .vtp-head{padding-bottom:26px;border-bottom:1px solid var(--p-ink);}
@@ -60,6 +67,15 @@ CSS = """
   margin-top:22px;font-family:var(--p-mono);font-size:11px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--p-muted);
 }
+
+/* ---- Khung do rong ----
+   9 trang nay dan vao section Elementor full-width. Khong chan lai thi tren man
+   1920 cot noi dung rong ~1700px trong khi doan van chi 68ch (~640px), bo trong
+   ca nghin pixel ben phai.
+   KHONG mau thuan voi quyet dinh "FULL-WIDTH" o CLAUDE.md muc 5: quyet dinh do noi
+   ve ngon ngu layout trang BRAND (hero, tieu de section, luoi). Chin trang nay la
+   TAI LIEU phap ly, do dai dong la yeu to de doc duoc. */
+.vtp-head,.vtp-body{max-width:1180px;margin-inline:auto;}
 
 /* ---- Thân trang: mục lục dính bên trái, nội dung bên phải ---- */
 .vtp-body{display:grid;grid-template-columns:210px 1fr;gap:clamp(28px,5vw,72px);margin-top:clamp(32px,4vw,56px);}
@@ -219,15 +235,15 @@ IG = '<a href="https://www.instagram.com/vitalitevn/" target="_blank" rel="noope
 PAGES = []
 
 
-def page(slug, number, kicker, title, lede, sections, stamp='Last updated 22 August 2026'):
+def page(slug, number, kicker, title, lede, sections, stamp='Last updated 23 August 2026'):
     PAGES.append(dict(slug=slug, number=number, kicker=kicker, title=title,
                       lede=lede, sections=sections, stamp=stamp))
 
 
 # ---- 1. RETURNS -------------------------------------------------------------
 page('returns', '01', 'Policy', 'Returns &amp; Exchanges',
-     'One exchange per order, within 5 days of delivery. Read this before you order — '
-     'knowing your size costs nothing, an exchange costs shipping.',
+     'One exchange per order, within 5 days of delivery. Read this before you order. '
+     'Knowing your size costs nothing, an exchange costs shipping.',
      [
       ('window', 'The window', """
 <p>You have <strong>5 days from the day your order is delivered</strong> to tell us you want an exchange.
@@ -243,7 +259,7 @@ Once we accept the request, your item must reach us within <strong>7 days</stron
 """ + ul([
         '<strong>An unbroken unboxing video.</strong> One continuous take, no cuts, no blur, '
         'starting before the parcel is opened so the seal is visible. This is the only evidence '
-        'that settles a dispute about the condition of an item on arrival — especially for '
+        'that settles a dispute about the condition of an item on arrival, especially for '
         'international orders, where neither of us can inspect the parcel together.',
         '<strong>The item unworn and unwashed</strong>, with no smell of perfume, smoke or detergent.',
         '<strong>All tags, labels and packaging intact</strong>, including any free gift.',
@@ -253,7 +269,7 @@ Once we accept the request, your item must reach us within <strong>7 days</stron
 <div class="vtp-split">
   <div>
     <h3>We exchange</h3>
-""" + ul(['Manufacturing fault — stitching, print, fabric',
+""" + ul(['Manufacturing fault: stitching, print, fabric',
           'Wrong item, wrong colour or wrong size sent',
           'Item missing from the order',
           'Damage in transit, shown in the unboxing video'], 'vtp-yes') + """
@@ -272,12 +288,12 @@ Once we accept the request, your item must reach us within <strong>7 days</stron
       ('shipping-cost', 'Who pays return shipping', """
 <p>This depends entirely on whose mistake it was.</p>
 """ + table(['Situation', 'Who pays'],
-            [['Our fault — faulty item, wrong item sent', '<strong>VITALITÉ pays both ways</strong>'],
+            [['Our fault: faulty item, wrong item sent', '<strong>VITALITÉ pays both ways</strong>'],
              ['You chose the wrong size', 'See note below'],
              ['International orders', 'See note below']]) + """
 <div class="vtp-note"><strong>Commercial note for the owner, remove before publishing.</strong>
 Both reference brands cover shipping when the fault is theirs, and StressMama covers one leg
-even for a plain size swap. The current VITALITÉ policy — customer pays both ways in every case —
+even for a plain size swap. The current VITALITÉ policy, customer pays both ways in every case,
 is stricter than both, and stricter than the free 15-day return the same customer gets on Shopee.
 On an international order, two-way shipping can cost more than the shirt, which turns the right
 to exchange into a right nobody can use.</div>
@@ -292,7 +308,7 @@ to exchange into a right nobody can use.</div>
 
       ('how', 'How to start an exchange', """
 <p>Email %s or message us on %s. Include your order number and the unboxing video.</p>
-<p>Do not send anything back before we confirm — an unannounced parcel cannot be matched to an order.</p>
+<p>Do not send anything back before we confirm. An unannounced parcel cannot be matched to an order.</p>
 <div class="vtp-cta">
   <a class="vtp-btn" href="mailto:vitalitevn@gmail.com">Email us</a>
   <a class="vtp-btn vtp-btn--ghost" href="/size-guide">Size guide</a>
@@ -306,46 +322,46 @@ page('shipping', '02', 'Policy', 'Shipping',
      [
       ('blocked', 'This page is not ready', """
 <div class="vtp-flag"><b>Do not publish yet</b>
-<p style="margin:0">Every figure on this page is missing. The structure below is correct —
-the numbers are not written because inventing shipping costs and delivery times would be
+<p style="margin:0">Every figure on this page is missing. The structure below is correct.
+The numbers are not written because inventing shipping costs and delivery times would be
 inventing a contract with the customer.</p></div>
 """),
       ('vietnam', 'Vietnam', """
 <p>Shipping inside Vietnam is calculated from the delivery address you enter at checkout.
-Pick your province and the cost appears before you pay &mdash; there is no separate quote step,
+Pick your province and the cost appears before you pay. There is no separate quote step,
 and nothing is added to the total afterwards.</p>
 """ + flag('Need data', [
-        'Carrier — GHN, GHTK, Viettel Post, J&amp;T?',
+        'Carrier: GHN, GHTK, Viettel Post, J&amp;T?',
         'Fee per region (zone table should follow the carrier&#39;s own regions)',
         'Free-shipping threshold, if any',
-        'Delivery time HCMC (reference: competitors quote 1–4 days)',
-        'Delivery time provinces (reference: competitors quote 3–7 working days)',
-        'Cash on delivery — yes or no?']) + """
+        'Delivery time HCMC (reference: competitors quote 1-4 days)',
+        'Delivery time provinces (reference: competitors quote 3-7 working days)',
+        'Cash on delivery: yes or no?']) + """
 <div class="vtp-note"><strong>Ghi chú cho chủ site, xoá trước khi publish.</strong>
-Cách cấu hình phía WooCommerce đã phân tích ở <strong>deliverables/woo/SHIPPING-SETUP.md</strong>
-— hai cách làm, và một cảnh báo phải đọc TRƯỚC khi nhập sản phẩm hàng loạt.</div>
+Cách cấu hình phía WooCommerce đã phân tích ở <strong>deliverables/woo/SHIPPING-SETUP.md</strong>:
+hai cách làm, và một cảnh báo phải đọc TRƯỚC khi nhập sản phẩm hàng loạt.</div>
 """),
 
       ('international', 'International', """
 <p>The website exists to serve customers Shopee cannot reach. This section is the one that
 decides whether that is actually possible.</p>
 """ + flag('Need data', [
-        'Carrier — DHL, FedEx, EMS, Vietnam Post?',
+        'Carrier: DHL, FedEx, EMS, Vietnam Post?',
         'Which countries do we ship to?',
         'Cost per zone',
         'Delivery time per zone',
-        'Import duty and tax — paid by us (DDP) or by the customer (DDU)?']) + """
+        'Import duty and tax: paid by us (DDP) or by the customer (DDU)?']) + """
 <div class="vtp-note"><strong>The number to look at first.</strong>
-A shirt sells at roughly 280,000&#8363; (about $11). International shipping typically runs $25–40 —
+A shirt sells at roughly 280,000&#8363; (about $11). International shipping typically runs $25-40,
 <strong>three times the price of the product</strong>. If that holds, the model does not work at the
-current price point, and the answer is a business decision — bundles, a different international
-price, or accepting a loss on shipping to buy the customer — not a technical one. This has to be
+current price point, and the answer is a business decision, not a technical one:
+bundles, a different international price, or accepting a loss on shipping to buy the customer. This has to be
 known <em>before</em> launch, not after.</div>
 """),
 
       ('processing', 'Order processing', flag('Need data', [
         'How long between order placed and parcel leaving?',
-        'Which days do we not ship — Sunday, public holidays, T&#7871;t?'])),
+        'Which days do we not ship: Sunday, public holidays, T&#7871;t?'])),
 
       ('damage', 'Damage in transit', """
 <p>Please check the parcel when it is handed to you. Signing for a delivery without noting a
@@ -361,8 +377,8 @@ page('payment', '03', 'Policy', 'Payment',
      [
       ('methods', 'Accepted methods', flag('Need data', [
         'Which payment gateways are actually configured in WooCommerce?',
-        'Bank transfer — account name, number, bank, branch',
-        'Cash on delivery — offered or not?',
+        'Bank transfer: account name, number, bank, branch',
+        'Cash on delivery: offered or not?',
         'Do we accept international cards? Which ones?'])),
 
       ('currency', 'Currency', """
@@ -372,8 +388,7 @@ page('payment', '03', 'Policy', 'Payment',
         'If yes: which currencies, and who sets the exchange rate?'])),
 
       ('when', 'When we charge', """
-<p>Payment is taken when the order is placed. An order is only confirmed once payment clears —
-until then the items are not reserved.</p>
+<p>Payment is taken when the order is placed. An order is only confirmed once payment clears. Until then the items are not reserved.</p>
 """),
       ('security', 'Card security', """
 <p>Card details are handled entirely by the payment provider. They never reach our servers and
@@ -388,15 +403,15 @@ page('size-guide', '04', 'Guide', 'Size Guide',
       ('tees', 'T-Shirts', """
 <p>Fabric is <strong>250 GSM cotton</strong>, screen printed.</p>
 """ + table(['Size', 'Length', 'Width', 'Height', 'Weight'],
-            [['S', '70 cm', '55 cm', '155–165 cm', 'under 60 kg'],
-             ['M', '73 cm', '58 cm', '160–175 cm', 'under 75 kg'],
-             ['L', '76 cm', '61 cm', '175–190 cm', 'under 100 kg']]) + """
-<p style="margin-top:16px">Measurements can vary by 2–3 cm between production batches.</p>
+            [['S', '70 cm', '55 cm', '155-165 cm', 'under 60 kg'],
+             ['M', '73 cm', '58 cm', '160-175 cm', 'under 75 kg'],
+             ['L', '76 cm', '61 cm', '175-190 cm', 'under 100 kg']]) + """
+<p style="margin-top:16px">Measurements can vary by 2 to 3 cm between production batches.</p>
 """),
       ('outerwear', 'Outerwear', """
 <p>Fabric is <strong>500+ GSM heavyweight cotton blend</strong>, signature boxy fit.</p>
 """ + flag('Need data', [
-        'Measurements for THE MOMENTS BOXY HOODIE — length, width, sleeve']) + """
+        'Measurements for THE MOMENTS BOXY HOODIE: length, width, sleeve']) + """
 <div class="vtp-note">Until these exist, the product page deliberately shows no size table for
 outerwear. Showing nothing is better than showing a number that turns into a return.</div>
 """),
@@ -421,7 +436,7 @@ page('faq', '05', 'Help', 'How to Order',
 <li>Open the bag and check quantities.</li>
 <li>Go to checkout and fill in name, email, address and phone.</li>
 <li>Choose a payment method and confirm.</li>
-<li>You receive a confirmation email with your order number. Keep it — every request we handle starts with that number.</li>
+<li>You receive a confirmation email with your order number. Keep it. Every request we handle starts with that number.</li>
 </ol>
 """),
       ('change', 'Changing or cancelling an order', """
@@ -452,7 +467,7 @@ page('privacy', '06', 'Legal', 'Privacy Policy',
 <div class="vtp-flag"><b>Structure only</b>
 <p style="margin:0">The sections below are the ones required, in the order that is standard for
 Vietnamese e-commerce. The wording still needs to be checked by whoever is legally responsible
-for the business — this is a contract with the customer, not marketing copy.</p></div>
+for the business. This is a contract with the customer, not marketing copy.</p></div>
 """),
       ('collect', 'What we collect', """
 <p>Only what an order needs: name, email address, delivery address, phone number, and the
@@ -466,20 +481,20 @@ reach us.</p>
         'To meet record-keeping obligations under Vietnamese law'])),
       ('who', 'Who else sees it', """
 <p>Only the parties who need it to complete your order:</p>
-""" + ul(['The delivery carrier — name, address, phone',
-          'The payment provider — the amount and the order reference']) + """
+""" + ul(['The delivery carrier: name, address, phone',
+          'The payment provider: the amount and the order reference']) + """
 <p>We do not sell your data. We do not share it with anyone else unless a competent Vietnamese
 authority requires it by law.</p>
 """),
       ('cookies', 'Cookies', """
 <p>This site uses cookies to keep your bag between pages and to understand which pages people
-actually read. You can block them in your browser — the shop will still work, but your bag may
+actually read. You can block them in your browser. The shop will still work, but your bag may
 not survive a page reload.</p>
 """),
       ('rights', 'Your rights', """
 <p>You can ask us what we hold about you, ask us to correct it, or ask us to delete it. Email %s.</p>
 """ % MAIL + flag('Needs specialist confirmation', [
-        'Selling to EU customers may bring GDPR obligations. This needs confirming by someone qualified — it is not a question to guess at.'])),
+        'Selling to EU customers may bring GDPR obligations. This needs confirming by someone qualified. It is not a question to guess at.'])),
       ('holding', 'How long we keep it', flag('Need a decision', [
         'Retention period for order records',
         'Retention period for accounts that are never used again'])),
@@ -504,7 +519,7 @@ Never enter your VITALITÉ password on any site that is not vitalite.io.vn.</p>
 """),
       ('pricing', 'Prices and orders', """
 <p>Prices are in Vietnamese &#273;&#7891;ng and include tax. Stock is limited, and placing an
-order is an offer to buy — the sale is complete when we confirm it and payment clears.</p>
+order is an offer to buy. The sale is complete when we confirm it and payment clears.</p>
 <p>If an item is listed at an obviously incorrect price, we may cancel the order and refund
 it in full rather than fulfil it.</p>
 """),
@@ -543,7 +558,7 @@ page('seller-information', '09', 'Legal', 'Seller Information',
      'Who you are actually buying from. Required by Vietnamese e-commerce law.',
      [
       ('who', 'The business', """
-<div class="vtp-flag"><b>Legally required — currently blank</b>
+<div class="vtp-flag"><b>Legally required, currently blank</b>
 <p style="margin:0">Vietnamese e-commerce regulation requires the seller&#39;s legal identity to be
 visible on the site. The Shopee store shows the brand already trades through a registered entity,
 so this is a matter of retrieving the details, not registering anything new.</p></div>
@@ -559,6 +574,58 @@ so this is a matter of retrieving the details, not registering anything new.</p>
      ])
 
 
+# ---- 10. CONTACT -----------------------------------------------------------
+# Noi dung lay tu deliverables/content/PAGES-CONTENT.md muc 4. Email, IG, FB da
+# xac minh o reference/BRAND_FACTS_OBSERVED.md. So dien thoai va phap nhan thi CHUA,
+# nen chung nam trong o cam chu khong duoc dien dai.
+page('contact', '10', 'Contact', 'Contact',
+     'One inbox, one handle. Write to us with your order number and we will pick it up.',
+     [
+      ('where', 'Where to write', """
+<p>Email is the record we work from. Everything to do with an order, an exchange or a complaint
+should go there, because it is the only channel where the whole history stays in one place.</p>
+<dl class="vtp-spec">
+  <div><dt>Email</dt><dd><a href="mailto:vitalitevn@gmail.com">vitalitevn@gmail.com</a></dd></div>
+  <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/vitalitevn/" target="_blank" rel="noopener">@vitalitevn</a>, fastest for a quick question</dd></div>
+  <div><dt>Facebook</dt><dd><a href="https://www.facebook.com/vitalitevn" target="_blank" rel="noopener">Vitalit&#233;</a></dd></div>
+  <div><dt>Based in</dt><dd>Saigon, Vietnam</dd></div>
+</dl>
+<p style="margin-top:16px">We are <strong>@vitalitevn</strong> on Instagram, Facebook, TikTok and
+Shopee. Any other account using this name is not us.</p>
+""" + flag('Need data', [
+        'Which phone number is current? Facebook lists 093 838 14 07, a 2023 post lists 037 963 2222. Publishing both is worse than publishing neither.',
+        'Opening hours, or a stated reply window. Without one, every unanswered message reads as being ignored.'])),
+
+      ('include', 'What to put in the message', """
+<p>Four things let us answer on the first reply instead of the third.</p>
+""" + ul([
+        'Your order number, from the confirmation email',
+        'What the piece is, and which size',
+        'What is wrong, in one line',
+        'Photographs, or the unboxing video if the item arrived damaged',
+      ]) + """
+<div class="vtp-note"><strong>The unboxing video matters more than it sounds.</strong>
+It is the only thing that settles a disagreement about the condition of an item on arrival,
+and it cannot be produced after the parcel is open. Film the parcel before you cut it.</div>
+"""),
+
+      ('first', 'Answered already', """
+<p>Most messages we get are one of these four. The answer is faster on the page than in the inbox.</p>
+""" + ul([
+        '<a href="/size-guide">Size guide</a>, measurements for every size, taken flat',
+        '<a href="/returns">Returns and exchanges</a>, what qualifies and how long you have',
+        '<a href="/shipping">Shipping</a>, cost and delivery time',
+        '<a href="/faq">How to order</a>, the whole flow from bag to delivery',
+      ])),
+
+      ('business', 'The business behind the site', """
+<p>Vietnamese e-commerce regulation requires the seller&#39;s legal identity to be published on the
+site. Those details live on one page, kept separate so there is a single place to correct them.</p>
+<div class="vtp-cta"><a class="vtp-btn vtp-btn--ghost" href="/seller-information">Seller information</a></div>
+"""),
+     ])
+
+
 # ---- ABOUT ------------------------------------------------------------------
 # CỐ Ý KHÔNG sinh ở đây. `deliverables/pages-html/about.html` là trang VIẾT TAY:
 # nó là trang thương hiệu, có hệ thiết kế riêng (nền tối, váng dầu, marquee,
@@ -567,17 +634,17 @@ so this is a matter of retrieving the details, not registering anything new.</p>
 
 # ---------------------------------------------------------------- Sinh file
 SHELL = """<!-- ============================================================
-     VITALITÉ — %(title)s
+     VITALITÉ %(title)s
      Dán TOÀN BỘ khối này vào một widget HTML của Elementor.
      Slug trang phải là: %(slug)s
-     Sinh tự động bởi docs/make-pages.py — ĐỪNG sửa tay ở đây,
+     Sinh tự động bởi docs/make-pages.py. ĐỪNG sửa tay ở đây,
      sửa trong script rồi chạy lại, nếu không lần sau bị ghi đè.
      ============================================================ -->
 <div class="vtp">
 <style>%(css)s</style>
 
 <header class="vtp-head">
-  <p class="vtp-eyebrow">%(number)s &mdash; %(kicker)s</p>
+  <p class="vtp-eyebrow">%(number)s &middot; %(kicker)s</p>
   <h1 class="vtp-title">%(title)s</h1>
   <p class="vtp-lede">%(lede)s</p>
   <p class="vtp-stamp">%(stamp)s</p>
@@ -617,9 +684,71 @@ def build():
     return made
 
 
+PREVIEW_HEAD = """<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>%(title)s</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--vt-ink:#0A0A0A;--vt-paper:#fff;--vt-line:#E4E4E6;--vt-line-strong:#C9C9CE;--vt-muted:#6B6B70;--vt-tint:#F7F7F8;--vt-sale:#C2452D;
+--vt-on-dark:#F2F2F4;--vt-on-dark-muted:rgba(242,242,244,.62);
+--vt-iri-1:rgba(126,72,240,.85);--vt-iri-2:rgba(38,196,190,.72);--vt-iri-3:rgba(214,72,158,.60);--vt-iri-4:rgba(58,102,232,.75);
+--vt-font-mono:"JetBrains Mono",monospace;--vt-font-display:"Archivo",sans-serif;}
+*{box-sizing:border-box}body{margin:0;background:%(bg)s;font-family:"Archivo",system-ui,sans-serif;color:#0A0A0A}
+%(extra)s
+</style></head><body>
+"""
+
+PREVIEW_ALL_EXTRA = """.pv-top{position:sticky;top:0;z-index:9;background:#0A0A0A;color:#fff;padding:12px 20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pv-top b{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin-right:10px}
+.pv-top a{color:#fff;text-decoration:none;font-family:"JetBrains Mono";font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;opacity:.6;border:1px solid rgba(255,255,255,.25);padding:5px 10px;border-radius:999px}
+.pv-top a:hover{opacity:1}
+.pv-label{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6B6B70;margin:44px 0 10px}
+.pv-frame{background:#fff;border:1px solid #d8d8dc;padding:clamp(24px,4vw,64px)}
+main{max-width:1240px;margin:0 auto;padding:0 20px 90px}"""
+
+
+def build_previews():
+    """Sinh lai hai file xem truoc. CHI de xem, KHONG dan len WordPress.
+
+    Truoc day hai file nay lam TAY nen chung lech voi trang that sau moi lan sua.
+    Gio chung sinh tu chinh cac file .html vua build ra, khong the lech nua."""
+    made = []
+    NL = "\n"
+
+    # --- _preview-about.html: trang About full-bleed, khong khung ---
+    about = os.path.join(OUT, "about.html")
+    if os.path.isfile(about):
+        body = io.open(about, encoding="utf-8").read()
+        # ban dan WordPress tro vao uploads, ban xem truoc tro vao repo
+        body = body.replace("/wp-content/uploads/seq/0823/", "../scroll-sequence/frames/0823/")
+        html = (PREVIEW_HEAD % dict(title="ABOUT preview", bg="#fff", extra="")) + body + NL + "</body></html>" + NL
+        io.open(os.path.join(OUT, "_preview-about.html"), "w", encoding="utf-8", newline=NL).write(html)
+        made.append("_preview-about.html")
+
+    # --- _preview-all.html: 9 trang chinh sach, moi trang mot khung ---
+    slugs = [q["slug"] for q in PAGES]
+    nav = " ".join('<a href="#%s">%s</a>' % (g, g) for g in slugs)
+    parts = [PREVIEW_HEAD % dict(title="VITALITE - preview trang tinh", bg="#F0F0F2", extra=PREVIEW_ALL_EXTRA),
+             '<div class="pv-top"><b>Preview trang tinh</b>%s</div><main>' % nav]
+    for g in slugs:
+        f = os.path.join(OUT, g + ".html")
+        if not os.path.isfile(f):
+            continue
+        parts.append('<p class="pv-label" id="%s">%s.html</p><div class="pv-frame">%s</div>'
+                     % (g, g, io.open(f, encoding="utf-8").read()))
+    parts.append("</main></body></html>")
+    io.open(os.path.join(OUT, "_preview-all.html"), "w", encoding="utf-8", newline=NL).write(NL.join(parts))
+    made.append("_preview-all.html")
+    return made
+
+
 if __name__ == '__main__':
     rows = build()
-    print('%-22s %8s  %s' % ('SLUG', 'BYTES', 'Ô CẢNH BÁO'))
+    print('%-22s %8s  %s' % ('SLUG', 'BYTES', 'O CANH BAO'))
     for slug, size, flags in rows:
         print('%-22s %8d  %s' % (slug, size, flags if flags else '-'))
-    print('\n%d trang -> %s' % (len(rows), os.path.normpath(OUT)))
+    print('')
+    print('%d trang -> %s' % (len(rows), os.path.normpath(OUT)))
+    for f in build_previews():
+        print('preview  %s' % f)

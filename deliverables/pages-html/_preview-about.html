@@ -1,12 +1,15 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>ABOUT preview</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ABOUT preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
-<style>:root{--vt-ink:#0A0A0A;--vt-paper:#fff;--vt-line:#E4E4E6;--vt-muted:#6B6B70;--vt-tint:#F7F7F8;
+<style>
+:root{--vt-ink:#0A0A0A;--vt-paper:#fff;--vt-line:#E4E4E6;--vt-line-strong:#C9C9CE;--vt-muted:#6B6B70;--vt-tint:#F7F7F8;--vt-sale:#C2452D;
 --vt-on-dark:#F2F2F4;--vt-on-dark-muted:rgba(242,242,244,.62);
 --vt-iri-1:rgba(126,72,240,.85);--vt-iri-2:rgba(38,196,190,.72);--vt-iri-3:rgba(214,72,158,.60);--vt-iri-4:rgba(58,102,232,.75);
 --vt-font-mono:"JetBrains Mono",monospace;--vt-font-display:"Archivo",sans-serif;}
-*{box-sizing:border-box}body{margin:0;background:#fff;font-family:"Archivo",system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:#fff;font-family:"Archivo",system-ui,sans-serif;color:#0A0A0A}
+
 </style></head><body>
 <!-- ============================================================
      VITALITÉ — ABOUT
@@ -74,8 +77,37 @@
   color:var(--a-ink);font-size:16px;line-height:1.7;
 }
 .vta *,.vta *::before,.vta *::after{box-sizing:border-box;}
-.vta p,.vta h1,.vta h2,.vta h3,.vta ul,.vta dl,.vta dd{margin:0;}
+
+/* 🔴 `:where()` KHÔNG PHẢI TRANG TRÍ, ĐỪNG ĐỔI VỀ SELECTOR THƯỜNG.
+   Bản cũ viết `.vta p,.vta h1,...{margin:0}` — độ đặc hiệu (0,1,1), CAO HƠN
+   mọi class như `.vta-lead{margin-top:26px}` (0,1,0). Kết quả: **toàn bộ
+   khoảng cách giữa các đoạn trong trang bị nuốt**, computed margin = 0px.
+   Triệu chứng nhìn thấy: dấu sắc của VITALITÉ dính vào gạch ngang của eyebrow,
+   vì cái gap 38px đáng ra phải có đã biến mất.
+   `:where()` đóng góp độ đặc hiệu BẰNG 0, nên reset thành (0,0,0) và mọi class
+   thắng nó. Kiểm lại bằng: getComputedStyle($('.vta-lead')).marginTop === '26px' */
+:where(.vta) :where(p,h1,h2,h3,ul,dl,dd){margin:0;}
 .vta section{padding-inline:var(--a-gut);}
+
+/* ---------- Lưới hai cột cho các section chữ ----------
+   Trước đây mọi thứ dồn hết về trái, nửa phải màn hình bỏ trống.
+   Eyebrow chạy hết chiều ngang để giữ gạch ngang full-width (đúng ngôn ngữ
+   layout đã chốt), phần thân chia hai cột. */
+.vta-two{
+  display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+  gap:clamp(26px,4.5vw,88px);align-items:start;
+}
+.vta-two > * {min-width:0;}
+/* Phần tử đầu mỗi cột phải thẳng hàng với cột kia — margin-top của
+   .vta-lead / .vta-note ở đây là thừa, nó đẩy cột phải tụt xuống. */
+.vta-two > div > :first-child{margin-top:0;}
+@media (max-width:900px){ .vta-two{grid-template-columns:1fr;gap:26px;} }
+
+/* Hai bảng spec: xếp dọc cho tới khi cột phải đủ rộng cho hai bảng */
+.vta-specs{display:grid;grid-template-columns:1fr;gap:clamp(22px,3vw,44px);}
+@media (min-width:1200px){ .vta-specs{grid-template-columns:1fr 1fr;} }
+.vta-specs .vta-spec dt{flex:0 0 clamp(76px,7vw,104px);}
+.vta-specs h3{margin-top:0 !important;}
 
 /* ---------- Váng dầu iridescent — giờ dùng để ĐÓNG trang ---------- */
 .vta-oil{
@@ -234,7 +266,10 @@
   position:relative;background:var(--q-ink);color:var(--q-onDark);
 }
 .vsq *,.vsq *::before,.vsq *::after{box-sizing:border-box;}
-.vsq p,.vsq h1,.vsq h2,.vsq h3{margin:0;}
+/* 🔴 Cùng lý do như `:where(.vta)` ở khối trên. Viết `.vsq p{margin:0}` là
+   nuốt sạch `.vsq-sub{margin-top}`, `.vsq-index{margin-bottom}` và
+   `.vsq-h{margin-bottom}` — hero mất hết khoảng thở giữa các dòng. */
+:where(.vsq) :where(p,h1,h2,h3){margin:0;}
 
 /* Đường chạy 500vh cho 4 mốc chữ */
 .vsq-track{height:500vh;position:relative;}
@@ -327,15 +362,6 @@
 }
 .vsq-spec-item b{color:var(--q-onDark);font-weight:500;text-align:right;}
 
-/* Thanh tiến trình + đếm frame */
-.vsq-bottom-hud{
-  position:absolute;left:var(--q-gut);right:var(--q-gut);bottom:clamp(20px,3.5vh,40px);
-  display:flex;align-items:center;gap:20px;z-index:4;pointer-events:none;
-}
-.vsq-bar{flex:1;height:2px;background:rgba(242,242,244,.18);position:relative;}
-.vsq-bar i{display:block;height:100%;width:0;background:var(--q-onDark);transition:width .05s linear;}
-.vsq-counter{font-family:var(--q-mono);font-size:11px;letter-spacing:.15em;color:var(--q-onDarkMuted);}
-
 /* Suy giảm — không JS / màn hẹp / giảm chuyển động / tiết kiệm dữ liệu:
    poster tĩnh, chữ hiện hết và xếp dọc, KHÔNG tải frame nào.
 
@@ -361,7 +387,6 @@
 }
 .vsq:not(.is-ready) .vsq-story{margin-bottom:clamp(26px,4vw,44px);}
 .vsq:not(.is-ready) .vsq-card{margin-bottom:clamp(26px,4vw,44px);margin-left:auto;}
-.vsq:not(.is-ready) .vsq-bottom-hud{display:none;}
 /* Poster bị kéo cao gấp mấy lần khung gốc thì vùng giữa ảnh sáng trắng,
    chữ trắng đè lên là không đọc được. Scrim phẳng, không gradient theo %. */
 .vsq:not(.is-ready) .vsq-scrim{
@@ -396,7 +421,7 @@
 
     <div class="vsq-hud" aria-hidden="true">
       <span class="vsq-hud-brand">Vitalité &#174; &middot; Saigon &middot; Est. 2022</span>
-      <span>CGI visualisation</span>
+      <span>Worldwide shipping</span>
     </div>
 
     <div class="vsq-viewport">
@@ -467,11 +492,6 @@
 
     </div>
 
-    <div class="vsq-bottom-hud" aria-hidden="true">
-      <div class="vsq-bar"><i></i></div>
-      <span class="vsq-counter"><b class="vsq-cur-frame">001</b> / <b class="vsq-total">096</b></span>
-    </div>
-
   </div>
 </div>
 
@@ -483,9 +503,6 @@
   var track    = root.querySelector('.vsq-track');
   var canvas   = root.querySelector('.vsq-canvas');
   var steps    = [].slice.call(root.querySelectorAll('.vsq-story, .vsq-card'));
-  var barFill  = root.querySelector('.vsq-bar i');
-  var curFrame = root.querySelector('.vsq-cur-frame');
-  var totalEl  = root.querySelector('.vsq-total');
 
   var base  = root.getAttribute('data-seq-base') || '';
   var count = parseInt(root.getAttribute('data-seq-count'), 10) || 0;
@@ -504,7 +521,6 @@
 
   function num(i){ var n = String(i); while (n.length < pad) n = '0' + n; return n; }
   function src(i){ return base + num(i + 1) + '.' + ext; }
-  if (totalEl) totalEl.textContent = num(count);
 
   var imgs = new Array(count);
   var loaded = 0;
@@ -565,8 +581,6 @@
     var p = progress();
     var frameIdx = Math.min(count - 1, Math.round(p * (count - 1)));
     draw(frameIdx);
-    if (barFill) barFill.style.width = (p * 100).toFixed(1) + '%';
-    if (curFrame) curFrame.textContent = num(frameIdx + 1);
     for (var i = 0; i < steps.length; i++) {
       var a = parseFloat(steps[i].getAttribute('data-from'));
       var b = parseFloat(steps[i].getAttribute('data-to'));
@@ -647,31 +661,43 @@
 <!-- ============ CÁI TÊN ============ -->
 <section class="vta-body">
   <p class="vta-eyebrow vta-rev">01 &middot; The name</p>
-  <h2 class="vta-h2 vta-rev">Vitalité is French for being alive.</h2>
-  <p class="vta-lead vta-rev">Everything the label makes points back at that one word. It is not a
-  tagline written for a website. It is the idea the brand has been circling in every drop, said a
-  different way each time.</p>
-  <div class="vta-quote vta-rev">
-    <p>An icon shaped by imperfect lines, bold details, and your own way of wearing it.</p>
-    <p class="vta-said">Instagram &middot; 29 July 2026</p>
+  <div class="vta-two">
+    <div>
+      <h2 class="vta-h2 vta-rev">Vitalité is French for being alive.</h2>
+    </div>
+    <div>
+      <p class="vta-lead vta-rev">Everything the label makes points back at that one word. It is
+      not a tagline written for a website. It is the idea the brand has been circling in every
+      drop, said a different way each time.</p>
+      <div class="vta-quote vta-rev">
+        <p>An icon shaped by imperfect lines, bold details, and your own way of wearing it.</p>
+        <p class="vta-said">Instagram &middot; 29 July 2026</p>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ============ COMEBACK ============ -->
 <section class="vta-body" style="background:var(--a-tint)">
   <p class="vta-eyebrow vta-rev">02 &middot; The comeback</p>
-  <h2 class="vta-h2 vta-rev">Silence was not absence.</h2>
-  <p class="vta-lead vta-rev">The label went quiet. In April 2026 it returned under new ownership,
-  and said so without decoration:</p>
-  <div class="vta-quote vta-rev">
-    <p>Preparing for a lifetime.</p>
-    <p class="vta-note" style="margin-top:14px">After a long hiatus, we are back to redefine the
-    standards. Every detail has been sharpened; every silhouette evolved.</p>
-    <p class="vta-said">Facebook &middot; 18 April 2026 &middot; #thecomeback</p>
+  <div class="vta-two">
+    <div>
+      <h2 class="vta-h2 vta-rev">Silence was not absence.</h2>
+      <p class="vta-lead vta-rev">The label went quiet. In April 2026 it returned under new
+      ownership, and said so without decoration.</p>
+    </div>
+    <div>
+      <div class="vta-quote vta-rev">
+        <p>Preparing for a lifetime.</p>
+        <p class="vta-note" style="margin-top:14px">After a long hiatus, we are back to redefine
+        the standards. Every detail has been sharpened; every silhouette evolved.</p>
+        <p class="vta-said">Facebook &middot; 18 April 2026 &middot; #thecomeback</p>
+      </div>
+      <p class="vta-note vta-rev" style="margin-top:30px">Heavier cloth. Boxy cuts. Blue and violet
+      on iridescent surfaces, where there used to be magenta. The work made before that date was
+      not deleted. It was given a name.</p>
+    </div>
   </div>
-  <p class="vta-note vta-rev" style="margin-top:30px">Heavier cloth. Boxy cuts. Blue and violet on
-  iridescent surfaces, where there used to be magenta. The work made before that date was not
-  deleted. It was given a name.</p>
 </section>
 
 <!-- ============ HAI THỜI KỲ ============ -->
@@ -697,41 +723,50 @@
       </ul>
     </div>
   </div>
-  <p class="vta-note vta-rev" style="margin-top:26px;max-width:64ch">Most labels bury the old
-  catalogue when the direction changes. This one framed it instead, in its own words:
-  <em>old things still shine</em>. And left it on the shelf. Buy from either era. The sizing is
-  the same.</p>
+  <div class="vta-two" style="margin-top:clamp(24px,3vw,40px)">
+    <p class="vta-note vta-rev" style="max-width:none">Most labels bury the old catalogue when the
+    direction changes. This one framed it instead, in its own words: <em>old things still
+    shine</em>. And left it on the shelf.</p>
+    <p class="vta-note vta-rev" style="max-width:none">Buy from either era. The sizing is the same
+    across both: S, M and L, unisex. Archive pieces are still stocked and still sold, on this site
+    and on Shopee.</p>
+  </div>
 </section>
 
 <!-- ============ CHẤT LIỆU ============ -->
 <section class="vta-body">
   <p class="vta-eyebrow vta-rev">04 &middot; What it is made of</p>
-  <h2 class="vta-h2 vta-rev">Published with every drop.</h2>
-  <p class="vta-lead vta-rev">The label writes its own spec sheet. Nothing below is marketing
-  language. It is the same list that goes out with each release.</p>
+  <div class="vta-two">
+    <div>
+      <h2 class="vta-h2 vta-rev">Published with every drop.</h2>
+      <p class="vta-lead vta-rev">The label writes its own spec sheet. Nothing below is marketing
+      language. It is the same list that goes out with each release, in the same four lines.</p>
+      <div class="vta-cta vta-rev">
+        <a class="vta-btn" style="background:var(--a-ink);color:var(--a-paper);border-color:var(--a-ink)" href="/size-guide">Size guide</a>
+      </div>
+    </div>
 
-  <div class="vta-rev">
-    <h3 style="margin-top:38px;font-family:var(--a-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--a-muted)">T&#8209;Shirts</h3>
-    <dl class="vta-spec">
-      <div><dt>Fabric</dt><dd>250 GSM Cotton</dd></div>
-      <div><dt>Print</dt><dd>Screen printed</dd></div>
-      <div><dt>Fit</dt><dd>Unisex</dd></div>
-      <div><dt>Sizing</dt><dd>S / M / L</dd></div>
-    </dl>
-  </div>
+    <div class="vta-specs">
+      <div class="vta-rev">
+        <h3 style="font-family:var(--a-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--a-muted)">T&#8209;Shirts</h3>
+        <dl class="vta-spec">
+          <div><dt>Fabric</dt><dd>250 GSM Cotton</dd></div>
+          <div><dt>Print</dt><dd>Screen printed</dd></div>
+          <div><dt>Fit</dt><dd>Unisex</dd></div>
+          <div><dt>Sizing</dt><dd>S / M / L</dd></div>
+        </dl>
+      </div>
 
-  <div class="vta-rev">
-    <h3 style="margin-top:38px;font-family:var(--a-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--a-muted)">Outerwear</h3>
-    <dl class="vta-spec">
-      <div><dt>Fabric</dt><dd>500+ GSM Heavyweight Cotton Blend</dd></div>
-      <div><dt>Fit</dt><dd>Signature Boxy Fit</dd></div>
-      <div><dt>Sizing</dt><dd>S / M / L</dd></div>
-      <div><dt>Made in</dt><dd>Vietnam</dd></div>
-    </dl>
-  </div>
-
-  <div class="vta-cta vta-rev">
-    <a class="vta-btn" style="background:var(--a-ink);color:var(--a-paper);border-color:var(--a-ink)" href="/size-guide">Size guide</a>
+      <div class="vta-rev">
+        <h3 style="font-family:var(--a-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--a-muted)">Outerwear</h3>
+        <dl class="vta-spec">
+          <div><dt>Fabric</dt><dd>500+ GSM Cotton Blend</dd></div>
+          <div><dt>Fit</dt><dd>Signature Boxy Fit</dd></div>
+          <div><dt>Sizing</dt><dd>S / M / L</dd></div>
+          <div><dt>Made in</dt><dd>Vietnam</dd></div>
+        </dl>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -739,7 +774,21 @@
 <section class="vta-close">
   <div class="vta-oil" aria-hidden="true"></div>
   <p class="vta-eyebrow vta-rev" style="color:var(--a-onDarkMuted);border-bottom-color:rgba(242,242,244,.3)">05 &middot; The record</p>
-  <h2 class="vta-h2 vta-rev">Four years before this site existed.</h2>
+  <div class="vta-two">
+    <div>
+      <h2 class="vta-h2 vta-rev">Four years before this site existed.</h2>
+    </div>
+    <div>
+      <p class="vta-lead vta-rev" style="color:var(--a-onDarkMuted);max-width:none">This site ships
+      worldwide. Inside Vietnam you can also buy through Shopee, where the label has traded since
+      2022. We are <strong style="color:var(--a-onDark)">@vitalitevn</strong> on Instagram,
+      Facebook, TikTok and Shopee. Anything else is not us.</p>
+      <div class="vta-cta vta-rev">
+        <a class="vta-btn" href="/shop">Shop all</a>
+        <a class="vta-btn vta-btn--ghost" href="https://www.instagram.com/vitalitevn/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </div>
 
   <div class="vta-stats vta-rev">
     <div><b data-count="4">4</b><span>Years selling</span></div>
@@ -753,16 +802,6 @@
     Điểm 4.9 và 973 đánh giá là số thật, dẫn nguồn được, nhưng chúng nằm trên Shopee.
     Hiện ở đây thì xây được niềm tin, đồng thời chỉ cho khách một chỗ khác để mua.
     Giữ khối này, hoặc xoá cả section 05. Đây là quyết định thương mại, không phải quyết định thiết kế.
-  </div>
-
-  <p class="vta-note vta-rev" style="margin-top:34px;color:var(--a-onDarkMuted);max-width:56ch">
-  This site ships worldwide. Inside Vietnam you can also buy through Shopee, where the label has
-  traded since 2022. We are <strong style="color:var(--a-onDark)">@vitalitevn</strong> on Instagram,
-  Facebook, TikTok and Shopee. Anything else is not us.</p>
-
-  <div class="vta-cta vta-rev">
-    <a class="vta-btn" href="/shop">Shop all</a>
-    <a class="vta-btn vta-btn--ghost" href="https://www.instagram.com/vitalitevn/" target="_blank" rel="noopener">Instagram</a>
   </div>
 
   <p class="vta-said vta-rev" style="margin-top:34px;color:var(--a-onDarkMuted)">

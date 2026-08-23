@@ -479,3 +479,46 @@ không tràn ngang.
 Tab của Claude chạy nền, `requestAnimationFrame` chập chờn và không chụp được màn hình ổn định.
 Chụp được đúng một khung ở đầu trang, phần còn lại kiểm bằng đo `getBoundingClientRect` và
 `performance.getEntriesByType('resource')`.
+
+---
+
+## Rà lại toàn bộ trang tĩnh (2026-08-23, lượt 2)
+
+### 🔴 Lỗi độ đặc hiệu CSS nuốt sạch khoảng cách đoạn văn, trên CẢ 11 trang
+Cả hai khuôn đều viết reset kiểu `.vta p,.vta h1,...{margin:0}` và `.vtp p,.vtp ul,...{margin:0}`.
+Độ đặc hiệu (0,1,1), **cao hơn** mọi class định khoảng cách như `.vta-lead{margin-top:26px}` (0,1,0).
+Kết quả đo trên trình duyệt: `.vta-eyebrow` margin-bottom **0px** (CSS ghi 26-48px),
+`.vta-lead` margin-top **0px** (ghi 26px), `.vtp-lede` **0px** (ghi 20px), `.vtp-list` **0px** (ghi 14px).
+
+Triệu chứng người dùng nhìn thấy: chữ `VITALITÉ` dính vào gạch ngang của eyebrow, vì cái gap 38px
+đáng ra phải có đã biến mất và `line-height:1.02` cho dấu sắc tràn lên thêm 2px.
+
+Đã sửa bằng `:where()` (đóng góp độ đặc hiệu bằng 0) ở cả hai khuôn.
+**Đừng đổi ngược về selector thường.** Kiểm lại nhanh:
+`getComputedStyle(document.querySelector('.vta-lead')).marginTop` phải ra `'26px'`.
+
+### 🔴 Bỏ nhãn `CGI visualisation` theo yêu cầu user
+Nhãn đó là thứ duy nhất trên trang nói rằng ảnh hero **không phải ảnh chụp sản phẩm thật**.
+User yêu cầu bỏ, đã bỏ, thay bằng `Worldwide shipping`.
+
+Hệ quả còn nguyên, **chưa được giải quyết, chỉ là không còn được nói ra**: cái áo trong 96 frame
+là ảnh CGI, chưa ai đối chiếu với hàng thật, và lưng áo in dòng
+*"IT'S THE ONLY MOMENT THAT MATTERS"* không có trong nguồn brand nào đã xác minh.
+Giảm nhẹ duy nhất còn lại: bảng spec cạnh nó **không gọi tên SKU nào** và chỉ trích spec
+outerwear đã công bố. Giữ nguyên như vậy cho tới khi có ảnh chụp thật.
+
+### 🟡 Trang chính sách bị chặn ở 1180px
+Chúng dán vào section Elementor full-width. Không chặn thì trên màn 1920 cột nội dung rộng
+~1700px trong khi đoạn văn chỉ 68ch (~640px). Đã đặt `max-width:1180px;margin-inline:auto`
+cho `.vtp-head` và `.vtp-body`.
+Không mâu thuẫn với quyết định **FULL-WIDTH** ở `CLAUDE.md` mục 5: quyết định đó nói về ngôn ngữ
+layout trang **brand**. 10 trang này là tài liệu, độ dài dòng là yếu tố đọc được.
+
+### 🟡 `collection` vẫn chưa dựng
+Mỗi dòng sản phẩm cần link tới một filter `pa_collection` **có thật**, mà sản phẩm chưa nhập.
+Bốn dòng `PINK GRAFFITI · PORSCHE · STARLIGHT · OLD MONEY` cũng chưa có caption nào dùng được.
+Dựng sau bước 9 trong `CLAUDE.md` mục 6.
+
+### ✅ Hai file preview giờ sinh tự động
+`_preview-all.html` và `_preview-about.html` trước đây làm tay nên lệch với trang thật sau mỗi
+lần sửa. Giờ `docs/make-pages.py` sinh chúng từ chính các file `.html` vừa build.

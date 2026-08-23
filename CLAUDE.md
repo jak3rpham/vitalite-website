@@ -215,7 +215,7 @@ Lúc có 40 sản phẩm × 6 variation là làm lại từ đầu.
 - [ ] Mã hex **tím / xanh dương** thời kỳ mới → `--vt-accent` đang đen
 - [ ] Có hiển thị "4.9★ · 973 đánh giá Shopee" trên site không? (quyết định kinh doanh)
 - [ ] Ảnh mockup nền trong suốt → cần Canva Pro
-- [ ] Số hotline nào còn dùng
+- [ ] Số hotline nào còn dùng — **chặn trang `contact` và `complaints`**, hai trang đều để ô cam chờ nó
 - [ ] Premmerce có tương thích Polylang không (test bằng 2 SKU giả)
 
 ### ✅ Đã giải quyết

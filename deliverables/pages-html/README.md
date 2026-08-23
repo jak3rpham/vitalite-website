@@ -1,6 +1,6 @@
 # TRANG TĨNH — HTML dán vào Elementor
 
-**Sinh bằng:** `docs/make-pages.py` · **Cập nhật:** 2026-08-22
+**Sinh bằng:** `docs/make-pages.py` · **Cập nhật:** 2026-08-23
 **Thiết kế dựa trên:** cấu trúc chính sách của Saigon Swagger (8 trang) và StressMama (7 mục)
 
 ---
@@ -30,7 +30,7 @@ bịa phí ship, thời gian giao, hay điều khoản pháp lý là bịa ra m�
 
 **Trang nào còn ô cam thì chưa publish.** Điền xong, xoá ô đó đi, rồi mới xuất bản.
 
-Tổng: **22 ô** trên 10 trang.
+Tổng: **23 ô** trên 11 trang.
 
 ---
 
@@ -86,6 +86,7 @@ Bốn trang này **không phải tuỳ chọn**. Thiếu là vi phạm.
 | Slug | Tiêu đề | File | Ô cam | Ghi chú |
 |---|---|---|---|---|
 | `faq` | How to Order | `faq.html` | **1** | Giảm tin nhắn hỏi lặp |
+| `contact` | Contact | `contact.html` | **1** | Email + IG + FB đã xác minh. Ô cam: số điện thoại nào còn dùng, và có công bố giờ trả lời không. Tạo trang này là link **Contact** ở footer tự hiện |
 
 ### Nhóm D — đã có nội dung, chưa có HTML
 
@@ -93,8 +94,9 @@ Nội dung nằm ở `deliverables/content/PAGES-CONTENT.md`, dán bằng trình
 
 | Slug | Tiêu đề | Trạng thái |
 |---|---|---|
-| `contact` | Contact | ✅ dán được ngay |
-| `collection` | Collection | ⚠️ mới là khung |
+| `collection` | Collection | ⚠️ mới là khung. **Chưa dựng HTML** vì mỗi dòng cần link tới filter `pa_collection` có thật, mà sản phẩm chưa nhập. Dựng sau bước 9 |
+
+> `contact` đã chuyển lên nhóm C, có HTML rồi. Xem bảng bên trên.
 
 ---
 
@@ -136,7 +138,7 @@ CSS dùng biến của theme và có giá trị dự phòng:
 ```
 
 Nghĩa là khi brand chốt mã màu tím/xanh dương thời kỳ mới và bạn đổi `--vt-accent` trong
-`style.css`, **cả 9 trang này đổi theo**, không phải sửa lại từng trang.
+`style.css`, **cả 10 trang này đổi theo**, không phải sửa lại từng trang.
 
 Ngôn ngữ layout giữ đúng phần còn lại của site: eyebrow mono đánh số, tiêu đề Archivo Expanded
 in hoa, đường kẻ đen dưới đầu trang, bảng hairline, nút bo tròn hoàn toàn.
@@ -148,7 +150,11 @@ Bảng cuộn ngang trong khung riêng — trang không bao giờ tràn ngang. �
 
 ## Xem thử không cần WordPress
 
-`_preview-all.html` gộp cả 9 trang vào một file, mỗi trang trong một khung giống Elementor.
+`_preview-all.html` gộp cả 10 trang chính sách vào một file, mỗi trang trong một khung giống
+Elementor. `_preview-about.html` là trang About riêng, full-bleed.
+
+🔴 **Hai file preview giờ SINH TỰ ĐỘNG** cùng lúc với các trang, bởi `docs/make-pages.py`.
+Trước đây chúng làm tay nên lệch với trang thật sau mỗi lần sửa. Đừng sửa tay chúng nữa.
 Mở thẳng bằng trình duyệt.
 
 File đó **chỉ để xem** — đừng dán nó vào WordPress.
