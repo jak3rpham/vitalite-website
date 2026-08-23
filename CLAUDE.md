@@ -206,6 +206,10 @@ Lúc có 40 sản phẩm × 6 variation là làm lại từ đầu.
 
 ## 7. OPEN ITEMS
 
+> 📋 **Toàn bộ 50 câu cần brand trả lời đã gom vào `deliverables/CAU-HOI-CHO-BRAND.md`** (24/08).
+> File đó viết cho **phía brand đọc và điền**, không phải cho Claude. Mục này giữ lại để Claude
+> biết cái gì đang chặn cái gì. **Sửa một bên thì sửa cả bên kia**, đừng để hai bản lệch nhau.
+
 ### 🔴 Đang chặn
 - [ ] **Phí + hãng + thời gian ship quốc tế** → chặn multi-currency, shipping zone, trang Shipping, và thực tế chặn launch
 - [ ] **Thông tin pháp nhân** (tên công ty, mã ĐKKD, địa chỉ) → bắt buộc theo pháp luật TMĐT VN
@@ -214,6 +218,9 @@ Lúc có 40 sản phẩm × 6 variation là làm lại từ đầu.
 ### 🟡 Chờ quyết
 - [ ] Mã hex **tím / xanh dương** thời kỳ mới → `--vt-accent` đang đen
 - [ ] Có hiển thị "4.9★ · 973 đánh giá Shopee" trên site không? (quyết định kinh doanh)
+      → hiện **ĐANG HIỆN** ở About section 05, kèm dòng dẫn nguồn. Câu 37 trong `deliverables/CAU-HOI-CHO-BRAND.md`
+- [ ] Có kể chuyện **đổi chủ** công khai không? → đã gỡ khỏi trang About 24/08.
+      Brand chưa bao giờ tự nói. Câu 38 trong `deliverables/CAU-HOI-CHO-BRAND.md`
 - [ ] Ảnh mockup nền trong suốt → cần Canva Pro
 - [ ] Số hotline nào còn dùng — **chặn trang `contact` và `complaints`**, hai trang đều để ô cam chờ nó
 - [ ] Premmerce có tương thích Polylang không (test bằng 2 SKU giả)

@@ -30,7 +30,7 @@ bịa phí ship, thời gian giao, hay điều khoản pháp lý là bịa ra m�
 
 **Trang nào còn ô cam thì chưa publish.** Điền xong, xoá ô đó đi, rồi mới xuất bản.
 
-Tổng: **23 ô** trên 11 trang.
+Tổng: **22 ô** trên 10 trang. Trang About đã sạch.
 
 ---
 
@@ -40,7 +40,7 @@ Tổng: **23 ô** trên 11 trang.
 
 | Slug | Tiêu đề | File | Ô cam | Ghi chú |
 |---|---|---|---|---|
-| `about` | About | `about.html` | **1** | ✅ Đăng được. Ô cam là quyết định kinh doanh (có hiện 4.9★/973 đánh giá Shopee không), không phải thiếu dữ liệu. 🔴 **Phải upload frame trước** — xem ngay dưới |
+| `about` | About | `about.html` | **0** | ✅ Đăng được ngay, không còn ô cam nào. 🔴 **Phải upload frame trước** — xem ngay dưới |
 
 **Riêng trang About — HERO là ảnh.** Khối đầu trang là chuỗi cuộn 96 frame WebP.
 Trước khi publish, upload thư mục:
@@ -60,6 +60,15 @@ lên desktop, và chỉ sau `window.load`.
 
 Mọi câu trích trong trang About là **nguyên văn** từ Instagram / Facebook `@vitalitevn`,
 đã xác minh 2026-08-19, ghi lại ở `reference/BRAND_ERA_SPLIT.md`. Không có câu nào tự nghĩ.
+
+🔴 **Đã gỡ câu "returned under new ownership" (24/08).** Brand chưa bao giờ tự nói điều đó:
+bài comeback 18/04/2026 chỉ ghi *"After a long hiatus, we are back to redefine the standards."*
+Chuyện đổi chủ là thông tin nội bộ, không phải phát ngôn công khai của brand, nên nó không được
+xuất hiện trên trang như lịch sử thương hiệu. Chỗ đúng của nó là `seller-information`, dưới dạng
+thông tin pháp nhân. Xem câu 38 trong `deliverables/CAU-HOI-CHO-BRAND.md`.
+
+🔴 **Dải số ở section 05 có một dòng dẫn nguồn, ĐỪNG GỠ.** Không có nó thì
+*"Average rating 4.9"* đọc như điểm của chính website này, mà site chưa có một đánh giá nào.
 
 ### Nhóm A — chính sách thương mại
 

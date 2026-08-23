@@ -197,9 +197,13 @@
 .vta-btn--ghost:hover{background:var(--a-onDark);color:var(--a-ink);}
 .vta-close a:not(.vta-btn),.vta-body a:not(.vta-btn){color:inherit;text-decoration:underline;text-underline-offset:3px;}
 
-/* ---------- Ô quyết định ---------- */
-.vta-flag{margin-top:26px;padding:17px 20px;background:#FEF6E7;border-left:3px solid #B45309;color:#0A0A0A;font-size:14.5px;max-width:70ch;}
-.vta-flag b{display:block;font-family:var(--a-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#B45309;margin-bottom:8px;}
+/* ---------- Dòng dẫn nguồn dưới dải số ----------
+   🔴 ĐỪNG GỠ. Không có nó thì "Average rating 4.9" đọc như điểm của CHÍNH SITE NÀY,
+   mà site chưa có một đánh giá nào. Con số là thật nhưng nó nằm trên Shopee. */
+.vta-source{
+  margin-top:16px;font-family:var(--a-mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--a-onDarkMuted);
+}
 
 /* ---------- Hiện dần khi cuộn tới ----------
    🔴 Trạng thái ẩn CHỈ áp dụng khi có `.js-on` — class đó do JS gắn ở dòng đầu
@@ -670,8 +674,8 @@
   <div class="vta-two">
     <div>
       <h2 class="vta-h2 vta-rev">Silence was not absence.</h2>
-      <p class="vta-lead vta-rev">The label went quiet. In April 2026 it returned under new
-      ownership, and said so without decoration.</p>
+      <p class="vta-lead vta-rev">The label went quiet. In April 2026 it came back, and said so
+      without decoration.</p>
     </div>
     <div>
       <div class="vta-quote vta-rev">
@@ -784,12 +788,8 @@
     <div><b data-count="7002">7,002</b><span>On Instagram</span></div>
   </div>
 
-  <div class="vta-flag vta-rev">
-    <b>Quyết định kinh doanh, không phải thiếu dữ liệu</b>
-    Điểm 4.9 và 973 đánh giá là số thật, dẫn nguồn được, nhưng chúng nằm trên Shopee.
-    Hiện ở đây thì xây được niềm tin, đồng thời chỉ cho khách một chỗ khác để mua.
-    Giữ khối này, hoặc xoá cả section 05. Đây là quyết định thương mại, không phải quyết định thiết kế.
-  </div>
+  <p class="vta-source vta-rev">Rating and reviews from the Shopee store &middot; following from
+  Instagram &middot; figures as of August 2026</p>
 
   <p class="vta-said vta-rev" style="margin-top:34px;color:var(--a-onDarkMuted)">
     Based in Saigon &middot; Made in Vietnam &middot;
