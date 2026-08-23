@@ -1,0 +1,376 @@
+<title>Iridescence Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+/* nền site là TRẮNG — trang này commit một tông sáng, không có dark variant */
+:root{
+  --paper:#FFFFFF;
+  --tint:#FAFAFB;
+  --line:#E4E4E8;
+  --line-2:#CFCFD6;
+  --ink:#0E0E11;
+  --body:#55555F;
+  --dim:#8D8D97;
+  --violet:#6B3FE4;
+
+  --f-ui:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --pad:clamp(20px,5vw,64px);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--f-ui);font-size:16px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{margin:0;text-wrap:balance;letter-spacing:-.025em}
+p{margin:0}
+code{font-family:var(--f-mono);font-size:.92em;background:var(--tint);border:1px solid var(--line);padding:1px 5px;border-radius:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 var(--pad)}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.17em;text-transform:uppercase;color:var(--dim)}
+
+/* ── masthead ─────────────────────────── */
+.masthead{padding:clamp(52px,9vh,104px) 0 clamp(36px,6vh,64px)}
+.masthead h1{font-size:clamp(36px,6.4vw,68px);font-weight:800;line-height:1.04;margin:16px 0 0;max-width:17ch}
+.masthead h1 em{font-style:normal;color:var(--violet)}
+.lede{margin-top:20px;max-width:62ch;color:var(--body);font-size:clamp(15px,1.5vw,17px)}
+.lede b{color:var(--ink);font-weight:600}
+.rev{
+  margin-top:28px;border-left:2px solid var(--violet);padding:2px 0 2px 18px;
+  max-width:62ch;font-size:14.5px;color:var(--body);
+}
+.rev b{color:var(--ink);font-weight:600}
+
+/* ── section frame ────────────────────── */
+.sec{padding:clamp(44px,7vh,80px) 0;border-top:1px solid var(--line)}
+.sec>.wrap>h2{font-size:clamp(24px,3.4vw,36px);font-weight:800;max-width:22ch;margin-top:14px}
+.sec>.wrap>.say{margin-top:16px;max-width:64ch;color:var(--body);font-size:15.5px}
+.say b{color:var(--ink);font-weight:600}
+
+/* ── iridescent surfaces ──────────────── */
+.band{
+  position:relative;overflow:hidden;margin-top:32px;
+  height:clamp(200px,34vh,300px);border:1px solid var(--line);
+  background:#fff;contain:paint;
+}
+.band>i{position:absolute;inset:-25%;display:block;will-change:transform}
+.band canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.band.idle>i{animation-play-state:paused!important}
+.band figcaption{
+  position:absolute;left:16px;bottom:14px;z-index:5;
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  background:rgba(255,255,255,.86);backdrop-filter:blur(6px);
+  border:1px solid var(--line-2);padding:5px 10px;color:var(--ink);
+}
+
+/* pearlescent stack — pastel vì nền trắng */
+.p1{
+  background:
+    radial-gradient(44% 56% at 24% 30%,rgba(150,120,255,.72),transparent 62%),
+    radial-gradient(50% 46% at 76% 38%,rgba(90,225,215,.62),transparent 64%),
+    radial-gradient(42% 50% at 60% 76%,rgba(255,140,205,.55),transparent 62%),
+    radial-gradient(58% 58% at 10% 86%,rgba(120,170,255,.60),transparent 66%);
+  filter:blur(30px) saturate(1.05);
+}
+
+/* ── the demo that answers the question ─ */
+.pair{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:32px;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.pair>figure{margin:0;background:#fff;padding:0}
+.pair .box{position:relative;height:clamp(180px,28vh,240px);overflow:hidden;contain:paint;background:#fff}
+.pair .box>i{position:absolute;inset:-40%;display:block;will-change:transform}
+.pair.idle .box>i{animation-play-state:paused!important}
+.pair .cap{padding:16px 20px;border-top:1px solid var(--line)}
+.pair .cap h3{font-size:14.5px;font-weight:600}
+.pair .cap p{margin-top:6px;font-size:13.5px;color:var(--body)}
+.pair .cap .t{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px}
+.t.bad{color:#C2413A}
+.t.good{color:#18857A}
+
+.stripe{
+  background:repeating-linear-gradient(102deg,
+    rgba(255,255,255,0) 0px, rgba(150,120,255,.62) 40px, rgba(90,225,215,.55) 84px,
+    rgba(255,255,255,0) 124px, rgba(255,140,205,.5) 168px, rgba(120,170,255,.55) 214px,
+    rgba(255,255,255,0) 258px);
+  filter:blur(22px) saturate(1.05);
+}
+/* CÓ TRẬT TỰ — một animation tuyến tính, lặp thấy rõ sau 14s */
+.periodic{animation:slideA 14s linear infinite}
+/* KHÔNG TRẬT TỰ — 4 chu kỳ nguyên tố, không chia hết nhau */
+.aperiodic{animation:slideA 17s linear infinite, driftB 23s ease-in-out infinite alternate,
+                     warpC 31s ease-in-out infinite alternate, tiltD 41s ease-in-out infinite alternate}
+@keyframes slideA{to{translate:-258px 0}}
+@keyframes driftB{from{scale:1 1}to{scale:1.28 1.1}}
+@keyframes warpC{from{rotate:-5deg}to{rotate:7deg}}
+@keyframes tiltD{from{filter:blur(22px) saturate(1.05) hue-rotate(0deg)}
+                 to  {filter:blur(34px) saturate(1.25) hue-rotate(38deg)}}
+
+/* ── applied: product card ────────────── */
+.shelf{display:grid;gap:22px;margin-top:32px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.card{position:relative;border:1px solid var(--line);background:#fff;overflow:hidden;contain:paint}
+.card .art{position:relative;aspect-ratio:1;overflow:hidden;background:#fff}
+.card .art>i{position:absolute;inset:-40%;display:block;opacity:0;transition:opacity .5s ease}
+.card:hover .art>i,.card:focus-within .art>i{opacity:1}
+.card .tee{
+  position:absolute;inset:0;display:grid;place-items:center;z-index:2;
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.2em;color:var(--dim);
+}
+.card .info{padding:14px 16px 16px;border-top:1px solid var(--line);position:relative;z-index:3;background:#fff}
+.card .info h3{font-size:14px;font-weight:600}
+.card .info p{margin-top:4px;font-family:var(--f-mono);font-size:13px;color:var(--body)}
+.badge{
+  position:absolute;top:10px;right:10px;z-index:4;overflow:hidden;
+  font-family:var(--f-mono);font-size:9.5px;letter-spacing:.16em;
+  padding:5px 9px;color:#fff;border-radius:1px;
+}
+.badge>i{position:absolute;inset:-60%;z-index:-1;display:block;
+  background:conic-gradient(from 0deg,#6B3FE4,#18B5A8,#0E0E11,#D9439B,#3F6BE4,#18B5A8,#0E0E11,#6B3FE4);
+  filter:blur(7px);animation:spinE 19s linear infinite, breatheF 29s ease-in-out infinite alternate}
+@keyframes spinE{to{rotate:360deg}}
+@keyframes breatheF{from{scale:1}to{scale:1.5}}
+
+/* ── verdict table ────────────────────── */
+.grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:32px;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.grid>div{background:#fff;padding:22px}
+.grid .where{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:9px;color:var(--violet)}
+.grid .where.no{color:var(--dim)}
+.grid h3{font-size:14.5px;font-weight:600}
+.grid p{margin-top:7px;font-size:13.5px;color:var(--body)}
+
+/* ── controls ─────────────────────────── */
+.controls{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.9);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.controls .wrap{display:flex;justify-content:space-between;align-items:center;
+  gap:14px;padding-top:11px;padding-bottom:11px;flex-wrap:wrap}
+button{font-family:var(--f-mono);font-size:12px;letter-spacing:.05em;background:#fff;color:var(--ink);
+  border:1px solid var(--line-2);border-radius:2px;padding:8px 15px;cursor:pointer;
+  transition:border-color .15s,color .15s}
+button:hover{border-color:var(--violet);color:var(--violet)}
+button:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+
+footer{border-top:1px solid var(--line);padding:26px 0 52px;font-family:var(--f-mono);font-size:11.5px;color:var(--dim)}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="masthead wrap">
+  <p class="eyebrow">Vitalité — Nghiên cứu chuyển động · bản 2</p>
+  <h1>Iridescence trên nền <em>trắng</em></h1>
+  <p class="lede">
+    Nền toàn site là trắng — để tôn sản phẩm, đúng chuẩn site fashion. Điều đó
+    <b>đổi bản chất hiệu ứng</b>, không phải chỉ đổi màu. Và cái quyết định
+    không phải kỹ thuật nào, mà là <b>chuyển động không có trật tự</b>.
+  </p>
+  <div class="rev">
+    <p><b>Sửa từ bản 1:</b> bản trước dựng iridescence làm <b>nền tối full-bleed</b> — sai tiền đề.
+    Trên nền trắng nó không còn là nền được nữa; nó phải là <b>phần tử có giới hạn</b>.</p>
+  </div>
+</header>
+
+<div class="controls"><div class="wrap">
+  <span class="eyebrow">Điều khiển</span>
+  <button id="toggle" aria-pressed="true">⏸ Dừng chuyển động</button>
+</div></div>
+
+<!-- 1 ── đổi bản chất ─────────────────── -->
+<section class="sec"><div class="wrap">
+  <p class="eyebrow">Thứ nhất</p>
+  <h2>Trên trắng, nó không còn là oil slick</h2>
+  <p class="say">
+    Cùng một hiện tượng vật lý, đổi nền là đổi tên. Trên đen là <b>oil slick</b> — váng dầu,
+    tối, bão hoà, kịch. Trên trắng là <b>pearlescent</b> — xà cừ, bong bóng xà phòng, vỏ sò.
+    Sáng hơn, pastel hơn, và <b>phải nhạt hơn nhiều</b> thì mới không nuốt mất sản phẩm đứng cạnh.
+    Đẩy bão hoà lên cho "giống ảnh IG" là chính xác cái làm hỏng nền trắng.
+  </p>
+  <figure class="band">
+    <canvas id="oil" aria-label="Bề mặt pearlescent dựng bằng canvas"></canvas>
+    <figcaption>Canvas nhiễu domain-warp · bảng màu pearlescent · ~2 KB</figcaption>
+  </figure>
+</div></section>
+
+<!-- 2 ── câu trả lời chính ────────────── -->
+<section class="sec"><div class="wrap">
+  <p class="eyebrow">Thứ hai — trả lời trực tiếp câu hỏi</p>
+  <h2>Satin và sweep “lộn xộn” được, không cần canvas</h2>
+  <p class="say">
+    Bản 1 để satin và sweep chạy <b>một animation tuyến tính duy nhất</b> — nên chúng lặp thấy rõ.
+    Đó là lỗi thiết kế, không phải giới hạn kỹ thuật. Cách sửa: chồng nhiều animation với
+    <b>chu kỳ là số nguyên tố không chia hết nhau</b> — 17s · 23s · 31s · 41s.
+    Tổ hợp chỉ lặp lại sau <b>17×23×31×41 giây ≈ 5,7 ngày</b>. Mắt người đọc đó là ngẫu nhiên.
+  </p>
+  <div class="pair" id="pair">
+    <figure>
+      <div class="box"><i class="stripe periodic"></i></div>
+      <div class="cap">
+        <p class="t bad">Có trật tự — 1 animation 14s</p>
+        <h3>Nhìn 20 giây là thấy nó lặp</h3>
+        <p>Trượt đều một hướng. Não bắt được nhịp, và một khi bắt được thì hết thú vị.</p>
+      </div>
+    </figure>
+    <figure>
+      <div class="box"><i class="stripe aperiodic"></i></div>
+      <div class="cap">
+        <p class="t good">Không trật tự — 17 · 23 · 31 · 41s</p>
+        <h3>Trượt + giãn + xoay + đổi hue, lệch pha</h3>
+        <p>Vẫn 0 KB, vẫn chạy trên GPU. Rẻ như bản periodic, mà không bắt được nhịp.</p>
+      </div>
+    </figure>
+  </div>
+  <p class="say" style="margin-top:24px">
+    <b>Nên:</b> canvas oil slick cho texture nhiễu thật; CSS nguyên tố cho mọi chỗ còn lại.
+    Chênh lệch chất lượng nhỏ hơn nhiều so với chênh lệch chi phí.
+  </p>
+</div></section>
+
+<!-- 3 ── áp dụng ─────────────────────── -->
+<section class="sec"><div class="wrap">
+  <p class="eyebrow">Thứ ba</p>
+  <h2>Hình dạng đúng của nó trên site nền trắng</h2>
+  <p class="say">
+    Không phải một lớp nền. Là <b>vài bề mặt nhỏ</b> — badge, hover thẻ sản phẩm, một band
+    ngăn giữa các section. Sản phẩm vẫn đứng trên trắng. <b>Rê chuột vào thẻ để xem.</b>
+  </p>
+  <div class="shelf" id="shelf">
+    <article class="card" tabindex="0">
+      <div class="art"><i class="stripe aperiodic"></i><span class="tee">MOCKUP 1:1</span></div>
+      <span class="badge">NEW<i></i></span>
+      <div class="info"><h3>'The Iconic' T-Shirt — Black</h3><p>[giá thật · chưa chốt]</p></div>
+    </article>
+    <article class="card" tabindex="0">
+      <div class="art"><i class="p1 aperiodic"></i><span class="tee">MOCKUP 1:1</span></div>
+      <div class="info"><h3>'The Iconic' T-Shirt — White</h3><p>[giá thật · chưa chốt]</p></div>
+    </article>
+    <article class="card" tabindex="0">
+      <div class="art"><i class="stripe aperiodic"></i><span class="tee">MOCKUP 1:1</span></div>
+      <div class="info"><h3>'The Moments' Boxy Hoodie — Grey</h3><p>[giá thật · chưa chốt]</p></div>
+    </article>
+  </div>
+  <p class="say" style="margin-top:22px">
+    Ở site thật, ảnh mockup nằm đè lên lớp iridescent và lớp đó chỉ hiện khi hover —
+    nên nó <b>không bao giờ tranh chú ý với sản phẩm ở trạng thái nghỉ</b>.
+  </p>
+</div></section>
+
+<!-- 4 ── đặt ở đâu ───────────────────── -->
+<section class="sec"><div class="wrap">
+  <p class="eyebrow">Kết luận</p>
+  <h2>Đặt ở đâu, và tại sao không đặt ở đâu</h2>
+  <div class="grid">
+    <div><p class="where">Nên</p><h3>Band ngăn giữa section</h3>
+      <p>Một dải cao 200–300px giữa hai khối nội dung. Đủ để nhận ra chất brand, không chiếm chỗ sản phẩm.</p></div>
+    <div><p class="where">Nên</p><h3>Badge và hover thẻ</h3>
+      <p>Diện tích nhỏ nên chi phí gần bằng không, mà xuất hiện lặp lại khắp site — nhận diện tốt hơn một khối lớn dùng một lần.</p></div>
+    <div><p class="where">Nên</p><h3>Trang About / Collection</h3>
+      <p>Ít traffic, không có lưới sản phẩm tranh chú ý. Chỗ duy nhất nên dùng bản canvas.</p></div>
+    <div><p class="where no">Không</p><h3>Hero trang chủ</h3>
+      <p>Đã có video MP4. Hai nguồn chuyển động cùng lúc là tranh nhau, không phải cộng hưởng.</p></div>
+    <div><p class="where no">Không</p><h3>Nền lưới shop</h3>
+      <p>Làm ảnh sản phẩm khó đọc, và cộng chi phí vẽ vào đúng trang nặng nhất.</p></div>
+    <div><p class="where no">Không</p><h3>PDP</h3>
+      <p>Trang phải quyết định mua. Mọi chuyển động không phải ảnh sản phẩm đều là nhiễu.</p></div>
+  </div>
+  <div class="rev" style="margin-top:34px">
+    <p><b>Màu ở đây chưa phải màu thật.</b> Tím · lam · lục là suy từ ảnh IG thời kỳ mới,
+    đã kéo nhạt xuống cho hợp nền trắng. Brand đưa mã hex chính thức thì đổi
+    <b>một khối gradient</b> là xong — cấu trúc không phụ thuộc màu.</p>
+  </div>
+</div></section>
+
+<footer class="wrap">Prototype · chưa vào <code>vitalite-theme</code> · bản 2 — nền trắng, chuyển động phi chu kỳ</footer>
+
+<script>
+(function(){
+  'use strict';
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── canvas pearlescent ─────────────── */
+  var cv = document.getElementById('oil'), W = 168, H = 94;
+  cv.width = W; cv.height = H;
+  cv.style.filter = 'blur(13px) saturate(1.06)';
+  cv.style.transform = 'scale(1.13)';
+  var ctx = cv.getContext('2d', {alpha:false});
+  var img = ctx.createImageData(W,H), d = img.data;
+
+  var P = new Uint8Array(512);
+  (function(){ var s = 20260819;
+    for (var i=0;i<256;i++){ s = (s*1103515245 + 12345) & 0x7fffffff; P[i] = s & 255; }
+    for (var j=0;j<256;j++) P[256+j] = P[j];
+  })();
+  function fade(t){ return t*t*(3-2*t); }
+  function vn(x,y){
+    var xi = Math.floor(x)&255, yi = Math.floor(y)&255;
+    var xf = x-Math.floor(x), yf = y-Math.floor(y);
+    var u = fade(xf), v = fade(yf);
+    var aa = P[P[xi]+yi], ba = P[P[xi+1]+yi], ab = P[P[xi]+yi+1], bb = P[P[xi+1]+yi+1];
+    var x1 = aa+u*(ba-aa), x2 = ab+u*(bb-ab);
+    return (x1+v*(x2-x1))/255;
+  }
+  function fbm(x,y){ return vn(x,y)*.55 + vn(x*2.1,y*2.1)*.28 + vn(x*4.3,y*4.3)*.17; }
+
+  /* pearlescent: biên độ thấp quanh trắng — KHÔNG bão hoà như bản trên nền đen */
+  var c = [0,0,0];
+  function pal(t){
+    c[0] = 236 + 19*Math.cos(6.28318*(t + .00));
+    c[1] = 232 + 21*Math.cos(6.28318*(t + .35));
+    c[2] = 244 + 11*Math.cos(6.28318*(t + .66));
+  }
+  function draw(ms){
+    var t = ms*0.00005, i = 0;
+    for (var y=0;y<H;y++){
+      var ny = y*.038;
+      for (var x=0;x<W;x++){
+        var nx = x*.038;
+        var wx = fbm(nx+t, ny-t*.6);
+        var wy = fbm(nx+3.2-t*.4, ny+1.7+t*.8);
+        var v  = fbm(nx+3.6*wx, ny+3.6*wy);
+        pal(v*1.4 + t*2.1);
+        var hl = Math.pow(Math.max(0, wx-wy+.44),3)*70;   /* highlight nếp gấp, nhẹ */
+        d[i++] = Math.min(255, c[0]+hl);
+        d[i++] = Math.min(255, c[1]+hl);
+        d[i++] = Math.min(255, c[2]+hl);
+        d[i++] = 255;
+      }
+    }
+    ctx.putImageData(img,0,0);
+  }
+
+  var run = !reduce, vis = false, raf = null, last = 0, clock = 0;
+  function loop(now){
+    raf = requestAnimationFrame(loop);
+    if (now-last < 41) return;                 /* ~24fps */
+    clock += now-last; last = now; draw(clock);
+  }
+  function start(){ if (raf===null && run && vis){ last = performance.now(); raf = requestAnimationFrame(loop); } }
+  function stop(){ if (raf!==null){ cancelAnimationFrame(raf); raf = null; } }
+  draw(0);                                     /* khung tĩnh, luôn có */
+
+  /* ── chỉ chạy thứ đang trong màn hình ─ */
+  var animated = document.querySelectorAll('.band, .pair, .shelf');
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        e.target.classList.toggle('idle', !e.isIntersecting);
+        if (e.target === cv.parentNode){ vis = e.isIntersecting; vis ? start() : stop(); }
+      });
+    }, {rootMargin:'90px'});
+    animated.forEach(function(el){ el.classList.add('idle'); io.observe(el); });
+  } else { vis = true; start(); }
+
+  /* ── play / pause ───────────────────── */
+  var btn = document.getElementById('toggle');
+  function set(on){
+    run = on;
+    document.querySelectorAll('.band>i, .pair i, .shelf i, .badge>i').forEach(function(el){
+      el.style.animationPlayState = on ? '' : 'paused';
+    });
+    on ? start() : stop();
+    btn.setAttribute('aria-pressed', String(on));
+    btn.textContent = on ? '⏸ Dừng chuyển động' : '▶ Chạy chuyển động';
+  }
+  btn.addEventListener('click', function(){ set(!run); });
+  set(!reduce);
+})();
+</script>

@@ -1,0 +1,301 @@
+/* ============================================================
+   VITALITÉ — HEADER TOKEN SYSTEM
+   Thay thế toàn bộ khối <style> trong header-woocommerce.php
+   Enqueue như file riêng, KHÔNG inline.
+
+   IMPLEMENT NOTE: đổi class .vt-scrolled-light → attribute
+   data-theme="light" trong PHP + JS. Attribute mở rộng được
+   (dark ở giữa trang), class thì không.
+   ============================================================ */
+
+/* ---------- 1. TOKEN: DARK MODE (mặc định) ---------- */
+.vt-glass-header {
+  /* Surface */
+  --hdr-bg:            rgba(10, 10, 10, .75);
+  --hdr-border:        rgba(255, 255, 255, .12);
+  --hdr-shine:         inset 0 1px 1px 0 rgba(255, 255, 255, .2);
+  --hdr-shadow:        0 10px 30px -10px rgba(0, 0, 0, .5);
+
+  /* Foreground — hover = TĂNG CONTRAST, không đổi hue */
+  --hdr-fg:            #FFFFFF;
+  --hdr-fg-muted:      rgba(255, 255, 255, .72);
+  --hdr-fg-hover:      #FFFFFF;
+  --hdr-fg-dim:        rgba(255, 255, 255, .40);
+
+  /* Pill / button */
+  --hdr-pill-bg:       rgba(255, 255, 255, .06);
+  --hdr-pill-bg-hover: rgba(255, 255, 255, .14);
+  --hdr-pill-border:   rgba(255, 255, 255, .28);
+
+  /* Icon-button (cart) hover: invert */
+  --hdr-inv-bg:        #FFFFFF;
+  --hdr-inv-fg:        #0A0A0A;
+
+  /* Badge — đỏ giữ nguyên ở cả 2 mode (đây là signal, không phải trang trí)
+     [NEED: mã đỏ chính thức từ BRAND_GUIDELINE] */
+  --hdr-badge-bg:      var(--vt-badge-red, #E0202A);
+  --hdr-badge-fg:      #FFFFFF;
+  --hdr-badge-ring:    rgba(10, 10, 10, .75);
+
+  --hdr-h:             76px;
+}
+
+/* ---------- 2. TOKEN: LIGHT MODE (override TOÀN BỘ) ---------- */
+.vt-glass-header[data-theme="light"] {
+  --hdr-bg:            rgba(244, 244, 244, .85);
+  --hdr-border:        rgba(10, 10, 10, .08);
+  --hdr-shine:         inset 0 1px 0 0 rgba(255, 255, 255, .6);
+  --hdr-shadow:        0 8px 24px rgba(0, 0, 0, .06);
+
+  --hdr-fg:            #0A0A0A;
+  --hdr-fg-muted:      rgba(10, 10, 10, .68);
+  --hdr-fg-hover:      #0A0A0A;
+  --hdr-fg-dim:        rgba(10, 10, 10, .35);
+
+  --hdr-pill-bg:       rgba(10, 10, 10, .04);
+  --hdr-pill-bg-hover: rgba(10, 10, 10, .10);
+  --hdr-pill-border:   rgba(10, 10, 10, .22);
+
+  --hdr-inv-bg:        #0A0A0A;
+  --hdr-inv-fg:        #FFFFFF;
+
+  --hdr-badge-ring:    rgba(244, 244, 244, .85);
+}
+
+/* ---------- 3. SHELL ---------- */
+.vt-glass-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--hdr-h);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  font-family: var(--vt-font-primary, 'Archivo', sans-serif);
+
+  background: var(--hdr-bg);
+  color: var(--hdr-fg);
+  border-bottom: 1px solid var(--hdr-border);
+  box-shadow: var(--hdr-shadow), var(--hdr-shine);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+
+  /* CHỈ transition thuộc tính cần thiết. 'all' gây repaint thừa mỗi frame scroll. */
+  transition: background-color .35s cubic-bezier(.16,1,.3,1),
+              color            .35s cubic-bezier(.16,1,.3,1),
+              border-color     .35s cubic-bezier(.16,1,.3,1),
+              box-shadow       .35s cubic-bezier(.16,1,.3,1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vt-glass-header { transition: none; }
+}
+
+/* ---------- 4. CHỐNG ELEMENTOR / HELLO ELEMENTOR LEAK ----------
+   Nguyên nhân bug "hover thành xanh tối": Elementor Site Settings
+   global link hover color thắng `color: inherit`.
+   Neo mọi trạng thái link về token, đủ specificity để thắng.
+
+   FIX GỐC (nên làm song song): Elementor → Site Settings →
+   set link color / link hover color đúng ở tầng đó. */
+.vt-glass-header a,
+.vt-glass-header a:link,
+.vt-glass-header a:visited,
+.vt-glass-header a:hover,
+.vt-glass-header a:focus,
+.vt-glass-header a:active {
+  color: var(--hdr-fg-muted);
+  text-decoration: none;
+  transition: color .22s ease;
+}
+
+.vt-glass-header a:hover,
+.vt-glass-header a:focus-visible {
+  color: var(--hdr-fg-hover);
+}
+
+.vt-glass-header a:focus-visible {
+  outline: 2px solid var(--hdr-fg);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- 5. LOGO ---------- */
+.vt-header-left { display: flex; align-items: center; gap: 32px; flex: 1 1 auto; min-width: 0; }
+
+.vt-brand-logo,
+.vt-brand-logo:link,
+.vt-brand-logo:visited,
+.vt-brand-logo:hover,
+.vt-brand-logo:active {
+  display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0;
+  color: var(--hdr-fg);
+}
+
+.vt-mark, .vt-wordmark {
+  background: currentColor;
+  transition: opacity .22s ease;
+}
+.vt-mark     { width: 19px;  height: 24px; }
+.vt-wordmark { width: 112px; height: 22px; }
+
+.vt-brand-logo:hover .vt-mark,
+.vt-brand-logo:hover .vt-wordmark { opacity: .72; }
+
+/* ---------- 6. NAV ---------- */
+.vt-nav { display: flex; align-items: center; gap: 26px; list-style: none; margin: 0; padding: 0; }
+
+.vt-glass-header .vt-nav a {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  position: relative;
+  padding: 6px 0;
+}
+
+.vt-glass-header .vt-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 0; height: 1.5px;
+  background: currentColor;
+  transition: width .3s ease;
+}
+
+.vt-glass-header .vt-nav a:hover::after,
+.vt-glass-header .vt-nav a:focus-visible::after,
+.vt-glass-header .vt-nav .current-menu-item > a::after { width: 100%; }
+
+/* ---------- 7. RIGHT CLUSTER + SEARCH/ACCOUNT ĐẬM HƠN ---------- */
+.vt-header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-family: var(--vt-font-mono, 'JetBrains Mono', monospace);
+}
+
+/* FIX: SEARCH / ACCOUNT trước đây quá mảnh.
+   JetBrains Mono 400 @ 11px trên nền blur đọc rất yếu.
+   Lên 600 + 12px + tracking chặt lại (tăng weight mà giữ
+   tracking rộng thì chữ trông rời rạc). */
+.vt-glass-header .vt-util-link {
+  font-family: var(--vt-font-mono, 'JetBrains Mono', monospace);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  position: relative;
+  padding: 6px 0;
+}
+
+.vt-glass-header .vt-util-link::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 0; height: 1.5px;
+  background: currentColor;
+  transition: width .3s ease;
+}
+.vt-glass-header .vt-util-link:hover::after,
+.vt-glass-header .vt-util-link:focus-visible::after { width: 100%; }
+
+/* ---------- 8. LANGUAGE PILL ---------- */
+.vt-lang-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1px solid var(--hdr-pill-border);
+  border-radius: 999px;
+  background: var(--hdr-pill-bg);
+  font-size: 10px;
+  letter-spacing: .14em;
+  transition: background-color .25s ease, border-color .25s ease;
+}
+.vt-lang-pill:hover { background: var(--hdr-pill-bg-hover); }
+
+.vt-lang-sep { color: var(--hdr-fg-dim); }
+
+/* FIX: bản cũ transition font-weight → layout shift, chữ nhảy khi hover.
+   Dùng 1 weight cố định, phân biệt bằng color. */
+.vt-glass-header .vt-lang-item {
+  font-weight: 700;
+  color: var(--hdr-fg-dim);
+  transition: color .2s ease;
+}
+.vt-glass-header .vt-lang-item:hover,
+.vt-glass-header .vt-lang-item.is-active { color: var(--hdr-fg); }
+
+/* ---------- 9. CART ICON + BADGE ---------- */
+.vt-cart {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--hdr-pill-border);
+  background: var(--hdr-pill-bg);
+  transition: background-color .25s ease, border-color .25s ease, color .22s ease;
+}
+
+.vt-glass-header .vt-cart:hover,
+.vt-glass-header .vt-cart:focus-visible {
+  background: var(--hdr-inv-bg);
+  border-color: var(--hdr-inv-bg);
+  color: var(--hdr-inv-fg);
+}
+
+.vt-cart__icon {
+  width: 19px; height: 19px;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Badge: đỏ ở cả 2 mode. Ring màu theo nền header để tách khỏi viền. */
+.vt-cart__count {
+  position: absolute;
+  top: -3px; right: -3px;
+  min-width: 18px; height: 18px;
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--hdr-badge-bg);
+  color: var(--hdr-badge-fg);
+  box-shadow: 0 0 0 2px var(--hdr-badge-ring);
+  font-family: var(--vt-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  transition: box-shadow .35s ease;
+}
+
+/* Giỏ rỗng: ẩn hoàn toàn */
+.vt-cart__count[data-count="0"] { display: none; }
+
+/* Badge KHÔNG đổi màu khi hover — phải luôn đọc được kể cả trên nền invert */
+.vt-glass-header .vt-cart:hover .vt-cart__count {
+  box-shadow: 0 0 0 2px var(--hdr-inv-bg);
+}
+
+/* ---------- 10. MOBILE ---------- */
+@media (max-width: 1024px) {
+  .vt-glass-header { padding: 0 20px; --hdr-h: 64px; }
+  .vt-nav, .vt-lang-pill { display: none; }
+  .vt-glass-header .vt-util-link { font-size: 0; }   /* ẩn chữ, giữ icon nếu có */
+}
+
+@media (max-width: 640px) {
+  .vt-header-right { gap: 12px; }
+  .vt-cart { width: 38px; height: 38px; }
+}

@@ -1,0 +1,63 @@
+═══════════════════════════════════════════════════════════════
+VITALITÉ SCROLL SEQUENCE — CAMERA ORBIT & ITEM-FOCUS (100% SẢN PHẨM THẬT)
+═══════════════════════════════════════════════════════════════
+
+Ý TƯỞNG ĐẠO DIỄN:
+Nhân vật đứng yên điềm tĩnh trong không gian kiến trúc Brutalist tối giản.
+Camera bắt đầu từ TOÀN THÂN Ở XA (Wide Shot) → ZOOM VÀO & LƯỢN VÒNG QUANH NGƯỜI (Orbit & Pan)
+khám phá từng item theo thứ tự từ trên xuống dưới và từ trước ra sau:
+  1. Mặt & Kính râm đen (Góc cận thần thái)
+  2. Ngực áo thêu chữ 'vitalité' đen & chất vải nỉ bông 500+ GSM
+  3. Lượn ra sau lưng lộ câu slogan thật: "IT'S THE ONLY MOMENT THAT MATTERS."
+  4. Quần suông ống rộng & Giày bốt đen.
+
+Khi khách cuộn trang trên web, thanh cuộn sẽ điều khiển góc camera lượn 360 độ quanh người cực kỳ mượt mà và sang trọng!
+
+───────────────────────────────────────────────────────────────
+SẢN PHẨM THẬT SỬ DỤNG (ĐÃ ĐÍNH KÈM TRONG THƯ MỤC):
+• Áo trên: 'The Moments' Boxy Hoodie màu xám khói (Heather Grey) — 500+ GSM
+  - Mặt trước: chữ thêu 'vitalité' đen nhỏ bên ngực trái (xem file ref-product-front.png)
+  - Mặt sau: typo đen "IT'S THE ONLY MOMENT THAT MATTERS." ở hông trái (xem file ref-product-back.png)
+  - Phom: Ultra-boxy cropped fit, mũ trùm 2 lớp đứng phom.
+• Quần dưới: Quần tây ống rộng dệt thô màu đen (Tailored Wide-Leg Trousers).
+• Phụ kiện: Kính râm đen mắt chữ nhật (Black Acetate Sunglasses).
+
+───────────────────────────────────────────────────────────────
+BƯỚC 1: TẠO ẢNH BẮT ĐẦU (START FRAME - WIDE FULL-BODY)
+Nếu bạn dùng Midjourney / Flux / Imagen để sinh ảnh Start Frame:
+
+Prompt sinh ảnh Start Frame:
+"Full-body high-fashion editorial photograph of a 24yo stylish male model wearing sleek black rectangular sunglasses, standing perfectly still in a vast dark brutalist concrete architectural hall with a single vertical sunbeam from above. He is wearing the authentic Vitalite 'The Moments' light heather grey heavyweight cropped boxy hoodie with black 'vitalite' embroidery on left chest, paired with wide-leg black tailored trousers and chunky black leather boots. Ultra-sharp 8k, tactile 500+ GSM cotton fleece, cinematic chiaroscuro lighting, 35mm film aesthetic --ar 3:4"
+
+───────────────────────────────────────────────────────────────
+BƯỚC 2: PROMPT SINH 2 SHOT LIỀN MẠCH (16:9 CINEMATIC 4K WIDESCREEN)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎬 SHOT 01: PUSH-IN TỪ TOÀN THÂN 16:9 ĐẾN CẬN CẢNH NGỰC (4 Giây)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Start Frame (First Frame):
+  model-profile-16x9/01-fullbody-wide-16x9.jpg
+• End Frame (Last Frame):
+  model-profile-16x9/02-chest-closeup-16x9.jpg
+
+• Prompt Video Shot 01:
+"16:9 ultra-wide cinematic camera push-in / slow dolly forward in 4k 60fps. The stylish 24yo male model stands perfectly still in the center of the vast brutalist concrete hall with vertical ceiling light beams. The camera smoothly glides straight in from the wide full-body shot to a medium close-up of his upper chest and face, locking crisp focus on his black rectangular sunglasses and the sharp black 'vitalite' embroidered logo on his light heather grey boxy hoodie. Cinematic slow-motion, anamorphic lens depth, seamless fluid forward motion."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎬 SHOT 02: 16:9 ORBIT 180° QUANH MODEL VỚI HIỆU ỨNG PARALLAX KHÔNG GIAN (4 Giây)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Start Frame (First Frame):
+  model-profile-16x9/02-chest-closeup-16x9.jpg
+• End Frame (Last Frame):
+  model-profile-16x9/03-back-slogan-16x9.jpg
+
+• Prompt Video Shot 02:
+"16:9 ultra-wide cinematic 180-degree camera orbit in 4k 60fps. The male model stands completely stationary in the center of the hall. The camera smoothly orbits in a continuous circular arc around his right shoulder to his back, pulling back into a wide cinematic frame. As the camera rotates 180 degrees, the background dynamically transitions with authentic 3D spatial parallax, revealing the massive monolithic dark concrete wall behind him featuring sleek, ultra-minimalist matte-black steel 3D lettering 'vitalite' mounted on the raw concrete with subtle natural drop shadows. The camera locks onto his back, showcasing the bold black typography 'IT'S THE ONLY MOMENT THAT MATTERS.' on his cropped grey hoodie. Ultra-smooth camera trajectory, high-end luxury fashion commercial."
+
+───────────────────────────────────────────────────────────────
+BƯỚC 3: CẮT FRAME CHO WEB (KHI ĐÃ CÓ FILE VIDEO MP4)
+1. Đặt video bạn vừa tải về vào: deliverables/scroll-sequence/orbit_showcase.mp4
+2. Chạy lệnh:
+   cd "e:\Vitalite website"
+   python deliverables/scroll-sequence/make-frames.py deliverables/scroll-sequence/orbit_showcase.mp4 orbit_showcase 32 900
+3. Đổi tên chuỗi trong _preview.html thành 'orbit_showcase' để xem trực tiếp!

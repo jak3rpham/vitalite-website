@@ -1,0 +1,10 @@
+{
+  "name": "harmony_in_chaos",
+  "count": 32,
+  "width": 900,
+  "quality": 75,
+  "source_duration_s": 4.0,
+  "total_kb": 1218.8,
+  "largest_frame_kb": 44.8,
+  "pattern": "%03d.webp"
+}

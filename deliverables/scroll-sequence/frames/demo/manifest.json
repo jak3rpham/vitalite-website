@@ -1,0 +1,10 @@
+{
+  "name": "demo",
+  "count": 32,
+  "width": 900,
+  "quality": 72,
+  "source_duration_s": 4.0,
+  "total_kb": 75.4,
+  "largest_frame_kb": 2.4,
+  "pattern": "%03d.webp"
+}
