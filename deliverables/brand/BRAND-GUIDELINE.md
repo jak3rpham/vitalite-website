@@ -2,6 +2,9 @@
 
 **Phiên bản:** 1.0 · **Ngày:** 2026-08-27 · **Phạm vi:** website `vitalite.io.vn`
 
+> Bản markdown này dùng được. Bản **PDF trình bày** (`VITALITE-Brand-Guideline.pdf`) thì
+> **chưa được user duyệt** — xem ghi chú ở `README.md` trong cùng thư mục.
+
 ---
 
 ## 0. Cách đọc file này

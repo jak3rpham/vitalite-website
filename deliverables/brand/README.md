@@ -2,6 +2,10 @@
 
 **Tạo:** 2026-08-27
 
+> 🔴 **Bản PDF v1 CHƯA ĐƯỢC DUYỆT.** User xem ngày 27/08 và trả lời *"chưa được đâu"*,
+> nhưng bảo cứ đẩy lên git. Nó nằm trong repo để có mốc so sánh, **không phải để gửi brand**.
+> Chưa có ghi chú cụ thể hỏng chỗ nào. Đừng gửi bản này đi khi chưa hỏi lại user.
+
 ---
 
 ## Ba file, ba việc
@@ -10,9 +14,33 @@
 |---|---|---|
 | `tokens.css` | **Giá trị.** 45 token màu, chữ, khoảng cách | Máy: 3 script sinh trang đều đọc từ đây |
 | `BRAND-GUIDELINE.md` | **Lý do.** Vì sao mỗi màu tồn tại, dùng vào đâu, cấm gì | Người |
-| `guideline.html` | **Bảng xem.** Ô màu, thang chữ, lưới logo, tỷ lệ tương phản | Người, mở bằng trình duyệt |
+| `guideline.html` | **Bảng tra nội bộ.** Ô màu, thang chữ, lưới logo, tỷ lệ tương phản | Người, mở bằng trình duyệt |
+| `VITALITE-Brand-Guideline.pdf` | **Bản trình bày cho brand.** 16 trang A4 ngang, hình là chính | Đưa cho brand |
+| `guideline-print.html` | Nguồn của bản PDF trên | Máy |
+| `assets/` | Ảnh cắt sẵn cho bản in, sinh tự động | Máy |
 
-`guideline.html` **sinh tự động** từ `tokens.css`. Không sửa tay.
+`guideline.html` và bản PDF đều **sinh tự động** từ `tokens.css`. Không sửa tay file nào trong số đó.
+
+## Bản PDF cho brand
+
+```bash
+cd "E:\Vitalite website"; python docs/make-guideline-pdf.py
+```
+
+16 trang A4 ngang, 2,6 MB. Render bằng Chrome headless, script tự dò Chrome hoặc Edge.
+Không có trình duyệt thì nó vẫn ghi `guideline-print.html` ra, mở rồi Ctrl+P > Save as PDF
+cũng ra đúng bản đó.
+
+Khác nhau giữa hai bản:
+
+| | `guideline.html` | bản PDF |
+|---|---|---|
+| Cho ai | nội bộ, người dựng site | brand |
+| Dạng | cuộn dọc, dày chữ, tra cứu | 16 trang, hình là chính |
+| Giọng | thẳng, nêu cả lỗi kỹ thuật | trình bày, nêu cái brand cần quyết |
+
+Ba ảnh trong `assets/` (`e-20`, `e-21`, `wordmark-trim`) **sinh lúc build** bằng Pillow,
+cắt từ file logo gốc. Đừng sửa tay, chạy lại script là chúng bị ghi đè.
 
 ---
 
