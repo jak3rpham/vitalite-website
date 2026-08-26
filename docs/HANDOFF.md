@@ -438,9 +438,13 @@ Luôn đặt `PYTHONIOENCODING=utf-8` trước lệnh python nào có in tiếng
 
 - [x] ~~Gỡ 93MB video khỏi lịch sử git~~ ✅ **XONG 21/08.** Remote đã sạch, `.git` 121MB → 5,5MB
 - [x] ~~Đưa docs/deliverables lên git~~ ✅ **XONG 23/08.** `.git` chuyển lên gốc project,
-      **355 file** trên remote (trước là 68), `.git` 5,6MB → 34MB. Video master vẫn ngoài git
-      (`_not-in-theme/` 115MB, `0823.mov` 32MB) — đi Drive như cũ. 96 frame WebP thì CÓ commit
-      (11MB, user quyết) để clone về là trang About chạy được ngay
+      `.git` 5,6MB → 34MB
+- [x] ~~Đồng bộ nốt video master~~ ✅ **XONG 27/08.** User quyết đẩy hết, không giữ gì ngoài git.
+      **396 file** trên remote (khởi điểm 68), `.git` 34MB → **188MB**.
+      🔴 `260417_VTL_PROMO_02.mp4` nặng **60,2MB**, GitHub cảnh báo mỗi lần push (giới hạn cứng
+      100MB nên vẫn qua). Blob nhị phân trong lịch sử là **vĩnh viễn**: muốn gỡ phải viết đè
+      lịch sử và force-push, đúng cái đã phải làm hồi tháng 8.
+      Cân nhắc **Git LFS** nếu còn thêm video master nữa
 - [x] ~~Hero video không vào git~~ ✅ **XONG 23/08.** Negation trong `.gitignore` trỏ tên thư mục
       theme cũ từ commit `65aed7d`, `*.mp4` nuốt mất `hero-1280.mp4` + `.webm` (3,9MB) mà không
       báo gì. Đổi sang `vitalite-theme/*/video/` để lần đổi tên sau không tái phát
