@@ -17,13 +17,13 @@ Desktop.ini
 # là site chạy được ngay. Master gốc chuyển máy bằng Drive/USB, không qua git.
 #
 # Thư mục master nằm ngoài theme, không bao giờ commit:
-_not-in-theme/
+# _not-in-theme/   # user quyet 27/08: day het len git
 
-*.mov
-*.avi
-*.mkv
-*.mp4
-*.webm
+# *.mov   # user quyet 27/08: day het len git
+# *.avi   # user quyet 27/08: day het len git
+# *.mkv   # user quyet 27/08: day het len git
+# *.mp4   # user quyet 27/08: day het len git
+# *.webm   # user quyet 27/08: day het len git
 # Video hero đã nén (2,3MB + 1,6MB) — TRACK.
 #
 # 🔴 Bốn dòng dưới đây từng trỏ vào `vitalite-theme/vitalite-theme/video/`.

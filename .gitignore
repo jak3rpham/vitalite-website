@@ -28,24 +28,28 @@ Desktop.ini
 __pycache__/
 *.pyc
 
-# --- Media master: KHÔNG commit ---
-# Luật cũ của repo, giữ nguyên: file gốc nặng chuyển bằng Drive/USB, không qua git.
-# Tháng 8/2026 đã phải gỡ 93MB video khỏi lịch sử một lần. Đừng lặp lại.
+# --- Media master ---
 #
-# Cụ thể đang bị loại:
-#   repo/vitalite-website/_not-in-theme/video-masters/   115 MB
-#   deliverables/scroll-sequence/0823.mov                 32 MB  ← nguồn của 96 frame
-#   deliverables/scroll-sequence/harmony_in_chaos.mp4    1,4 MB
+# 🔴 USER QUYẾT 27/08: ĐẨY TẤT CẢ LÊN GIT, kể cả video master.
 #
-# 🔴 96 frame WebP trong deliverables/scroll-sequence/frames/0823/ thì CÓ commit
-# (11 MB) — user quyết 23/08, để clone về máy khác là trang About chạy được ngay.
-# Chúng là .webp nên không dính luật dưới đây.
-_not-in-theme/
-*.mov
-*.avi
-*.mkv
-*.mp4
-*.webm
+# Trước ngày này, luật là "file gốc nặng đi Drive/USB, không qua git", và tháng
+# 8/2026 đã phải gỡ 93MB video khỏi lịch sử một lần. User biết chuyện đó và vẫn
+# chọn đẩy hết, để clone về máy nào cũng có đủ file gốc.
+#
+# Cái giá, ghi lại để sau này không ai ngạc nhiên:
+#   .git đi từ ~34 MB lên ~190 MB. Mỗi lần clone tải cả từng đó.
+#   260417_VTL_PROMO_02.mp4 nặng 60,2 MB — GitHub cảnh báo từ 50 MB.
+#   Blob nhị phân vào lịch sử là VĨNH VIỄN. Muốn gỡ sau thì phải viết đè lịch
+#   sử và force-push, đúng cái đã phải làm hồi tháng 8.
+#
+# Muốn quay lại luật cũ thì bỏ dấu # ở năm dòng dưới, nhưng nhớ là gỡ khỏi
+# .gitignore KHÔNG gỡ được chúng khỏi lịch sử.
+# _not-in-theme/
+# *.mov
+# *.avi
+# *.mkv
+# *.mp4
+# *.webm
 
 # --- Build artifact ---
 node_modules/
