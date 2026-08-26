@@ -75,6 +75,16 @@
   --a-disp:var(--vt-font-display,"Archivo Expanded","Archivo",system-ui,sans-serif);
   --a-gut:clamp(20px,5vw,72px);
   color:var(--a-ink);font-size:16px;line-height:1.7;
+  /* 🔴 FRAGMENT PHẢI TỰ SƠN NỀN, ĐỪNG GỠ.
+     Khối này là một mảnh dán vào trang khác, nên nếu không tự đặt nền thì nó
+     ăn nền của trang chủ nhà. Mở thẳng file .html trong trình duyệt đang bật
+     dark mode là ra nền đen + chữ đen, không đọc được gì. Trên WordPress cũng
+     vỡ y hệt nếu section Elementor chứa nó được đặt nền tối.
+     `color-scheme:light` để ô input, select, scrollbar không bị trình duyệt
+     tự đảo màu ở dark mode. */
+  background:var(--vt-paper,#FFFFFF);
+  color-scheme:light;
+
 }
 .vta *,.vta *::before,.vta *::after{box-sizing:border-box;}
 

@@ -39,6 +39,16 @@
   --c-disp:var(--vt-font-display,"Archivo Expanded","Archivo",system-ui,sans-serif);
   --c-gut:clamp(20px,5vw,72px);
   color:var(--c-ink);font-size:16px;line-height:1.7;
+  /* 🔴 FRAGMENT PHẢI TỰ SƠN NỀN, ĐỪNG GỠ.
+     Khối này là một mảnh dán vào trang khác, nên nếu không tự đặt nền thì nó
+     ăn nền của trang chủ nhà. Mở thẳng file .html trong trình duyệt đang bật
+     dark mode là ra nền đen + chữ đen, không đọc được gì. Trên WordPress cũng
+     vỡ y hệt nếu section Elementor chứa nó được đặt nền tối.
+     `color-scheme:light` để ô input, select, scrollbar không bị trình duyệt
+     tự đảo màu ở dark mode. */
+  background:var(--vt-paper,#FFFFFF);
+  color-scheme:light;
+
 }
 .vwc *,.vwc *::before,.vwc *::after{box-sizing:border-box;}
 :where(.vwc) :where(p,h1,h2,h3,ul,ol,dl,dd,table,form){margin:0;}
@@ -109,7 +119,11 @@
 }
 .vwc .variation dt{font-weight:400;}
 .vwc .variation dd{margin:0;}
-.vwc .variation dd + dt::before{content:"·";margin-right:6px;}
+/* 🔴 Escape Unicode trong `content:`, đừng viết ký tự thẳng.
+   File này là FRAGMENT, không có <meta charset>. Mở thẳng bằng trình duyệt
+   (hoặc qua server không gửi charset) là nó đoán windows-1252 và ký tự UTF-8
+   trong CSS hiện ra thành rác: "·" thành "Â·". Escape thì luôn đúng. */
+.vwc .variation dd + dt::before{content:"\00B7";margin-right:6px;}
 
 /* 🔴 MOBILE: xếp lại thành THẺ DỌC, không phải bảng 6 cột.
    Đo ở 550px trên bản bảng: cột tên sản phẩm chỉ còn 80px, không đọc được.
@@ -207,7 +221,33 @@
 .vwc-empty{border:1px solid var(--c-line);padding:clamp(28px,4vw,52px);text-align:center;}
 .vwc-empty p{font-family:var(--c-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--c-muted);margin-bottom:20px;}
 
-/* Ngăn giữa ba màn trong file preview này. KHÔNG đi vào theme. */
+/* ---------- Giỏ rỗng · Thank you · Đăng nhập ---------- */
+.vwc .cart-empty,.vwc .woocommerce-notice--success{
+  border:1px solid var(--c-ink);padding:clamp(24px,3.4vw,44px);
+  font-family:var(--c-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+}
+.vwc .return-to-shop{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap;}
+
+.vwc .woocommerce-order-overview{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--c-line);
+  border:1px solid var(--c-line);margin-top:clamp(24px,3vw,36px);
+}
+.vwc .woocommerce-order-overview li{
+  background:var(--c-paper);padding:clamp(16px,2vw,24px);
+  font-family:var(--c-mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--c-muted);
+}
+.vwc .woocommerce-order-overview li span{display:block;margin-top:9px;font-size:14px;letter-spacing:.02em;text-transform:none;color:var(--c-ink);}
+@media (max-width:760px){ .vwc .woocommerce-order-overview{grid-template-columns:1fr 1fr;} }
+
+.vwc-cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,64px);align-items:start;}
+@media (max-width:820px){ .vwc-cols{grid-template-columns:1fr;} }
+.vwc-panel{border:1px solid var(--c-line);padding:clamp(20px,2.6vw,32px);}
+.vwc-panel h2{font-family:var(--c-disp);font-weight:800;text-transform:uppercase;font-size:clamp(17px,1.8vw,22px);letter-spacing:-.02em;margin-bottom:20px;}
+.vwc-panel .form-row:last-of-type{margin-bottom:0;}
+.vwc-hint{margin-top:14px;font-size:13.5px;color:var(--c-muted);}
+.vwc-hint a{color:var(--c-ink);}
+
+/* Ngăn giữa các màn trong file preview này. KHÔNG đi vào theme. */
 .vwc-sep{border-top:2px solid var(--c-ink);margin-top:clamp(60px,9vw,120px);}
 </style>
 
@@ -427,7 +467,131 @@
 </div>
 
 <!-- ============================================================
-     MÀN 3 — MY ACCOUNT   (WooCommerce tự render: /my-account)
+     MÀN 3 — GIỎ HÀNG RỖNG   (WooCommerce tự render khi giỏ trống)
+
+     Ai cũng gặp màn này, kể cả khách mới vào bấm nhầm icon giỏ.
+     Nó phải có LỐI RA, không được là ngõ cụt.
+     ============================================================ -->
+<div class="vwc-sep"></div>
+<div class="vwc-wrap">
+  <header class="vwc-head">
+    <p class="vwc-eyebrow">Cart</p>
+    <h1 class="vwc-title">Nothing here yet</h1>
+  </header>
+
+  <p class="cart-empty woocommerce-info">Your cart is currently empty</p>
+  <div class="return-to-shop">
+    <a class="button" href="/shop">Shop all</a>
+    <a class="button button--ghost" href="/collection">Browse collections</a>
+  </div>
+</div>
+
+<!-- ============================================================
+     MÀN 4 — ORDER RECEIVED   (WooCommerce tự render: /checkout/order-received)
+
+     🔴 Đây là màn khách nhìn NGAY SAU KHI trả tiền, và là màn duy nhất chắc
+     chắn được đọc kỹ. Nó phải trả lời ba câu: đơn số mấy, trả bao nhiêu,
+     bao giờ hàng tới. Câu thứ ba hiện CHƯA trả lời được.
+     ============================================================ -->
+<div class="vwc-sep"></div>
+<div class="vwc-wrap">
+  <header class="vwc-head">
+    <p class="vwc-eyebrow">Step 3 of 3</p>
+    <h1 class="vwc-title">Thank you</h1>
+  </header>
+
+  <div class="woocommerce-order">
+    <p class="woocommerce-notice woocommerce-notice--success">Your order has been received</p>
+
+    <ul class="woocommerce-order-overview">
+      <li>Order number<span>12034</span></li>
+      <li>Date<span>24 August 2026</span></li>
+      <li>Total<span>1.159.100&#8363;</span></li>
+      <li>Payment method<span>Bank transfer</span></li>
+    </ul>
+
+    <div class="vwc-flag" style="margin-top:26px">
+      <b>Chưa nói được bao giờ hàng tới</b>
+      Màn này đáng ra phải trả lời <strong>ba câu</strong>: đơn số mấy, trả bao nhiêu, và
+      <strong>bao giờ nhận được</strong>. Hai câu đầu Woo tự điền. Câu thứ ba cần thời gian giao,
+      tức câu <strong>14</strong> và <strong>16</strong> trong <code>CAU-HOI-CHO-BRAND.md</code>.
+      Không có nó thì khách vừa trả tiền xong lại phải đi hỏi, và đó là tin nhắn đầu tiên của
+      mọi đơn hàng.
+    </div>
+
+    <div class="woocommerce-order-details" style="margin-top:clamp(28px,4vw,44px)">
+      <h2 class="vwc-step"><b>Order details</b></h2>
+      <table class="shop_table">
+        <tbody>
+          <tr><td>&#8216;The Moments&#8217; Boxy Hoodie <strong>&times;1</strong></td><td>599.100&#8363;</td></tr>
+          <tr><td>The Iconic Tee <strong>&times;2</strong></td><td>560.000&#8363;</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><th>Subtotal</th><td>1.159.100&#8363;</td></tr>
+          <tr><th>Shipping</th><td>Not configured yet</td></tr>
+          <tr class="order-total"><th>Total</th><td>1.159.100&#8363;</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="return-to-shop" style="margin-top:28px">
+      <a class="button button--ghost" href="/shop">Keep shopping</a>
+      <a class="button button--ghost" href="/contact">Contact us</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MÀN 5 — LOGIN / REGISTER   (Woo render ở /my-account khi chưa đăng nhập)
+
+     Header đã có icon tài khoản trỏ tới đây (`vt_account_url()` trong
+     template-parts/site-header.php), nên màn này chắc chắn có người vào.
+     ============================================================ -->
+<div class="vwc-sep"></div>
+<div class="vwc-wrap">
+  <header class="vwc-head">
+    <p class="vwc-eyebrow">Account</p>
+    <h1 class="vwc-title">Sign in</h1>
+  </header>
+
+  <div class="vwc-cols" id="customer_login">
+    <div class="vwc-panel u-column1 col-1">
+      <h2>Login</h2>
+      <form class="woocommerce-form woocommerce-form-login login">
+        <div class="form-row">
+          <label for="username">Email <abbr class="required">*</abbr></label>
+          <input type="email" id="username" name="username">
+        </div>
+        <div class="form-row">
+          <label for="password">Password <abbr class="required">*</abbr></label>
+          <input type="password" id="password" name="password">
+        </div>
+        <div class="form-row"><button type="button" class="button">Log in</button></div>
+        <p class="vwc-hint"><a href="/my-account/lost-password">Lost your password?</a></p>
+      </form>
+    </div>
+
+    <div class="vwc-panel u-column2 col-2">
+      <h2>Register</h2>
+      <form class="woocommerce-form woocommerce-form-register register">
+        <div class="form-row">
+          <label for="reg_email">Email <abbr class="required">*</abbr></label>
+          <input type="email" id="reg_email" name="email">
+        </div>
+        <div class="form-row">
+          <label for="reg_password">Password <abbr class="required">*</abbr></label>
+          <input type="password" id="reg_password" name="password">
+        </div>
+        <div class="form-row"><button type="button" class="button">Create account</button></div>
+        <p class="vwc-hint">An account is not required to order. You can check out as a guest and
+        still receive every email about your order.</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MÀN 6 — MY ACCOUNT   (WooCommerce tự render: /my-account)
      ============================================================ -->
 <div class="vwc-sep"></div>
 <div class="vwc-wrap">

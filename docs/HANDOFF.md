@@ -117,10 +117,15 @@ Cả hai đã vá trong khối `.vsq:not(.is-ready)` của `about.html`, có ghi
 
 ### 🟡 Còn một việc chưa xử
 
-Cái áo trong 96 frame là **ảnh CGI**, không phải ảnh chụp hàng thật. Lưng áo in dòng
-*"IT'S THE ONLY MOMENT THAT MATTERS"* — **không có trong bất kỳ nguồn brand nào**.
-HUD ghi `CGI visualisation` để không nhận đây là ảnh sản phẩm. Muốn bỏ dòng đó thì phải
-đổi asset trước, không phải đổi chữ.
+Cái áo trong 96 frame là **ảnh CGI**, không phải ảnh chụp hàng thật.
+
+**Đính chính 24/08:** bản ghi trước nói dòng in lưng *"IT'S THE ONLY MOMENT THAT MATTERS"*
+không có nguồn brand. **Sai.** `reference/BRAND_ASSETS_AUDIT.md` dòng 107 ghi đó là hình in lưng
+của `THE MOMENTS BOXY HOODIE`, đọc từ mockup 13-16 của chính brand, SKU đang bán trên Shopee.
+Màu xám, wordmark ngực, hoodie hai lớp đều khớp.
+
+Còn lại vẫn đúng: đây là ảnh dựng, phom dáng và chất vải chưa ai đối chiếu với hàng thật.
+Nhãn `CGI visualisation` đã gỡ theo yêu cầu user 24/08.
 
 ⚠️ **Trước khi publish:** upload `deliverables/scroll-sequence/frames/0823/` lên
 `wp-content/uploads/seq/0823/` — **99 file**: 96 frame (10,6 MB) + 3 poster.

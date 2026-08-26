@@ -32,6 +32,14 @@
        xuất xứ       Made in Vietnam
      Khi lên PHP, tất cả lấy từ `pa_*` theo deliverables/woo/STRUCTURE-SETUP.md.
 
+     ---------- ẢNH: PHẢI ĐÚNG SẢN PHẨM ----------
+     🔴 Bản đầu dùng nhầm mockup 17 và 18. Theo reference/BRAND_ASSETS_AUDIT.md:
+       13-16  THE MOMENTS BOXY HOODIE, xám và trắng   ← đúng sản phẩm này
+       17     OLD MONEY varsity longsleeve            ← CHƯA RA MẮT, khác hàng
+       18     tech pack QUẦN                          ← CHƯA SẢN XUẤT, khác hàng
+     Đọc bảng mockup ở BRAND_ASSETS_AUDIT.md §mockup trước khi gán ảnh cho SKU.
+     Gán nhầm ảnh cho sản phẩm là khách nhận về thứ khác với thứ đã xem.
+
      ---------- ẢNH ----------
      Dùng mockup nguyên bản trong mockup-all/webp/, ĐÚNG quyết định đã chốt ở
      deliverables/images/MOCKUP-PIPELINE.md §2: lưới sản phẩm và PDP để nền
@@ -68,6 +76,16 @@
   --d-disp:var(--vt-font-display,"Archivo Expanded","Archivo",system-ui,sans-serif);
   --d-gut:clamp(20px,5vw,72px);
   color:var(--d-ink);font-size:16px;line-height:1.7;
+  /* 🔴 FRAGMENT PHẢI TỰ SƠN NỀN, ĐỪNG GỠ.
+     Khối này là một mảnh dán vào trang khác, nên nếu không tự đặt nền thì nó
+     ăn nền của trang chủ nhà. Mở thẳng file .html trong trình duyệt đang bật
+     dark mode là ra nền đen + chữ đen, không đọc được gì. Trên WordPress cũng
+     vỡ y hệt nếu section Elementor chứa nó được đặt nền tối.
+     `color-scheme:light` để ô input, select, scrollbar không bị trình duyệt
+     tự đảo màu ở dark mode. */
+  background:var(--vt-paper,#FFFFFF);
+  color-scheme:light;
+
 }
 .vpd *,.vpd *::before,.vpd *::after{box-sizing:border-box;}
 
@@ -220,7 +238,11 @@
 }
 .vpd-acc summary::-webkit-details-marker{display:none;}
 .vpd-acc summary::after{content:"+";font-family:var(--d-mono);font-size:15px;color:var(--d-muted);}
-.vpd-acc details[open] summary::after{content:"–";}
+/* 🔴 Escape Unicode trong `content:`, đừng viết ký tự thẳng.
+   File này là FRAGMENT, không có <meta charset>. Mở thẳng bằng trình duyệt
+   (hoặc qua server không gửi charset) là nó đoán windows-1252 và ký tự UTF-8
+   trong CSS hiện ra thành rác: "·" thành "Â·". Escape thì luôn đúng. */
+.vpd-acc details[open] summary::after{content:"\2013";}
 .vpd-acc summary:focus-visible{outline:2px solid var(--d-ink);outline-offset:3px;}
 .vpd-acc-body{padding-bottom:22px;font-size:15px;}
 
@@ -323,12 +345,12 @@
            alt="&#8216;The Moments&#8217; boxy hoodie in grey, back view" loading="lazy" decoding="async">
     </figure>
     <figure class="vpd-shot">
-      <img src="../../mockup-all/webp/17.webp" width="1000" height="1000"
-           alt="&#8216;The Moments&#8217; boxy hoodie, chest detail" loading="lazy" decoding="async">
+      <img src="../../mockup-all/webp/15.webp" width="1000" height="1000"
+           alt="&#8216;The Moments&#8217; boxy hoodie in pure white, front view" loading="lazy" decoding="async">
     </figure>
     <figure class="vpd-shot">
-      <img src="../../mockup-all/webp/18.webp" width="1000" height="1000"
-           alt="&#8216;The Moments&#8217; boxy hoodie, hood detail" loading="lazy" decoding="async">
+      <img src="../../mockup-all/webp/16.webp" width="1000" height="1000"
+           alt="&#8216;The Moments&#8217; boxy hoodie in pure white, back view" loading="lazy" decoding="async">
     </figure>
   </div>
 

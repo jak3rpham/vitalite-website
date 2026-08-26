@@ -427,10 +427,16 @@ dễ dàng.** Không tự chạy. User bảo chạy thì chạy.
 
 ## Trang About — chuỗi frame làm HERO (2026-08-23)
 
-### 🔴 Cái áo trong 96 frame là ảnh CGI, chưa đối chiếu hàng thật
-`deliverables/scroll-sequence/frames/0823/` do Antigravity sinh bằng AI. Lưng áo in dòng
-*"IT'S THE ONLY MOMENT THAT MATTERS"* — **không có trong bất kỳ nguồn brand nào đã xác minh**
-(Shopee, IG, FB). Màu xám và hoodie 2 lớp thì có thật (`'THE MOMENTS' BOXY HOODIE 2 LỚP - GREY`
+### 🟡 Cái áo trong 96 frame là ảnh CGI, nhưng thiết kế thì KHỚP hàng thật
+`deliverables/scroll-sequence/frames/0823/` do Antigravity sinh bằng AI.
+
+**Đính chính (24/08):** bản ghi trước đây nói dòng in lưng *"IT'S THE ONLY MOMENT THAT MATTERS"*
+không có nguồn brand. **Sai.** `reference/BRAND_ASSETS_AUDIT.md` dòng 107 ghi rõ đó là hình in
+lưng của `THE MOMENTS BOXY HOODIE`, đọc từ chính mockup 13-16 của brand, và SKU đó đang bán
+trên Shopee. Màu xám, wordmark ngực, hoodie hai lớp cũng đều khớp.
+
+Còn lại đúng: đây vẫn là **ảnh dựng**, không phải ảnh chụp cái áo thật, nên phom dáng và
+chất vải trong ảnh chưa ai đối chiếu. Màu xám và hoodie 2 lớp thì có thật (`'THE MOMENTS' BOXY HOODIE 2 LỚP - GREY`
 đang bán trên Shopee), nhưng **thiết kế trong ảnh chưa ai đối chiếu với sản phẩm thật**.
 
 **Đã xử tạm:** HUD ghi `CGI visualisation`; bảng spec cạnh nó **không gọi tên SKU nào**, chỉ

@@ -30,7 +30,7 @@ bịa phí ship, thời gian giao, hay điều khoản pháp lý là bịa ra m�
 
 **Trang nào còn ô cam thì chưa publish.** Điền xong, xoá ô đó đi, rồi mới xuất bản.
 
-Tổng: **22 ô** trên 10 trang. Trang About đã sạch.
+Tổng: **23 ô** trên 11 trang. Trang About đã sạch.
 
 ---
 
@@ -103,7 +103,7 @@ Nội dung nằm ở `deliverables/content/PAGES-CONTENT.md`, dán bằng trình
 
 | Slug | Tiêu đề | Trạng thái |
 |---|---|---|
-| `collection` | Collection | ⚠️ mới là khung. **Chưa dựng HTML** vì mỗi dòng cần link tới filter `pa_collection` có thật, mà sản phẩm chưa nhập. Dựng sau bước 9 |
+| `collection` | Collections | ✅ **Đã dựng 24/08** → `collection.html`. Copy của `The Iconic` và `The Moments` là nguyên văn Instagram. Bốn dòng cũ để ô cam chờ câu 33. 🔴 Chỉ publish SAU khi nhập sản phẩm, vì mỗi nút Shop trỏ tới một filter `pa_collection` có thật |
 
 > `contact` đã chuyển lên nhóm C, có HTML rồi. Xem bảng bên trên.
 
@@ -147,7 +147,7 @@ CSS dùng biến của theme và có giá trị dự phòng:
 ```
 
 Nghĩa là khi brand chốt mã màu tím/xanh dương thời kỳ mới và bạn đổi `--vt-accent` trong
-`style.css`, **cả 10 trang này đổi theo**, không phải sửa lại từng trang.
+`style.css`, **cả 11 trang này đổi theo**, không phải sửa lại từng trang.
 
 Ngôn ngữ layout giữ đúng phần còn lại của site: eyebrow mono đánh số, tiêu đề Archivo Expanded
 in hoa, đường kẻ đen dưới đầu trang, bảng hairline, nút bo tròn hoàn toàn.

@@ -1,4 +1,4 @@
-# WOO TEMPLATES — thiết kế bố cục 4 màn thương mại
+# WOO TEMPLATES — thiết kế bố cục 7 màn thương mại
 
 **Tạo:** 2026-08-24 · **Trạng thái:** prototype HTML, đã duyệt bằng số, **chưa lên theme**
 
@@ -9,7 +9,7 @@
 | | Màn | Cách đưa lên site | Rủi ro |
 |---|---|---|---|
 | `pdp.html` | Trang sản phẩm | **Đè template** → `woocommerce/single-product.php` | Trung bình |
-| `cart-checkout-account.html` | Giỏ · Thanh toán · Tài khoản | **CHỈ CSS.** Không đè template nào | Cao nếu làm sai |
+| `cart-checkout-account.html` | Giỏ (có hàng) · Giỏ rỗng · Thanh toán · **Thank you** · **Đăng nhập** · Tài khoản | **CHỈ CSS.** Không đè template nào | Cao nếu làm sai |
 
 Lý do tách: `CLAUDE.md` §3 ghi *"Cart & checkout: KHÔNG customize trước khi flow mặc định
 chạy đúng. Sửa checkout là thay đổi rủi ro cao nhất trong stack."*
@@ -24,6 +24,21 @@ render động. Dán tĩnh là hỏng ngay ở sản phẩm thứ hai.
 
 ---
 
+## 0b. 🔴 Mở bằng LINK, đừng mở thẳng file
+
+Hai file `pdp.html` và `cart-checkout-account.html` là **fragment**, không có `<meta charset>`
+vì chúng sẽ được dán vào trang khác. Mở thẳng bằng trình duyệt thì:
+
+- trình duyệt đoán bảng mã là `windows-1252` → **toàn bộ tiếng Việt hiện ra thành rác**
+
+Nền thì đã sửa rồi: mỗi fragment giờ tự sơn `background` và đặt `color-scheme:light`, nên không
+còn cảnh nền đen chữ đen khi máy đang bật dark mode. Nhưng bảng mã thì fragment không tự sửa được.
+
+**Dùng hai file `_preview-*.html`** ở mục 1. Chúng có `<meta charset="utf-8">`.
+Trên WordPress không có vấn đề này, WP luôn gửi UTF-8.
+
+---
+
 ## 1. Xem thử
 
 ```
@@ -31,7 +46,7 @@ cd "E:\Vitalite website"; python -m http.server 8793
 ```
 
 - PDP: `http://127.0.0.1:8793/deliverables/woo-templates/_preview-pdp.html`
-- Ba màn còn lại: `http://127.0.0.1:8793/deliverables/woo-templates/_preview-shop.html`
+- Sáu màn còn lại: `http://127.0.0.1:8793/deliverables/woo-templates/_preview-shop.html`
 
 ⚠️ **Phải chạy server từ GỐC PROJECT**, không phải từ `deliverables/`.
 Ảnh mockup nằm ở `mockup-all/`, ngoài thư mục `deliverables/`, nên chạy sai chỗ là ảnh 404 hết.
@@ -114,6 +129,42 @@ Làm được **mà không đè template**, vì Woo đã tự in `data-title` l�
 - **Thanh toán**: hai phương thức đang hiện là **mặc định của Woo**, không phải lựa chọn đã chốt.
   Khách quốc tế không chuyển khoản nội địa được và cũng không COD được, nên nếu chỉ có hai cái
   này thì site không bán được cho đúng tệp khách nó sinh ra để phục vụ. Câu **17-20**.
+
+---
+
+## 3b. Ba màn thêm ngày 24/08
+
+### Giỏ hàng rỗng
+Ai cũng gặp, kể cả khách bấm nhầm icon giỏ. Phải có **lối ra**, không được là ngõ cụt.
+Hai nút: `Shop all` và `Browse collections`.
+
+### Order received, màn sau khi trả tiền
+Đây là màn duy nhất chắc chắn được đọc kỹ. Nó phải trả lời **ba câu**: đơn số mấy, trả bao nhiêu,
+**bao giờ hàng tới**.
+
+🔴 Câu thứ ba hiện **chưa trả lời được**, cần thời gian giao (câu **14** và **16**).
+Không có nó thì khách vừa trả tiền xong lại phải đi hỏi, và đó thành tin nhắn đầu tiên của
+mọi đơn hàng. Đã để ô cam ngay tại chỗ.
+
+### Login / Register
+Header đã có icon tài khoản trỏ tới đây (`vt_account_url()`), nên chắc chắn có người vào.
+Ghi rõ **không cần tài khoản vẫn đặt được hàng**, để ô đăng ký không thành rào cản.
+
+---
+
+## 3c. 🔴 Một lỗi gán ảnh đã sửa
+
+Bản đầu của PDP dùng mockup **17** và **18** làm ảnh chi tiết của hoodie. Sai sản phẩm.
+Theo `reference/BRAND_ASSETS_AUDIT.md`:
+
+| Mockup | Là gì |
+|---|---|
+| 13-16 | `THE MOMENTS BOXY HOODIE`, xám và trắng ← đúng sản phẩm này |
+| 17 | `OLD MONEY` varsity longsleeve, **chưa ra mắt** |
+| 18 | tech pack **quần**, chưa sản xuất |
+
+Đã đổi sang 13-16. **Đọc bảng mockup trong `BRAND_ASSETS_AUDIT.md` trước khi gán ảnh cho SKU.**
+Gán nhầm là khách nhận về thứ khác với thứ đã xem.
 
 ---
 

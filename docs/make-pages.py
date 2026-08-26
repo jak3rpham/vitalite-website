@@ -41,6 +41,16 @@ CSS = """
   color:var(--p-ink);
   font-size:16px;line-height:1.7;
   -webkit-font-smoothing:antialiased;
+
+  /* 🔴 FRAGMENT PHAI TU SON NEN, DUNG GO.
+     Khoi nay la mot manh dan vao trang khac. Khong tu dat nen thi no an nen
+     cua trang chu nha: mo thang file .html trong trinh duyet dark mode la ra
+     nen den + chu den, khong doc duoc gi. Tren WordPress cung vo y het neu
+     section Elementor chua no duoc dat nen toi.
+     `color-scheme:light` de input, select, scrollbar khong bi trinh duyet tu
+     dao mau o dark mode. */
+  background:var(--p-paper);
+  color-scheme:light;
 }
 .vtp *,.vtp *::before,.vtp *::after{box-sizing:border-box;}
 
@@ -622,6 +632,70 @@ and it cannot be produced after the parcel is open. Film the parcel before you c
 <p>Vietnamese e-commerce regulation requires the seller&#39;s legal identity to be published on the
 site. Those details live on one page, kept separate so there is a single place to correct them.</p>
 <div class="vtp-cta"><a class="vtp-btn vtp-btn--ghost" href="/seller-information">Seller information</a></div>
+"""),
+     ])
+
+
+# ---- 11. COLLECTIONS --------------------------------------------------------
+# Noi dung THE ICONIC va THE MOMENTS lay nguyen van tu Instagram 07/2026, ghi o
+# deliverables/content/PAGES-CONTENT.md muc 6. Bon dong con lai CHUA co caption
+# nao dung duoc -> de o cam, KHONG tu viet mo ta.
+#
+# Ten dong san pham va trang thai lay tu reference/BRAND_ASSETS_AUDIT.md:
+#   ICONIC · PINK GRAFFITI · PORSCHE   dang ban tren Shopee
+#   STARLIGHT · OLD MONEY              CHUA len Shopee, mockup da co
+#
+# 🔴 Trang nay CHI publish sau khi da nhap san pham. Moi nut "Shop" o day tro
+# toi mot filter pa_collection co that; chua co san pham thi bam vao ra trang rong.
+page('collection', '11', 'Shop', 'Collections',
+     'Every drop the label has put out, old and new. Nothing here is retired.',
+     [
+      ('now', 'In production', """
+<p>Two lines carry the current direction. The words below are the label&#39;s own, published with
+the drop, not written for this page.</p>
+
+<div class="vtp-era">
+  <div>
+    <em>The Iconic</em>
+    <strong>An icon shaped by imperfect lines.</strong>
+    <p>An icon shaped by imperfect lines, bold details, and your own way of wearing it.</p>
+    <p class="vtp-said">Instagram &middot; 29 July 2026</p>
+    <div class="vtp-cta"><a class="vtp-btn vtp-btn--ghost" href="/shop?collection=the-iconic">Shop The Iconic</a></div>
+  </div>
+  <div>
+    <em>The Moments</em>
+    <strong>Heavy in weight. Unmatched in fit.</strong>
+    <p>500+ GSM cotton blend, cut to a signature boxy fit. The back carries one line:
+    <em>it&#39;s the only moment that matters.</em></p>
+    <p class="vtp-said">Instagram &middot; 25 July 2026</p>
+    <div class="vtp-cta"><a class="vtp-btn vtp-btn--ghost" href="/shop?collection=the-moments">Shop The Moments</a></div>
+  </div>
+</div>
+"""),
+
+      ('archive', 'Still on the shelf', """
+<p>Older drops are not retired and not hidden. They sit in the same catalogue, at the same
+sizing, and they are still sold.</p>
+""" + ul([
+        '<strong>Pink Graffiti</strong>, the best seller, over 2,000 sold',
+        '<strong>Porsche</strong>, listed as <em>Need Money For Porsche</em>',
+        '<strong>Starlight</strong>, shown on Instagram, not yet listed on Shopee',
+        '<strong>Old Money</strong>, a varsity longsleeve, not yet released',
+      ]) + flag('Need data', [
+        'One line of description for each of Pink Graffiti, Porsche, Starlight and Old Money. Question 33 in CAU-HOI-CHO-BRAND.md.',
+        'Is Starlight still for sale, and at what price?',
+        'Old Money has a mockup but no release date. Show it here, or hold it back?']) + """
+<div class="vtp-note"><strong>Ghi chú cho chủ site, xoá trước khi publish.</strong>
+Bốn ô trống trên là chỗ CHỜ, không phải chỗ thiếu ý tưởng. Claude không viết mô tả dòng sản phẩm
+vì đó là tiếng nói thương hiệu, không phải copy chức năng. Có câu của brand thì thay thẳng vào.</div>
+"""),
+
+      ('how', 'How collections work here', """
+<p>A collection is not a category. A piece belongs to one product type, a t&#8209;shirt or a piece
+of outerwear, and separately to one collection. The two are independent, which is why the shop
+lets you filter by either.</p>
+<p>Sizing does not change between collections. S, M and L mean the same measurements across every
+drop, old and new. The <a href="/size-guide">size guide</a> covers all of them.</p>
 """),
      ])
 
