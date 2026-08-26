@@ -50,16 +50,16 @@
   --a-ink:var(--vt-ink,#0A0A0A);
   --a-paper:var(--vt-paper,#FFFFFF);
   --a-line:var(--vt-line,#E4E4E6);
-  --a-muted:var(--vt-muted,#6B6B70);
-  --a-tint:var(--vt-tint,#F7F7F8);
+  --a-muted:var(--vt-muted,#6E6E76);
+  --a-tint:var(--vt-tint,#F4F4F4);
   --a-onDark:var(--vt-on-dark,#F2F2F4);
-  --a-onDarkMuted:var(--vt-on-dark-muted,rgba(242,242,244,.62));
+  --a-onDarkMuted:var(--vt-on-dark-muted,rgba(242,242,244,.68));
   --a-i1:var(--vt-iri-1,rgba(126,72,240,.85));
   --a-i2:var(--vt-iri-2,rgba(38,196,190,.72));
   --a-i3:var(--vt-iri-3,rgba(214,72,158,.60));
   --a-i4:var(--vt-iri-4,rgba(58,102,232,.75));
-  --a-mono:var(--vt-font-mono,"JetBrains Mono",ui-monospace,monospace);
-  --a-disp:var(--vt-font-display,"Archivo Expanded","Archivo",system-ui,sans-serif);
+  --a-mono:var(--vt-font-mono,'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace);
+  --a-disp:var(--vt-font-display,'Archivo Expanded','Archivo','Helvetica Neue',Arial,sans-serif);
   --a-gut:clamp(20px,5vw,72px);
   color:var(--a-ink);font-size:16px;line-height:1.7;
   /* 🔴 FRAGMENT PHẢI TỰ SƠN NỀN, ĐỪNG GỠ.
@@ -255,14 +255,14 @@
 .vsq{
   --q-ink:var(--vt-ink,#0A0A0A);
   --q-onDark:var(--vt-on-dark,#F2F2F4);
-  --q-onDarkMuted:var(--vt-on-dark-muted,rgba(242,242,244,.62));
+  --q-onDarkMuted:var(--vt-on-dark-muted,rgba(242,242,244,.68));
   /* Màu nhấn: TRẮNG, không magenta.
      #CA2058 là màu THỜI KỲ CŨ — xem reference/BRAND_ERA_SPLIT.md §1.
      Quyết định đã chốt --vt-accent = đen, mà đen trên nền đen là vô hình,
      nên khối tối này dùng chính màu chữ. Không đưa màu lạ vào trang. */
   --q-accent:var(--vt-on-dark,#F2F2F4);
-  --q-mono:var(--vt-font-mono,"JetBrains Mono",ui-monospace,monospace);
-  --q-disp:var(--vt-font-display,"Archivo Expanded","Archivo",system-ui,sans-serif);
+  --q-mono:var(--vt-font-mono,'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace);
+  --q-disp:var(--vt-font-display,'Archivo Expanded','Archivo','Helvetica Neue',Arial,sans-serif);
   --q-gut:clamp(20px,5vw,72px);
   position:relative;background:var(--q-ink);color:var(--q-onDark);
 }

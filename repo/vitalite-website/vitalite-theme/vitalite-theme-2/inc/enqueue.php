@@ -45,7 +45,8 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style(
         'vitalite-fonts',
         'https://fonts.googleapis.com/css2'
-            . '?family=Archivo:wght@400;500;600;800'
+            . '?family=Archivo:wght@400;500;600;700;800'   // 700 dung 48 cho trong CSS;
+            // truoc day KHONG duoc tai nen trinh duyet tu bat sang 600 hoac 800
             . '&family=Archivo+Expanded:wght@800'
             . '&family=JetBrains+Mono:wght@400;500'
             . '&display=swap',

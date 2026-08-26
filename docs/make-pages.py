@@ -20,6 +20,7 @@ MÀU VÀ FONT
     Theme đổi màu nhấn thì các trang này đổi theo, không phải sửa lại.
 """
 import io
+import re
 import os
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -32,12 +33,12 @@ CSS = """
   --p-paper:var(--vt-paper,#FFFFFF);
   --p-line:var(--vt-line,#E4E4E6);
   --p-strong:var(--vt-line-strong,#C9C9CE);
-  --p-muted:var(--vt-muted,#6B6B70);
-  --p-tint:var(--vt-tint,#F7F7F8);
-  --p-flag:#B45309;
-  --p-flagbg:#FEF6E7;
-  --p-mono:var(--vt-font-mono,"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace);
-  --p-disp:var(--vt-font-display,"Archivo Expanded","Archivo",system-ui,sans-serif);
+  --p-muted:var(--vt-muted,#6E6E76);
+  --p-tint:var(--vt-tint,#F4F4F4);
+  --p-flag:var(--vt-flag,#B45309);
+  --p-flagbg:var(--vt-flag-bg,#FEF6E7);
+  --p-mono:var(--vt-font-mono,'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace);
+  --p-disp:var(--vt-font-display,'Archivo Expanded','Archivo','Helvetica Neue',Arial,sans-serif);
   color:var(--p-ink);
   font-size:16px;line-height:1.7;
   -webkit-font-smoothing:antialiased;
@@ -85,7 +86,7 @@ CSS = """
    KHONG mau thuan voi quyet dinh "FULL-WIDTH" o CLAUDE.md muc 5: quyet dinh do noi
    ve ngon ngu layout trang BRAND (hero, tieu de section, luoi). Chin trang nay la
    TAI LIEU phap ly, do dai dong la yeu to de doc duoc. */
-.vtp-head,.vtp-body{max-width:1180px;margin-inline:auto;}
+.vtp-head,.vtp-body{max-width:var(--vt-max-doc,1180px);margin-inline:auto;}
 
 /* ---- Thân trang: mục lục dính bên trái, nội dung bên phải ---- */
 .vtp-body{display:grid;grid-template-columns:210px 1fr;gap:clamp(28px,5vw,72px);margin-top:clamp(32px,4vw,56px);}
@@ -118,8 +119,8 @@ CSS = """
 .vtp-list li{position:relative;padding-left:22px;margin-top:9px;max-width:68ch;}
 .vtp-list li::before{content:"";position:absolute;left:0;top:.72em;width:9px;height:1px;background:var(--p-ink);}
 .vtp-yes li::before,.vtp-no li::before{width:auto;height:auto;top:0;font-family:var(--p-mono);font-size:13px;font-weight:600;line-height:1.7;}
-.vtp-yes li::before{content:"+";color:#166534;}
-.vtp-no li::before{content:"\\00d7";color:var(--vt-sale,#C2452D);}
+.vtp-yes li::before{content:"+";color:var(--vt-yes,#166534);}
+.vtp-no li::before{content:"\\00d7";color:var(--vt-sale,#C2413A);}
 
 /* ---- Hai cột được / không được ---- */
 .vtp-split{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--p-line);margin-top:20px;}
@@ -758,16 +759,26 @@ def build():
     return made
 
 
+def _root_block():
+    """Doc :root tu deliverables/brand/tokens.css va rut gon thanh mot khoi.
+
+    KHONG chep tay gia tri mau vao day. Ban truoc chep tay va da lech voi theme
+    o 3 mau, nghia la ban xem truoc hien SAI MAU so voi production."""
+    path = os.path.join(os.path.dirname(OUT), 'brand', 'tokens.css')
+    src = io.open(path, encoding='utf-8').read()
+    body = re.search(r':root\s*\{(.*)\n\}', src, re.S).group(1)
+    body = re.sub(r'/\*.*?\*/', '', body, flags=re.S)
+    decls = [' '.join(d.split()) for d in body.split(';') if d.strip()]
+    return ':root{' + ';'.join(decls) + ';}'
+
+
 PREVIEW_HEAD = """<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>%(title)s</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Archivo+Expanded:wght@800&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-:root{--vt-ink:#0A0A0A;--vt-paper:#fff;--vt-line:#E4E4E6;--vt-line-strong:#C9C9CE;--vt-muted:#6B6B70;--vt-tint:#F7F7F8;--vt-sale:#C2452D;
---vt-on-dark:#F2F2F4;--vt-on-dark-muted:rgba(242,242,244,.62);
---vt-iri-1:rgba(126,72,240,.85);--vt-iri-2:rgba(38,196,190,.72);--vt-iri-3:rgba(214,72,158,.60);--vt-iri-4:rgba(58,102,232,.75);
---vt-font-mono:"JetBrains Mono",monospace;--vt-font-display:"Archivo",sans-serif;}
+%(tokens)s
 *{box-sizing:border-box}body{margin:0;background:%(bg)s;font-family:"Archivo",system-ui,sans-serif;color:#0A0A0A}
 %(extra)s
 </style></head><body>
@@ -777,7 +788,7 @@ PREVIEW_ALL_EXTRA = """.pv-top{position:sticky;top:0;z-index:9;background:#0A0A0
 .pv-top b{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin-right:10px}
 .pv-top a{color:#fff;text-decoration:none;font-family:"JetBrains Mono";font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;opacity:.6;border:1px solid rgba(255,255,255,.25);padding:5px 10px;border-radius:999px}
 .pv-top a:hover{opacity:1}
-.pv-label{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6B6B70;margin:44px 0 10px}
+.pv-label{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6E6E76;margin:44px 0 10px}
 .pv-frame{background:#fff;border:1px solid #d8d8dc;padding:clamp(24px,4vw,64px)}
 main{max-width:1240px;margin:0 auto;padding:0 20px 90px}"""
 
@@ -796,14 +807,14 @@ def build_previews():
         body = io.open(about, encoding="utf-8").read()
         # ban dan WordPress tro vao uploads, ban xem truoc tro vao repo
         body = body.replace("/wp-content/uploads/seq/0823/", "../scroll-sequence/frames/0823/")
-        html = (PREVIEW_HEAD % dict(title="ABOUT preview", bg="#fff", extra="")) + body + NL + "</body></html>" + NL
+        html = (PREVIEW_HEAD % dict(title="ABOUT preview", bg="#fff", extra="", tokens=_root_block())) + body + NL + "</body></html>" + NL
         io.open(os.path.join(OUT, "_preview-about.html"), "w", encoding="utf-8", newline=NL).write(html)
         made.append("_preview-about.html")
 
     # --- _preview-all.html: 9 trang chinh sach, moi trang mot khung ---
     slugs = [q["slug"] for q in PAGES]
     nav = " ".join('<a href="#%s">%s</a>' % (g, g) for g in slugs)
-    parts = [PREVIEW_HEAD % dict(title="VITALITE - preview trang tinh", bg="#F0F0F2", extra=PREVIEW_ALL_EXTRA),
+    parts = [PREVIEW_HEAD % dict(title="VITALITE - preview trang tinh", bg="#F0F0F2", extra=PREVIEW_ALL_EXTRA, tokens=_root_block()),
              '<div class="pv-top"><b>Preview trang tinh</b>%s</div><main>' % nav]
     for g in slugs:
         f = os.path.join(OUT, g + ".html")

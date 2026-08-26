@@ -1,11 +1,11 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>Shop screens preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Archivo+Expanded:wght@800&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-:root{--vt-ink:#0A0A0A;--vt-paper:#fff;--vt-line:#E4E4E6;--vt-line-strong:#C9C9CE;--vt-muted:#6B6B70;--vt-tint:#F7F7F8;--vt-sale:#C2452D;
---vt-font-mono:"JetBrains Mono",monospace;--vt-font-display:"Archivo",sans-serif;}
-*{box-sizing:border-box}body{margin:0;background:#fff;font-family:"Archivo",system-ui,sans-serif;color:#0A0A0A}
+:root{--vt-font-primary: 'Archivo', 'Helvetica Neue', Arial, sans-serif;--vt-font-display: 'Archivo Expanded', 'Archivo', 'Helvetica Neue', Arial, sans-serif;--vt-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;--vt-paper: #FFFFFF;--vt-tint: #F4F4F4;--vt-ink: #0A0A0A;--vt-ink-soft: #16161A;--vt-line: #E4E4E6;--vt-line-strong: #C9C9CE;--vt-muted: #6E6E76;--vt-dim: #75757F;--vt-on-dark: #F2F2F4;--vt-on-dark-muted: rgba(242, 242, 244, .68);--vt-on-dark-line: rgba(242, 242, 244, .18);--vt-accent: #0A0A0A;--vt-accent-on: #FFFFFF;--vt-archive-pink: #C52458;--vt-iri-1: rgba(126, 72, 240, .85);--vt-iri-2: rgba(38, 196, 190, .72);--vt-iri-3: rgba(214, 72, 158, .60);--vt-iri-4: rgba(58, 102, 232, .75);--vt-sale: #C2413A;--vt-ok: #188479;--vt-yes: #166534;--vt-flag: #B45309;--vt-flag-bg: #FEF6E7;--vt-header-h: 76px;--vt-header-h-mobile: 64px;--vt-gutter: clamp(16px, 2.4vw, 32px);--vt-gutter-page: clamp(20px, 5vw, 72px);--vt-max: none;--vt-max-text: 68ch;--vt-max-doc: 1180px;--vt-hair: 2px;--vt-t-xs: 11px;--vt-t-sm: 13px;--vt-t-base: 15px;--vt-t-md: 17px;--vt-t-lg: clamp(20px, 2.4vw, 26px);--vt-t-xl: clamp(24px, 3vw, 34px);--vt-t-2xl: clamp(38px, 5.4vw, 84px);--vt-t-hero: clamp(50px, 8.4vw, 152px);--vt-ease: cubic-bezier(.22, .61, .36, 1);--vt-fast: .18s;--vt-slow: .45s;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--vt-paper);color:var(--vt-ink);font-family:var(--vt-font-primary);}
 </style></head><body>
 <!-- ============================================================
      VITALITÉ — CART · CHECKOUT · MY ACCOUNT · PROTOTYPE
@@ -41,11 +41,11 @@
   --c-paper:var(--vt-paper,#FFFFFF);
   --c-line:var(--vt-line,#E4E4E6);
   --c-strong:var(--vt-line-strong,#C9C9CE);
-  --c-muted:var(--vt-muted,#6B6B70);
-  --c-tint:var(--vt-tint,#F7F7F8);
-  --c-sale:var(--vt-sale,#C2452D);
-  --c-mono:var(--vt-font-mono,"JetBrains Mono",ui-monospace,monospace);
-  --c-disp:var(--vt-font-display,"Archivo Expanded","Archivo",system-ui,sans-serif);
+  --c-muted:var(--vt-muted,#6E6E76);
+  --c-tint:var(--vt-tint,#F4F4F4);
+  --c-sale:var(--vt-sale,#C2413A);
+  --c-mono:var(--vt-font-mono,'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace);
+  --c-disp:var(--vt-font-display,'Archivo Expanded','Archivo','Helvetica Neue',Arial,sans-serif);
   --c-gut:clamp(20px,5vw,72px);
   color:var(--c-ink);font-size:16px;line-height:1.7;
   /* 🔴 FRAGMENT PHẢI TỰ SƠN NỀN, ĐỪNG GỠ.
@@ -65,7 +65,7 @@
 
 /* Ba trang này là TÀI LIỆU GIAO DỊCH, không phải trang brand.
    Chặn bề rộng để mắt không phải quét ngang 1700px khi soát đơn hàng. */
-.vwc-wrap{max-width:1180px;margin-inline:auto;padding:clamp(24px,4vw,56px) var(--c-gut) clamp(56px,8vw,110px);}
+.vwc-wrap{max-width:var(--vt-max-doc,1180px);margin-inline:auto;padding:clamp(24px,4vw,56px) var(--c-gut) clamp(56px,8vw,110px);}
 
 .vwc-head{padding-bottom:22px;border-bottom:1px solid var(--c-ink);margin-bottom:clamp(26px,4vw,44px);}
 .vwc-eyebrow{font-family:var(--c-mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--c-muted);margin-bottom:14px;}
@@ -182,8 +182,8 @@
 @media (max-width:900px){ .vwc .cart_totals{position:static;} }
 
 /* Ô cam: phí ship chưa có số */
-.vwc-flag{padding:14px 16px;background:#FEF6E7;border-left:3px solid #B45309;font-size:13.5px;margin-top:16px;}
-.vwc-flag b{display:block;font-family:var(--c-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#B45309;margin-bottom:6px;}
+.vwc-flag{padding:14px 16px;background:var(--vt-flag-bg,#FEF6E7);border-left:3px solid var(--vt-flag,#B45309);font-size:13.5px;margin-top:16px;}
+.vwc-flag b{display:block;font-family:var(--c-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--vt-flag,#B45309);margin-bottom:6px;}
 
 /* ================= 2. CHECKOUT ================= */
 .vwc-checkout-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);gap:clamp(28px,4.5vw,72px);align-items:start;}

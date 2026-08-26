@@ -29,6 +29,17 @@ và phần lớn đang chờ những con số chỉ user mới có.
 📍 **User đọc `docs/VIEC-CUA-BAN.md`** — đó là bản tổng hợp việc, viết cho user chứ không
 phải cho Claude. Đừng bắt user đọc lại toàn bộ tài liệu.
 
+### 🎨 Brand guideline
+
+`deliverables/brand/` (27/08). Ba file: `tokens.css` giữ **giá trị** (45 token),
+`BRAND-GUIDELINE.md` giữ **lý do**, `guideline.html` là **bảng xem** sinh tự động từ tokens.
+
+Ba script sinh trang đều đọc `tokens.css`. Kiểm lệch trước khi commit:
+`python docs/check-tokens.py`
+
+🔴 Ba lỗi tìm ra khi dựng bộ này, đã sửa: `--vt-dim` trượt chuẩn tiếp cận (2,79:1),
+`--vt-ok` hụt AA đúng 0,01, và **weight 700 dùng 48 chỗ nhưng chưa bao giờ được tải**.
+
 ### 📋 Bộ câu hỏi cho brand
 
 `deliverables/CAU-HOI-CHO-BRAND.md` + bản Word `CAU-HOI-CHO-BRAND.docx` (24/08).

@@ -60,11 +60,11 @@
   --d-paper:var(--vt-paper,#FFFFFF);
   --d-line:var(--vt-line,#E4E4E6);
   --d-strong:var(--vt-line-strong,#C9C9CE);
-  --d-muted:var(--vt-muted,#6B6B70);
-  --d-tint:var(--vt-tint,#F7F7F8);
-  --d-sale:var(--vt-sale,#C2452D);
-  --d-mono:var(--vt-font-mono,"JetBrains Mono",ui-monospace,monospace);
-  --d-disp:var(--vt-font-display,"Archivo Expanded","Archivo",system-ui,sans-serif);
+  --d-muted:var(--vt-muted,#6E6E76);
+  --d-tint:var(--vt-tint,#F4F4F4);
+  --d-sale:var(--vt-sale,#C2413A);
+  --d-mono:var(--vt-font-mono,'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace);
+  --d-disp:var(--vt-font-display,'Archivo Expanded','Archivo','Helvetica Neue',Arial,sans-serif);
   --d-gut:clamp(20px,5vw,72px);
   color:var(--d-ink);font-size:16px;line-height:1.7;
   /* 🔴 FRAGMENT PHẢI TỰ SƠN NỀN, ĐỪNG GỠ.
@@ -256,12 +256,12 @@
 
 /* Ô cam: chỗ CHƯA CÓ DỮ LIỆU. Không được publish khi còn ô này. */
 .vpd-flag{
-  padding:15px 17px;background:#FEF6E7;border-left:3px solid #B45309;
+  padding:15px 17px;background:var(--vt-flag-bg,#FEF6E7);border-left:3px solid var(--vt-flag,#B45309);
   font-size:14px;color:var(--d-ink);
 }
 .vpd-flag b{
   display:block;font-family:var(--d-mono);font-size:10px;letter-spacing:.16em;
-  text-transform:uppercase;color:#B45309;margin-bottom:7px;
+  text-transform:uppercase;color:var(--vt-flag,#B45309);margin-bottom:7px;
 }
 
 /* ---------- Dải spec chạy hết chiều ngang ---------- */

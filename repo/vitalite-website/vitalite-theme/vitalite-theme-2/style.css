@@ -34,7 +34,7 @@ Text Domain: vitalite
   --vt-line: #E4E4E6;
   --vt-line-strong: #C9C9CE;
   --vt-muted: #6E6E76;
-  --vt-dim: #9A9AA2;
+  --vt-dim: #75757F;   /* cu #9A9AA2 chi 2.79:1, truot ca chuan chu lon */
 
   /* ---- Đảo màu cho vùng tối ---- */
   --vt-on-dark: #F2F2F4;
@@ -52,6 +52,10 @@ Text Domain: vitalite
   /* ---- Iridescent ----
      QUAN SÁT TỪ ẢNH IG THỜI KỲ MỚI, KHÔNG PHẢI MÃ SPEC.
      Dùng cho band/hero, không dùng cho chữ hay UI. */
+  /* Hong thoi ky CU. DO DUOC tu hinh in tren san pham that, hue 336-348 do.
+     Xem reference/BRAND_ASSETS_AUDIT.md muc 2. KHONG dung cho UI. */
+  --vt-archive-pink: #C52458;
+
   --vt-iri-1: rgba(126, 72, 240, .85);
   --vt-iri-2: rgba(38, 196, 190, .72);
   --vt-iri-3: rgba(214, 72, 158, .60);
@@ -59,7 +63,12 @@ Text Domain: vitalite
 
   /* ---- Trạng thái ---- */
   --vt-sale: #C2413A;
-  --vt-ok: #18857A;
+  --vt-ok: #188479;    /* cu hut AA dung 0,01 */
+  /* Ô cảnh báo "chưa có dữ liệu" trong bộ trang tĩnh. Trước đây hardcode
+     rải rác 16 chỗ nên không đổi một lần được. */
+  --vt-flag: #B45309;
+  --vt-flag-bg: #FEF6E7;
+  --vt-yes: #166534;
 
   /* ---- Không gian ---- */
   --vt-header-h: 76px;
@@ -69,6 +78,11 @@ Text Domain: vitalite
   --vt-gutter: clamp(16px, 2.4vw, 32px);
   --vt-max: none;
   --vt-max-text: 68ch;
+  /* Trang TAI LIEU (chinh sach, gio, thanh toan) chan o day. Trang BRAND van
+     full-width. Do dai dong la yeu to doc duoc, khong phai so thich. */
+  --vt-max-doc: 1180px;
+  /* Le trong cac fragment trang tinh, rong hon --vt-gutter cua theme */
+  --vt-gutter-page: clamp(20px, 5vw, 72px);
   /* Đường kẻ 2px giữa các ô — nền lộ ra qua khe gap, tạo hairline không cần border */
   --vt-hair: 2px;
 

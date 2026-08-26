@@ -12,6 +12,10 @@ Nguồn sự thật về brand, đọc trước mọi task phụ thuộc brand:
 - `reference/BRAND_FACTS_OBSERVED.md` — fact thật đọc từ Shopee / IG / FB
 - `reference/BRAND_ERA_SPLIT.md` — 🔴 **brand đã ĐỔI CHỦ**, hai thời kỳ khác nhau. Đọc trước khi viết copy
 - `reference/BRAND_ASSETS_AUDIT.md` — logo, mockup, ảnh model
+- `deliverables/brand/BRAND-GUIDELINE.md` — hệ màu, chữ, logo, bố cục. **Đọc mục 0 trước**:
+  mỗi mục gắn nhãn ĐO ĐƯỢC / QUYẾT ĐỊNH BUILD / CHƯA CÓ. Trộn ba nhãn là biến guideline thành bịa
+- `deliverables/brand/tokens.css` — **nguồn sự thật cho mọi màu**. Sửa màu thì sửa ở đây
+  và ở `:root` của theme, rồi chạy `python docs/check-tokens.py`
 
 Vẫn giữ nguyên kỷ luật cũ:
 

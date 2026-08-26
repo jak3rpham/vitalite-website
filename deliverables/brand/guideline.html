@@ -1,0 +1,225 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VITALITÉ Brand guideline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Archivo+Expanded:wght@800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--vt-font-primary:'Archivo', 'Helvetica Neue', Arial, sans-serif;--vt-font-display:'Archivo Expanded', 'Archivo', 'Helvetica Neue', Arial, sans-serif;--vt-font-mono:'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;--vt-paper:#FFFFFF;--vt-tint:#F4F4F4;--vt-ink:#0A0A0A;--vt-ink-soft:#16161A;--vt-line:#E4E4E6;--vt-line-strong:#C9C9CE;--vt-muted:#6E6E76;--vt-dim:#75757F;--vt-on-dark:#F2F2F4;--vt-on-dark-muted:rgba(242, 242, 244, .68);--vt-on-dark-line:rgba(242, 242, 244, .18);--vt-accent:#0A0A0A;--vt-accent-on:#FFFFFF;--vt-archive-pink:#C52458;--vt-iri-1:rgba(126, 72, 240, .85);--vt-iri-2:rgba(38, 196, 190, .72);--vt-iri-3:rgba(214, 72, 158, .60);--vt-iri-4:rgba(58, 102, 232, .75);--vt-sale:#C2413A;--vt-ok:#188479;--vt-yes:#166534;--vt-flag:#B45309;--vt-flag-bg:#FEF6E7;--vt-header-h:76px;--vt-header-h-mobile:64px;--vt-gutter:clamp(16px, 2.4vw, 32px);--vt-gutter-page:clamp(20px, 5vw, 72px);--vt-max:none;--vt-max-text:68ch;--vt-max-doc:1180px;--vt-hair:2px;--vt-t-xs:11px;--vt-t-sm:13px;--vt-t-base:15px;--vt-t-md:17px;--vt-t-lg:clamp(20px, 2.4vw, 26px);--vt-t-xl:clamp(24px, 3vw, 34px);--vt-t-2xl:clamp(38px, 5.4vw, 84px);--vt-t-hero:clamp(50px, 8.4vw, 152px);--vt-ease:cubic-bezier(.22, .61, .36, 1);--vt-fast:.18s;--vt-slow:.45s;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--vt-paper);color:var(--vt-ink);
+     font-family:var(--vt-font-primary);font-size:16px;line-height:1.7;color-scheme:light}
+main{max-width:1180px;margin:0 auto;padding:clamp(28px,5vw,72px) clamp(20px,5vw,64px) 120px}
+h1{font-family:var(--vt-font-display);font-weight:800;text-transform:uppercase;
+   font-size:clamp(34px,6vw,72px);line-height:.98;letter-spacing:-.04em;margin:0}
+h2{font-family:var(--vt-font-display);font-weight:800;text-transform:uppercase;
+   font-size:clamp(22px,3vw,38px);letter-spacing:-.03em;line-height:1.06;margin:0 0 6px}
+h3{font-family:var(--vt-font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+   color:var(--vt-muted);margin:34px 0 14px;font-weight:500}
+p{margin:0 0 14px;max-width:68ch}
+code{font-family:var(--vt-font-mono);font-size:12.5px}
+.g-mono{font-family:var(--vt-font-mono);font-size:12px}
+.g-dim{color:var(--vt-muted)}
+.g-eyebrow{font-family:var(--vt-font-mono);font-size:11px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--vt-muted);padding-bottom:14px;
+  border-bottom:1px solid var(--vt-ink);margin-bottom:26px}
+section{padding-top:clamp(46px,7vw,90px)}
+.g-lead{font-size:17px;max-width:64ch;color:var(--vt-muted)}
+
+.g-note{border-left:3px solid var(--vt-flag);background:var(--vt-flag-bg);
+  padding:15px 18px;margin:18px 0;font-size:14.5px;max-width:76ch}
+.g-note b{display:block;font-family:var(--vt-font-mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--vt-flag);margin-bottom:7px}
+
+.g-table{width:100%;border-collapse:collapse;margin-top:10px}
+.g-table th,.g-table td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--vt-line);
+  vertical-align:middle;font-size:14px}
+.g-table thead th{font-family:var(--vt-font-mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--vt-muted);border-bottom-color:var(--vt-ink);font-weight:500}
+.g-table td:first-child{width:52px}
+.g-chip{display:block;width:36px;height:36px;border:1px solid var(--vt-line-strong)}
+.g-pass{color:var(--vt-yes)}
+.g-warn{color:var(--vt-flag)}
+.g-fail{color:var(--vt-sale)}
+
+.g-logos{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--vt-line);
+  border:1px solid var(--vt-line);margin-top:14px}
+.g-logo{margin:0;background:var(--vt-paper);padding:18px}
+.g-logo-box{aspect-ratio:1/1;display:grid;place-items:center;background:var(--vt-tint);padding:16%}
+.g-logo img{max-width:100%;max-height:100%;display:block}
+.g-logo figcaption{margin-top:12px;display:grid;gap:3px;font-size:12.5px;line-height:1.45}
+.g-logo b{font-size:13px}
+@media(max-width:900px){.g-logos{grid-template-columns:1fr 1fr}}
+
+.g-scale-row{display:grid;grid-template-columns:210px 1fr;gap:20px;align-items:baseline;
+  padding:16px 0;border-bottom:1px solid var(--vt-line)}
+.g-scale-meta{display:grid;gap:2px;font-size:12px}
+.g-scale-demo{overflow:hidden}
+@media(max-width:760px){.g-scale-row{grid-template-columns:1fr}}
+
+.g-ws{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:12px}
+.g-w{border:1px solid var(--vt-line);padding:14px}
+.g-w p{margin:6px 0 0}
+@media(max-width:760px){.g-ws{grid-template-columns:1fr 1fr}}
+
+.g-dark{background:var(--vt-ink);color:var(--vt-on-dark);padding:clamp(20px,3vw,34px);margin-top:14px}
+.g-dark .g-table th,.g-dark .g-table td{border-bottom-color:var(--vt-on-dark-line)}
+.g-dark .g-table thead th{color:var(--vt-on-dark-muted);border-bottom-color:var(--vt-on-dark)}
+.g-dark .g-dim{color:var(--vt-on-dark-muted)}
+
+.g-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.g-btn{display:inline-flex;align-items:center;padding:15px 28px;border-radius:999px;
+  border:1px solid var(--vt-ink);background:var(--vt-ink);color:var(--vt-paper);
+  font-family:var(--vt-font-mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  cursor:pointer;transition:background var(--vt-fast) var(--vt-ease),color var(--vt-fast) var(--vt-ease)}
+.g-btn:hover{background:transparent;color:var(--vt-ink)}
+.g-btn--ghost{background:transparent;color:var(--vt-ink)}
+.g-btn--ghost:hover{background:var(--vt-ink);color:var(--vt-paper)}
+
+.g-hair{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--vt-line);
+  border:1px solid var(--vt-line);margin-top:14px}
+.g-hair div{background:var(--vt-paper);padding:26px 16px;font-family:var(--vt-font-mono);
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--vt-muted)}
+
+.g-do{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--vt-line);
+  border:1px solid var(--vt-line);margin-top:14px}
+.g-do > div{background:var(--vt-paper);padding:20px}
+.g-do h4{margin:0 0 10px;font-family:var(--vt-font-mono);font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase}
+.g-do ul{margin:0;padding:0;list-style:none}
+.g-do li{padding:6px 0 6px 20px;position:relative;font-size:14px;border-top:1px solid var(--vt-line)}
+.g-do li:first-child{border-top:0}
+.g-do li::before{position:absolute;left:0;font-family:var(--vt-font-mono);font-weight:600}
+.g-yes li::before{content:"+";color:var(--vt-yes)}
+.g-no li::before{content:"\00d7";color:var(--vt-sale)}
+@media(max-width:760px){.g-do{grid-template-columns:1fr}}
+</style></head><body>
+<main>
+
+<p class="g-eyebrow">Vitalité &#174; &middot; Brand guideline &middot; v1.0</p>
+<h1>Bảng<br>xem nhanh</h1>
+<p class="g-lead" style="margin-top:22px">Trang này <b>sinh tự động</b> từ
+<code>deliverables/brand/tokens.css</code>. Mọi ô màu, mã hex và tỷ lệ tương phản đều đọc từ đó
+và tính lúc sinh, không chép tay. Đổi màu trong tokens rồi chạy lại
+<code>python docs/make-guideline.py</code> là bảng tự đúng.</p>
+<p class="g-lead">Phần giải thích <i>vì sao</i> nằm ở <code>BRAND-GUIDELINE.md</code>.</p>
+
+<div class="g-note">
+  <b>Đây không phải guideline do brand cấp</b>
+  Brand chưa cấp bộ nào. Đây là bộ dựng ngược từ tài sản có thật, quan sát công khai, và những
+  quyết định đã ra trong lúc build. Đọc mục 0 của <code>BRAND-GUIDELINE.md</code> để biết mục nào
+  là fact, mục nào là lựa chọn của bản dựng.
+</div>
+
+<section>
+  <p class="g-eyebrow">01 &middot; Logo</p>
+  <h2>Tám asset, ba vai trò</h2>
+  <p class="g-lead">Tất cả 995&times;994 PNG RGBA, đen tuyền, nền trong suốt.
+  Số đo là hộp bao phần mực thật.</p>
+  <div class="g-logos"><figure class="g-logo"><div class="g-logo-box"><img src="../../Logo/Black Sabbath/vitalite_LOGO-17.png" alt="Mark hoa bốn cánh" loading="lazy"></div><figcaption><b>Mark hoa bốn cánh</b><span>Symbol chính. Favicon, app icon, nhãn cổ</span><span class="g-mono g-dim">LOGO-17 · 512×645</span></figcaption></figure><figure class="g-logo"><div class="g-logo-box"><img src="../../Logo/Black Sabbath/vitalite_LOGO-18.png" alt="Emblem e + bóng nước" loading="lazy"></div><figcaption><b>Emblem e + bóng nước</b><span>Emblem phụ, dùng hiếm</span><span class="g-mono g-dim">LOGO-18 · 663×654</span></figcaption></figure><figure class="g-logo"><div class="g-logo-box"><img src="../../Logo/Black Sabbath/vitalite_LOGO-19.png" alt="VITALITÉ hoa in" loading="lazy"></div><figcaption><b>VITALITÉ hoa in</b><span>Wordmark trang trọng</span><span class="g-mono g-dim">LOGO-19 · 697×137</span></figcaption></figure><figure class="g-logo"><div class="g-logo-box"><img src="../../Logo/Black Sabbath/vitalite_LOGO-20.png" alt="vitalité thường" loading="lazy"></div><figcaption><b>vitalité thường</b><span>⭐ Wordmark chính, dùng cho giao diện</span><span class="g-mono g-dim">LOGO-20 · 617×137</span></figcaption></figure><figure class="g-logo"><div class="g-logo-box"><img src="../../Logo/Black Sabbath/vitalite_LOGO-21.png" alt="vitalité, e là emblem" loading="lazy"></div><figcaption><b>vitalité, e là emblem</b><span>Lockup chữ ký, dùng cho thương hiệu</span><span class="g-mono g-dim">LOGO-21 · 615×137</span></figcaption></figure><figure class="g-logo"><div class="g-logo-box"><img src="../../Logo/Black Sabbath/vitalite_LOGO-22.png" alt="Vitalité chữ ký" loading="lazy"></div><figcaption><b>Vitalité chữ ký</b><span>Trang trí, in ngực</span><span class="g-mono g-dim">LOGO-22 · 807×287</span></figcaption></figure><figure class="g-logo"><div class="g-logo-box"><img src="../../Logo/Black Sabbath/vitalite_LOGO-23.png" alt="Tag graffiti mảnh" loading="lazy"></div><figcaption><b>Tag graffiti mảnh</b><span>Đồ hoạ sản phẩm, KHÔNG phải logo giao diện</span><span class="g-mono g-dim">LOGO-23 · 724×337</span></figcaption></figure><figure class="g-logo"><div class="g-logo-box"><img src="../../Logo/Black Sabbath/vitalite_LOGO-24.png" alt="Tag graffiti dày" loading="lazy"></div><figcaption><b>Tag graffiti dày</b><span>Đồ hoạ sản phẩm, KHÔNG phải logo giao diện</span><span class="g-mono g-dim">LOGO-24 · 724×391</span></figcaption></figure></div>
+
+  <div class="g-note">
+    <b>Chưa có SVG, chưa có bản trắng</b>
+    Header đang dùng raster 995px nên mờ trên màn 2x. Và đen tuyền thì không đặt được lên nền tối,
+    mà header có hai chế độ. Cần file vector gốc.
+  </div>
+
+  <h3>Nên và không nên</h3>
+  <div class="g-do">
+    <div><h4>Nên</h4><ul class="g-yes">
+      <li>Chừa khoảng thở bằng nửa chiều cao wordmark</li>
+      <li>Wordmark tối thiểu 96px rộng, mark tối thiểu 24px</li>
+      <li>Đặt lên khối đặc khi nền là ảnh</li>
+      <li>Dùng LOGO-20 cho giao diện, LOGO-21 cho thương hiệu</li>
+    </ul></div>
+    <div><h4>Không nên</h4><ul class="g-no">
+      <li>Đổi sang màu khác đen hoặc trắng</li>
+      <li>Thêm bóng, viền, gradient</li>
+      <li>Kéo méo, nghiêng, uốn cong</li>
+      <li>Gõ lại chữ bằng font khác rồi coi là logo</li>
+      <li>Dùng tag graffiti làm logo giao diện</li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <p class="g-eyebrow">02 &middot; Màu</p>
+  <h2>Thang trung tính</h2>
+  <p class="g-lead">Site này chủ yếu đen, trắng, xám. Không phải vì thiếu màu, mà vì vùng sản phẩm
+  phải để trắng cho hàng tự nói, và màu nhấn thời kỳ mới chưa có mã.</p>
+  <table class="g-table"><thead><tr><th></th><th>Token</th><th>Giá trị</th><th>Dùng vào</th><th>Tương phản</th></tr></thead><tbody><tr><td><span class="g-chip" style="background:#FFFFFF"></span></td><td><code>--vt-paper</code></td><td class="g-mono">#FFFFFF</td><td>Nền chính: lưới sản phẩm, PDP, trang chính sách</td><td class="g-dim">không đo, đây không phải màu chữ</td></tr><tr><td><span class="g-chip" style="background:#F4F4F4"></span></td><td><code>--vt-tint</code></td><td class="g-mono">#F4F4F4</td><td>Nền phụ, khối nhấn nhẹ</td><td class="g-dim">không đo, đây không phải màu chữ</td></tr><tr><td><span class="g-chip" style="background:#0A0A0A"></span></td><td><code>--vt-ink</code></td><td class="g-mono">#0A0A0A</td><td>Chữ chính, VÀ nền của mọi vùng tối</td><td><b class="g-pass">19.80</b><span class="g-dim"> trên paper · AAA</span></td></tr><tr><td><span class="g-chip" style="background:#16161A"></span></td><td><code>--vt-ink-soft</code></td><td class="g-mono">#16161A</td><td>Nền tối hạng hai</td><td class="g-dim">không đo, đây không phải màu chữ</td></tr><tr><td><span class="g-chip" style="background:#E4E4E6"></span></td><td><code>--vt-line</code></td><td class="g-mono">#E4E4E6</td><td>Đường kẻ mảnh</td><td class="g-dim">không đo, đây không phải màu chữ</td></tr><tr><td><span class="g-chip" style="background:#C9C9CE"></span></td><td><code>--vt-line-strong</code></td><td class="g-mono">#C9C9CE</td><td>Viền ô nhập, mép thẻ</td><td class="g-dim">không đo, đây không phải màu chữ</td></tr><tr><td><span class="g-chip" style="background:#6E6E76"></span></td><td><code>--vt-muted</code></td><td class="g-mono">#6E6E76</td><td>Chữ phụ</td><td><b class="g-pass">5.05</b><span class="g-dim"> trên paper · AA</span></td></tr><tr><td><span class="g-chip" style="background:#75757F"></span></td><td><code>--vt-dim</code></td><td class="g-mono">#75757F</td><td>Chữ mờ nhất còn đọc được</td><td><b class="g-pass">4.56</b><span class="g-dim"> trên paper · AA</span></td></tr></tbody></table>
+
+  <h3>Đảo màu cho vùng tối</h3>
+  <div class="g-dark"><table class="g-table"><thead><tr><th></th><th>Token</th><th>Giá trị</th><th>Dùng vào</th><th>Tương phản</th></tr></thead><tbody><tr><td><span class="g-chip" style="background:#F2F2F4"></span></td><td><code>--vt-on-dark</code></td><td class="g-mono">#F2F2F4</td><td>Chữ trên nền tối</td><td><b class="g-pass">17.71</b><span class="g-dim"> trên ink · AAA</span></td></tr></tbody></table></div>
+
+  <h3>Màu thương hiệu</h3>
+  <table class="g-table"><thead><tr><th></th><th>Token</th><th>Giá trị</th><th>Dùng vào</th><th>Tương phản</th></tr></thead><tbody><tr><td><span class="g-chip" style="background:#0A0A0A"></span></td><td><code>--vt-accent</code></td><td class="g-mono">#0A0A0A</td><td>Màu nhấn. ĐANG LÀ ĐEN vì brand chưa cấp mã</td><td><b class="g-pass">19.80</b><span class="g-dim"> trên paper · AAA</span></td></tr><tr><td><span class="g-chip" style="background:#C52458"></span></td><td><code>--vt-archive-pink</code></td><td class="g-mono">#C52458</td><td>Hồng thời kỳ cũ, ĐO ĐƯỢC. Không dùng cho UI</td><td><b class="g-pass">5.57</b><span class="g-dim"> trên paper · AA</span></td></tr></tbody></table>
+  <div class="g-note">
+    <b>Màu nhấn đang là đen, và đó là chủ ý</b>
+    Brand đổi chủ. Thời kỳ mới đi xanh dương và tím nhưng chưa cấp mã. Có mã rồi thì đổi đúng
+    <code>--vt-accent</code> trong <code>tokens.css</code>, cả site đổi theo.
+    Câu <b>42</b> trong <code>CAU-HOI-CHO-BRAND.md</code>. Lấy mã từ file gốc, đừng lấy từ ảnh chụp.
+  </div>
+
+  <h3>Màu trạng thái</h3>
+  <p class="g-lead">Màu chức năng, không phải màu thương hiệu.</p>
+  <table class="g-table"><thead><tr><th></th><th>Token</th><th>Giá trị</th><th>Dùng vào</th><th>Tương phản</th></tr></thead><tbody><tr><td><span class="g-chip" style="background:#C2413A"></span></td><td><code>--vt-sale</code></td><td class="g-mono">#C2413A</td><td>Giảm giá, xoá, lỗi</td><td><b class="g-pass">5.11</b><span class="g-dim"> trên paper · AA</span></td></tr><tr><td><span class="g-chip" style="background:#188479"></span></td><td><code>--vt-ok</code></td><td class="g-mono">#188479</td><td>Còn hàng, thành công</td><td><b class="g-pass">4.55</b><span class="g-dim"> trên paper · AA</span></td></tr><tr><td><span class="g-chip" style="background:#166534"></span></td><td><code>--vt-yes</code></td><td class="g-mono">#166534</td><td>Dấu + trong danh sách được phép</td><td><b class="g-pass">7.13</b><span class="g-dim"> trên paper · AAA</span></td></tr></tbody></table>
+
+  <h3>Màu công cụ nội bộ</h3>
+  <p class="g-lead">Mọi ô cam phải biến mất trước khi publish. Chúng cố tình chói mắt.</p>
+  <table class="g-table"><thead><tr><th></th><th>Token</th><th>Giá trị</th><th>Dùng vào</th><th>Tương phản</th></tr></thead><tbody><tr><td><span class="g-chip" style="background:#B45309"></span></td><td><code>--vt-flag</code></td><td class="g-mono">#B45309</td><td>Viền ô chưa có dữ liệu</td><td><b class="g-pass">4.67</b><span class="g-dim"> trên flag-bg · AA</span></td></tr><tr><td><span class="g-chip" style="background:#FEF6E7"></span></td><td><code>--vt-flag-bg</code></td><td class="g-mono">#FEF6E7</td><td>Nền ô đó</td><td class="g-dim">không đo, đây không phải màu chữ</td></tr></tbody></table>
+</section>
+
+<section>
+  <p class="g-eyebrow">03 &middot; Chữ</p>
+  <h2>Ba họ, ba việc</h2>
+  <p class="g-lead">Mono không phải trang trí. Mọi thứ <i>đo được</i> thì viết bằng mono: giá,
+  số đo, mã đơn, GSM, ngày. Mắt học được luật đó sau vài màn hình.</p>
+  <div class="g-scale-row"><div class="g-scale-meta"><code>--vt-t-hero</code><span class="g-mono g-dim">clamp(50px, 8.4vw, 152px)</span><span class="g-dim">Hero</span></div><div class="g-scale-demo" style="font-size:var(--vt-t-hero);font-family:var(--vt-font-display);font-weight:800;text-transform:uppercase;letter-spacing:-.035em;line-height:1.02;">Even in chaos</div></div><div class="g-scale-row"><div class="g-scale-meta"><code>--vt-t-2xl</code><span class="g-mono g-dim">clamp(38px, 5.4vw, 84px)</span><span class="g-dim">Tiêu đề section</span></div><div class="g-scale-demo" style="font-size:var(--vt-t-2xl);font-family:var(--vt-font-display);font-weight:800;text-transform:uppercase;letter-spacing:-.035em;line-height:1.02;">Even in chaos</div></div><div class="g-scale-row"><div class="g-scale-meta"><code>--vt-t-xl</code><span class="g-mono g-dim">clamp(24px, 3vw, 34px)</span><span class="g-dim">Tiêu đề khối</span></div><div class="g-scale-demo" style="font-size:var(--vt-t-xl);font-family:var(--vt-font-display);font-weight:800;text-transform:uppercase;letter-spacing:-.035em;line-height:1.02;">Even in chaos</div></div><div class="g-scale-row"><div class="g-scale-meta"><code>--vt-t-lg</code><span class="g-mono g-dim">clamp(20px, 2.4vw, 26px)</span><span class="g-dim">Tiêu đề phụ</span></div><div class="g-scale-demo" style="font-size:var(--vt-t-lg);font-family:var(--vt-font-display);font-weight:800;text-transform:uppercase;letter-spacing:-.035em;line-height:1.02;">Even in chaos</div></div><div class="g-scale-row"><div class="g-scale-meta"><code>--vt-t-md</code><span class="g-mono g-dim">17px</span><span class="g-dim">Chữ nhấn</span></div><div class="g-scale-demo" style="font-size:var(--vt-t-md);font-family:var(--vt-font-primary);">Even in chaos</div></div><div class="g-scale-row"><div class="g-scale-meta"><code>--vt-t-base</code><span class="g-mono g-dim">15px</span><span class="g-dim">Chữ giao diện</span></div><div class="g-scale-demo" style="font-size:var(--vt-t-base);font-family:var(--vt-font-primary);">Even in chaos</div></div><div class="g-scale-row"><div class="g-scale-meta"><code>--vt-t-sm</code><span class="g-mono g-dim">13px</span><span class="g-dim">Chú thích</span></div><div class="g-scale-demo" style="font-size:var(--vt-t-sm);font-family:var(--vt-font-primary);">Even in chaos</div></div><div class="g-scale-row"><div class="g-scale-meta"><code>--vt-t-xs</code><span class="g-mono g-dim">11px</span><span class="g-dim">Eyebrow</span></div><div class="g-scale-demo" style="font-size:var(--vt-t-xs);font-family:var(--vt-font-mono);letter-spacing:.2em;text-transform:uppercase;">Even in chaos</div></div>
+
+  <h3>Độ đậm</h3>
+  <div class="g-ws"><div class="g-w"><span class="g-mono g-dim">400</span><p style="font-weight:400;font-size:22px">Heavy in weight</p></div><div class="g-w"><span class="g-mono g-dim">500</span><p style="font-weight:500;font-size:22px">Heavy in weight</p></div><div class="g-w"><span class="g-mono g-dim">600</span><p style="font-weight:600;font-size:22px">Heavy in weight</p></div><div class="g-w"><span class="g-mono g-dim">700</span><p style="font-weight:700;font-size:22px">Heavy in weight</p></div><div class="g-w"><span class="g-mono g-dim">800</span><p style="font-weight:800;font-size:22px">Heavy in weight</p></div></div>
+  <div class="g-note">
+    <b>Weight 700 từng được dùng 48 chỗ mà chưa bao giờ được tải</b>
+    Trình duyệt tự bắt sang 600 hoặc 800 nên những chỗ đó sai độ đậm mà không ai biết.
+    Đã thêm vào cả theme lẫn bản xem trước.
+  </div>
+</section>
+
+<section>
+  <p class="g-eyebrow">04 &middot; Bố cục</p>
+  <h2>Khe 2px, không phải viền</h2>
+  <p class="g-lead">Các ô cách nhau <code>--vt-hair</code>, nền lộ ra qua khe tạo thành đường kẻ.
+  Nhờ vậy không bao giờ có đường kẻ đôi ở chỗ hai ô giáp nhau.</p>
+  <div class="g-hair"><div>Ô một</div><div>Ô hai</div><div>Ô ba</div><div>Ô bốn</div></div>
+
+  <h3>Nút</h3>
+  <p class="g-lead">Bo tròn hoàn toàn, không có ngoại lệ.</p>
+  <div class="g-btns">
+    <button class="g-btn">Add to cart</button>
+    <button class="g-btn g-btn--ghost">Size guide</button>
+  </div>
+
+  <h3>Bề rộng</h3>
+  <p class="g-lead">Trang brand chạy full-width. Trang tài liệu chặn ở
+  <code>1180px</code> vì độ dài dòng là yếu tố đọc được.</p>
+</section>
+
+<section>
+  <p class="g-eyebrow">05 &middot; Còn thiếu</p>
+  <h2>Bốn thứ đổi được diện mạo</h2>
+  <div class="g-do">
+    <div><h4>Chặn thật</h4><ul class="g-no">
+      <li>Mã hex tím và xanh dương, lấy từ file gốc</li>
+      <li>File vector logo, .ai hoặc .svg</li>
+      <li>Bản logo trắng cho nền tối</li>
+      <li>Ảnh chụp sản phẩm thật từ 1600px</li>
+    </ul></div>
+    <div><h4>Dọn dẹp</h4><ul class="g-yes">
+      <li>Xác nhận phân vai LOGO-20 với LOGO-21</li>
+      <li>Xác nhận Black Sabbath là tên bộ hay tên tuỳ hứng</li>
+      <li>Brand có typeface riêng không</li>
+    </ul></div>
+  </div>
+</section>
+
+</main></body></html>

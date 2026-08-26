@@ -1,0 +1,118 @@
+/* ============================================================
+   VITALITÉ — DESIGN TOKENS
+   Nguồn sự thật duy nhất cho màu, chữ, khoảng cách.
+
+   🔴 SỬA MÀU THÌ SỬA Ở ĐÂY, KHÔNG SỬA CHỖ KHÁC.
+
+   File này được ĐỌC bởi:
+     · docs/make-pages.py          sinh khối :root cho _preview-all / _preview-about
+     · docs/make-woo-preview.py    sinh khối :root cho _preview-pdp / _preview-shop
+   và phải khớp với khối `:root` trong
+     · repo/.../vitalite-theme-2/style.css   ← đây mới là bản production đọc
+
+   Trước khi có file này, mỗi fragment tự mang giá trị dự phòng riêng và chúng
+   đã lệch nhau ở 10 token: `--vt-muted` lệch #6E6E76 với #6B6B70, `--vt-tint`
+   lệch #F4F4F4 với #F7F7F8, `--vt-sale` lệch #C2413A với #C2452D. Trên site
+   thật thì theme thắng nên không ai thấy, nhưng bản xem trước hiện SAI MÀU so
+   với production, và đó là bản mọi người dùng để duyệt.
+
+   Giải thích từng màu dùng vào việc gì: deliverables/brand/BRAND-GUIDELINE.md
+   ============================================================ */
+
+:root {
+
+  /* ---------- CHỮ ----------
+     Không phải font chính thức của brand. Brand chưa cấp typeface.
+     Đây là lựa chọn của bản build, xem BRAND-GUIDELINE.md mục 3. */
+  --vt-font-primary: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --vt-font-display: 'Archivo Expanded', 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --vt-font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* ---------- NỀN & MỰC ----------
+     Thang xám trung tính. Vùng sản phẩm luôn TRẮNG (quyết định đã chốt). */
+  --vt-paper:       #FFFFFF;   /* nền chính: lưới sản phẩm, PDP, trang chính sách */
+  --vt-tint:        #F4F4F4;   /* nền phụ: khối nhấn nhẹ trên trắng */
+  --vt-ink:         #0A0A0A;   /* chữ chính, VÀ nền của mọi vùng tối */
+  --vt-ink-soft:    #16161A;   /* nền tối hạng hai, tách lớp trong vùng tối */
+  --vt-line:        #E4E4E6;   /* đường kẻ mảnh mặc định */
+  --vt-line-strong: #C9C9CE;   /* đường kẻ đậm hơn: viền ô nhập, mép thẻ */
+  --vt-muted:       #6E6E76;   /* chữ phụ trên nền sáng */
+  --vt-dim:         #75757F;   /* chữ mờ nhất còn ĐỌC ĐƯỢC. Cũ là #9A9AA2, chỉ đạt 2.79:1,
+                                  TRƯỢT cả chuẩn chữ lớn. Hạ tới ngưỡng AA: 4.56:1 */
+
+  /* ---------- ĐẢO MÀU CHO VÙNG TỐI ----------
+     Không dùng --vt-paper làm chữ trên nền đen. #F2F2F4 dịu hơn trắng tinh,
+     giảm chói ở khối tối lớn như hero và footer. */
+  --vt-on-dark:       #F2F2F4;
+  --vt-on-dark-muted: rgba(242, 242, 244, .68);
+  --vt-on-dark-line:  rgba(242, 242, 244, .18);
+
+  /* ---------- MÀU NHẤN ----------
+     🔴 ĐANG LÀ ĐEN, VÀ ĐÓ LÀ CHỦ Ý.
+     Brand đổi chủ. Thời kỳ cũ dùng hồng rose (đo được, xem mục dưới), thời kỳ
+     mới đi xanh dương + tím nhưng CHƯA CẤP MÃ. Đóng đinh vào màu của thời kỳ
+     sắp bị thay là làm hỏng cả site khi có mã thật.
+     Có mã chính thức thì đổi ĐÚNG HAI DÒNG NÀY. Câu 42 trong CAU-HOI-CHO-BRAND.md. */
+  --vt-accent:    #0A0A0A;
+  --vt-accent-on: #FFFFFF;
+
+  /* ---------- HỒNG THỜI KỲ CŨ ----------
+     ĐO ĐƯỢC từ hình in trên sản phẩm thật, không phải phỏng đoán.
+     reference/BRAND_ASSETS_AUDIT.md mục 2: hue bám chặt 336-348 độ trên cả 6
+     mockup. Đây là HỒNG ROSE, không phải đỏ.
+
+     ⛔ KHÔNG dùng cho UI. Nó thuộc về hàng archive, không phải hệ màu hiện tại.
+     Chỉ dùng khi cần nói về chính dòng sản phẩm cũ. */
+  --vt-archive-pink: #C52458;
+
+  /* ---------- VÁNG DẦU ----------
+     QUAN SÁT TỪ ẢNH INSTAGRAM thời kỳ mới, KHÔNG phải mã spec.
+     ⛔ Chỉ dùng cho mảng nền lớn. Không dùng cho chữ, không dùng cho UI,
+     không dùng cho bất cứ thứ gì cần đọc được. */
+  --vt-iri-1: rgba(126, 72, 240, .85);
+  --vt-iri-2: rgba(38, 196, 190, .72);
+  --vt-iri-3: rgba(214, 72, 158, .60);
+  --vt-iri-4: rgba(58, 102, 232, .75);
+
+  /* ---------- TRẠNG THÁI ----------
+     Đây là màu CHỨC NĂNG, không phải màu thương hiệu. Chúng tồn tại để báo
+     một trạng thái, và người dùng đã quen nghĩa của chúng ở mọi site khác. */
+  --vt-sale: #C2413A;   /* giảm giá, xoá bỏ, lỗi */
+  --vt-ok:   #188479;   /* còn hàng, thành công. Cũ #18857A hụt AA đúng 0,01 (4.49) */
+  --vt-yes:  #166534;   /* dấu + trong danh sách "được phép" */
+
+  /* Ô cảnh báo "CHƯA CÓ DỮ LIỆU" trong bộ trang tĩnh.
+     ⛔ Đây là công cụ nội bộ, KHÔNG phải màu brand. Mọi ô này phải biến mất
+     trước khi publish. Trước đây hardcode rải rác 42 chỗ nên không tắt một
+     lần được; giờ thành token. */
+  --vt-flag:    #B45309;
+  --vt-flag-bg: #FEF6E7;
+
+  /* ---------- KHÔNG GIAN ----------
+     FULL-WIDTH. Không có khung 1440px ở giữa cho trang brand.
+     Ngoại lệ: trang tài liệu (chính sách, giỏ, thanh toán) chặn ở 1180px vì
+     độ dài dòng là yếu tố đọc được. Xem BRAND-GUIDELINE.md mục 4. */
+  --vt-header-h:        76px;
+  --vt-header-h-mobile: 64px;
+  --vt-gutter:          clamp(16px, 2.4vw, 32px);
+  --vt-gutter-page:     clamp(20px, 5vw, 72px);
+  --vt-max:             none;
+  --vt-max-text:        68ch;
+  --vt-max-doc:         1180px;
+  --vt-hair:            2px;   /* khe giữa các ô, nền lộ ra tạo đường kẻ */
+
+  /* ---------- THANG CHỮ ---------- */
+  --vt-t-xs:   11px;
+  --vt-t-sm:   13px;
+  --vt-t-base: 15px;
+  --vt-t-md:   17px;
+  --vt-t-lg:   clamp(20px, 2.4vw, 26px);
+  --vt-t-xl:   clamp(24px, 3vw, 34px);
+  --vt-t-2xl:  clamp(38px, 5.4vw, 84px);
+  --vt-t-hero: clamp(50px, 8.4vw, 152px);
+
+  /* ---------- CHUYỂN ĐỘNG ---------- */
+  --vt-ease: cubic-bezier(.22, .61, .36, 1);
+  --vt-fast: .18s;
+  --vt-slow: .45s;
+}

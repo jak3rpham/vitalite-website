@@ -32,11 +32,11 @@
   --c-paper:var(--vt-paper,#FFFFFF);
   --c-line:var(--vt-line,#E4E4E6);
   --c-strong:var(--vt-line-strong,#C9C9CE);
-  --c-muted:var(--vt-muted,#6B6B70);
-  --c-tint:var(--vt-tint,#F7F7F8);
-  --c-sale:var(--vt-sale,#C2452D);
-  --c-mono:var(--vt-font-mono,"JetBrains Mono",ui-monospace,monospace);
-  --c-disp:var(--vt-font-display,"Archivo Expanded","Archivo",system-ui,sans-serif);
+  --c-muted:var(--vt-muted,#6E6E76);
+  --c-tint:var(--vt-tint,#F4F4F4);
+  --c-sale:var(--vt-sale,#C2413A);
+  --c-mono:var(--vt-font-mono,'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace);
+  --c-disp:var(--vt-font-display,'Archivo Expanded','Archivo','Helvetica Neue',Arial,sans-serif);
   --c-gut:clamp(20px,5vw,72px);
   color:var(--c-ink);font-size:16px;line-height:1.7;
   /* 🔴 FRAGMENT PHẢI TỰ SƠN NỀN, ĐỪNG GỠ.
@@ -56,7 +56,7 @@
 
 /* Ba trang này là TÀI LIỆU GIAO DỊCH, không phải trang brand.
    Chặn bề rộng để mắt không phải quét ngang 1700px khi soát đơn hàng. */
-.vwc-wrap{max-width:1180px;margin-inline:auto;padding:clamp(24px,4vw,56px) var(--c-gut) clamp(56px,8vw,110px);}
+.vwc-wrap{max-width:var(--vt-max-doc,1180px);margin-inline:auto;padding:clamp(24px,4vw,56px) var(--c-gut) clamp(56px,8vw,110px);}
 
 .vwc-head{padding-bottom:22px;border-bottom:1px solid var(--c-ink);margin-bottom:clamp(26px,4vw,44px);}
 .vwc-eyebrow{font-family:var(--c-mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--c-muted);margin-bottom:14px;}
@@ -173,8 +173,8 @@
 @media (max-width:900px){ .vwc .cart_totals{position:static;} }
 
 /* Ô cam: phí ship chưa có số */
-.vwc-flag{padding:14px 16px;background:#FEF6E7;border-left:3px solid #B45309;font-size:13.5px;margin-top:16px;}
-.vwc-flag b{display:block;font-family:var(--c-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#B45309;margin-bottom:6px;}
+.vwc-flag{padding:14px 16px;background:var(--vt-flag-bg,#FEF6E7);border-left:3px solid var(--vt-flag,#B45309);font-size:13.5px;margin-top:16px;}
+.vwc-flag b{display:block;font-family:var(--c-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--vt-flag,#B45309);margin-bottom:6px;}
 
 /* ================= 2. CHECKOUT ================= */
 .vwc-checkout-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);gap:clamp(28px,4.5vw,72px);align-items:start;}
