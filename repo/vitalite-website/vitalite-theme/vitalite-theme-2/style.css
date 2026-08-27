@@ -86,6 +86,14 @@ Text Domain: vitalite
   /* Đường kẻ 2px giữa các ô — nền lộ ra qua khe gap, tạo hairline không cần border */
   --vt-hair: 2px;
 
+  /* ---- Kính mờ của header ----
+     Ba token tả CÙNG MỘT vật liệu, đổi lẻ một cái là hỏng chất kính.
+     shine = vệt sáng 1px mép trên, thứ tạo cảm giác tấm kính có độ dày.
+     Giải thích đầy đủ ở deliverables/brand/tokens.css. */
+  --vt-glass-blur: blur(20px) saturate(190%) contrast(90%);
+  --vt-glass-shine: inset 0 1px 0 0 rgba(255, 255, 255, .55);
+  --vt-glass-shadow: 0 8px 24px rgba(10, 10, 10, .06);
+
   /* ---- Thang chữ ---- */
   --vt-t-xs: 11px;
   --vt-t-sm: 13px;
@@ -302,13 +310,24 @@ body.vt-banner-top .site-main { padding-top: 0; }
   gap: 24px; padding-inline: var(--vt-gutter);
   color: var(--vt-ink);
   background: rgba(255, 255, 255, .82);
-  backdrop-filter: saturate(180%) blur(16px);
-  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  backdrop-filter: var(--vt-glass-blur);
+  -webkit-backdrop-filter: var(--vt-glass-blur);
   border-bottom: 1px solid var(--vt-line);
+  /* Vệt sáng mép trên + bóng đổ dưới. Hai thứ này làm header đọc ra là một TẤM
+     KÍNH nằm trên nội dung, không phải mảng màu dán vào nền. Quan trọng nhất ở
+     lúc cuộn qua vùng trắng, chỗ riêng viền 1px là chìm hẳn. */
+  box-shadow: var(--vt-glass-shadow), var(--vt-glass-shine);
   transition: background var(--vt-slow) var(--vt-ease), color var(--vt-slow) var(--vt-ease),
               border-color var(--vt-slow) var(--vt-ease),
+              box-shadow var(--vt-slow) var(--vt-ease),
               transform .34s var(--vt-ease);
   will-change: transform;
+}
+
+/* backdrop-filter không được hỗ trợ (Firefox có thể tắt trong about:config):
+   nền .82 trong suốt sẽ để chữ trang lẫn vào chữ nav. Đục hẳn nền lại. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .vt-header { background: rgba(255, 255, 255, .97); }
 }
 
 /* ---- Kéo xuống thì trượt lên ẩn, kéo lên thì hiện lại ----
@@ -326,7 +345,8 @@ body.vt-banner-top .site-main { padding-top: 0; }
 /* Giảm chuyển động: vẫn ẩn/hiện nhưng không trượt */
 @media (prefers-reduced-motion: reduce) {
   .vt-header { transition: background var(--vt-slow) var(--vt-ease), color var(--vt-slow) var(--vt-ease),
-                           border-color var(--vt-slow) var(--vt-ease); }
+                           border-color var(--vt-slow) var(--vt-ease),
+                           box-shadow var(--vt-slow) var(--vt-ease); }
 }
 
 /* Header ĐANG ĐÈ LÊN BANNER: trong suốt, không viền, chữ trắng.
@@ -338,6 +358,11 @@ body.vt-banner-top .site-main { padding-top: 0; }
   background: transparent;
   border-bottom-color: transparent;
   color: var(--vt-paper);
+  /* Đè lên banner thì KHÔNG có kính: bỏ cả blur lẫn bóng.
+     Còn blur ở đây là hero video bị mờ một dải 76px ở đỉnh. */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
 }
 
 .vt-header-left, .vt-header-right { display: flex; align-items: center; gap: clamp(14px, 2vw, 28px); }

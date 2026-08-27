@@ -101,6 +101,23 @@
   --vt-max-doc:         1180px;
   --vt-hair:            2px;   /* khe giữa các ô, nền lộ ra tạo đường kẻ */
 
+  /* ---------- KÍNH MỜ (HEADER) ----------
+     Header dán đỉnh là lớp kính, không phải mảng màu đặc. Ba token dưới đây tả
+     đúng một vật liệu, nên phải đi cùng nhau — đổi lẻ một cái là hỏng chất kính.
+
+     `saturate` bù lại chỗ blur làm màu bên dưới nhợt đi. `contrast` hạ nhẹ để
+     ảnh sản phẩm trôi qua dưới header không đập vào chữ nav.
+     `shine` là vệt sáng 1px ở MÉP TRÊN — thứ làm mắt đọc ra "tấm kính có độ dày"
+     thay vì "ô màu trong suốt". Bỏ nó đi thì header phẳng lì.
+     `shadow` tách header khỏi nội dung khi cuộn qua vùng trắng, chỗ mà riêng
+     đường viền 1px là không đủ.
+
+     Lấy từ bản nháp header liquid glass 27/08, xem
+     repo/vitalite-website/_not-in-theme/header-experiments/README.md */
+  --vt-glass-blur:   blur(20px) saturate(190%) contrast(90%);
+  --vt-glass-shine:  inset 0 1px 0 0 rgba(255, 255, 255, .55);
+  --vt-glass-shadow: 0 8px 24px rgba(10, 10, 10, .06);
+
   /* ---------- THANG CHỮ ---------- */
   --vt-t-xs:   11px;
   --vt-t-sm:   13px;
