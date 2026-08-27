@@ -20,6 +20,7 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var hasIO = 'IntersectionObserver' in window;
   var heroApi = null;   // khối header bên dưới có tham chiếu tới, nên khai báo sớm
+  var syncBanner = null;   // initHeaderSlide gọi lại mỗi khung hình cuộn
 
   /* ---------------------------------------------------------------
    * 1. Header xuyên thấu — trong suốt khi đè lên banner, đục khi rời banner
@@ -60,8 +61,40 @@
     var banner     = sentinel.parentElement;
     var staticTone = banner ? banner.getAttribute('data-tone') : null;
 
-    new IntersectionObserver(function (entries) {
-      var overBanner = entries[0].isIntersecting;
+    /*
+     * 🔴 VÌ SAO KHÔNG DÙNG IntersectionObserver Ở ĐÂY NỮA.
+     *
+     * IO chỉ bắn khi TRẠNG THÁI GIAO NHAU đổi, và `isIntersecting` false ở CẢ
+     * HAI phía: sentinel còn ở dưới đáy màn hình (banner cao hơn một màn, ta
+     * vẫn đang ở trong nó) lẫn đã trôi lên trên (đã rời banner). Hai tình
+     * huống ngược nhau, cùng một giá trị.
+     *
+     * Hero trang chủ cao đúng 100vh nên không lộ — đáy hero luôn nằm sát mép
+     * dưới màn hình. Trang About mở bằng chuỗi frame cao 500vh thì lộ ngay:
+     * sentinel ở tít dưới, IO báo "không giao", header thành kính trắng đè lên
+     * nền đen suốt cả đoạn hero.
+     *
+     * Vá bằng cách đọc thêm boundingClientRect.top vẫn hỏng: nhảy thẳng xuống
+     * cuối trang (anchor, khôi phục vị trí cuộn, Ctrl+End) thì sentinel đi từ
+     * "dưới màn hình" sang "trên màn hình" mà KHÔNG đổi isIntersecting, nên IO
+     * không bắn lần nào và header kẹt trong suốt trên nền trắng.
+     *
+     * Nên: đo MỘT LẦN vị trí đáy banner, rồi so bằng số học.
+     * Giữ đúng kỷ luật cũ — không đọc layout trong lúc cuộn: `measure()` chỉ
+     * chạy lúc khởi tạo, lúc `load` và lúc `resize`.
+     */
+    var headerH = 0, bannerBottom = 0, wasOver = null;
+
+    function measure() {
+      headerH = header.offsetHeight;
+      bannerBottom = sentinel.getBoundingClientRect().top + (window.scrollY || 0);
+    }
+
+    function sync() {
+      var overBanner = ((window.scrollY || 0) + headerH) < bannerBottom;
+      if (overBanner === wasOver) return;      // chỉ chạm classList khi thật sự đổi
+      wasOver = overBanner;
+
       header.classList.toggle('is-transparent', overBanner);
 
       if (!overBanner) {
@@ -72,13 +105,18 @@
       } else {
         header.classList.toggle('is-light-bg', staticTone === 'light');
       }
-    }, {
-      // Ngưỡng lùi đúng bằng chiều cao header: đổi chế độ ngay khi đáy banner
-      // chạm gáy header, chứ không phải sau đó.
-      // offsetHeight đọc lúc khởi tạo → tự đúng cả 76px desktop lẫn 64px mobile.
-      rootMargin: '-' + header.offsetHeight + 'px 0px 0px 0px',
-      threshold: 0
-    }).observe(sentinel);
+    }
+
+    function remeasure() { measure(); wasOver = null; sync(); }
+
+    measure();
+    sync();
+    // Chuỗi frame trang About đổi chiều cao khi script của nó chạy xong,
+    // ảnh trong banner cũng có thể đẩy đáy xuống — đo lại sau khi tải xong.
+    window.addEventListener('load', remeasure);
+    window.addEventListener('resize', remeasure);
+
+    syncBanner = sync;   // initHeaderSlide gọi lại mỗi khung hình cuộn
   })();
 
   /* ---------------------------------------------------------------
@@ -123,6 +161,10 @@
 
       // iOS cuộn quá đà cho scrollY âm — kẹp lại, nếu không hướng bị đọc sai
       if (y < 0) y = 0;
+
+      // Header trong suốt / đục: dùng nhờ đúng khung hình này, không thêm
+      // listener nào. Chỉ là phép trừ trên số đã đo sẵn, không đọc layout.
+      if (syncBanner) syncBanner();
 
       var delta = y - last;
       if (Math.abs(delta) < THRESHOLD) return;   // chưa đủ, giữ nguyên trạng thái
@@ -219,10 +261,34 @@
       schedule();
     }
 
+    /* Video có nằm trên slide ĐANG HIỆN không.
+       Cấu trúc: .vt-slide > .vt-slide-media > video */
+    function videoOnActiveSlide() {
+      if (!video) return false;
+      var slide = video.parentNode ? video.parentNode.parentNode : null;
+      return !!(slide && slide === slides[index]);
+    }
+
     function schedule() {
       window.clearTimeout(timer);
       if (paused || reduceMotion || slides.length < 2) return;
-      timer = window.setTimeout(function () { show(index + 1); }, dur);
+
+      /*
+       * Slide ẢNH: 7 giây, như cũ.
+       *
+       * Slide VIDEO: chờ hết clip. Trước đây mọi slide đều cứng 7 giây trong
+       * khi clip dài 8 giây, nên video LUÔN bị cắt ngang ở đúng đoạn gần kết —
+       * thấy rõ bằng mắt.
+       *
+       * Thứ thật sự chuyển slide là sự kiện 'ended'. Timeout dưới đây chỉ là
+       * lưới an toàn: video lỗi, hoặc bị chặn autoplay, thì 'ended' không bao
+       * giờ bắn và hero sẽ đứng im vĩnh viễn nếu không có nó.
+       */
+      var wait = dur;
+      if (videoOnActiveSlide() && videoLoaded && video.duration) {
+        wait = Math.max(dur, Math.ceil((video.duration - video.currentTime) * 1000) + 400);
+      }
+      timer = window.setTimeout(function () { show(index + 1); }, wait);
     }
 
     function pause() {
@@ -313,6 +379,9 @@
       var visible = slide && slide.classList.contains('is-active');
       if (visible) {
         loadVideo();
+        // Quay lại slide 1 sau một vòng: clip đang dừng ở khung cuối.
+        // Không tua về 0 thì lần sau nó đứng im ở khung chót.
+        if (videoLoaded && video.ended) { try { video.currentTime = 0; } catch (e) {} }
         if (videoLoaded && video.paused && video.readyState > 2) {
           var p = video.play();
           if (p && typeof p.then === 'function') { p.then(null, function () {}); }
@@ -320,6 +389,19 @@
       } else if (!video.paused) {
         video.pause();
       }
+    }
+
+    if (video) {
+      // Hết clip → sang slide sau NGAY, không chờ timeout.
+      // Đây là đường chính; timeout trong schedule() chỉ là dự phòng.
+      video.addEventListener('ended', function () {
+        if (videoOnActiveSlide() && !paused) { show(index + 1); }
+      });
+      // Lúc schedule() chạy lần đầu thường chưa biết clip dài bao nhiêu.
+      // Biết rồi thì đặt lại giờ cho đúng.
+      video.addEventListener('loadedmetadata', function () {
+        if (videoOnActiveSlide()) { schedule(); }
+      });
     }
 
     // Chờ trang tải xong hẳn rồi mới đụng tới video — nó không được tranh

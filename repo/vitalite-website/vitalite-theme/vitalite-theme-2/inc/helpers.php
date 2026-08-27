@@ -326,6 +326,24 @@ function vt_top_banner_tone() {
     // Trang kết quả tìm kiếm: cùng banner với archive — xem search.php
     if (is_search()) return 'dark';
 
+    /*
+     * TRANG TĨNH CÓ BANNER TỐI Ở ĐẦU.
+     *
+     * Trang About mở bằng chuỗi frame nền đen cao 500vh. Header kính TRẮNG đè
+     * lên đó cắt trang làm hai mảnh ngay giây đầu tiên — đúng thứ không được
+     * xảy ra ở màn hình đầu.
+     *
+     * Theme không tự biết được: nội dung trang nằm trong post_content do user
+     * dán vào, PHP ở đây không đọc được nó có banner tối hay không. Nên phải
+     * KHAI BÁO. Thêm trang mới có banner tối thì thêm slug vào đây — hoặc hook
+     * vào filter, không phải sửa file này.
+     *
+     * Đây chỉ là trạng thái ĐẦU. Cuộn qua hết banner thì site.js trả header về
+     * kính trắng, dựa vào [data-vt-header-sentinel] mà fragment tự mang.
+     */
+    $vt_dark_pages = apply_filters('vt_dark_banner_pages', array('about'));
+    if (!empty($vt_dark_pages) && is_page($vt_dark_pages)) return 'dark';
+
     // Mọi trang khác CHƯA có banner: page, single, cart, checkout, 404
     return '';
 }

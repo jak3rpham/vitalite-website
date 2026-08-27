@@ -114,8 +114,13 @@ if (empty($vt_slides)) return;
              decoding="async">
 
         <?php if (!empty($vt_s['video']) && ($vt_mp4 || $vt_webm)) : ?>
+          <?php
+          /* KHÔNG có `loop`. Clip phải KẾT THÚC thì sự kiện `ended` mới bắn,
+             và đó là thứ chuyển sang slide 2 — xem initHero() trong site.js.
+             Thêm `loop` lại là hero đứng im ở slide 1 vĩnh viễn. */
+          ?>
           <video id="vt-hero-video" class="vt-slide-video"
-                 muted playsinline loop preload="none" tabindex="-1" aria-hidden="true"
+                 muted playsinline preload="none" tabindex="-1" aria-hidden="true"
                  <?php if ($vt_webm) : ?>data-src-webm="<?php echo esc_url($vt_webm); ?>"<?php endif; ?>
                  <?php if ($vt_mp4) : ?>data-src-mp4="<?php echo esc_url($vt_mp4); ?>"<?php endif; ?>></video>
         <?php endif; ?>

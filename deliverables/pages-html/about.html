@@ -274,6 +274,9 @@
 
 /* Đường chạy 500vh cho 4 mốc chữ */
 .vsq-track{height:500vh;position:relative;}
+/* Mốc 1px ở ĐÁY hero. site.js theo dõi nó để biết header còn đang đè lên
+   banner tối hay đã ra khỏi. Không có nó thì header trắng ngay từ đầu. */
+.vsq-sentinel{position:absolute;left:0;right:0;bottom:0;height:1px;pointer-events:none;}
 
 .vsq-stage{
   position:sticky;top:0;height:100svh;min-height:600px;
@@ -291,8 +294,17 @@
 }
 
 /* HUD trên */
+/* 🔴 `top` PHẢI CỘNG CHIỀU CAO HEADER.
+   Header của theme trong suốt trên trang này (vt_top_banner_tone() trả 'dark'),
+   nên nó KHÔNG chiếm chỗ — nó nằm đè lên hero. HUD mà đặt top:20px thì hai lớp
+   chữ chồng lên nhau ở đúng đỉnh trang: logo VITALITÉ đè lên dòng
+   "VITALITÉ ® · SAIGON", EN/VI đè lên "WORLDWIDE SHIPPING".
+   --vt-header-h là biến của theme, tự đổi 76px → 64px ở mobile. Giá trị dự
+   phòng 76px để fragment vẫn đúng khi xem rời ngoài theme. */
 .vsq-hud{
-  position:absolute;top:clamp(20px,3vh,36px);left:var(--q-gut);right:var(--q-gut);
+  position:absolute;
+  top:calc(var(--vt-header-h, 76px) + clamp(12px, 2vh, 22px));
+  left:var(--q-gut);right:var(--q-gut);
   display:flex;justify-content:space-between;align-items:center;gap:16px;z-index:4;
   font-family:var(--q-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
   color:var(--q-onDarkMuted);pointer-events:none;
@@ -400,7 +412,7 @@
 }
 </style>
 
-<div class="vsq-track">
+<div class="vsq-track" data-tone="dark">
   <div class="vsq-stage">
 
     <div class="vsq-media">
@@ -494,6 +506,7 @@
     </div>
 
   </div>
+  <div class="vsq-sentinel" data-vt-header-sentinel aria-hidden="true"></div>
 </div>
 
 <script>
