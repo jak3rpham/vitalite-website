@@ -3,7 +3,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Archivo+Expanded:wght@800&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-:root{--vt-font-primary: 'Archivo', 'Helvetica Neue', Arial, sans-serif;--vt-font-display: 'Archivo Expanded', 'Archivo', 'Helvetica Neue', Arial, sans-serif;--vt-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;--vt-paper: #FFFFFF;--vt-tint: #F4F4F4;--vt-ink: #0A0A0A;--vt-ink-soft: #16161A;--vt-line: #E4E4E6;--vt-line-strong: #C9C9CE;--vt-muted: #6E6E76;--vt-dim: #75757F;--vt-on-dark: #F2F2F4;--vt-on-dark-muted: rgba(242, 242, 244, .68);--vt-on-dark-line: rgba(242, 242, 244, .18);--vt-accent: #0A0A0A;--vt-accent-on: #FFFFFF;--vt-archive-pink: #C52458;--vt-iri-1: rgba(126, 72, 240, .85);--vt-iri-2: rgba(38, 196, 190, .72);--vt-iri-3: rgba(214, 72, 158, .60);--vt-iri-4: rgba(58, 102, 232, .75);--vt-sale: #C2413A;--vt-ok: #188479;--vt-yes: #166534;--vt-flag: #B45309;--vt-flag-bg: #FEF6E7;--vt-header-h: 76px;--vt-header-h-mobile: 64px;--vt-gutter: clamp(16px, 2.4vw, 32px);--vt-gutter-page: clamp(20px, 5vw, 72px);--vt-max: none;--vt-max-text: 68ch;--vt-max-doc: 1180px;--vt-hair: 2px;--vt-t-xs: 11px;--vt-t-sm: 13px;--vt-t-base: 15px;--vt-t-md: 17px;--vt-t-lg: clamp(20px, 2.4vw, 26px);--vt-t-xl: clamp(24px, 3vw, 34px);--vt-t-2xl: clamp(38px, 5.4vw, 84px);--vt-t-hero: clamp(50px, 8.4vw, 152px);--vt-ease: cubic-bezier(.22, .61, .36, 1);--vt-fast: .18s;--vt-slow: .45s;}
+:root{--vt-font-primary: 'Archivo', 'Helvetica Neue', Arial, sans-serif;--vt-font-display: 'Archivo Expanded', 'Archivo', 'Helvetica Neue', Arial, sans-serif;--vt-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;--vt-paper: #FFFFFF;--vt-tint: #F4F4F4;--vt-ink: #0A0A0A;--vt-ink-soft: #16161A;--vt-line: #E4E4E6;--vt-line-strong: #C9C9CE;--vt-muted: #6E6E76;--vt-dim: #75757F;--vt-on-dark: #F2F2F4;--vt-on-dark-muted: rgba(242, 242, 244, .68);--vt-on-dark-line: rgba(242, 242, 244, .18);--vt-accent: #0A0A0A;--vt-accent-on: #FFFFFF;--vt-archive-pink: #C52458;--vt-iri-1: rgba(126, 72, 240, .85);--vt-iri-2: rgba(38, 196, 190, .72);--vt-iri-3: rgba(214, 72, 158, .60);--vt-iri-4: rgba(58, 102, 232, .75);--vt-sale: #C2413A;--vt-ok: #188479;--vt-yes: #166534;--vt-flag: #B45309;--vt-flag-bg: #FEF6E7;--vt-header-h: 76px;--vt-header-h-mobile: 64px;--vt-gutter: clamp(16px, 2.4vw, 32px);--vt-gutter-page: clamp(20px, 5vw, 72px);--vt-max: none;--vt-max-text: 68ch;--vt-max-doc: 1180px;--vt-hair: 2px;--vt-glass-blur: blur(20px) saturate(190%) contrast(90%);--vt-glass-shine: inset 0 1px 0 0 rgba(255, 255, 255, .55);--vt-glass-shadow: 0 8px 24px rgba(10, 10, 10, .06);--vt-t-xs: 11px;--vt-t-sm: 13px;--vt-t-base: 15px;--vt-t-md: 17px;--vt-t-lg: clamp(20px, 2.4vw, 26px);--vt-t-xl: clamp(24px, 3vw, 34px);--vt-t-2xl: clamp(38px, 5.4vw, 84px);--vt-t-hero: clamp(50px, 8.4vw, 152px);--vt-ease: cubic-bezier(.22, .61, .36, 1);--vt-fast: .18s;--vt-slow: .45s;}
 *{box-sizing:border-box}
 body{margin:0;background:var(--vt-paper);color:var(--vt-ink);font-family:var(--vt-font-primary);}
 </style></head><body>
@@ -117,28 +117,59 @@ body{margin:0;background:var(--vt-paper);color:var(--vt-ink);font-family:var(--v
   .vpd-main{grid-template-columns:1fr;gap:28px;padding-inline:0;}
 }
 
-/* ---------- GALLERY: lưới tự đổi theo số ảnh ---------- */
-.vpd-gallery{display:grid;gap:2px;background:var(--d-line);border:1px solid var(--d-line);}
-.vpd-shot{margin:0;background:var(--d-paper);position:relative;}
-.vpd-shot img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;}
-
-/* 4 ảnh trở lên: hai cột, ảnh đầu chiếm cả hàng.
-   `:has()` không chạy thì rơi về một cột, vẫn đọc được, không vỡ. */
-@supports selector(:has(*)) {
-  .vpd-gallery:has(> .vpd-shot:nth-child(4)){grid-template-columns:1fr 1fr;}
-  .vpd-gallery:has(> .vpd-shot:nth-child(4)) > .vpd-shot:first-child{grid-column:1 / -1;}
+/* ---------- GALLERY: một ảnh CHÍNH + dải thumbnail ----------
+   Trước đây đổ cả 4 ảnh thành lưới, khách phải cuộn qua ảnh mặt sau mới thấy
+   hết. Với hàng có nhiều màu thì lưới đó dài vô tận: 2 màu = 4 ảnh, 4 màu = 8.
+   Nên: ảnh chính to, thumbnail chạy dọc bên TRÁI (ngang bên dưới ở màn hẹp),
+   và bấm swatch màu thì dải thumbnail lọc theo đúng màu đó. */
+.vpd-gallery{
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px;
+  background:var(--d-line);border:1px solid var(--d-line);
 }
+.vpd-thumbs{display:flex;flex-direction:column;gap:2px;background:var(--d-line);}
+.vpd-thumb{
+  width:84px;aspect-ratio:1/1;padding:0;border:0;display:block;position:relative;
+  background:var(--d-paper);cursor:pointer;
+}
+.vpd-thumb img{display:block;width:100%;height:100%;object-fit:cover;}
+/* Viền chọn vẽ bằng ::after chứ không phải `border`: border ăn vào kích thước ô
+   nên thumbnail sẽ nhích 2px mỗi lần đổi ảnh. */
+.vpd-thumb::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 0 2px transparent;transition:box-shadow .16s;
+}
+.vpd-thumb[aria-selected="true"]::after{box-shadow:inset 0 0 0 2px var(--d-ink);}
+.vpd-thumb:focus-visible{outline:2px solid var(--d-ink);outline-offset:2px;}
+/* Dải hiện ảnh của MỌI màu, nên phải nhìn ra chỗ đổi màu. Một vạch mảnh trước
+   ảnh đầu tiên của mỗi màu đủ để mắt tách nhóm, không cần thêm chữ. */
+.vpd-thumb[data-first-of-colour]{margin-top:10px;}
+.vpd-thumb[data-first-of-colour]::before{
+  content:"";position:absolute;left:12px;right:12px;top:-6px;height:1px;
+  background:var(--d-line-strong,#C9C9CE);
+}
+.vpd-thumb:first-child[data-first-of-colour]{margin-top:0;}
+.vpd-thumb:first-child[data-first-of-colour]::before{display:none;}
 
-/* Dải cuộn ngang trên màn hẹp. Không JS, không thư viện carousel. */
+.vpd-stage{margin:0;background:var(--d-paper);position:relative;}
+.vpd-stage img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;}
+
+/* Màn hẹp: ảnh chính trước, dải thumbnail cuộn ngang ở dưới. */
 @media (max-width:900px){
-  .vpd-gallery{
-    display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
-    border-inline:0;gap:2px;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  .vpd-gallery{grid-template-columns:1fr;border-inline:0;}
+  .vpd-stage{order:1;}
+  .vpd-thumbs{
+    order:2;flex-direction:row;overflow-x:auto;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;
+    padding-inline:var(--d-gut);
   }
-  .vpd-gallery::-webkit-scrollbar{display:none;}
-  .vpd-shot{flex:0 0 86%;scroll-snap-align:center;}
-  .vpd-shot:first-child{margin-left:var(--d-gut);}
-  .vpd-shot:last-child{margin-right:var(--d-gut);}
+  .vpd-thumbs::-webkit-scrollbar{display:none;}
+  .vpd-thumb{flex:0 0 68px;width:68px;}
+  /* Dải nằm ngang thì vạch ngăn nhóm màu cũng phải quay ngang */
+  .vpd-thumb[data-first-of-colour]{margin-top:0;margin-left:10px;}
+  .vpd-thumb[data-first-of-colour]::before{
+    left:-6px;right:auto;top:12px;bottom:12px;width:1px;height:auto;
+  }
+  .vpd-thumb:first-child[data-first-of-colour]{margin-left:0;}
 }
 
 /* Nhãn góc ảnh: SALE hoặc SOLD OUT. Woo điền, không phải trang trí. */
@@ -329,28 +360,50 @@ body{margin:0;background:var(--vt-paper);color:var(--vt-ink);font-family:var(--v
 <div class="vpd-main">
 
   <!-- ============ GALLERY ============
-       4 ảnh nên rơi vào tầng "4+": hai cột, ảnh đầu chiếm cả hàng.
-       Bỏ bớt còn 3 hoặc 1 ảnh thì lưới tự đổi, không phải sửa CSS. -->
+       Ảnh CHÍNH + dải thumbnail. Dải LUÔN hiện đủ ảnh của MỌI màu — khách cuộn
+       xem hết được mà không phải bấm từng ô màu. Mỗi thumbnail khai `data-color`,
+       và ô màu bên phải là phím tắt NHẢY TỚI ảnh đầu tiên của màu đó.
+       Chọn thumbnail của màu khác thì ô màu tự đổi theo (đồng bộ hai chiều).
+       `data-first-of-colour` = ảnh đầu của mỗi màu, CSS vẽ vạch ngăn nhóm.
+
+       🔴 TRÊN BẢN PHP THẬT, `data-color` KHÔNG PHẢI THỨ TA TỰ VIẾT.
+       WooCommerce đã có sẵn cơ chế: sản phẩm BIẾN THỂ (variable), thuộc tính
+       `Colour` bật "Used for variations", và MỖI BIẾN THỂ GẮN ẢNH RIÊNG.
+       Khi đó `wc-add-to-cart-variation.js` tự đổi ảnh chính khi khách chọn màu —
+       không cần một dòng JS nào của ta.
+       Cách cấu hình từng bước: deliverables/setup/WOOCOMMERCE-SETUP.md -->
   <div class="vpd-gallery">
-    <figure class="vpd-shot">
+
+    <div class="vpd-thumbs" role="group" aria-label="Product images">
+      <button class="vpd-thumb" type="button" aria-selected="true" data-color="grey" data-first-of-colour
+              data-full="../../mockup-all/webp/13.webp"
+              data-alt="&#8216;The Moments&#8217; boxy hoodie in grey, front view">
+        <img src="../../mockup-all/webp/13.webp" alt="" width="160" height="160" decoding="async">
+      </button>
+      <button class="vpd-thumb" type="button" aria-selected="false" data-color="grey"
+              data-full="../../mockup-all/webp/14.webp"
+              data-alt="&#8216;The Moments&#8217; boxy hoodie in grey, back view">
+        <img src="../../mockup-all/webp/14.webp" alt="" width="160" height="160" loading="lazy" decoding="async">
+      </button>
+      <button class="vpd-thumb" type="button" aria-selected="false" data-color="pure-white" data-first-of-colour
+              data-full="../../mockup-all/webp/15.webp"
+              data-alt="&#8216;The Moments&#8217; boxy hoodie in pure white, front view">
+        <img src="../../mockup-all/webp/15.webp" alt="" width="160" height="160" loading="lazy" decoding="async">
+      </button>
+      <button class="vpd-thumb" type="button" aria-selected="false" data-color="pure-white"
+              data-full="../../mockup-all/webp/16.webp"
+              data-alt="&#8216;The Moments&#8217; boxy hoodie in pure white, back view">
+        <img src="../../mockup-all/webp/16.webp" alt="" width="160" height="160" loading="lazy" decoding="async">
+      </button>
+    </div>
+
+    <figure class="vpd-stage">
       <span class="vpd-tag vpd-tag--sale">Sale</span>
       <!-- 🔴 Ảnh này là LCP của trang. eager + fetchpriority=high, KHÔNG lazy.
            Có width/height thật để trình duyệt chừa chỗ, tránh nhảy layout. -->
       <img src="../../mockup-all/webp/13.webp" width="1000" height="1000"
            alt="&#8216;The Moments&#8217; boxy hoodie in grey, front view"
            fetchpriority="high" decoding="async">
-    </figure>
-    <figure class="vpd-shot">
-      <img src="../../mockup-all/webp/14.webp" width="1000" height="1000"
-           alt="&#8216;The Moments&#8217; boxy hoodie in grey, back view" loading="lazy" decoding="async">
-    </figure>
-    <figure class="vpd-shot">
-      <img src="../../mockup-all/webp/15.webp" width="1000" height="1000"
-           alt="&#8216;The Moments&#8217; boxy hoodie in pure white, front view" loading="lazy" decoding="async">
-    </figure>
-    <figure class="vpd-shot">
-      <img src="../../mockup-all/webp/16.webp" width="1000" height="1000"
-           alt="&#8216;The Moments&#8217; boxy hoodie in pure white, back view" loading="lazy" decoding="async">
     </figure>
   </div>
 
@@ -375,8 +428,8 @@ body{margin:0;background:var(--vt-paper);color:var(--vt-ink);font-family:var(--v
     <div class="vpd-field">
       <p class="vpd-label"><span>Colour</span><b>Grey</b></p>
       <div class="vpd-swatches">
-        <button class="vpd-swatch" type="button" aria-pressed="true" aria-label="Grey"><i style="background:#C9C9CB"></i></button>
-        <button class="vpd-swatch" type="button" aria-pressed="false" aria-label="Pure White"><i style="background:#FFFFFF;box-shadow:inset 0 0 0 1px #E4E4E6"></i></button>
+        <button class="vpd-swatch" type="button" aria-pressed="true" data-color="grey" aria-label="Grey"><i style="background:#C9C9CB"></i></button>
+        <button class="vpd-swatch" type="button" aria-pressed="false" data-color="pure-white" aria-label="Pure White"><i style="background:#FFFFFF;box-shadow:inset 0 0 0 1px #E4E4E6"></i></button>
       </div>
     </div>
 
@@ -485,32 +538,110 @@ body{margin:0;background:var(--vt-paper);color:var(--vt-ink);font-family:var(--v
 <!-- ============ THANH MUA DÍNH ĐÁY, CHỈ MOBILE ============ -->
 <div class="vpd-bar">
   <div class="vpd-bar-info">
-    <p class="vpd-bar-name">Boxy Hoodie &middot; Grey &middot; M</p>
+    <p class="vpd-bar-name">Boxy Hoodie &middot; <span data-bar-colour>Grey</span> &middot; <span data-bar-size>M</span></p>
     <p class="vpd-bar-price">599.100&#8363;</p>
   </div>
   <button class="vpd-btn" type="button">Add to cart</button>
 </div>
 
 <script>
-/* Prototype thôi: đổi trạng thái nút để duyệt bố cục.
-   Trên bản PHP thật, phần này do `wc-add-to-cart-variation.js` của WooCommerce
-   lo. KHÔNG mang script này sang theme, nó sẽ đánh nhau với Woo. */
+/* 🔴 PROTOTYPE. KHÔNG MANG SCRIPT NÀY SANG THEME.
+   Nó tồn tại để duyệt bố cục lúc chưa có WooCommerce.
+
+   Trên bản PHP thật, TOÀN BỘ phần dưới đây do `wc-add-to-cart-variation.js`
+   của WooCommerce làm sẵn — với điều kiện sản phẩm được cấu hình đúng:
+   variable product, thuộc tính Colour bật "Used for variations", mỗi biến thể
+   gắn ảnh riêng. Xem deliverables/setup/WOOCOMMERCE-SETUP.md.
+   Chạy song song hai thứ là chúng đánh nhau: cả hai cùng đổi src của ảnh chính. */
 (function(){
   var root = document.currentScript.closest('.vpd');
   if (!root) return;
-  function group(sel, label){
-    var btns = [].slice.call(root.querySelectorAll(sel));
-    btns.forEach(function(b){
-      b.addEventListener('click', function(){
-        if (b.disabled) return;
-        btns.forEach(function(x){ x.setAttribute('aria-pressed','false'); });
-        b.setAttribute('aria-pressed','true');
-        if (label) label.textContent = b.getAttribute('aria-label') || b.textContent.trim();
-      });
-    });
+
+  /* ---------- Gallery ----------
+     DẢI THUMBNAIL LUÔN HIỆN ĐỦ ẢNH CỦA MỌI MÀU. Không lọc, không giấu.
+
+     Trước đây bấm màu thì giấu ảnh của các màu khác đi. Nghe thì gọn, nhưng nó
+     giấu mất chính thứ đang bán: khách không thấy được sản phẩm còn màu nào nếu
+     không lần lượt bấm từng ô màu một. Với hàng thời trang, cuộn qua cả bộ ảnh
+     LÀ hành vi mua hàng.
+
+     Nên đổi thành: hiện hết, và ô màu trở thành phím tắt NHẢY TỚI ảnh đầu của
+     màu đó. Bấm 'Pure White' vẫn thấy áo trắng ngay lập tức — không mất gì —
+     mà vẫn cuộn tiếp sang các màu khác được. */
+  var stage    = root.querySelector('.vpd-stage img');
+  var thumbs   = [].slice.call(root.querySelectorAll('.vpd-thumb'));
+  var label    = root.querySelector('.vpd-label b');
+  var swatches = [].slice.call(root.querySelectorAll('.vpd-swatch'));
+  var barColour = root.querySelector('[data-bar-colour]');
+
+  function swatchFor(colour){
+    return swatches.filter(function(x){
+      return x.getAttribute('data-color') === colour;
+    })[0] || null;
   }
-  group('.vpd-swatch', root.querySelector('.vpd-label b'));
-  group('.vpd-size', null);
+
+  /* Ảnh nào đang xem thì MÀU ĐANG CHỌN phải là màu của ảnh đó.
+     Cuộn sang ảnh áo trắng mà ô màu vẫn đứng ở Grey là trang tự mâu thuẫn,
+     và đúng chỗ đó khách bấm Add to cart. */
+  function syncColour(colour){
+    var sw = swatchFor(colour);
+    if (!sw) return;
+    swatches.forEach(function(x){
+      x.setAttribute('aria-pressed', x === sw ? 'true' : 'false');
+    });
+    var name = sw.getAttribute('aria-label') || '';
+    if (label)     label.textContent = name;
+    if (barColour) barColour.textContent = name;
+  }
+
+  function selectThumb(t){
+    if (!t || !stage) return;
+    thumbs.forEach(function(x){ x.setAttribute('aria-selected', x === t ? 'true' : 'false'); });
+    stage.src = t.getAttribute('data-full');
+    stage.alt = t.getAttribute('data-alt') || '';
+    syncColour(t.getAttribute('data-color'));
+  }
+
+  thumbs.forEach(function(t){
+    t.addEventListener('click', function(){ selectThumb(t); });
+  });
+
+  /* Ô màu = phím tắt nhảy tới ảnh ĐẦU TIÊN của màu đó. */
+  swatches.forEach(function(sw){
+    sw.addEventListener('click', function(){
+      var c = sw.getAttribute('data-color');
+      var first = thumbs.filter(function(t){
+        return t.getAttribute('data-color') === c;
+      })[0];
+      if (first) {
+        selectThumb(first);
+        // Dải cuộn ngang trên mobile: kéo ảnh vừa chọn vào tầm mắt
+        if (first.scrollIntoView) {
+          first.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        }
+      } else {
+        syncColour(c);   // màu chưa có ảnh: vẫn đổi lựa chọn, không làm gì thêm
+      }
+    });
+  });
+
+  // Trạng thái đầu: theo thumbnail đang aria-selected, không đoán
+  var initThumb = thumbs.filter(function(t){
+    return t.getAttribute('aria-selected') === 'true';
+  })[0] || thumbs[0];
+  if (initThumb) selectThumb(initThumb);
+
+  /* ---------- Size ---------- */
+  var sizes = [].slice.call(root.querySelectorAll('.vpd-size'));
+  var barSize = root.querySelector('[data-bar-size]');
+  sizes.forEach(function(b){
+    b.addEventListener('click', function(){
+      if (b.disabled) return;
+      sizes.forEach(function(x){ x.setAttribute('aria-pressed','false'); });
+      b.setAttribute('aria-pressed','true');
+      if (barSize) barSize.textContent = b.textContent.trim();
+    });
+  });
 })();
 </script>
 </div>
