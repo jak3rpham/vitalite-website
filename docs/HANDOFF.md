@@ -404,6 +404,21 @@ class CSS thiếu rule · **chuỗi bịa còn sót** · `echo` biến chưa esc
 find . -name "*.php" -exec php -l {} \;
 ```
 
+### Xem trước toàn site trên localhost
+
+```bash
+python3 docs/make-site-preview.py
+python3 -m http.server 8000 -d deliverables/preview/site
+```
+
+16 trang, bấm qua lại được, dùng **đúng `style.css` của theme** (copy, không chép tay).
+🔴 Nó KHÔNG chứng minh theme chạy — không có PHP thì không chạy được template thật.
+Nó chỉ duyệt được **bố cục và điều hướng**. Đọc `deliverables/preview/README.md`
+trước khi dùng để kết luận bất cứ điều gì.
+
+⚠️ Header/footer trong script đó là **bản chép** của `site-header.php` / `site-footer.php`.
+**Sửa file theme thì sửa cả script**, nếu không hai bên trôi khỏi nhau.
+
 ---
 
 ## 10b. 🔴 Hạn chế môi trường — đọc trước khi tự kiểm bằng browser
@@ -457,6 +472,13 @@ Luôn đặt `PYTHONIOENCODING=utf-8` trước lệnh python nào có in tiếng
 - [ ] Highlight Instagram vẫn toàn tên **thời kỳ cũ** (White PG · Black PG · Black Porsche ·
       Pink Starlight · White Porsche). Mặt tiền IG đang kể câu chuyện cũ
 - [ ] Vector hoá logo sang SVG *(hiện là PNG 995px, header cần SVG cho màn 2x/3x)*
+- [ ] 🟡 **Logo đổi màu bằng CSS mask thay cho `filter: invert(1)`** — hiện hack này nằm ở
+      **3 chỗ** trong `style.css` (dòng ~356, ~357, ~1198). Cho `<span>` nền `currentColor`
+      + `mask: url(logo.png)` thì logo tự ăn màu header, bỏ được cả ba. Đúng hướng TODO đang
+      ghi ở `inc/helpers.php` dòng 118, và **làm được ngay với PNG**, không phải chờ SVG.
+      *Cố ý hoãn tới sau lần deploy đầu:* site chưa chạy thật lần nào, đổi cách render logo
+      ngay trước đó là thêm biến số không cần thiết. Chi tiết:
+      `repo/vitalite-website/_not-in-theme/header-experiments/README.md`
 - [ ] `<title>` và tagline: đổi trong `Cài đặt → Chung`, **không phải file theme**
 - [ ] Xoá thư mục theme CŨ trên production sau khi chắc bản mới ổn *(nhiều khả năng còn ~96MB
       video master trong đó)*

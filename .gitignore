@@ -54,3 +54,10 @@ __pycache__/
 # --- Build artifact ---
 node_modules/
 dc-runtime/
+
+# --- Bản xem trước toàn site (SINH RA, đừng commit) ---
+#
+# `python3 docs/make-site-preview.py` dựng lại thư mục này từ đầu mỗi lần chạy.
+# 17MB và TOÀN BỘ là bản sao của file đã có trong git (style.css, assets, video,
+# 96 frame scroll-sequence). Commit vào là nhân đôi repo mà không thêm thông tin nào.
+deliverables/preview/site/
