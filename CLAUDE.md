@@ -150,7 +150,9 @@ Việc kế tiếp là deploy. Quy trình song song, lùi lại được: `deliv
 - Nén video hero 17MB → 2.5MB (cần `ffmpeg`)
 - Polylang (**chặn việc nhập sản phẩm**)
 - LiteSpeed Cache (**minify CSS/JS TẮT** — xung đột Elementor)
-- Payment gateway — Shopee cho thấy brand **đã có pháp nhân**, rào cản có thể nhỏ hơn tưởng
+- 🔴 Payment gateway — **rào cản LỚN HƠN tưởng.** Brand xác nhận 29/08: *"tạm thời chưa làm
+  tài khoản kinh doanh"*. Không có tk doanh nghiệp thì không cổng nào duyệt được, và khách
+  quốc tế không có cách nào trả tiền. Xem mục 7.
 
 ### Design reference
 Prototype gốc `repo/vitalite-website/Vitalite Homepage.dc.html` — **đây là ngôn ngữ layout đã chốt**.
@@ -179,6 +181,14 @@ Ngoài ra: Nike · Saigon Swagger · StressMama
 | Hàng thời kỳ cũ | Treat như hàng bình thường, **không** tách `Archive` |
 | Đổi trả | **Giữ nguyên** 5 ngày · 1 lần/đơn · khách chịu ship 2 chiều |
 | Shopee | Vẫn bán song song |
+| Hiển thị đánh giá Shopee | **CÓ** hiện "4.9★ · 973 đánh giá" (brand chốt 29/08, câu 37) |
+| Kể chuyện đổi chủ | **KHÔNG** công khai trên site (brand chốt 29/08, câu 38) |
+| Số điện thoại | **093 838 14 07**. Số `037 963 2222` là của chủ cũ, bỏ hẳn (câu 21) |
+| Vận chuyển nội địa | **SPX**. Nội thành 1 ngày, tỉnh 1–3 ngày. Freeship **từ 3 áo** (câu 11,14,15) |
+| Nước ship tới | **Mỹ**, FedEx + Vietnam Post, 1–2 tuần (câu 5,6,8) |
+| COD | **CÓ**, chỉ nội địa (câu 17) |
+| Hàng sale / tặng kèm | **KHÔNG** được đổi (câu 26) |
+| Trang Collection | **CÓ** làm cho 4 dòng cũ (câu 33) — nhưng brand chưa gửi mô tả |
 | Media translation | **TẮT** trong Polylang |
 | Minify CSS/JS | **TẮT** trong LiteSpeed |
 
@@ -210,26 +220,58 @@ Lúc có 40 sản phẩm × 6 variation là làm lại từ đầu.
 
 ## 7. OPEN ITEMS
 
-> 📋 **Toàn bộ 50 câu cần brand trả lời đã gom vào `deliverables/CAU-HOI-CHO-BRAND.md`** (24/08).
-> File đó viết cho **phía brand đọc và điền**, không phải cho Claude. Mục này giữ lại để Claude
-> biết cái gì đang chặn cái gì. **Sửa một bên thì sửa cả bên kia**, đừng để hai bản lệch nhau.
+> 📋 **50 câu gửi brand: `deliverables/CAU-HOI-CHO-BRAND.md`.** Brand gửi lại **29/08/2026** —
+> 30 câu có chữ, 20 câu trống, câu trả lời đã dán vào từng câu trong file đó.
+> 📋 **8 câu bổ sung: `deliverables/CAU-HOI-BO-SUNG-29-08.md`** — gửi cái này, đừng gửi lại file 50 câu.
+> Mục này giữ để Claude biết cái gì đang chặn cái gì. **Sửa một bên thì sửa cả bên kia.**
 
-### 🔴 Đang chặn
-- [ ] **Phí + hãng + thời gian ship quốc tế** → chặn multi-currency, shipping zone, trang Shipping, và thực tế chặn launch
-- [ ] **Thông tin pháp nhân** (tên công ty, mã ĐKKD, địa chỉ) → bắt buộc theo pháp luật TMĐT VN
-- [ ] **Số đo `THE MOMENTS BOXY HOODIE`** → chặn PDP hoodie
+### 🔴 Đang chặn launch
+- [ ] **Thanh toán quốc tế — blocker nặng nhất, nặng hơn phí ship.**
+      Câu 18: *"tạm thời chưa làm tài khoản kinh doanh"*. Không có tk doanh nghiệp thì
+      VNPay/MoMo/ZaloPay/OnePay đều không duyệt, Stripe không hỗ trợ pháp nhân VN, PayPal Business
+      cũng cần. COD không dùng được cho đơn đi Mỹ. → **Khách quốc tế hiện không có cách nào trả tiền,
+      mà đó là lý do tồn tại của site.** Câu F1.
+- [ ] **Phí ship quốc tế.** Brand ghi 200k (~$8); FedEx VN→Mỹ 0,5kg thực tế $40–60, EMS 600–900k.
+      Không publish con số 200k. Câu 10 (chọn hướng nào nếu ship gấp 3 lần giá áo) vẫn trống. Câu F2.
+- [ ] **"Chi nhánh nước ngoài bán giá khác"** (câu 9 + 36). Nếu có thật thì đây là mô hình khác:
+      hai bảng giá, có thể hai kho. **Dừng phần quốc tế** tới khi biết là kế hoạch hay ý tưởng. Câu F3.
+- [ ] **Tên đăng ký thật.** MST `079203010516` là 12 số → dạng cá nhân/hộ kinh doanh, không phải
+      MSDN 10 số. "Vitalité" là tên thương hiệu, luật TMĐT đòi tên đăng ký. Cần ảnh giấy phép. Câu F4.
+
+### 🔴 Đang chặn một trang
+- [ ] **Trang `returns` — 6 câu, chưa có câu nào** (23,24,25,27,28). Đây là trang khách đọc nhiều
+      nhất trước khi mua, vì trên Shopee họ được trả hàng miễn phí 15 ngày.
+- [ ] **Trang `complaints`** — thời hạn phản hồi + giải quyết (29,30). Địa chỉ đã tạm dùng địa chỉ ĐKKD.
+- [ ] **Trang `contact`** — giờ làm việc / cam kết thời gian trả lời (32). Số điện thoại đã xong.
+- [ ] **Trang `shipping`** — 30k là toàn quốc hay chỉ nội thành (câu 7 vs 12/13 mâu thuẫn), và
+      lead time rời kho (16). Câu F5.
+- [ ] **Số đo `THE MOMENTS BOXY HOODIE`** (22) → chặn phần outerwear của `size-guide` và PDP hoodie.
+- [ ] **Mô tả 4 dòng cũ** (33). Brand chốt **CÓ** làm trang Collection nhưng không gửi chữ. Câu F7.
+- [ ] **Định lượng vải 3 SKU + 3 SKU còn thiếu + STARLIGHT còn bán không** (43,44) → PDP + `collection`.
 
 ### 🟡 Chờ quyết
-- [ ] Mã hex **tím / xanh dương** thời kỳ mới → `--vt-accent` đang đen
-- [ ] Có hiển thị "4.9★ · 973 đánh giá Shopee" trên site không? (quyết định kinh doanh)
-      → hiện **ĐANG HIỆN** ở About section 05, kèm dòng dẫn nguồn. Câu 37 trong `deliverables/CAU-HOI-CHO-BRAND.md`
-- [ ] Có kể chuyện **đổi chủ** công khai không? → đã gỡ khỏi trang About 24/08.
-      Brand chưa bao giờ tự nói. Câu 38 trong `deliverables/CAU-HOI-CHO-BRAND.md`
+- [ ] Mã hex **tím / xanh dương** thời kỳ mới (42, vẫn trống) → `--vt-accent` **giữ đen**
+- [ ] **Năm thành lập.** Brand ghi 2023, nhưng Shopee hiển thị 4 năm + 973 đánh giá.
+      **Không in "Est. 2023" ở đâu** tới khi rõ. Câu F8.
+- [ ] **Lưu hồ sơ đơn hàng.** Brand ghi "1W". Nếu là 1 tuần thì trái Luật Kế toán (chứng từ 10 năm).
+      Chưa viết gì vào Privacy Policy. Câu F6.
 - [ ] Ảnh mockup nền trong suốt → cần Canva Pro
-- [ ] Số hotline nào còn dùng — **chặn trang `contact` và `complaints`**, hai trang đều để ô cam chờ nó
 - [ ] Premmerce có tương thích Polylang không (test bằng 2 SKU giả)
 
 ### ✅ Đã giải quyết
+- ~~Số hotline~~ → **093 838 14 07** (câu 4 + 21). Số `037 963 2222` là của **chủ cũ**, đã bỏ hẳn.
+  Đã áp dụng vào `contact`, `complaints`, `seller-information` (29/08).
+- ~~Hiển thị "4.9★ · 973 đánh giá Shopee"~~ → **CÓ** (câu 37). Giữ nguyên About section 05.
+- ~~Kể chuyện đổi chủ công khai~~ → **KHÔNG** (câu 38). Đã gỡ khỏi About từ 24/08, đúng.
+- ~~Địa chỉ + MST + SĐT pháp nhân~~ → có rồi (câu 2,3,4), đã vào `seller-information`.
+  **Chỉ còn thiếu tên đăng ký** — xem mục chặn launch ở trên.
+- ~~Hàng sale / tặng kèm có được đổi không~~ → **KHÔNG** (câu 26). Đã vào `returns`.
+- ~~Đơn vị vận chuyển + thời gian giao nội địa~~ → SPX, nội thành 1 ngày, tỉnh 1–3 ngày (11,14).
+  Freeship từ **3 áo** (15, tính theo *số lượng* — Woo mặc định không làm được, cần snippet).
+- ~~COD~~ → **CÓ**, nội địa (câu 17).
+- ~~Nước ship tới~~ → **Mỹ** (câu 5), FedEx + Vietnam Post, 1–2 tuần (6,8).
+  ⚠️ Bio Instagram đang ghi "Worldwide shipping" — một trong hai phải sửa.
+- ~~Restock~~ → **có**, phụ thuộc lượng mua (34). Link bio IG: **chỉ thêm, không đổi** (41).
 - ~~`BRAND_CONTEXT.md` / `BRAND_GUIDELINE.md`~~ → thay bằng `reference/BRAND_FACTS_OBSERVED.md`
   và `reference/BRAND_ERA_SPLIT.md`. **Brand đã đổi chủ** — đọc file thứ hai trước khi viết copy.
 - ~~Asset Scroll-Sequence & Component~~ → **Đã tích hợp xong vào trang About** (2026-08-23):
@@ -238,13 +280,14 @@ Lúc có 40 sản phẩm × 6 variation là làm lại từ đầu.
   tải sau `window.load`. 🔴 Trước khi publish phải upload `scroll-sequence/frames/0823/`
   (**99 file** = 96 frame 10,6 MB + 3 poster) lên `wp-content/uploads/seq/0823/`.
   🟡 Còn chờ user xác nhận: áo trong ảnh là **CGI**, chưa đối chiếu hàng thật — xem `docs/ASSUMPTIONS.md`.
-- ~~Bảng size~~ → S/M/L, số đo thật đã có
+- ~~Bảng size~~ → S/M/L, số đo thật đã có (áo thun; hoodie vẫn chưa)
 - ~~Lý do khách mua trên site thay vì Shopee~~ → **khách quốc tế**. IG 7k > Shopee 2,9k,
   bio ghi "Worldwide shipping", Shopee.vn không phục vụ quốc tế
 - ~~Structure homepage~~ → đã chốt, 6 section
 - ~~Chính sách đổi trả~~ → giữ nguyên bản Shopee
 
 ---
+
 
 ## 8. CONFIRMATION GATE
 

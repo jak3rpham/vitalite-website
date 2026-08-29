@@ -69,7 +69,8 @@ Once we accept the request, your item must reach us within <strong>7 days</stron
 <ul class="vtp-list vtp-no"><li>No unboxing video</li><li>Worn, washed, stained, deformed or scented</li><li>Tags or labels removed</li><li>Damage from incorrect washing or storage</li></ul>
   </div>
 </div>
-<div class="vtp-flag"><b>Need a decision</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Are sale items and free gifts excluded from exchanges?</li></ul></div>
+
+<p style="margin-top:16px"><strong>Sale items and free gifts are not exchangeable.</strong></p>
     </section>
     <section class="vtp-sec" id="returns-shipping-cost">
       <h2>Who pays return shipping</h2>
@@ -114,7 +115,7 @@ to exchange into a right nobody can use.</div>
   <p class="vtp-eyebrow">02 &middot; Policy</p>
   <h1 class="vtp-title">Shipping</h1>
   <p class="vtp-lede">Where we ship, what it costs, how long it takes.</p>
-  <p class="vtp-stamp">Last updated 23 August 2026</p>
+  <p class="vtp-stamp">Last updated 29 August 2026</p>
 </header>
 
 <div class="vtp-body">
@@ -131,31 +132,40 @@ to exchange into a right nobody can use.</div>
     <section class="vtp-sec" id="shipping-blocked">
       <h2>This page is not ready</h2>
 <div class="vtp-flag"><b>Do not publish yet</b>
-<p style="margin:0">Every figure on this page is missing. The structure below is correct.
-The numbers are not written because inventing shipping costs and delivery times would be
-inventing a contract with the customer.</p></div>
+<p style="margin:0">Carriers, delivery times, the domestic fee and the free-shipping threshold are
+confirmed. The <strong>international fee</strong> is not, and the domestic fee has a second answer
+that contradicts it. A shipping fee published on this page is a price the customer is charged at
+checkout, so it does not go live until one number stands alone.</p></div>
     </section>
     <section class="vtp-sec" id="shipping-vietnam">
       <h2>Vietnam</h2>
-<p>Shipping inside Vietnam is calculated from the delivery address you enter at checkout.
-Pick your province and the cost appears before you pay. There is no separate quote step,
-and nothing is added to the total afterwards.</p>
-<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Carrier: GHN, GHTK, Viettel Post, J&amp;T?</li><li>Fee per region (zone table should follow the carrier&#39;s own regions)</li><li>Free-shipping threshold, if any</li><li>Delivery time HCMC (reference: competitors quote 1-4 days)</li><li>Delivery time provinces (reference: competitors quote 3-7 working days)</li><li>Cash on delivery: yes or no?</li></ul></div>
-<div class="vtp-note"><strong>Ghi chú cho chủ site, xoá trước khi publish.</strong>
-Cách cấu hình phía WooCommerce đã phân tích ở <strong>deliverables/woo/SHIPPING-SETUP.md</strong>:
-hai cách làm, và một cảnh báo phải đọc TRƯỚC khi nhập sản phẩm hàng loạt.</div>
+<p>Orders inside Vietnam ship with <strong>SPX</strong>. Shipping is calculated from the delivery
+address you enter at checkout. Pick your province and the cost appears before you pay. There is no
+separate quote step, and nothing is added to the total afterwards.</p>
+<div class="vtp-scroll"><table><thead><tr><th scope="col">Where</th><th scope="col">Delivery time</th></tr></thead><tbody><tr><th scope="row">Ho Chi Minh City</th><td>1 day</td></tr><tr><th scope="row">Everywhere else in Vietnam</th><td>1 to 3 days</td></tr></tbody></table></div>
+<p><strong>Shipping is free on orders of three pieces or more.</strong>
+Below three, shipping is <strong>30,000&#8363;</strong>.</p>
+<p><strong>Cash on delivery is available</strong> inside Vietnam. You pay the courier when the
+parcel is handed to you.</p>
+<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Is 30,000&#8363; a flat rate for the whole country, or only the answer for Ho Chi Minh City? Question 7 gave the figure, questions 12 and 13 then answered &#8220;depends on distance&#8221;. Those two cannot both be configured. A flat rate is one WooCommerce setting, a distance-based rate needs a zone table before checkout can quote anything.</li><li>Confirm VITALIT&#201; has an SPX account for orders placed outside Shopee, not only through the marketplace.</li></ul></div>
+<div class="vtp-note"><strong>Ghi ch&#250; cho ch&#7911; site, xo&#225; tr&#432;&#7899;c khi publish.</strong>
+Freeship t&#237;nh theo <em>s&#7889; l&#432;&#7907;ng</em> (3 &#225;o), kh&#244;ng ph&#7843;i theo gi&#225; tr&#7883; &#273;&#417;n.
+WooCommerce m&#7863;c &#273;&#7883;nh ch&#7881; c&#243; &#8220;Minimum order amount&#8221; cho Free Shipping, n&#234;n c&#225;i n&#224;y
+c&#7847;n snippet ho&#7863;c plugin. C&#225;ch c&#7845;u h&#236;nh &#7903; <strong>deliverables/woo/SHIPPING-SETUP.md</strong>.
+C&#242;n m&#7897;t c&#226;u ch&#432;a h&#7887;i: 3 &#225;o c&#243; &#225;p d&#7909;ng cho c&#7843; &#273;&#417;n qu&#7889;c t&#7871; kh&#244;ng?</div>
     </section>
     <section class="vtp-sec" id="shipping-international">
       <h2>International</h2>
-<p>The website exists to serve customers Shopee cannot reach. This section is the one that
-decides whether that is actually possible.</p>
-<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Carrier: DHL, FedEx, EMS, Vietnam Post?</li><li>Which countries do we ship to?</li><li>Cost per zone</li><li>Delivery time per zone</li><li>Import duty and tax: paid by us (DDP) or by the customer (DDU)?</li></ul></div>
+<p>The website exists to serve customers Shopee cannot reach. Right now that means
+<strong>the United States</strong>, shipped with <strong>FedEx</strong> or
+<strong>Vietnam Post</strong>, arriving in <strong>one to two weeks</strong>.</p>
+<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>The international fee. Brand answered 200,000&#8363;, about $8. A 0.5&nbsp;kg parcel from Vietnam to the United States costs roughly $40-60 on FedEx and 600,000-900,000&#8363; on Vietnam Post EMS. Either the quote is out of date or the brand is absorbing the difference. Publishing $8 turns that gap into a promise to every customer.</li><li>Import duty and tax: paid by us (DDP) or by the customer (DDU)? Brand answered &#8220;there will be an overseas branch selling at a different price instead of the tax&#8221;, which is a different business model, not a DDP/DDU setting. Checkout still has to state one of the two.</li><li>The Instagram bio says <em>Worldwide shipping</em>. The answer says the United States only. One of the two has to change.</li></ul></div>
 <div class="vtp-note"><strong>The number to look at first.</strong>
-A shirt sells at roughly 280,000&#8363; (about $11). International shipping typically runs $25-40,
-<strong>three times the price of the product</strong>. If that holds, the model does not work at the
-current price point, and the answer is a business decision, not a technical one:
-bundles, a different international price, or accepting a loss on shipping to buy the customer. This has to be
-known <em>before</em> launch, not after.</div>
+A shirt sells at roughly 280,000&#8363; (about $11). Real international shipping runs $25-40,
+<strong>three times the price of the product</strong>. The model does not work at the current price
+point unless something changes: bundles, a separate international price, or accepting a loss on
+shipping to buy the customer. That question was asked and left blank. It has to be answered
+<em>before</em> launch, not after.</div>
     </section>
     <section class="vtp-sec" id="shipping-processing">
       <h2>Order processing</h2>
@@ -186,7 +196,7 @@ problem is treated as accepting the order in the condition it arrived.</p>
   <p class="vtp-eyebrow">03 &middot; Policy</p>
   <h1 class="vtp-title">Payment</h1>
   <p class="vtp-lede">How you can pay, when we charge, and what currency you are charged in.</p>
-  <p class="vtp-stamp">Last updated 23 August 2026</p>
+  <p class="vtp-stamp">Last updated 29 August 2026</p>
 </header>
 
 <div class="vtp-body">
@@ -201,16 +211,24 @@ problem is treated as accepting the order in the condition it arrived.</p>
   <div class="vtp-content">
     <section class="vtp-sec" id="payment-methods">
       <h2>Accepted methods</h2>
-<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Which payment gateways are actually configured in WooCommerce?</li><li>Bank transfer: account name, number, bank, branch</li><li>Cash on delivery: offered or not?</li><li>Do we accept international cards? Which ones?</li></ul></div>
+<p><strong>Cash on delivery</strong> is available for orders inside Vietnam. You pay the courier
+when the parcel is handed to you.</p>
+<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Every other method. Brand answered that there is <em>no business bank account yet</em>, and separately that international cards and &#8220;all&#8221; gateways are accepted. Those two cannot both be true: VNPay, MoMo, ZaloPay and OnePay all require a registered business bank account, Stripe does not support Vietnamese entities, and PayPal Business needs one too.</li><li>Bank transfer: account name, number, bank, branch.</li><li>Which gateway is actually being applied for, and when?</li></ul></div>
+<div class="vtp-note"><strong>Ghi ch&#250; cho ch&#7911; site, xo&#225; tr&#432;&#7899;c khi publish.</strong>
+&#272;&#226;y l&#224; blocker n&#7863;ng nh&#7845;t &#273;ang c&#243;, n&#7863;ng h&#417;n c&#7843; ph&#237; ship.
+COD kh&#244;ng ch&#7841;y &#273;&#432;&#7907;c v&#7899;i &#273;&#417;n &#273;i M&#7929;. Kh&#225;ch qu&#7889;c t&#7871; v&#224;o site m&#224;
+kh&#244;ng c&#243; n&#250;t thanh to&#225;n n&#224;o ho&#7841;t &#273;&#7897;ng th&#236; site kh&#244;ng b&#225;n &#273;&#432;&#7907;c cho
+&#273;&#250;ng nh&#243;m n&#243; sinh ra &#273;&#7875; ph&#7909;c v&#7909;.</div>
     </section>
     <section class="vtp-sec" id="payment-currency">
       <h2>Currency</h2>
 <p>Prices are shown in Vietnamese &#273;&#7891;ng (&#8363;) and include tax.</p>
-<div class="vtp-flag"><b>Need a decision</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Do international customers see prices in their own currency?</li><li>If yes: which currencies, and who sets the exchange rate?</li></ul></div>
+<div class="vtp-flag"><b>Need a decision</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Do international customers see prices in their own currency? Brand answered &#8220;yes, but that side will have a different price, still deciding&#8221;. A different price for the same piece is not a currency setting, it is a second price list, and it changes how the catalogue is built. Nothing is configured until this is settled.</li></ul></div>
     </section>
     <section class="vtp-sec" id="payment-when">
       <h2>When we charge</h2>
 <p>Payment is taken when the order is placed. An order is only confirmed once payment clears. Until then the items are not reserved.</p>
+<p>On a cash-on-delivery order there is nothing to pay until the parcel arrives.</p>
     </section>
     <section class="vtp-sec" id="payment-security">
       <h2>Card security</h2>
@@ -496,7 +514,7 @@ belong to VITALITÉ. Reproducing them for commercial use is not permitted.</p>
   <p class="vtp-eyebrow">08 &middot; Legal</p>
   <h1 class="vtp-title">Complaints</h1>
   <p class="vtp-lede">How to raise a problem, and how long we take to answer.</p>
-  <p class="vtp-stamp">Last updated 23 August 2026</p>
+  <p class="vtp-stamp">Last updated 29 August 2026</p>
 </header>
 
 <div class="vtp-body">
@@ -512,7 +530,12 @@ belong to VITALITÉ. Reproducing them for commercial use is not permitted.</p>
       <h2>How to reach us</h2>
 <p>Email <a href="mailto:vitalitevn@gmail.com">vitalitevn@gmail.com</a> with your order number and a description of the problem. If it concerns the condition
 of an item, attach the unboxing video.</p>
-<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Which phone number is current? Facebook lists 093 838 14 07, a 2023 post lists 037 963 2222. One of them has to go.</li><li>Registered business address for formal complaints</li></ul></div>
+<dl class="vtp-spec">
+  <div><dt>Email</dt><dd><a href="mailto:vitalitevn@gmail.com">vitalitevn@gmail.com</a></dd></div>
+  <div><dt>Phone</dt><dd><a href="tel:+84938381407">093 838 14 07</a></dd></div>
+  <div><dt>Address</dt><dd>766/16/23/26 C&#225;ch M&#7841;ng Th&#225;ng T&#225;m, ph&#432;&#7901;ng T&#226;n S&#417;n Nh&#7845;t, Th&#224;nh ph&#7889; H&#7891; Ch&#237; Minh</dd></div>
+</dl>
+<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Is the registered address above also where formal complaints should be sent, or is there a separate one? Question 31 was left blank, so the registered address is shown for now.</li></ul></div>
     </section>
     <section class="vtp-sec" id="complaints-times">
       <h2>How long we take</h2>
@@ -541,7 +564,7 @@ your right to refer it to the competent consumer-protection authority.</p>
   <p class="vtp-eyebrow">09 &middot; Legal</p>
   <h1 class="vtp-title">Seller Information</h1>
   <p class="vtp-lede">Who you are actually buying from. Required by Vietnamese e-commerce law.</p>
-  <p class="vtp-stamp">Last updated 23 August 2026</p>
+  <p class="vtp-stamp">Last updated 29 August 2026</p>
 </header>
 
 <div class="vtp-body">
@@ -554,11 +577,17 @@ your right to refer it to the competent consumer-protection authority.</p>
   <div class="vtp-content">
     <section class="vtp-sec" id="seller-information-who">
       <h2>The business</h2>
-<div class="vtp-flag"><b>Legally required, currently blank</b>
-<p style="margin:0">Vietnamese e-commerce regulation requires the seller&#39;s legal identity to be
-visible on the site. The Shopee store shows the brand already trades through a registered entity,
-so this is a matter of retrieving the details, not registering anything new.</p></div>
-<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Full registered name of the company or household business</li><li>Business registration number / tax code</li><li>Registered address</li><li>Official phone number</li></ul></div>
+<dl class="vtp-spec">
+  <div><dt>Trading as</dt><dd>VITALIT&#201;</dd></div>
+  <div><dt>Tax code</dt><dd>079203010516</dd></div>
+  <div><dt>Registered address</dt><dd>766/16/23/26 C&#225;ch M&#7841;ng Th&#225;ng T&#225;m, ph&#432;&#7901;ng T&#226;n S&#417;n Nh&#7845;t, Th&#224;nh ph&#7889; H&#7891; Ch&#237; Minh</dd></div>
+  <div><dt>Phone</dt><dd><a href="tel:+84938381407">093 838 14 07</a></dd></div>
+  <div><dt>Email</dt><dd><a href="mailto:vitalitevn@gmail.com">vitalitevn@gmail.com</a></dd></div>
+</dl>
+<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>The full registered name on the business licence. &#8220;VITALIT&#201;&#8221; is the trading name. The tax code above is in the twelve-digit personal / household-business format, so the name on the certificate is likely to be different, and Vietnamese e-commerce law requires the registered one. Send a photograph of the licence and this page is finished.</li></ul></div>
+<div class="vtp-note"><strong>Ghi ch&#250; cho ch&#7911; site, xo&#225; tr&#432;&#7899;c khi publish.</strong>
+B&#7889;n d&#242;ng tr&#234;n l&#224; fact th&#7853;t brand cung c&#7845;p 29/08. Ch&#7881; c&#242;n d&#242;ng
+t&#234;n &#273;&#259;ng k&#253; l&#224; ch&#432;a &#273;&#7889;i chi&#7871;u &#273;&#432;&#7907;c v&#7899;i gi&#7845;y ph&#233;p.</div>
     </section>
     <section class="vtp-sec" id="seller-information-contact">
       <h2>Contact</h2>
@@ -604,11 +633,12 @@ should go there, because it is the only channel where the whole history stays in
   <div><dt>Email</dt><dd><a href="mailto:vitalitevn@gmail.com">vitalitevn@gmail.com</a></dd></div>
   <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/vitalitevn/" target="_blank" rel="noopener">@vitalitevn</a>, fastest for a quick question</dd></div>
   <div><dt>Facebook</dt><dd><a href="https://www.facebook.com/vitalitevn" target="_blank" rel="noopener">Vitalit&#233;</a></dd></div>
+  <div><dt>Phone</dt><dd><a href="tel:+84938381407">093 838 14 07</a></dd></div>
   <div><dt>Based in</dt><dd>Saigon, Vietnam</dd></div>
 </dl>
 <p style="margin-top:16px">We are <strong>@vitalitevn</strong> on Instagram, Facebook, TikTok and
 Shopee. Any other account using this name is not us.</p>
-<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Which phone number is current? Facebook lists 093 838 14 07, a 2023 post lists 037 963 2222. Publishing both is worse than publishing neither.</li><li>Opening hours, or a stated reply window. Without one, every unanswered message reads as being ignored.</li></ul></div>
+<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Opening hours, or a stated reply window. Without one, every unanswered message reads as being ignored. Question 32 was left blank.</li></ul></div>
     </section>
     <section class="vtp-sec" id="contact-include">
       <h2>What to put in the message</h2>
@@ -647,7 +677,7 @@ site. Those details live on one page, kept separate so there is a single place t
   <p class="vtp-eyebrow">11 &middot; Shop</p>
   <h1 class="vtp-title">Collections</h1>
   <p class="vtp-lede">Every drop the label has put out, old and new. Nothing here is retired.</p>
-  <p class="vtp-stamp">Last updated 23 August 2026</p>
+  <p class="vtp-stamp">Last updated 29 August 2026</p>
 </header>
 
 <div class="vtp-body">
@@ -686,7 +716,7 @@ the drop, not written for this page.</p>
       <h2>Still on the shelf</h2>
 <p>Older drops are not retired and not hidden. They sit in the same catalogue, at the same
 sizing, and they are still sold.</p>
-<ul class="vtp-list"><li><strong>Pink Graffiti</strong>, the best seller, over 2,000 sold</li><li><strong>Porsche</strong>, listed as <em>Need Money For Porsche</em></li><li><strong>Starlight</strong>, shown on Instagram, not yet listed on Shopee</li><li><strong>Old Money</strong>, a varsity longsleeve, not yet released</li></ul><div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>One line of description for each of Pink Graffiti, Porsche, Starlight and Old Money. Question 33 in CAU-HOI-CHO-BRAND.md.</li><li>Is Starlight still for sale, and at what price?</li><li>Old Money has a mockup but no release date. Show it here, or hold it back?</li></ul></div>
+<ul class="vtp-list"><li><strong>Pink Graffiti</strong>, the best seller, over 2,000 sold</li><li><strong>Porsche</strong>, listed as <em>Need Money For Porsche</em></li><li><strong>Starlight</strong>, shown on Instagram, not yet listed on Shopee</li><li><strong>Old Money</strong>, a varsity longsleeve, not yet released</li></ul><div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>One line of description for each of Pink Graffiti, Porsche, Starlight and Old Money. Brand confirmed on 29 August that these lines should get their own page, but sent no copy for them.</li><li>Is Starlight still for sale, and at what price? Question 44 was left blank.</li><li>Old Money has a mockup but no release date. Show it here, or hold it back?</li></ul></div>
 <div class="vtp-note"><strong>Ghi chú cho chủ site, xoá trước khi publish.</strong>
 Bốn ô trống trên là chỗ CHỜ, không phải chỗ thiếu ý tưởng. Claude không viết mô tả dòng sản phẩm
 vì đó là tiếng nói thương hiệu, không phải copy chức năng. Có câu của brand thì thay thẳng vào.</div>

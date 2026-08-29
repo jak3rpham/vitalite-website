@@ -528,3 +528,47 @@ Dựng sau bước 9 trong `CLAUDE.md` mục 6.
 ### ✅ Hai file preview giờ sinh tự động
 `_preview-all.html` và `_preview-about.html` trước đây làm tay nên lệch với trang thật sau mỗi
 lần sửa. Giờ `docs/make-pages.py` sinh chúng từ chính các file `.html` vừa build.
+
+---
+
+## Đợt trả lời của brand, 29/08/2026
+
+### 🟡 Trang `seller-information` publish với tên thương hiệu, không phải tên đăng ký
+Brand trả lời câu 1 là **"Vitalité"**. Đó là tên thương hiệu.
+Mã số thuế câu 2, `079203010516`, là **12 số**, đầu `079` là mã tỉnh TP.HCM trên CCCD —
+tức dạng mã số thuế **cá nhân / hộ kinh doanh**, không phải mã số doanh nghiệp 10 số.
+Nên tên trên giấy chứng nhận ĐKKD nhiều khả năng **không phải** "Vitalité".
+
+Trang hiện ghi `Trading as: VITALITÉ` cùng một ô cam đòi tên đăng ký thật.
+**Giả định:** mã số thuế, địa chỉ và số điện thoại brand gửi là chính xác.
+Chưa đối chiếu với giấy phép vì chưa có ảnh. Câu F4 trong `deliverables/CAU-HOI-BO-SUNG-29-08.md`.
+
+### 🟡 Địa chỉ khiếu nại = địa chỉ đăng ký kinh doanh
+Câu 31 (địa chỉ nhận khiếu nại chính thức) để trống. Trang `complaints` tạm dùng địa chỉ ĐKKD
+ở câu 3, kèm ô cam nói rõ đây là suy ra chứ không phải brand xác nhận.
+Địa chỉ nhận **hàng đổi trả** (câu 25) thì **không** suy ra — vẫn để trống trên trang `returns`,
+vì gửi hàng nhầm địa chỉ tốn tiền thật của khách.
+
+### 🔴 KHÔNG publish phí ship quốc tế 200.000₫
+Brand trả lời câu 7: *"Ngoài nước: 200k"* ≈ $8. Giá thị trường VN→Mỹ cho gói 0,5 kg:
+FedEx $40–60, Vietnam Post EMS 600–900k. Chênh 5–8 lần.
+Số này **không đưa lên trang** vì phí ship hiển thị là giá khách bị tính ở checkout —
+publish $8 là biến khoảng chênh đó thành cam kết với mọi đơn hàng.
+Trang `shipping` để ô cam nêu đúng con số brand đưa và con số thị trường, cạnh nhau.
+
+### 🔴 KHÔNG viết "lưu hồ sơ đơn hàng 1 tuần" vào Privacy Policy
+Câu 39 trả lời `"1W"`. Nếu là 1 tuần thì trái Luật Kế toán (chứng từ kế toán lưu tối thiểu 10 năm).
+Nhiều khả năng câu hỏi bị hiểu thành "bao lâu thì xoá dữ liệu khách".
+Trang `privacy` giữ nguyên ô cam cũ, chưa điền gì.
+
+### 🔴 KHÔNG in "Est. 2023" ở bất kỳ đâu
+Câu 45 trả lời **2023**. Nhưng Shopee hiển thị **4 năm hoạt động** và **973 đánh giá** —
+973 đánh giá không tích được trong thời gian ngắn như vậy.
+Hai con số này thuộc hai thời kỳ khác nhau (xem `reference/BRAND_ERA_SPLIT.md`), và site đang
+dùng cả hai. Chưa dùng năm thành lập ở đâu cho tới khi làm rõ.
+
+### 🟡 Freeship "từ 3 áo" tính theo số lượng, chưa biết có áp cho đơn quốc tế không
+Câu 15. WooCommerce mặc định chỉ có ngưỡng Free Shipping **theo giá trị đơn**, nên cái này cần
+snippet hoặc plugin. Trang `shipping` viết là "orders of three pieces or more" **không giới hạn
+vùng**, tức đang ngầm hiểu áp dụng cả quốc tế. Nếu sai thì phải sửa — với phí quốc tế thật
+$25–40, freeship 3 áo cho đơn đi Mỹ là lỗ nặng. Câu F5d.

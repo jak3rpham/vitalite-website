@@ -12,7 +12,7 @@
   <p class="vtp-eyebrow">02 &middot; Policy</p>
   <h1 class="vtp-title">Shipping</h1>
   <p class="vtp-lede">Where we ship, what it costs, how long it takes.</p>
-  <p class="vtp-stamp">Last updated 23 August 2026</p>
+  <p class="vtp-stamp">Last updated 29 August 2026</p>
 </header>
 
 <div class="vtp-body">
@@ -29,31 +29,40 @@
     <section class="vtp-sec" id="shipping-blocked">
       <h2>This page is not ready</h2>
 <div class="vtp-flag"><b>Do not publish yet</b>
-<p style="margin:0">Every figure on this page is missing. The structure below is correct.
-The numbers are not written because inventing shipping costs and delivery times would be
-inventing a contract with the customer.</p></div>
+<p style="margin:0">Carriers, delivery times, the domestic fee and the free-shipping threshold are
+confirmed. The <strong>international fee</strong> is not, and the domestic fee has a second answer
+that contradicts it. A shipping fee published on this page is a price the customer is charged at
+checkout, so it does not go live until one number stands alone.</p></div>
     </section>
     <section class="vtp-sec" id="shipping-vietnam">
       <h2>Vietnam</h2>
-<p>Shipping inside Vietnam is calculated from the delivery address you enter at checkout.
-Pick your province and the cost appears before you pay. There is no separate quote step,
-and nothing is added to the total afterwards.</p>
-<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Carrier: GHN, GHTK, Viettel Post, J&amp;T?</li><li>Fee per region (zone table should follow the carrier&#39;s own regions)</li><li>Free-shipping threshold, if any</li><li>Delivery time HCMC (reference: competitors quote 1-4 days)</li><li>Delivery time provinces (reference: competitors quote 3-7 working days)</li><li>Cash on delivery: yes or no?</li></ul></div>
-<div class="vtp-note"><strong>Ghi chú cho chủ site, xoá trước khi publish.</strong>
-Cách cấu hình phía WooCommerce đã phân tích ở <strong>deliverables/woo/SHIPPING-SETUP.md</strong>:
-hai cách làm, và một cảnh báo phải đọc TRƯỚC khi nhập sản phẩm hàng loạt.</div>
+<p>Orders inside Vietnam ship with <strong>SPX</strong>. Shipping is calculated from the delivery
+address you enter at checkout. Pick your province and the cost appears before you pay. There is no
+separate quote step, and nothing is added to the total afterwards.</p>
+<div class="vtp-scroll"><table><thead><tr><th scope="col">Where</th><th scope="col">Delivery time</th></tr></thead><tbody><tr><th scope="row">Ho Chi Minh City</th><td>1 day</td></tr><tr><th scope="row">Everywhere else in Vietnam</th><td>1 to 3 days</td></tr></tbody></table></div>
+<p><strong>Shipping is free on orders of three pieces or more.</strong>
+Below three, shipping is <strong>30,000&#8363;</strong>.</p>
+<p><strong>Cash on delivery is available</strong> inside Vietnam. You pay the courier when the
+parcel is handed to you.</p>
+<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Is 30,000&#8363; a flat rate for the whole country, or only the answer for Ho Chi Minh City? Question 7 gave the figure, questions 12 and 13 then answered &#8220;depends on distance&#8221;. Those two cannot both be configured. A flat rate is one WooCommerce setting, a distance-based rate needs a zone table before checkout can quote anything.</li><li>Confirm VITALIT&#201; has an SPX account for orders placed outside Shopee, not only through the marketplace.</li></ul></div>
+<div class="vtp-note"><strong>Ghi ch&#250; cho ch&#7911; site, xo&#225; tr&#432;&#7899;c khi publish.</strong>
+Freeship t&#237;nh theo <em>s&#7889; l&#432;&#7907;ng</em> (3 &#225;o), kh&#244;ng ph&#7843;i theo gi&#225; tr&#7883; &#273;&#417;n.
+WooCommerce m&#7863;c &#273;&#7883;nh ch&#7881; c&#243; &#8220;Minimum order amount&#8221; cho Free Shipping, n&#234;n c&#225;i n&#224;y
+c&#7847;n snippet ho&#7863;c plugin. C&#225;ch c&#7845;u h&#236;nh &#7903; <strong>deliverables/woo/SHIPPING-SETUP.md</strong>.
+C&#242;n m&#7897;t c&#226;u ch&#432;a h&#7887;i: 3 &#225;o c&#243; &#225;p d&#7909;ng cho c&#7843; &#273;&#417;n qu&#7889;c t&#7871; kh&#244;ng?</div>
     </section>
     <section class="vtp-sec" id="shipping-international">
       <h2>International</h2>
-<p>The website exists to serve customers Shopee cannot reach. This section is the one that
-decides whether that is actually possible.</p>
-<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>Carrier: DHL, FedEx, EMS, Vietnam Post?</li><li>Which countries do we ship to?</li><li>Cost per zone</li><li>Delivery time per zone</li><li>Import duty and tax: paid by us (DDP) or by the customer (DDU)?</li></ul></div>
+<p>The website exists to serve customers Shopee cannot reach. Right now that means
+<strong>the United States</strong>, shipped with <strong>FedEx</strong> or
+<strong>Vietnam Post</strong>, arriving in <strong>one to two weeks</strong>.</p>
+<div class="vtp-flag"><b>Need data</b><p style="margin:0">Chưa có dữ liệu. Điền xong mới được publish trang này.</p><ul><li>The international fee. Brand answered 200,000&#8363;, about $8. A 0.5&nbsp;kg parcel from Vietnam to the United States costs roughly $40-60 on FedEx and 600,000-900,000&#8363; on Vietnam Post EMS. Either the quote is out of date or the brand is absorbing the difference. Publishing $8 turns that gap into a promise to every customer.</li><li>Import duty and tax: paid by us (DDP) or by the customer (DDU)? Brand answered &#8220;there will be an overseas branch selling at a different price instead of the tax&#8221;, which is a different business model, not a DDP/DDU setting. Checkout still has to state one of the two.</li><li>The Instagram bio says <em>Worldwide shipping</em>. The answer says the United States only. One of the two has to change.</li></ul></div>
 <div class="vtp-note"><strong>The number to look at first.</strong>
-A shirt sells at roughly 280,000&#8363; (about $11). International shipping typically runs $25-40,
-<strong>three times the price of the product</strong>. If that holds, the model does not work at the
-current price point, and the answer is a business decision, not a technical one:
-bundles, a different international price, or accepting a loss on shipping to buy the customer. This has to be
-known <em>before</em> launch, not after.</div>
+A shirt sells at roughly 280,000&#8363; (about $11). Real international shipping runs $25-40,
+<strong>three times the price of the product</strong>. The model does not work at the current price
+point unless something changes: bundles, a separate international price, or accepting a loss on
+shipping to buy the customer. That question was asked and left blank. It has to be answered
+<em>before</em> launch, not after.</div>
     </section>
     <section class="vtp-sec" id="shipping-processing">
       <h2>Order processing</h2>
