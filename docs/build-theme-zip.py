@@ -2,7 +2,7 @@
 
 CHẠY
     cd "E:\\Vitalite website"; python docs/build-theme-zip.py
-    -> ghi ra E:\\Vitalite website\\vitalite-theme-2.zip
+    -> ghi ra E:\\Vitalite website\\vitalite-theme.zip
 
 VÌ SAO LÀ SCRIPT CHỨ KHÔNG PHẢI CHUỘT PHẢI → NÉN
     Nén bằng Explorer gói cả rác: Thumbs.db, desktop.ini, file .map còn sót,
@@ -14,10 +14,10 @@ VÌ SAO LÀ SCRIPT CHỨ KHÔNG PHẢI CHUỘT PHẢI → NÉN
     lọt vào theme phải là một quyết định có người nhìn thấy, không phải tai nạn.
 
 TÊN THƯ MỤC TRONG ZIP
-    `vitalite-theme-2`, KHÁC với `vitalite-theme` đang chạy trên production.
-    Đây là chủ ý: hai tên khác nhau thì extract xong hai theme nằm cạnh nhau,
-    không có giây phút nào site hỏng, và lùi lại chỉ là kích hoạt lại theme cũ.
-    Xem `deliverables/setup/DEPLOY.md` bước 2.
+    `vitalite-theme` — xem hằng FOLDER bên dưới. Luật là: tên trong zip phải
+    KHÁC mọi thư mục theme đang có trên production. Extract vào một cái tên
+    trống thì không có bước ghi đè, không có bước đổi tên, và không có giây
+    phút nào site hỏng. Xem `deliverables/setup/DEPLOY.md` bước 2.
 """
 import os
 import sys
@@ -26,8 +26,15 @@ import zipfile
 BS = chr(92)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, 'repo', 'vitalite-website', 'vitalite-theme', 'vitalite-theme-2')
-OUT = os.path.join(ROOT, 'vitalite-theme-2.zip')
-FOLDER = 'vitalite-theme-2'
+OUT = os.path.join(ROOT, 'vitalite-theme.zip')
+
+# Ten thu muc BEN TRONG zip. Day la ten theme se co tren hosting.
+# 30/08/2026: user da xoa thu muc `vitalite-theme` cu tren production, nen slot
+# nay trong. Extract vao do la ra mot thu muc SACH, khong tron voi ban cu.
+# Neu sau nay tren production da co `vitalite-theme` dang chay, DOI ten o day
+# thanh mot ten chua ton tai (vd `vitalite-theme-3`) roi dung lai zip --
+# lam vay khong phai dong vao theme dang chay, khong co giay nao site hong.
+FOLDER = 'vitalite-theme'
 
 SKIP_DIR = {'.git', '__pycache__', 'node_modules', '.vscode', '.idea'}
 SKIP_FILE = {'.DS_Store', 'Thumbs.db', 'desktop.ini', 'Desktop.ini'}

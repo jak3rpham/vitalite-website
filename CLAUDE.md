@@ -151,12 +151,17 @@ Clarification → Individual inputs → Debate → Chếch chốt → Jaker+Mai 
 - ✅ Tự kiểm 7 mục bằng `docs/check-theme.py` — sạch
 
 ### 🔴 Chưa chạy thử trên hosting lần nào
-Theme đã đóng gói xong 30/08: `vitalite-theme-2.zip` (5,5 MB, 55 file), self-check sạch 7/7.
+Theme đã đóng gói xong 30/08: `vitalite-theme.zip` (5,5 MB, 55 file), self-check sạch 7/7.
 Việc kế tiếp là **upload bằng tay** — Claude không làm được, không có SSH.
 Quy trình song song, lùi lại được: `deliverables/setup/DEPLOY.md` bước 1b → 6.
 
-> Thư mục trong zip tên `vitalite-theme-2`, **khác** `vitalite-theme` đang chạy.
-> Hai tên khác nhau nên không có giây phút nào site hỏng, và lùi lại chỉ là kích hoạt lại theme cũ.
+> User đã xoá thư mục `vitalite-theme` cũ trên production 30/08 (kèm ~96 MB video master
+> bên trong), nên slot đó trống. Extract vào chỗ trống là ra thư mục sạch.
+>
+> 🔴 **Luật cho mọi lần deploy sau:** tên thư mục trong zip phải **khác** mọi thư mục theme
+> đang có trên hosting. Sửa hằng `FOLDER` trong `docs/build-theme-zip.py` rồi dựng lại.
+> Extract đè lên thư mục đã có là **trộn**, không phải thay — file cũ sót lại và không
+> nhìn ra bằng mắt được.
 
 ### Đang chờ
 - ~~Nén video hero~~ ✅ XONG. `hero-1280.mp4` **2,32 MB** (x264 CRF 30, 8s, không audio,
@@ -217,12 +222,13 @@ Ngoài ra: Nike · Saigon Swagger · StressMama
 2. ~~CSS token + cart icon + JS header mode~~      ✅ XONG
 3. ~~Chốt structure homepage → build~~             ✅ XONG (PHP, không Elementor)
 4. ~~Gỡ video master + đóng gói theme~~            ✅ XONG 30/08
-   → `vitalite-theme-2.zip` 5,5 MB · 55 file · theme self-check sạch 7/7
+   → `vitalite-theme.zip` 5,5 MB · 55 file · theme self-check sạch 7/7
+   → freeship theo số lượng đã viết sẵn trong theme (`inc/woocommerce.php` mục 7)
 5. DEPLOY — upload + kích hoạt                     ← ĐANG Ở ĐÂY, việc TAY
    → `deliverables/setup/DEPLOY.md` bước 1b → 6
 6. Cấu hình WordPress (title, permalink, category)
 7. Polylang — 6 quyết định, CHƯA dịch gì           ← CHẶN bước 9
-8. Shipping zone + freeship theo số lượng + phương thức thanh toán
+8. Shipping zone + phương thức thanh toán (freeship theo số lượng: code đã có sẵn)
 9. Tạo attributes → nhập 2 SẢN PHẨM TEST → kiểm
 10. Nhập phần còn lại
 11. `.htaccess` bảo vệ nội dung → `deliverables/setup/BAO-VE-NOI-DUNG.md`
@@ -259,8 +265,11 @@ Lúc có 40 sản phẩm × 6 variation là làm lại từ đầu.
   **Đây là việc cấu hình WooCommerce, không phải việc của trang.**
 
 ### 🟡 Việc kỹ thuật còn phải làm (nằm trong tay mình, không phụ thuộc brand)
-- [ ] **Freeship theo số lượng.** "Từ 3 áo" tính theo *số lượng*, Woo mặc định chỉ có ngưỡng theo
-      giá trị đơn → cần snippet. Xem `deliverables/woo/SHIPPING-SETUP.md`.
+- [x] ~~**Freeship theo số lượng.**~~ ✅ Đã viết trong theme: `inc/woocommerce.php` mục 7.
+      Hằng `VT_FREE_SHIP_MIN_QTY` = 3, `VT_FREE_SHIP_COUNTRY` = `VN`.
+      🔴 **Chỉ có tác dụng khi đã tạo phương thức "Free shipping" trong shipping zone Việt Nam.**
+      Chưa có zone thì filter không làm gì cả. Ô "Minimum order amount" trong admin **vô tác dụng**
+      — có admin notice nhắc ngay trên màn hình Shipping để sáu tháng nữa không ai đi tìm.
 - [ ] **Shipping zone.** Nội địa 30k flat + freeship 3 áo. Zone thứ hai: Mỹ.
 - [ ] **Kho bên Mỹ là kho thứ hai.** Hàng xách tay theo lô, người bên Mỹ giữ hàng. Woo đang một kho.
       Chưa có cơ chế nào mô tả việc này trong catalog. Quyết định khi nhập sản phẩm.

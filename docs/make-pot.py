@@ -20,7 +20,7 @@ if len(sys.argv) > 1:
 else:
     ROOT = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
-        '..', 'repo', 'vitalite-website', 'vitalite-theme', 'vitalite-theme'
+        '..', 'repo', 'vitalite-website', 'vitalite-theme', 'vitalite-theme-2'
     )
 ROOT = os.path.normpath(ROOT)
 DOMAIN = 'vitalite'

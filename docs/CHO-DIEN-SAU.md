@@ -166,9 +166,11 @@ hộ kinh doanh. Tên trên giấy gần như chắc chắn **không phải** "V
 
 ## D. Kỹ thuật — không phụ thuộc ai, tự làm được
 
-- [ ] **Freeship theo số lượng** (từ 3 áo). Woo mặc định chỉ có ngưỡng theo **giá trị đơn** →
-      cần snippet. Xem `deliverables/woo/SHIPPING-SETUP.md`.
-      ⚠️ Chưa biết có áp dụng cho đơn đi Mỹ không — nếu có thì phải giới hạn theo zone.
+- [x] ~~**Freeship theo số lượng** (từ 3 áo).~~ ✅ 30/08 — `inc/woocommerce.php` mục 7.
+      Hai hằng ở đầu mục: `VT_FREE_SHIP_MIN_QTY` = 3, `VT_FREE_SHIP_COUNTRY` = `VN`.
+      Mặc định **không** áp cho đơn đi Mỹ, vì chưa ai chốt và cho nhầm rồi rút lại là đổi điều
+      khoản với khách đang chờ hàng. Muốn mở: đổi `VT_FREE_SHIP_COUNTRY` thành `''`.
+      🔴 Chỉ chạy khi đã có phương thức **Free shipping** trong shipping zone Việt Nam.
 - [ ] **Shipping zone.** Nội địa: 30k flat, freeship từ 3 áo. Zone thứ hai: Mỹ.
 - [ ] **Phương thức thanh toán ở checkout cho khách Mỹ.** Xem A9 — trang `payment` đang hứa
       "phương thức hiện ở checkout".

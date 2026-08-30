@@ -277,7 +277,125 @@ add_filter('woocommerce_enqueue_styles', function ($styles) {
 add_filter('woocommerce_ship_to_different_address_checked', '__return_false');
 
 /* -------------------------------------------------------------------------
- * 7. Cảnh báo trong admin khi nhập hàng sai quy ước
+ * 7. Miễn phí vận chuyển theo SỐ LƯỢNG, không theo giá trị đơn
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Brand chốt 29/08/2026: miễn phí ship từ 3 áo trở lên.
+ *
+ * VÌ SAO PHẢI VIẾT TAY
+ *     WooCommerce có sẵn Free Shipping, nhưng điều kiện duy nhất nó hiểu là
+ *     "A minimum order amount" — tức theo TIỀN. Chính sách của brand tính theo
+ *     SỐ MÓN. Không có ô nào trong giao diện đặt được điều kiện đó, nên nó
+ *     phải là một filter.
+ *
+ * CHỈ ÁP DỤNG NỘI ĐỊA
+ *     Đơn đi Mỹ không phải ship quốc tế từng đơn: hàng xách tay theo lô rồi
+ *     một người bên Mỹ phân phối nội địa Mỹ. Chi phí chặng đó chưa ai chốt,
+ *     và brand chưa bao giờ nói "3 áo" có áp cho đơn quốc tế hay không.
+ *     Mặc định KHÔNG cho, vì cho nhầm rồi rút lại là đổi điều khoản với khách
+ *     đang chờ hàng. Muốn mở thì sửa VT_FREE_SHIP_COUNTRY thành '' (mọi nước).
+ *
+ * ĐIỀU KIỆN ĐỦ ĐỂ NÓ CHẠY
+ *     Phải có một phương thức "Free shipping" trong shipping zone Việt Nam.
+ *     Chưa tạo zone thì filter này không làm gì cả — nó lọc một phương thức
+ *     chưa tồn tại. Không lỗi, chỉ là chưa có tác dụng.
+ *
+ * ĐẾM CÁI GÌ
+ *     Đếm số món CẦN GIAO. Sản phẩm ảo hoặc tải về không tính, vì chúng không
+ *     phát sinh phí ship, để chúng đẩy đơn qua mốc 3 là cho không phí giao hàng.
+ */
+
+/** Số món tối thiểu để được miễn phí giao hàng. */
+if (!defined('VT_FREE_SHIP_MIN_QTY')) {
+    define('VT_FREE_SHIP_MIN_QTY', 3);
+}
+
+/** Chỉ áp dụng cho nước này. Để chuỗi rỗng nếu muốn áp dụng mọi nơi. */
+if (!defined('VT_FREE_SHIP_COUNTRY')) {
+    define('VT_FREE_SHIP_COUNTRY', 'VN');
+}
+
+/**
+ * Đếm số món cần giao trong một package.
+ *
+ * @param array $package Package của WooCommerce.
+ * @return int
+ */
+function vt_shipping_item_count($package) {
+    $qty = 0;
+
+    if (empty($package['contents']) || !is_array($package['contents'])) {
+        return $qty;
+    }
+
+    foreach ($package['contents'] as $item) {
+        if (empty($item['data']) || !is_object($item['data'])) {
+            continue;
+        }
+        if (!method_exists($item['data'], 'needs_shipping') || !$item['data']->needs_shipping()) {
+            continue;
+        }
+        $qty += isset($item['quantity']) ? (int) $item['quantity'] : 0;
+    }
+
+    return $qty;
+}
+
+/**
+ * Quyết định Free Shipping có hiện ở checkout không.
+ *
+ * Trả về false thì phương thức bị ẩn và khách trả phí bình thường.
+ * Ngoài nước VT_FREE_SHIP_COUNTRY thì trả nguyên giá trị Woo tính, tức là
+ * để nguyên cấu hình trong admin, filter này không xen vào.
+ *
+ * @param bool  $available Woo tính sẵn.
+ * @param array $package   Package đang xét.
+ * @return bool
+ */
+add_filter('woocommerce_shipping_free_shipping_is_available', function ($available, $package) {
+    $country = '';
+    if (!empty($package['destination']['country'])) {
+        $country = $package['destination']['country'];
+    }
+
+    // Ngoài vùng áp dụng → không đụng tới, admin toàn quyền.
+    if (VT_FREE_SHIP_COUNTRY !== '' && $country !== VT_FREE_SHIP_COUNTRY) {
+        return $available;
+    }
+
+    return vt_shipping_item_count($package) >= VT_FREE_SHIP_MIN_QTY;
+}, 20, 2);
+
+/**
+ * Nhắc người cấu hình, hiện trong màn hình Shipping của WooCommerce.
+ *
+ * Không có dòng này thì sáu tháng nữa có người vào sửa "Minimum order amount"
+ * của Free Shipping, thấy nó không có tác dụng gì, rồi mất buổi đi tìm.
+ */
+add_action('admin_notices', function () {
+    $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+    if (!$screen || $screen->id !== 'woocommerce_page_wc-settings') {
+        return;
+    }
+    if (!isset($_GET['tab']) || $_GET['tab'] !== 'shipping') {
+        return;
+    }
+
+    printf(
+        '<div class="notice notice-info"><p><strong>%s</strong> %s</p></div>',
+        esc_html__('VITALITÉ:', 'vitalite'),
+        sprintf(
+            /* translators: 1: số món tối thiểu, 2: mã quốc gia */
+            esc_html__('Free shipping is decided by ITEM COUNT, not order value: %1$d or more items, %2$s only. The rule lives in the theme, at inc/woocommerce.php section 7. Changing "Minimum order amount" here will have no effect.', 'vitalite'),
+            (int) VT_FREE_SHIP_MIN_QTY,
+            esc_html(VT_FREE_SHIP_COUNTRY)
+        )
+    );
+});
+
+/* -------------------------------------------------------------------------
+ * 8. Cảnh báo trong admin khi nhập hàng sai quy ước
  * ---------------------------------------------------------------------- */
 
 /**

@@ -34,7 +34,7 @@ msgstr ""
 msgid "The link may be old, or the page may have moved."
 msgstr ""
 
-#: 404.php:32 front-page.php:75 inc/woocommerce.php:159 search.php:97
+#: 404.php:32 front-page.php:75 inc/woocommerce.php:173 search.php:97
 #: template-parts/hero.php:56 template-parts/site-footer.php:52 template-parts/site-header.php:69 template-parts/site-header.php:162
 msgid "Shop All"
 msgstr ""
@@ -85,7 +85,7 @@ msgstr ""
 msgid "Skip to content"
 msgstr ""
 
-#: inc/seo.php:198 inc/woocommerce.php:243
+#: inc/seo.php:198 inc/woocommerce.php:257
 msgid "Home"
 msgstr ""
 
@@ -117,85 +117,94 @@ msgstr ""
 msgid "Login failed. Check your details and try again."
 msgstr ""
 
-#: inc/woocommerce.php:155 template-parts/product-card.php:55 template-parts/site-footer.php:56 template-parts/site-header.php:73
+#: inc/woocommerce.php:169 template-parts/product-card.php:55 template-parts/site-footer.php:56 template-parts/site-header.php:73
 #: template-parts/site-header.php:166
 msgid "Sale"
 msgstr ""
 
-#: inc/woocommerce.php:156 template-parts/section-products.php:21 template-parts/site-footer.php:53 template-parts/site-header.php:70
+#: inc/woocommerce.php:170 template-parts/section-products.php:21 template-parts/site-footer.php:53 template-parts/site-header.php:70
 #: template-parts/site-header.php:163
 msgid "New Arrivals"
 msgstr ""
 
-#: inc/woocommerce.php:158
+#: inc/woocommerce.php:172
 msgid "Search results"
 msgstr ""
 
-#: inc/woocommerce.php:178
+#: inc/woocommerce.php:192
 msgid "Size chart in centimetres"
 msgstr ""
 
-#: inc/woocommerce.php:181
+#: inc/woocommerce.php:195
 msgid "Size"
 msgstr ""
 
-#: inc/woocommerce.php:182
+#: inc/woocommerce.php:196
 msgid "Length (cm)"
 msgstr ""
 
-#: inc/woocommerce.php:183
+#: inc/woocommerce.php:197
 msgid "Width (cm)"
 msgstr ""
 
-#: inc/woocommerce.php:184
+#: inc/woocommerce.php:198
 msgid "Height"
 msgstr ""
 
-#: inc/woocommerce.php:185
+#: inc/woocommerce.php:199
 msgid "Weight"
 msgstr ""
 
-#: inc/woocommerce.php:196
+#: inc/woocommerce.php:210
 msgid "Measurements may vary by 2–3 cm due to batch production."
 msgstr ""
 
-#: inc/woocommerce.php:210
+#: inc/woocommerce.php:224
 msgid "Size guide"
 msgstr ""
 
-#: inc/woocommerce.php:222
+#: inc/woocommerce.php:236
 msgid "Details"
 msgstr ""
 
-#: inc/woocommerce.php:232
+#: inc/woocommerce.php:246
 msgid "Add to cart"
 msgstr ""
 
-#: inc/woocommerce.php:241
+#: inc/woocommerce.php:255
 msgid "Breadcrumb"
 msgstr ""
 
-#: inc/woocommerce.php:277
+#: inc/woocommerce.php:387
+msgid "VITALITÉ:"
+msgstr ""
+
+#. translators: 1: số món tối thiểu, 2: mã quốc gia
+#: inc/woocommerce.php:390
+msgid "Free shipping is decided by ITEM COUNT, not order value: %1$d or more items, %2$s only. The rule lives in the theme, at inc/woocommerce.php section 7. Changing \"Minimum order amount\" here will have no effect."
+msgstr ""
+
+#: inc/woocommerce.php:409
 msgid "VITALITÉ — image convention"
 msgstr ""
 
-#: inc/woocommerce.php:279
+#: inc/woocommerce.php:411
 msgid "Product image"
 msgstr ""
 
-#: inc/woocommerce.php:279
+#: inc/woocommerce.php:411
 msgid "FRONT of the garment"
 msgstr ""
 
-#: inc/woocommerce.php:280
+#: inc/woocommerce.php:412
 msgid "Gallery, first image"
 msgstr ""
 
-#: inc/woocommerce.php:280
+#: inc/woocommerce.php:412
 msgid "BACK of the garment"
 msgstr ""
 
-#: inc/woocommerce.php:281
+#: inc/woocommerce.php:413
 msgid "Hover on the shop grid swaps front to back. Any other order breaks it."
 msgstr ""
 
@@ -362,7 +371,31 @@ msgstr ""
 msgid "Contact"
 msgstr ""
 
-#: template-parts/site-footer.php:87
+#: template-parts/site-footer.php:99
+msgid "Payment"
+msgstr ""
+
+#: template-parts/site-footer.php:100
+msgid "Privacy"
+msgstr ""
+
+#: template-parts/site-footer.php:101
+msgid "Terms"
+msgstr ""
+
+#: template-parts/site-footer.php:102
+msgid "Complaints"
+msgstr ""
+
+#: template-parts/site-footer.php:103
+msgid "Seller Information"
+msgstr ""
+
+#: template-parts/site-footer.php:111
+msgid "Legal"
+msgstr ""
+
+#: template-parts/site-footer.php:123
 msgid "Follow"
 msgstr ""
 
