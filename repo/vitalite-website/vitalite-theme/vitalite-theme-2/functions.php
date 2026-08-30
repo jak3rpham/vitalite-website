@@ -15,7 +15,7 @@
 
 if (!defined('ABSPATH')) exit;
 
-define('VT_VERSION', '2.4.1');
+define('VT_VERSION', '2.5.0');
 define('VT_DIR', get_stylesheet_directory());
 define('VT_URI', get_stylesheet_directory_uri());
 

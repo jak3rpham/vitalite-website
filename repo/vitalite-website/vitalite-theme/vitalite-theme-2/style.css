@@ -5,7 +5,7 @@ Description: Child theme cho VITALITÉ — streetwear, WooCommerce. Header/foote
 Author: Vitalité
 Author URI: https://vitalite.io.vn
 Template: hello-elementor
-Version: 2.4.1
+Version: 2.5.0
 Requires at least: 6.0
 Requires PHP: 8.0
 Text Domain: vitalite
@@ -507,17 +507,33 @@ body.vt-banner-top .site-main { padding-top: 0; }
 }
 .vt-slide[data-tone="light"] { color: var(--vt-ink); }
 
+/* 🔴 KHỐI CHỮ PHẢI BỊ CHẶN CẢ TRÊN LẪN DƯỚI.
+   Bản cũ chỉ đặt `bottom`, không đặt `top`. Khối tuyệt đối không có giới hạn
+   trên thì nó cao bao nhiêu cũng được — và tiêu đề 3 dòng ở 152px trên một
+   màn hình cao 860px đã tràn lên trên, chui hẳn sau header. Lỗi này chỉ hiện
+   ra ở màn THẤP, nên trên máy màn cao thì không ai thấy.
+
+   Đặt `top` = chiều cao header + một khoảng thở, rồi cho nội dung dồn xuống
+   đáy bằng flex. Từ giờ khối chữ không bao giờ chạm được vào header. */
 .vt-slide-content {
   position: absolute; left: var(--vt-gutter); right: var(--vt-gutter);
+  top: calc(var(--vt-header-h) + clamp(10px, 2vh, 22px));
   /* Phải cao hơn .vt-hero-nav đủ để không chạm vào nhãn của nó */
   bottom: clamp(128px, 17vh, 176px);
+  display: flex; flex-direction: column; justify-content: flex-end;
 }
 .vt-slide-tag {
   font-family: var(--vt-font-mono); font-size: var(--vt-t-xs);
   letter-spacing: .2em; text-transform: uppercase; opacity: .8; margin: 0 0 20px;
 }
+/* Cỡ chữ chặn theo CẢ chiều rộng LẪN chiều cao màn hình.
+   `--vt-t-hero` chỉ tính theo `vw`, nên trên một màn 1920×860 nó vẫn nhảy lên
+   152px và ba dòng chiếm 465px — nhiều hơn phần trống còn lại. Thêm cận trên
+   theo `vh` là thứ duy nhất chặn được, vì lỗi này là lỗi CHIỀU CAO. */
 .vt-slide-title {
-  font-family: var(--vt-font-display); font-stretch: 125%; font-stretch: var(--vt-display-wide); font-size: var(--vt-t-hero); font-weight: 800;
+  font-family: var(--vt-font-display); font-stretch: var(--vt-display-wide);
+  font-size: min(var(--vt-t-hero), 12vh);
+  font-weight: 800;
   line-height: 1.02; letter-spacing: -.035em; margin: 0;
   text-transform: uppercase; max-width: 16ch;
 }
@@ -995,18 +1011,33 @@ body.vt-banner-top .site-main { padding-top: 0; }
    và là chỗ duy nhất trên trang chủ được nói dài hơn một dòng.
    ========================================================================== */
 
+/* 🔴 CHIỀU CAO ĐO THEO MÀN HÌNH, KHÔNG PHẢI THEO PIXEL CỐ ĐỊNH.
+   Bản cũ đặt `min-height: 560px`. 560px là con số hợp lý trên màn 1080, nhưng
+   nội dung bên trong (tiêu đề tới 96px + đoạn văn + nút) tự nó đã cao hơn thế
+   trên màn thấp, nên khối phình ra và VƯỢT QUÁ một màn hình. Người xem phải
+   cuộn mới thấy hết một khối lẽ ra liếc là xong.
+
+   `clamp(380px, 68vh, 720px)` giữ nó luôn thấp hơn màn hình một khoảng, và
+   ảnh model co theo vì nó `object-fit: cover` trong ô lưới.
+
+   Cột chữ rộng hơn (1.35fr so với 1fr): ảnh nhỏ lại đúng như yêu cầu, và chữ
+   có chỗ thở nên tiêu đề bớt phải xuống dòng. */
 .vt-collection {
   position: relative; overflow: hidden;
   background: var(--vt-ink); color: var(--vt-on-dark);
-  display: grid; grid-template-columns: 1.15fr 1fr; min-height: 560px;
+  display: grid; grid-template-columns: 1.35fr 1fr;
+  min-height: clamp(380px, 68vh, 720px);
 }
 .vt-collection--flip .vt-collection-media { order: -1; }
 .vt-collection-body {
   /* Khối đã tràn viền, nên lề trong phải TỰ gánh phần .vt-wrap vừa bỏ đi —
      nếu không chữ dính sát mép màn hình. Không bao giờ hẹp hơn lề trang. */
-  padding-block: clamp(32px, 4vw, 64px);
+  padding-block: clamp(28px, 3.4vw, 56px);
   padding-inline: max(var(--vt-gutter), clamp(32px, 4vw, 64px));
-  display: flex; flex-direction: column; justify-content: space-between; gap: 32px;
+  /* `space-between` là thứ tạo ra khoảng trống lớn phía trên chữ: nó đẩy
+     eyebrow lên đỉnh và phần còn lại xuống đáy. Bỏ eyebrow rồi thì khoảng đó
+     thành trống trơn. `center` cho khối chữ nằm giữa chiều cao, không còn lỗ. */
+  display: flex; flex-direction: column; justify-content: center; gap: 24px;
 }
 .vt-collection-eyebrow {
   font-family: var(--vt-font-mono); font-size: var(--vt-t-xs);
@@ -1014,12 +1045,30 @@ body.vt-banner-top .site-main { padding-top: 0; }
 }
 .vt-collection-title {
   font-family: var(--vt-font-display); font-stretch: 125%; font-stretch: var(--vt-display-wide); font-weight: 800; text-transform: uppercase;
-  font-size: clamp(40px, 6vw, 96px); line-height: 1.02; letter-spacing: -.03em;
-  margin: 0 0 24px;
+  font-size: clamp(36px, 4.8vw, 76px); line-height: 1.02; letter-spacing: -.03em;
+  margin: 0 0 20px;
 }
-.vt-collection-text { margin: 0 0 32px; max-width: 42ch; font-size: var(--vt-t-base); line-height: 1.65; opacity: .72; }
-.vt-collection-media { position: relative; background: var(--vt-ink-soft); min-height: 320px; }
-.vt-collection-media img { width: 100%; height: 100%; object-fit: cover; }
+.vt-collection-text { margin: 0 0 28px; max-width: 42ch; font-size: var(--vt-t-base); line-height: 1.65; opacity: .72; }
+.vt-collection-media { position: relative; overflow: hidden;
+  background: var(--vt-ink-soft); min-height: 320px; }
+/* 🔴 ẢNH PHẢI RA KHỎI LUỒNG, NẾU KHÔNG NÓ QUYẾT ĐỊNH CHIỀU CAO CẢ SECTION.
+   `height: 100%` cần một chiều cao XÁC ĐỊNH ở phần tử cha để tham chiếu.
+   Ô lưới này không có — chiều cao của nó do hàng lưới quyết, mà hàng lưới lại
+   đang chờ nội dung. Vòng luẩn quẩn đó làm `height: 100%` rơi về `auto`, tức là
+   ảnh dùng CHIỀU CAO THẬT của file.
+
+   Đo trên site 30/08/2026: `collection-01.webp` là 1050×1400 (ảnh dọc). Ở bề
+   rộng cột đó nó cao 899px và kéo cả khối lên 899px — cao hơn màn hình 860px.
+   Đúng cái user báo: "section nó còn lớn hơn màn hình".
+   Đặt `position: absolute` là ảnh không còn đóng góp vào chiều cao nữa; khối
+   trở về đúng `min-height` đã tính theo vh. Đo lại sau khi sửa: 585px, vừa màn.
+
+   ⚠️ Ảnh dọc vào ô ngang thì `object-fit: cover` sẽ cắt trên dưới. Đó là chủ ý,
+   nhưng khi thay ảnh trong Media Library nhớ ngắm lại phần bị cắt. */
+.vt-collection-media img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+}
 @media (max-width: 860px) {
   .vt-collection { grid-template-columns: 1fr; min-height: 0; }
   .vt-collection--flip .vt-collection-media { order: 0; }

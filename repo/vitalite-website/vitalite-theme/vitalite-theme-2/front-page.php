@@ -5,7 +5,8 @@
  * NGÔN NGỮ LAYOUT — theo đúng prototype `Vitalite Homepage.dc.html`:
  *   · FULL-WIDTH. Không có khung 1440px ở giữa, chỉ có lề ~32px.
  *   · Chữ tiêu đề KHỔNG LỒ (clamp tới 84px, hero tới 152px), Archivo Expanded, in hoa.
- *   · Mỗi section có eyebrow ĐÁNH SỐ (`01 — FEATURED`) và một đường kẻ đen dưới tiêu đề.
+ *   · Section KHÔNG còn eyebrow đánh số. Bỏ theo yêu cầu 30/08/2026 — tham số
+ *     `number` và `kicker` vẫn còn trong template, để trống thì không in ra gì.
  *     Đường kẻ đó giữ nhịp cho cả trang.
  *   · Lưới sản phẩm gap 2px trên nền màu đường kẻ → khe hở thành hairline, ô sát nhau.
  *   · Nút bo tròn hoàn toàn (pill).
@@ -30,8 +31,6 @@ get_template_part('template-parts/hero');
    layout 'featured': ô đầu tiên chiếm 2×2, một sản phẩm được nâng lên
    làm trung tâm thay vì tám ô ngang hàng. */
 get_template_part('template-parts/section-products', null, array(
-    'number'  => '01',
-    'kicker'  => __('Featured', 'vitalite'),
     'title'   => __('T-Shirts', 'vitalite'),
     'cat'     => 't-shirts',
     'count'   => 7,
@@ -44,8 +43,6 @@ get_template_part('template-parts/section-products', null, array(
    Không có mockup ở đây nên nền tối không vướng vấn đề mockup nền trắng. */
 $vt_collection_img = '/assets/collection-01.webp';
 get_template_part('template-parts/section-collection', null, array(
-    'number'    => '02',
-    'kicker'    => __('New Collection', 'vitalite'),
     'title'     => 'The<br>Moments',
     'text'      => __('Crafted with 500+ GSM premium cotton blend for a structured silhouette that holds its shape all day.', 'vitalite'),
     'image'     => file_exists(get_stylesheet_directory() . $vt_collection_img)
@@ -59,8 +56,6 @@ get_template_part('template-parts/section-collection', null, array(
    Lưới mosaic ô to nhỏ. Ảnh đọc thẳng từ `assets/gallery/` —
    thả file vào là hiện, không phải thao tác trong wp-admin. */
 get_template_part('template-parts/section-gallery', null, array(
-    'number' => '03',
-    'kicker' => __('Gallery', 'vitalite'),
     'title'  => __('On The Street', 'vitalite'),
     'aside'  => '#VITALITEDAILY',
     'limit'  => 8,
@@ -69,7 +64,6 @@ get_template_part('template-parts/section-gallery', null, array(
 /* ── 04 — Iridescent ─────────────────────────────────────
    Nhịp nghỉ. Copy nguyên văn từ Instagram 29/07/2026. */
 get_template_part('template-parts/section-iridescent', null, array(
-    'eyebrow'   => 'Saigon',
     'title'     => 'Finding harmony within chaos',
     'cta_url'   => vt_shop_url(),
     'cta_label' => __('Shop All', 'vitalite'),
@@ -78,8 +72,6 @@ get_template_part('template-parts/section-iridescent', null, array(
 /* ── 05 — Áo khoác ───────────────────────────────────────
    Bắt lại người đã cuộn sâu. */
 get_template_part('template-parts/section-products', null, array(
-    'number'  => '04',
-    'kicker'  => __('Outerwear', 'vitalite'),
     'title'   => __('Heavyweight', 'vitalite'),
     'cat'     => 'outerwear',
     'count'   => 4,
