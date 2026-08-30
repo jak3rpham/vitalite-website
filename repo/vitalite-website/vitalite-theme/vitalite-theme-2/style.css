@@ -5,7 +5,7 @@ Description: Child theme cho VITALITÉ — streetwear, WooCommerce. Header/foote
 Author: Vitalité
 Author URI: https://vitalite.io.vn
 Template: hello-elementor
-Version: 2.1.0
+Version: 2.1.1
 Requires at least: 6.0
 Requires PHP: 8.0
 Text Domain: vitalite
@@ -1017,6 +1017,48 @@ body.vt-banner-top .site-main { padding-top: 0; }
    ========================================================================== */
 
 .vt-woo-page { --vt-fieldline: var(--vt-line-strong); }
+
+/* ---- 🔴 SỬA LỖI TRÀN NGANG Ở /cart VÀ /checkout ----
+   WooCommerce 8+ dựng giỏ hàng và thanh toán bằng BLOCK, và block đó mang sẵn
+   class `alignwide` của Gutenberg. Trong một block theme, `alignwide` được nuôi
+   bằng biến `--wp--style--root--padding-*`: khung cha có padding, margin âm chỉ
+   ăn vào phần padding đó. Theme này KHÔNG phải block theme, khung cha padding 0,
+   nên margin âm ăn thẳng ra ngoài màn hình.
+
+   Đo trên site thật 30/08/2026: `.wp-block-woocommerce-cart.alignwide` có
+   `margin: 0 -80px`, đẩy nội dung sang trái 62px. Chữ "Your cart is currently
+   empty!" bị cắt mất đầu câu, và trang cuộn ngang.
+
+   VÌ SAO PHẢI 3 CẤP CHỌN LỌC, KHÔNG PHẢI 2:
+   `wc-blocks.css` nạp SAU `style.css` của theme (kiểm bằng thứ tự thẻ link).
+   Luật của Woo là (0,2,0). Viết `.vt-woo .alignwide` cũng (0,2,0) → hoà, và
+   hoà thì file nạp sau thắng. Nên phải lên (0,3,0). Không dùng !important —
+   !important ở đây sẽ chặn cả những chỉnh sửa hợp lệ về sau. */
+.vt-woo .vt-woo-page .alignwide,
+.vt-woo .vt-woo-page .alignfull {
+  margin-left: 0;
+  margin-right: 0;
+  max-width: 100%;
+}
+
+/* ---- Bề ngang đọc được ----
+   Giỏ hàng, thanh toán, tài khoản là TÀI LIỆU, không phải trang thương hiệu.
+   Quyết định FULL-WIDTH ở CLAUDE.md mục 5 nói về ngôn ngữ layout của trang
+   brand: hero, section title 84px, lưới sản phẩm. Một bảng giỏ hàng kéo hết
+   1920px thì mắt phải quét ngang cả màn để nối tên sản phẩm với giá của nó.
+   Cùng lý do và cùng con số với 11 trang chính sách. */
+.vt-woo-page { max-width: var(--vt-max-doc); }
+
+/* ---- Trang đăng nhập ----
+   Form đăng nhập có đúng hai ô. Kéo nó hết bề ngang trang làm ô nhập dài cả
+   nghìn pixel cho một chuỗi 20 ký tự — trông như trang bị lỗi chứ không phải
+   trang tối giản.
+
+   Chỉ thu hẹp khi CHƯA đăng nhập. Trang tài khoản sau khi đăng nhập có menu
+   bên trái + nội dung bên phải, vẫn cần bề ngang.
+   Giữ canh trái, không canh giữa, để thẳng hàng với tiêu đề trang phía trên. */
+body.woocommerce-account:not(.logged-in) .vt-woo-page { max-width: 520px; }
+
 
 /* ---- Bảng: giỏ hàng, chi tiết đơn, địa chỉ ----
    Woo mặc định có viền quanh từng ô. Ta chỉ giữ một đường kẻ ngang giữa các

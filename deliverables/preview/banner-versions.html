@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VITALITÉ — banner: váng dầu vs kim loại</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A0A0A;--paper:#FFF;--line:#E4E4E6;--muted:#6E6E76;--tint:#F7F7F8;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --disp:'Archivo','Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+     font-family:Archivo,'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:44px 24px 90px}
+h1{font-family:var(--disp);font-stretch:125%;font-weight:800;text-transform:uppercase;
+   font-size:clamp(26px,4vw,44px);letter-spacing:-.02em;line-height:1.05;margin:0 0 12px}
+.lede{color:var(--muted);max-width:68ch;line-height:1.65;margin:0}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+         color:var(--muted);margin:0 0 14px;font-weight:500}
+.case{margin-top:46px}
+.case>h2{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+         margin:0;padding-bottom:10px;border-bottom:1px solid var(--line);font-weight:800}
+.case>p{color:var(--muted);font-size:14px;line-height:1.65;margin:12px 0 18px;max-width:74ch}
+.note{margin-top:16px;padding:15px 18px;background:var(--tint);border-left:2px solid var(--ink);
+      font-size:13.5px;line-height:1.7;max-width:80ch}
+
+/* ============================ KHUNG BANNER CHUNG ============================ */
+.bn{position:relative;overflow:hidden;isolation:isolate;background:#05060a;
+    min-height:230px;display:flex;flex-direction:column;justify-content:flex-end;
+    padding:26px 30px 24px;color:#fff}
+.bn .k{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+       font-weight:800;opacity:.85;margin:0 0 8px;position:relative;z-index:3}
+.bn .t{font-family:var(--disp);font-stretch:125%;font-weight:800;text-transform:uppercase;
+       font-size:clamp(30px,5.4vw,62px);letter-spacing:-.03em;line-height:1;margin:0;
+       position:relative;z-index:3}
+.bn .lay{position:absolute;inset:0;z-index:0;pointer-events:none}
+
+/* ---------------------------------------------------------------- HIỆN TẠI */
+.now .lay{inset:-30%;
+  background:
+    radial-gradient(46% 58% at 22% 28%, rgba(126,72,240,.85), transparent 62%),
+    radial-gradient(52% 46% at 78% 36%, rgba(38,196,190,.72), transparent 64%),
+    radial-gradient(44% 52% at 58% 78%, rgba(214,72,158,.60), transparent 62%),
+    radial-gradient(60% 60% at 12% 88%, rgba(58,102,232,.75), transparent 66%);
+  filter:blur(26px) saturate(1.45);
+  animation:slide 13s linear infinite, grow 19s ease-in-out infinite alternate;}
+.now .lay::after{content:'';position:absolute;inset:-12%;
+  background:repeating-conic-gradient(from 210deg at 50% 50%,
+    hsl(276 92% 62%/.6) 0deg,hsl(192 95% 58%/.6) 38deg,hsl(322 92% 62%/.58) 76deg,
+    hsl(152 88% 56%/.52) 114deg,hsl(248 94% 62%/.6) 152deg,hsl(276 92% 62%/.6) 190deg);
+  filter:blur(44px);mix-blend-mode:screen;opacity:.34;
+  animation:spin 37s linear infinite reverse;}
+
+/* ---------------------------------------------------- A · VÁNG DẦU THẬT
+   Váng dầu là hiện tượng GIAO THOA MÀNG MỎNG: các dải quang phổ HẸP, bám theo
+   đường viền của vũng dầu, lặp lại nhiều lần. Bản cũ sai ở chỗ blur 26-44px
+   xoá sạch tần số cao, chỉ còn khối màu loang.
+   Ở đây: nền gần đen, dải hẹp, blur RẤT nhẹ, và hai lớp vân chồng lệch nhau. */
+.oil{background:#04060a}
+/* Tam cua vong van dat NGOAI khung (18% 128%, 118% -20%). Dat trong khung thi
+   ra bia ban dong tam. Dat ngoai thi chi thay CUNG van quet ngang, dung nhu
+   nhin mot vung dau tren mat duong. */
+.oil .lay.l1{
+  background:
+    repeating-radial-gradient(128% 82% at 18% 128%,
+      hsl(316 92% 60%/.95)  0px, hsl(24  98% 62%/.95) 19px,
+      hsl(52  94% 64%/.9)  35px, hsl(160 88% 56%/.95) 54px,
+      hsl(202 96% 58%/.95) 73px, hsl(272 92% 62%/.95) 95px,
+      hsl(316 92% 60%/.95) 120px);
+  filter:blur(2.5px) saturate(1.3);
+  mix-blend-mode:screen;opacity:.66;
+  -webkit-mask-image:
+    radial-gradient(66% 82% at 28% 46%, #000 0%, rgba(0,0,0,.35) 58%, transparent 78%),
+    radial-gradient(42% 54% at 82% 24%, #000 0%, transparent 74%);
+  mask-image:
+    radial-gradient(66% 82% at 28% 46%, #000 0%, rgba(0,0,0,.35) 58%, transparent 78%),
+    radial-gradient(42% 54% at 82% 24%, #000 0%, transparent 74%);
+  animation:drift 30s ease-in-out infinite alternate;}
+/* Lop hai: chu ky KHAC han va tam o phia doi dien. Hai chu ky khong chia het
+   nhau nen cho giao nhau khong bao gio lap lai deu -- do la thu pha vo cam giac
+   "hoa van in san". */
+.oil .lay.l2{
+  background:
+    repeating-radial-gradient(96% 120% at 118% -20%,
+      hsl(268 92% 62%/.9)  0px, hsl(192 96% 58%/.9)  27px,
+      hsl(146 90% 56%/.85) 51px, hsl(40 100% 62%/.9)  77px,
+      hsl(326 92% 60%/.9) 105px, hsl(268 92% 62%/.9) 138px);
+  filter:blur(3.5px) saturate(1.25);
+  mix-blend-mode:screen;opacity:.54;
+  -webkit-mask-image:radial-gradient(78% 70% at 68% 76%, #000 0%, transparent 76%);
+  mask-image:radial-gradient(78% 70% at 68% 76%, #000 0%, transparent 76%);
+  animation:drift2 38s ease-in-out infinite alternate;}
+/* Dau khong phu deu: dam o giua vung, tan het o ria. Mat na nay la thu quyet
+   dinh no doc ra "mot vung dau" thay vi "mot tam nen sac mau". */
+.oil .lay.msk{
+  background:
+    radial-gradient(118% 128% at 30% 34%, transparent 0%, rgba(4,6,10,.34) 58%, rgba(4,6,10,.92) 100%),
+    linear-gradient(to top, rgba(4,6,10,.82) 0%, transparent 48%);
+  z-index:2;}
+/* Anh sang phan chieu -> trong uot, khong phai giay in. */
+.oil .lay.gls{
+  background:radial-gradient(52% 38% at 24% 16%, rgba(255,255,255,.16), transparent 62%);
+  mix-blend-mode:screen;z-index:2;}
+
+/* ---------------------------------------------------- B · KIM LOẠI LỎNG
+   Không bịa màu brand. Màu nhấn đang là ĐEN (CLAUDE.md mục 5), hex tím/xanh
+   thời kỳ mới brand chưa gửi. Nên phương án hai đi hướng PHI SẮC: đen, thép,
+   bạc, một chút ám lạnh. Vẫn là bề mặt phản chiếu, vẫn chuyển động, nhưng
+   không tuyên bố một màu thương hiệu nào cả. */
+.chrome{background:#07080a}
+.chrome .lay.l1{
+  background:
+    repeating-linear-gradient(102deg,
+      #0a0c10 0px, #33383f 26px, #8f97a3 44px, #d7dce3 54px,
+      #9aa2ae 64px, #3b4048 82px, #0a0c10 108px);
+  filter:blur(1.5px) contrast(1.12);
+  opacity:.9;
+  animation:sweep 22s ease-in-out infinite alternate;}
+.chrome .lay.l2{
+  background:
+    repeating-linear-gradient(-64deg,
+      rgba(255,255,255,0) 0px, rgba(255,255,255,.16) 18px,
+      rgba(150,190,255,.13) 30px, rgba(255,255,255,0) 52px);
+  filter:blur(6px);mix-blend-mode:screen;opacity:.75;
+  animation:sweep2 31s ease-in-out infinite alternate;}
+.chrome .lay.msk{
+  background:radial-gradient(130% 120% at 22% 26%, transparent 0%, rgba(7,8,10,.42) 55%, rgba(7,8,10,.9) 100%);
+  z-index:2;}
+
+@keyframes slide{to{transform:translate3d(6%,-4%,0)}}
+@keyframes grow{to{transform:scale(1.12)}}
+@keyframes spin{to{rotate:360deg}}
+@keyframes drift{from{transform:translate3d(-3%,-2%,0) scale(1.04) rotate(0deg)}
+                 to{transform:translate3d(4%,3%,0) scale(1.16) rotate(8deg)}}
+@keyframes drift2{from{transform:translate3d(3%,2%,0) scale(1.1) rotate(0deg)}
+                  to{transform:translate3d(-4%,-3%,0) scale(1.02) rotate(-10deg)}}
+@keyframes sweep{from{transform:translate3d(-6%,0,0) scale(1.1)}
+                 to{transform:translate3d(6%,0,0) scale(1.18)}}
+@keyframes sweep2{from{transform:translate3d(5%,0,0)}to{transform:translate3d(-5%,0,0)}}
+@media (prefers-reduced-motion:reduce){.lay{animation:none!important}}
+
+table{border-collapse:collapse;width:100%;margin-top:16px;font-size:13.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+   color:var(--muted);font-weight:800}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Duyệt thay đổi · 30.08.2026</p>
+  <h1>Banner: váng dầu, và một hướng khác</h1>
+  <p class="lede">Bản đang chạy trên site không đọc ra váng dầu — nó đọc ra một khối gradient tím
+  xanh. Dưới đây là bản váng dầu làm lại, và một hướng thứ hai không dùng màu nào cả.
+  Cả ba đều là CSS thuần, 0 KB ảnh, 0 KB JS.</p>
+
+  <section class="case">
+    <h2>Đang chạy trên site</h2>
+    <p>Bốn vệt tròn màu, làm mờ 26px, phủ thêm một lớp quang phổ mờ 44px.</p>
+    <div class="bn now"><div class="lay"></div>
+      <p class="k">Shop</p><p class="t">Search Results</p></div>
+    <div class="note"><strong>Vì sao nó không ra váng dầu.</strong>
+    Váng dầu là hiện tượng giao thoa màng mỏng — các dải quang phổ <strong>hẹp</strong>, lặp lại,
+    bám theo đường viền vũng dầu. Làm mờ 26px rồi 44px thì xoá sạch mọi chi tiết tần số cao,
+    chỉ còn lại khối màu loang. Đó chính là thứ đang hiển thị: đúng bảng màu của váng dầu,
+    sai hoàn toàn về cấu trúc.</div>
+  </section>
+
+  <section class="case">
+    <h2>Phương án A · Váng dầu thật</h2>
+    <p>Nền gần đen, dải quang phổ hẹp lặp lại, làm mờ chỉ 2–3px để giữ vân, hai lớp vân chồng
+    lệch chiều nhau, phủ mặt nạ tối ở rìa cho giống một vũng dầu chứ không phải nền phủ kín.</p>
+    <div class="bn oil">
+      <div class="lay l1"></div><div class="lay l2"></div>
+      <div class="lay gls"></div><div class="lay msk"></div>
+      <p class="k">Shop</p><p class="t">Search Results</p></div>
+  </section>
+
+  <section class="case">
+    <h2>Phương án B · Kim loại lỏng</h2>
+    <p>Phi sắc: đen, thép, bạc, một chút ám lạnh. Vẫn là bề mặt phản chiếu và vẫn chuyển động,
+    nhưng không tuyên bố một màu thương hiệu nào.</p>
+    <div class="bn chrome">
+      <div class="lay l1"></div><div class="lay l2"></div><div class="lay msk"></div>
+      <p class="k">Shop</p><p class="t">Search Results</p></div>
+    <div class="note"><strong>Vì sao hướng này đáng cân nhắc.</strong>
+    Màu nhấn của site đang là <strong>ĐEN</strong>, và mã hex tím / xanh dương của thời kỳ mới
+    brand vẫn chưa gửi. Mọi banner nhiều màu lúc này đều đang <em>đoán</em> màu thương hiệu.
+    Phương án B không đoán gì cả: nó dựa trên đúng thứ đã chốt. Khi brand gửi hex thật,
+    A đổi bảng màu trong một dòng, còn B thì vẫn đứng nguyên.</div>
+  </section>
+
+  <section class="case">
+    <h2>Đối chiếu</h2>
+    <table>
+      <tr><th></th><th>Hiện tại</th><th>A · Váng dầu</th><th>B · Kim loại</th></tr>
+      <tr><td>Đọc ra váng dầu</td><td>Không</td><td>Có</td><td>Không, và không định thế</td></tr>
+      <tr><td>Dùng màu brand chưa xác nhận</td><td>Có</td><td>Có</td><td>Không</td></tr>
+      <tr><td>Tương phản với chữ trắng</td><td>Trung bình</td><td>Tốt, nhờ mặt nạ tối ở rìa</td><td>Tốt</td></tr>
+      <tr><td>Dung lượng</td><td>0 KB</td><td>0 KB</td><td>0 KB</td></tr>
+      <tr><td>Đổi màu khi brand gửi hex</td><td>Sửa 4 biến</td><td>Sửa dải màu, 1 chỗ</td><td>Không cần đổi</td></tr>
+    </table>
+  </section>
+
+</div>
+</body>
+</html>
