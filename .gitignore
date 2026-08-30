@@ -60,3 +60,4 @@ dc-runtime/
 # Khong commit vi no la ban sao 5,5 MB cua thu muc theme da co trong repo.
 # Ten zip suy ra tu `Theme Name` trong style.css nen no doi theo phien ban.
 vitalite-*.zip
+_upload/
