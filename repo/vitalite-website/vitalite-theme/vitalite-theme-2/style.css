@@ -5,7 +5,7 @@ Description: Child theme cho VITALITÉ — streetwear, WooCommerce. Header/foote
 Author: Vitalité
 Author URI: https://vitalite.io.vn
 Template: hello-elementor
-Version: 2.0.0
+Version: 2.0.1
 Requires at least: 6.0
 Requires PHP: 8.0
 Text Domain: vitalite
@@ -362,35 +362,43 @@ body.vt-banner-top .site-main { padding-top: 0; }
 .vt-header.is-transparent.is-light-bg .vt-brand img { filter: none; }
 
 .vt-nav { display: flex; align-items: center; gap: clamp(12px, 1.8vw, 26px); list-style: none; margin: 0; padding: 0; }
+/* Chữ header dùng weight 700, KHÔNG phải 500.
+   Brand yêu cầu 30/08: nét mảnh quá. Ở 11px chữ hoa letter-spacing .14em, weight 500
+   của một font mono đọc ra rất mảnh, và trên header trong suốt đè lên video thì
+   gần như biến mất. 700 phải được nạp thật trong inc/enqueue.php — thiếu là trình
+   duyệt bôi đậm giả và ra nhoè. */
 .vt-nav a {
-  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 500;
-  letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
-  white-space: nowrap; opacity: .82; transition: opacity var(--vt-fast);
+  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
+  white-space: nowrap; opacity: .9; transition: opacity var(--vt-fast);
 }
 .vt-nav a:hover, .vt-nav .current-menu-item > a { opacity: 1; }
 
 .vt-util {
-  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 500;
-  letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
-  opacity: .82; transition: opacity var(--vt-fast); white-space: nowrap;
+  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
+  opacity: .9; transition: opacity var(--vt-fast); white-space: nowrap;
 }
 .vt-util:hover { opacity: 1; }
 
 /* Chuyển ngôn ngữ — chữ EN / VI, không dùng cờ quốc gia */
 .vt-lang { display: inline-flex; align-items: center; gap: 6px; }
+/* Ngôn ngữ đang chọn phân biệt bằng ĐỘ MỜ, không phải bằng weight — cả hai đều 700
+   thì hai chữ EN / VI không bị nhảy chiều rộng khi đổi ngôn ngữ. */
 .vt-lang a, .vt-lang span {
-  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs);
-  letter-spacing: .12em; text-decoration: none; opacity: .5;
+  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 700;
+  letter-spacing: .1em; text-decoration: none; opacity: .45;
 }
-.vt-lang .is-active { opacity: 1; font-weight: 500; }
+.vt-lang .is-active { opacity: 1; }
 .vt-lang .vt-lang-sep { opacity: .3; }
 
 /* Giỏ hàng — icon + badge. Rỗng thì ẩn số hoàn toàn. */
 .vt-cart {
   position: relative; display: inline-flex; align-items: center; gap: 8px;
   text-decoration: none; padding: 7px 14px;
-  border: 1px solid currentColor; border-radius: 999px;
-  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); letter-spacing: .1em;
+  border: 1.5px solid currentColor; border-radius: 999px;
+  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 700;
+  letter-spacing: .1em;
 }
 .vt-cart svg { width: 21px; height: 21px; stroke: currentColor; fill: none; stroke-width: 1.6; }
 .vt-cart-count {
@@ -398,7 +406,7 @@ body.vt-banner-top .site-main { padding-top: 0; }
   min-width: 17px; height: 17px; padding: 0 4px;
   display: grid; place-items: center; border-radius: 999px;
   background: var(--vt-accent); color: var(--vt-accent-on);
-  font-family: var(--vt-font-mono); font-size: 10px; line-height: 1; font-weight: 500;
+  font-family: var(--vt-font-mono); font-size: 10px; line-height: 1; font-weight: 700;
 }
 .vt-cart-count.is-empty { display: none; }
 /* Badge phải giữ tương phản ở cả hai tone */
@@ -427,8 +435,8 @@ body.vt-banner-top .site-main { padding-top: 0; }
 }
 .vt-mobile-nav .vt-mobile-foot { margin-top: auto; padding-top: 28px; display: flex; gap: 18px; flex-wrap: wrap; }
 .vt-mobile-nav .vt-mobile-foot a {
-  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 500;
-  letter-spacing: .14em; border: 0; padding: 0;
+  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 700;
+  letter-spacing: .12em; border: 0; padding: 0;
 }
 .vt-mobile-close { position: fixed; top: 18px; right: var(--vt-gutter); z-index: 601; background: none; border: 0; cursor: pointer; padding: 8px; }
 .vt-mobile-close svg { width: 22px; height: 22px; stroke: var(--vt-ink); stroke-width: 1.6; fill: none; }

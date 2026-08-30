@@ -151,7 +151,7 @@ Clarification → Individual inputs → Debate → Chếch chốt → Jaker+Mai 
 - ✅ Tự kiểm 7 mục bằng `docs/check-theme.py` — sạch
 
 ### 🔴 Chưa chạy thử trên hosting lần nào
-Theme đã đóng gói xong 30/08: `vitalite-theme.zip` (5,5 MB, 55 file), self-check sạch 7/7.
+Theme đã đóng gói xong 30/08: `vitalite-theme.zip` (5,5 MB, 55 file), **v2.0.1**, self-check sạch 7/7.
 Việc kế tiếp là **upload bằng tay** — Claude không làm được, không có SSH.
 Quy trình song song, lùi lại được: `deliverables/setup/DEPLOY.md` bước 1b → 6.
 
@@ -190,6 +190,8 @@ Ngoài ra: Nike · Saigon Swagger · StressMama
 | Nền site | **TRẮNG** ở vùng sản phẩm. Tối + iridescent chỉ ở vùng kể chuyện |
 | Màu nhấn | `--vt-accent` = **ĐEN tạm thời**. Brand đổi chủ, hệ màu mới chưa chốt |
 | Logo | Bản **ĐEN** (`Logo/Black Sabbath/`) |
+| Chữ header | **weight 700**, giãn `.12em`, mờ `.90`. Brand yêu cầu 30/08: bản 500 quá mảnh.
+JetBrains Mono phải nạp cả 700 trong `inc/enqueue.php` — bỏ ra là thành bôi đậm giả, nhoè ở 11px |
 | Ngôn ngữ | **EN default tại root**, VI tại `/vi/`. Build EN xong → dịch → launch cùng lúc |
 | Auto-detect ngôn ngữ | **KHÔNG** |
 | Permalink | `/%postname%` không trailing slash |
