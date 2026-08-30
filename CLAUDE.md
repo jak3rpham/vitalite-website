@@ -233,8 +233,10 @@ Lúc có 40 sản phẩm × 6 variation là làm lại từ đầu.
 > **không có**, không phải "chờ trả lời". Không soạn thêm file câu hỏi, không gửi lại
 > file 50 câu, không để ô cam trên trang.
 >
-> Nguyên tắc thi hành: **thiếu fact thì bỏ hẳn câu đó**, không bịa, không để chỗ chờ.
-> 11 trang tĩnh đã publish với 0 ô cảnh báo. Cái gì bỏ đi và vì sao: `docs/ASSUMPTIONS.md`.
+> Nguyên tắc thi hành: **thiếu fact thì bỏ hẳn câu đó khỏi TRANG**, không bịa, không để ô cam.
+> Nhưng **vẫn document lại** để sau có thì điền: 📋 `docs/CHO-DIEN-SAU.md` — ghi rõ cái gì bị bỏ,
+> bỏ khỏi đâu, và sửa ở dòng nào của `docs/make-pages.py` để điền lại.
+> 11 trang tĩnh đã publish với 0 ô cảnh báo. Lý do từng chỗ: `docs/ASSUMPTIONS.md`.
 >
 > `deliverables/CAU-HOI-CHO-BRAND.md` giữ lại làm **hồ sơ**, không phải việc cần làm.
 
@@ -252,11 +254,16 @@ Lúc có 40 sản phẩm × 6 variation là làm lại từ đầu.
 - [ ] **Shipping zone.** Nội địa 30k flat + freeship 3 áo. Zone thứ hai: Mỹ.
 - [ ] **Kho bên Mỹ là kho thứ hai.** Hàng xách tay theo lô, người bên Mỹ giữ hàng. Woo đang một kho.
       Chưa có cơ chế nào mô tả việc này trong catalog. Quyết định khi nhập sản phẩm.
+- [ ] **`.htaccess` bảo vệ nội dung** — chống hotlink ảnh, tắt liệt kê thư mục, chặn công cụ
+      clone cả site, khoá file nhạy cảm. Snippet + quy trình kiểm: `deliverables/setup/BAO-VE-NOI-DUNG.md`.
+      🔴 **KHÔNG** chặn chuột phải / F12 — phá inspect của chính mình, phá trợ năng, và phá được
+      trong 5 giây. Lý do đầy đủ ở mục 0 của file đó.
 - [ ] Ảnh mockup nền trong suốt → cần Canva Pro
 - [ ] Premmerce có tương thích Polylang không (test bằng 2 SKU giả)
 
 ### 🟡 Dữ liệu không có, đã xử lý bằng cách không nói
-Không chờ ai gửi. Nếu sau này có thì thêm vào, không có thì trang vẫn đứng được.
+Không chờ ai gửi. Có thì điền, không có thì trang vẫn đứng được.
+**Cách điền lại từng cái: `docs/CHO-DIEN-SAU.md`.**
 - Số đo hoodie → `size-guide` không có bảng outerwear, PDP hoodie cũng không
 - Mô tả 4 dòng cũ → `collection` liệt kê tên, không mô tả
 - Giờ làm việc → `contact` không nêu

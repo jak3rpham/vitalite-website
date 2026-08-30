@@ -176,6 +176,22 @@ Xoá `vitalite-theme-old` sau khi đã chạy ổn vài ngày.
 
 ---
 
+## Bước 7 — bảo vệ nội dung (sau khi site đã chạy ổn)
+
+Sửa `.htaccess` để chống hotlink ảnh, tắt liệt kê thư mục, chặn công cụ clone cả site,
+khoá file nhạy cảm. Snippet đầy đủ + 5 bước kiểm sau khi lưu:
+**`deliverables/setup/BAO-VE-NOI-DUNG.md`**
+
+🔴 **Làm sau khi site đã chạy ổn, không làm cùng lúc với deploy.** `.htaccess` hỏng là site
+trả lỗi 500 trắng trơn, và nếu làm cùng lúc thì không biết lỗi đến từ theme hay từ `.htaccess`.
+
+🔴 **Copy `.htaccess` hiện tại ra file text trên máy trước khi sửa.**
+
+Cái này đặc biệt cần cho `wp-content/uploads/seq/0823/` — 99 file chuỗi frame. Không tắt liệt kê
+thư mục thì mở URL đó ra là thấy nguyên danh sách, tải hàng loạt trong một lệnh.
+
+---
+
 ## Về sau: dùng FTP thay File Manager
 
 File Manager ổn cho một lần upload lớn. Sửa lặt vặt hằng ngày thì FTP nhanh hơn nhiều.
