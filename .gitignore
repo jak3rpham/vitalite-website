@@ -54,3 +54,8 @@ __pycache__/
 # --- Build artifact ---
 node_modules/
 dc-runtime/
+
+# --- Zip theme dung de upload ---
+# Sinh lai bat cu luc nao bang: python docs/build-theme-zip.py
+# Khong commit vi no la ban sao 5,5 MB cua thu muc theme da co trong repo.
+vitalite-theme-2.zip

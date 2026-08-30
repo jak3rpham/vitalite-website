@@ -130,27 +130,76 @@ cả rác. Sau khi xác nhận theme mới chạy ổn, xoá luôn thư mục th
 
 ---
 
-### Bước 1 — nén ở máy
+### ✅ Bước 1 — nén ở máy · ĐÃ LÀM XONG 2026-08-30
 
-Vào `E:\Vitalite website\repo\vitalite-website\vitalite-theme\`, nén thư mục
-`vitalite-theme` thành `vitalite-theme.zip`.
+Zip đã dựng sẵn ở gốc project:
+
+```
+E:\Vitalite website\vitalite-theme-2.zip     5,5 MB · 55 file
+```
+
+Dựng lại khi có sửa theme:
+
+```bash
+cd "E:/Vitalite website"; python docs/build-theme-zip.py
+```
+
+Script tự bỏ `.DS_Store`, `Thumbs.db`, `.log`, `.pyc`, `.map`, `node_modules`, `.git`.
+Nó cũng in ra mọi file trên 500 KB để không bao giờ lọt file nặng vào zip mà không ai biết.
+Hiện chỉ có hai, đều đúng chỗ: `video/hero-1280.mp4` 2,32 MB và `video/hero-1280.webm` 1,59 MB.
+
+> ⚠️ **Thư mục trong zip tên là `vitalite-theme-2`, không phải `vitalite-theme`.**
+> Đây là chủ ý, xem bước 2. Đừng đổi tên nó.
+
+---
+
+### Bước 1b — kiểm trước khi upload
+
+Hai thứ phải đúng, nếu không thì kích hoạt theme sẽ lỗi.
+
+**1. Theme cha `hello-elementor` phải có trên production.**
+`wp-admin → Giao diện → Giao diện`, tìm **Hello Elementor** trong danh sách.
+Không có thì cài trước: `Thêm mới → tìm "Hello Elementor" → Cài đặt`. **Không cần kích hoạt nó.**
+`style.css` khai `Template: hello-elementor` — thiếu cha là WordPress từ chối kích hoạt con.
+
+**2. Ghi lại tên theme đang chạy.**
+`Giao diện → Giao diện`, theme nào đang "Đang kích hoạt". Ghi ra giấy.
+Đây là thứ để quay về ở bước 5.
+
+---
 
 ### Bước 2 — upload
 
 `cPanel → File Manager → public_html/wp-content/themes/`
 
-1. **Upload** `vitalite-theme.zip`
+1. **Upload** `vitalite-theme-2.zip`
 2. Chuột phải → **Extract**
-3. Nó sẽ hỏi ghi đè — **đừng**. Đổi tên thư mục cũ trước:
-   - Đổi `vitalite-theme` → `vitalite-theme-old`
-   - Rồi mới Extract
-4. Kết quả: có cả `vitalite-theme` (mới) và `vitalite-theme-old` (cũ)
+3. Xoá file `.zip` sau khi giải nén xong
+
+**Không phải đổi tên gì cả, và không có prompt ghi đè.** Thư mục mới tên `vitalite-theme-2`,
+thư mục đang chạy tên `vitalite-theme` — hai tên khác nhau nên chúng nằm cạnh nhau, không đụng nhau.
+Theme đang chạy **không bị động tới một byte nào**.
+
+```
+public_html/wp-content/themes/
+├── hello-elementor/        ← theme cha
+├── vitalite-theme/         ← ĐANG CHẠY, không đụng vào
+└── vitalite-theme-2/       ← vừa upload
+```
+
+> Bản DEPLOY cũ bảo đổi tên thư mục đang chạy thành `vitalite-theme-old` rồi mới Extract.
+> **Không cần nữa, và đừng làm.** Đổi tên thư mục của theme đang kích hoạt là site trắng ngay
+> lập tức cho tới khi extract xong. Tên khác nhau thì không có khoảng thời gian nào site hỏng.
+
+---
 
 ### Bước 3 — kích hoạt
 
 `wp-admin → Giao diện → Giao diện`
 
-Sẽ thấy hai theme cùng tên "Vitalité Theme", khác số phiên bản (`2.0.0` là bản mới).
+Sẽ thấy **hai** theme cùng tên "Vitalité Theme". Phân biệt bằng số phiên bản — bản mới là
+**2.0.0**. Bấm chuột lên từng cái để xem chi tiết nếu không chắc.
+
 Kích hoạt bản `2.0.0`.
 
 ### Bước 4 — xem thử ngay
@@ -172,7 +221,14 @@ Kích hoạt bản `2.0.0`.
 
 ### Bước 6 — ổn rồi thì dọn
 
-Xoá `vitalite-theme-old` sau khi đã chạy ổn vài ngày.
+Sau khi chạy ổn **vài ngày**, không phải vài phút:
+
+1. Xoá thư mục `vitalite-theme` cũ qua File Manager.
+   🔴 Bản cũ nhiều khả năng còn hai file video master trong `video/`, ăn **~96 MB** dung lượng
+   hosting mà không phục vụ ai. Xoá cả thư mục là xong luôn.
+2. Kiểm lại `/` và `/shop` một lần nữa sau khi xoá.
+
+> Đừng xoá sớm. Thư mục cũ chính là đường lùi ở bước 5.
 
 ---
 

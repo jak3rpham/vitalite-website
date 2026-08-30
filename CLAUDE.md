@@ -151,10 +151,16 @@ Clarification → Individual inputs → Debate → Chếch chốt → Jaker+Mai 
 - ✅ Tự kiểm 7 mục bằng `docs/check-theme.py` — sạch
 
 ### 🔴 Chưa chạy thử trên hosting lần nào
-Việc kế tiếp là deploy. Quy trình song song, lùi lại được: `deliverables/setup/DEPLOY.md`
+Theme đã đóng gói xong 30/08: `vitalite-theme-2.zip` (5,5 MB, 55 file), self-check sạch 7/7.
+Việc kế tiếp là **upload bằng tay** — Claude không làm được, không có SSH.
+Quy trình song song, lùi lại được: `deliverables/setup/DEPLOY.md` bước 1b → 6.
+
+> Thư mục trong zip tên `vitalite-theme-2`, **khác** `vitalite-theme` đang chạy.
+> Hai tên khác nhau nên không có giây phút nào site hỏng, và lùi lại chỉ là kích hoạt lại theme cũ.
 
 ### Đang chờ
-- Nén video hero 17MB → 2.5MB (cần `ffmpeg`)
+- ~~Nén video hero~~ ✅ XONG. `hero-1280.mp4` **2,32 MB** (x264 CRF 30, 8s, không audio,
+  +faststart) + `hero-1280.webm` **1,59 MB** (VP9 CRF 46). Master 117 MB nằm ngoài theme.
 - Polylang (**chặn việc nhập sản phẩm**)
 - LiteSpeed Cache (**minify CSS/JS TẮT** — xung đột Elementor)
 - 🔴 Payment gateway — brand xác nhận 29/08 *"tạm thời chưa làm tài khoản kinh doanh"*, nên chưa
@@ -210,19 +216,23 @@ Ngoài ra: Nike · Saigon Swagger · StressMama
 1. ~~Bỏ shortcode → header.php/footer.php~~        ✅ XONG (giữ lớp tương thích)
 2. ~~CSS token + cart icon + JS header mode~~      ✅ XONG
 3. ~~Chốt structure homepage → build~~             ✅ XONG (PHP, không Elementor)
-4. Gỡ video master khỏi theme + DEPLOY             ← ĐANG Ở ĐÂY
-5. Cấu hình WordPress (title, permalink, category)
-6. Polylang — 6 quyết định, CHƯA dịch gì           ← CHẶN bước 8
-7. Nén video + poster WebP
-8. Tạo attributes → nhập 2 SẢN PHẨM TEST → kiểm
-9. Nhập phần còn lại
-10. Dịch VI → launch cả hai + TẮT "Ngăn công cụ tìm kiếm"
+4. ~~Gỡ video master + đóng gói theme~~            ✅ XONG 30/08
+   → `vitalite-theme-2.zip` 5,5 MB · 55 file · theme self-check sạch 7/7
+5. DEPLOY — upload + kích hoạt                     ← ĐANG Ở ĐÂY, việc TAY
+   → `deliverables/setup/DEPLOY.md` bước 1b → 6
+6. Cấu hình WordPress (title, permalink, category)
+7. Polylang — 6 quyết định, CHƯA dịch gì           ← CHẶN bước 9
+8. Shipping zone + freeship theo số lượng + phương thức thanh toán
+9. Tạo attributes → nhập 2 SẢN PHẨM TEST → kiểm
+10. Nhập phần còn lại
+11. `.htaccess` bảo vệ nội dung → `deliverables/setup/BAO-VE-NOI-DUNG.md`
+12. Dịch VI → launch cả hai + TẮT "Ngăn công cụ tìm kiếm"
 ```
 
-**Bước 6 phải trước bước 8.** Attribute term là taxonomy term — tạo trước khi bật Polylang
+**Bước 7 phải trước bước 9.** Attribute term là taxonomy term — tạo trước khi bật Polylang
 là phải gán ngôn ngữ tay từng term và từng SKU.
 
-**Bước 8 không được bỏ phần "2 sản phẩm test".** Sửa cấu trúc lúc có 2 sản phẩm là 10 phút.
+**Bước 9 không được bỏ phần "2 sản phẩm test".** Sửa cấu trúc lúc có 2 sản phẩm là 10 phút.
 Lúc có 40 sản phẩm × 6 variation là làm lại từ đầu.
 
 ---
