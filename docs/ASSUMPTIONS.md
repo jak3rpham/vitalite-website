@@ -572,3 +572,53 @@ Câu 15. WooCommerce mặc định chỉ có ngưỡng Free Shipping **theo giá
 snippet hoặc plugin. Trang `shipping` viết là "orders of three pieces or more" **không giới hạn
 vùng**, tức đang ngầm hiểu áp dụng cả quốc tế. Nếu sai thì phải sửa — với phí quốc tế thật
 $25–40, freeship 3 áo cho đơn đi Mỹ là lỗ nặng. Câu F5d.
+
+---
+
+## 30/08/2026 — gỡ hết ô cam, publish 11 trang
+
+User chốt: **"Publish hết. Không có thông tin thì mình không nói."**
+Nguyên tắc thi hành: chỗ nào thiếu fact thì **bỏ hẳn câu/mục đó**, không để ô cam, không bịa số.
+Cả 11 trang giờ **0 ô cảnh báo**.
+
+### Fact mới, làm lại toàn bộ phần quốc tế
+Đơn đi Mỹ **không phải ship quốc tế từng đơn**. Hàng **xách tay theo lô** từ VN sang Mỹ, một người
+bên Mỹ giữ hàng và phân phối nội địa Mỹ.
+
+Cái này lật ngược phân tích ngày 29/08: bảng giá FedEx $40–60 **không áp dụng**, và 200k là chi phí
+ship nội địa Mỹ — hợp lý. "Chi nhánh nước ngoài" ở câu 9 và 36 chính là người này.
+
+Trang `shipping` vì vậy **không nêu tên hãng vận chuyển nào cho chặng quốc tế**. Câu 6 brand trả lời
+"FedEx, Vietnam Post" nhưng chặng VN→Mỹ là xách tay, nên ghi tên hãng lên trang là sai fact.
+Trang chỉ nói: ship tới Mỹ, 1–2 tuần, phí hiện ở checkout.
+
+### Đã bỏ hẳn khỏi trang, không phải để trống
+| Trang | Bỏ cái gì | Vì |
+|---|---|---|
+| `returns` | Toàn bộ mục **Refunds** | Câu 23, 24 trống. Trang chỉ nói đổi hàng, không hứa hoàn tiền |
+| `returns` | Dòng "International orders" trong bảng ai trả ship | Câu 28 trống |
+| `payment` | Toàn bộ mục **Card security** | Nó mô tả một nhà cung cấp thanh toán chưa tồn tại |
+| `terms` | Toàn bộ mục **Limitation of liability** | Cần luật sư. Publish bản mẫu còn tệ hơn không có |
+| `complaints` | Toàn bộ mục **How long we take** | Câu 29, 30 trống |
+| `shipping` | Toàn bộ mục **Order processing** | Câu 16 trống |
+| `size-guide` | Bảng số đo outerwear | Câu 22 trống. PDP hoodie cũng không hiện bảng |
+| `contact` | Giờ làm việc | Câu 32 trống |
+
+### Ba chỗ viết mới bằng fact có thật, không bịa
+- `returns` — địa chỉ trả hàng (câu 25 trống) đổi thành **quy trình**: *"chúng tôi xác nhận địa chỉ
+  khi duyệt yêu cầu"*. Đúng thực tế và không cần con số.
+- `privacy` — thời gian lưu (câu 39 trả lời "1W", không dùng được): *"lưu theo thời hạn luật Việt Nam
+  yêu cầu"*. Là phát biểu tuân thủ, không phải con số bịa.
+- `faq` — restock viết theo đúng câu 34: có, phụ thuộc lượng mua.
+
+### 🔴 Rủi ro còn nguyên sau khi publish
+1. **`seller-information` thiếu tên đăng ký.** Nghị định TMĐT đòi tên trên giấy phép. MST
+   `079203010516` là 12 số → dạng hộ kinh doanh, tên thật gần như chắc chắn không phải "Vitalité".
+   Trang ghi `Trading as: VITALITÉ` — đúng về mặt mô tả, **chưa đủ về mặt tuân thủ**.
+2. **Thanh toán cho khách Mỹ vẫn chưa có.** Trang `payment` giờ chỉ nói COD nội địa và "phương thức
+   hiện ở checkout". Nếu tới ngày launch checkout không có phương thức nào cho khách Mỹ thì câu đó
+   thành lời hứa suông. **Đây là việc cấu hình Woo, không phải việc của trang.**
+3. **Kho bên Mỹ là kho thứ hai.** Woo đang một kho. Bán một chiếc áo đang nằm ở TP.HCM cho khách Mỹ
+   thì hàng phải chờ chuyến xách tay kế. Chưa có cơ chế nào mô tả việc này trong catalog.
+4. **`terms` không có mục giới hạn trách nhiệm.** Bỏ đi là an toàn hơn bịa, nhưng nghĩa là brand
+   không có lớp bảo vệ đó. Cần luật sư khi có điều kiện.

@@ -308,26 +308,15 @@ Once we accept the request, your item must reach us within <strong>7 days</stron
 <p>This depends entirely on whose mistake it was.</p>
 """ + table(['Situation', 'Who pays'],
             [['Our fault: faulty item, wrong item sent', '<strong>VITALITÉ pays both ways</strong>'],
-             ['You chose the wrong size', 'See note below'],
-             ['International orders', 'See note below']]) + """
-<div class="vtp-note"><strong>Commercial note for the owner, remove before publishing.</strong>
-Both reference brands cover shipping when the fault is theirs, and StressMama covers one leg
-even for a plain size swap. The current VITALITÉ policy, customer pays both ways in every case,
-is stricter than both, and stricter than the free 15-day return the same customer gets on Shopee.
-On an international order, two-way shipping can cost more than the shirt, which turns the right
-to exchange into a right nobody can use.</div>
-""" + flag('Need a decision', [
-        'Size swap: keep "customer pays both ways", or cover one leg?',
-        'International exchanges: possible at all, and at what cost?',
-        'Return address for exchanges'])),
-
-      ('refunds', 'Refunds', flag('Need a decision', [
-        'Does VITALITÉ refund, or exchange only?',
-        'If refunds exist: how many working days, and back to which method?'])),
+             ['You chose the wrong size', 'You pay shipping both ways']]) + """
+<p style="margin-top:16px">This is why the <a href="/size-guide">size guide</a> is worth two
+minutes before you order. Knowing your size costs nothing.</p>
+"""),
 
       ('how', 'How to start an exchange', """
 <p>Email %s or message us on %s. Include your order number and the unboxing video.</p>
-<p>Do not send anything back before we confirm. An unannounced parcel cannot be matched to an order.</p>
+<p>We confirm the return address when we approve the request. Do not send anything back before
+then, because an unannounced parcel cannot be matched to an order.</p>
 <div class="vtp-cta">
   <a class="vtp-btn" href="mailto:vitalitevn@gmail.com">Email us</a>
   <a class="vtp-btn vtp-btn--ghost" href="/size-guide">Size guide</a>
@@ -336,70 +325,30 @@ to exchange into a right nobody can use.</div>
      ])
 
 # ---- 2. SHIPPING ------------------------------------------------------------
-# Cap nhat 29/08/2026 tu cau tra loi cua brand (CAU-HOI-CHO-BRAND cau 5,6,8,11,14,15,17).
-# CO SO: don vi van chuyen, thoi gian giao, muc freeship, danh sach nuoc.
-# VAN THIEU: bang phi noi dia (brand tra loi "tuy thuoc khoang cach" -- khong phai so),
-#            phi quoc te (brand ghi 200k, con so nay khong khop thuc te -- xem o cam),
-#            DDP/DDU, lead time roi kho.
+# Cap nhat 30/08/2026.
+# Don di My KHONG phai ship quoc te tung don: hang xach tay theo lo tu VN sang My,
+# mot nguoi ben My phan phoi noi dia My. Vi vay trang nay KHONG nham ten hang van
+# chuyen quoc te nao -- ghi "FedEx" cho chang duong quoc te la sai fact.
+# Phi noi dia 30k va nguong freeship 3 ao la fact brand cung cap 29/08.
 page('shipping', '02', 'Policy', 'Shipping',
      'Where we ship, what it costs, how long it takes.',
      [
-      ('blocked', 'This page is not ready', """
-<div class="vtp-flag"><b>Do not publish yet</b>
-<p style="margin:0">Carriers, delivery times, the domestic fee and the free-shipping threshold are
-confirmed. The <strong>international fee</strong> is not, and the domestic fee has a second answer
-that contradicts it. A shipping fee published on this page is a price the customer is charged at
-checkout, so it does not go live until one number stands alone.</p></div>
-"""),
       ('vietnam', 'Vietnam', """
-<p>Orders inside Vietnam ship with <strong>SPX</strong>. Shipping is calculated from the delivery
-address you enter at checkout. Pick your province and the cost appears before you pay. There is no
-separate quote step, and nothing is added to the total afterwards.</p>
+<p>Orders inside Vietnam ship with <strong>SPX</strong>. Shipping is
+<strong>30,000&#8363;</strong>, and <strong>free on orders of three pieces or more</strong>.
+The exact cost appears at checkout before you pay, and nothing is added to the total afterwards.</p>
 """ + table(['Where', 'Delivery time'],
             [['Ho Chi Minh City', '1 day'],
              ['Everywhere else in Vietnam', '1 to 3 days']]) + """
-<p><strong>Shipping is free on orders of three pieces or more.</strong>
-Below three, shipping is <strong>30,000&#8363;</strong>.</p>
-<p><strong>Cash on delivery is available</strong> inside Vietnam. You pay the courier when the
-parcel is handed to you.</p>
-""" + flag('Need data', [
-        'Is 30,000&#8363; a flat rate for the whole country, or only the answer for Ho Chi Minh City? '
-        'Question 7 gave the figure, questions 12 and 13 then answered &#8220;depends on distance&#8221;. '
-        'Those two cannot both be configured. A flat rate is one WooCommerce setting, a distance-based '
-        'rate needs a zone table before checkout can quote anything.',
-        'Confirm VITALIT&#201; has an SPX account for orders placed outside Shopee, not only through the marketplace.']) + """
-<div class="vtp-note"><strong>Ghi ch&#250; cho ch&#7911; site, xo&#225; tr&#432;&#7899;c khi publish.</strong>
-Freeship t&#237;nh theo <em>s&#7889; l&#432;&#7907;ng</em> (3 &#225;o), kh&#244;ng ph&#7843;i theo gi&#225; tr&#7883; &#273;&#417;n.
-WooCommerce m&#7863;c &#273;&#7883;nh ch&#7881; c&#243; &#8220;Minimum order amount&#8221; cho Free Shipping, n&#234;n c&#225;i n&#224;y
-c&#7847;n snippet ho&#7863;c plugin. C&#225;ch c&#7845;u h&#236;nh &#7903; <strong>deliverables/woo/SHIPPING-SETUP.md</strong>.
-C&#242;n m&#7897;t c&#226;u ch&#432;a h&#7887;i: 3 &#225;o c&#243; &#225;p d&#7909;ng cho c&#7843; &#273;&#417;n qu&#7889;c t&#7871; kh&#244;ng?</div>
+<p style="margin-top:16px"><strong>Cash on delivery is available</strong> inside Vietnam.
+You pay the courier when the parcel is handed to you.</p>
 """),
 
-      ('international', 'International', """
-<p>The website exists to serve customers Shopee cannot reach. Right now that means
-<strong>the United States</strong>, shipped with <strong>FedEx</strong> or
-<strong>Vietnam Post</strong>, arriving in <strong>one to two weeks</strong>.</p>
-""" + flag('Need data', [
-        'The international fee. Brand answered 200,000&#8363;, about $8. A 0.5&nbsp;kg parcel from '
-        'Vietnam to the United States costs roughly $40-60 on FedEx and 600,000-900,000&#8363; on '
-        'Vietnam Post EMS. Either the quote is out of date or the brand is absorbing the difference. '
-        'Publishing $8 turns that gap into a promise to every customer.',
-        'Import duty and tax: paid by us (DDP) or by the customer (DDU)? Brand answered &#8220;there '
-        'will be an overseas branch selling at a different price instead of the tax&#8221;, which is a '
-        'different business model, not a DDP/DDU setting. Checkout still has to state one of the two.',
-        'The Instagram bio says <em>Worldwide shipping</em>. The answer says the United States only. '
-        'One of the two has to change.']) + """
-<div class="vtp-note"><strong>The number to look at first.</strong>
-A shirt sells at roughly 280,000&#8363; (about $11). Real international shipping runs $25-40,
-<strong>three times the price of the product</strong>. The model does not work at the current price
-point unless something changes: bundles, a separate international price, or accepting a loss on
-shipping to buy the customer. That question was asked and left blank. It has to be answered
-<em>before</em> launch, not after.</div>
+      ('international', 'United States', """
+<p>We ship to the <strong>United States</strong>. Orders arrive in
+<strong>one to two weeks</strong>.</p>
+<p>Shipping is calculated at checkout and shown before you pay.</p>
 """),
-
-      ('processing', 'Order processing', flag('Need data', [
-        'How long between order placed and parcel leaving?',
-        'Which days do we not ship: Sunday, public holidays, T&#7871;t?'])),
 
       ('damage', 'Damage in transit', """
 <p>Please check the parcel when it is handed to you. Signing for a delivery without noting a
@@ -407,54 +356,30 @@ problem is treated as accepting the order in the condition it arrived.</p>
 <p>If something is wrong, the unboxing video described in our
 <a href="/returns">returns policy</a> is what lets us make a claim with the carrier on your behalf.</p>
 """),
-     ], stamp='Last updated 29 August 2026')
+     ], stamp='Last updated 30 August 2026')
 
 # ---- 3. PAYMENT -------------------------------------------------------------
-# Cap nhat 29/08/2026, cau 17-20.
-# MAU THUAN PHAI GIU NGUYEN, KHONG DUOC LAM MUOT:
-#   cau 18 "tam thoi chua lam tai khoan kinh doanh"
-#   cau 19 "co nhan the quoc te" + cau 20 "tat ca" cong thanh toan
-# Khong co tai khoan ngan hang doanh nghiep thi KHONG cong nao duyet duoc:
-# VNPay/MoMo/ZaloPay/OnePay deu bat buoc DKKD + tk doanh nghiep, Stripe khong ho tro
-# phap nhan VN, PayPal Business cung can tk doanh nghiep. Nghia la khach quoc te --
-# ly do ton tai cua site -- hien khong co cach nao tra tien.
+# Cap nhat 30/08/2026. Chi noi nhung gi da xac nhan: COD noi dia, gia VND da gom thue.
+# Cong thanh toan chua co (cau 18) -> KHONG noi gi ve the, vi, cong thanh toan.
+# Muc "Card security" cu da bo han vi no mo ta mot nha cung cap chua ton tai.
 page('payment', '03', 'Policy', 'Payment',
-     'How you can pay, when we charge, and what currency you are charged in.',
+     'How you can pay, and what currency you are charged in.',
      [
       ('methods', 'Accepted methods', """
 <p><strong>Cash on delivery</strong> is available for orders inside Vietnam. You pay the courier
-when the parcel is handed to you.</p>
-""" + flag('Need data', [
-        'Every other method. Brand answered that there is <em>no business bank account yet</em>, '
-        'and separately that international cards and &#8220;all&#8221; gateways are accepted. Those two '
-        'cannot both be true: VNPay, MoMo, ZaloPay and OnePay all require a registered business bank '
-        'account, Stripe does not support Vietnamese entities, and PayPal Business needs one too.',
-        'Bank transfer: account name, number, bank, branch.',
-        'Which gateway is actually being applied for, and when?']) + """
-<div class="vtp-note"><strong>Ghi ch&#250; cho ch&#7911; site, xo&#225; tr&#432;&#7899;c khi publish.</strong>
-&#272;&#226;y l&#224; blocker n&#7863;ng nh&#7845;t &#273;ang c&#243;, n&#7863;ng h&#417;n c&#7843; ph&#237; ship.
-COD kh&#244;ng ch&#7841;y &#273;&#432;&#7907;c v&#7899;i &#273;&#417;n &#273;i M&#7929;. Kh&#225;ch qu&#7889;c t&#7871; v&#224;o site m&#224;
-kh&#244;ng c&#243; n&#250;t thanh to&#225;n n&#224;o ho&#7841;t &#273;&#7897;ng th&#236; site kh&#244;ng b&#225;n &#273;&#432;&#7907;c cho
-&#273;&#250;ng nh&#243;m n&#243; sinh ra &#273;&#7875; ph&#7909;c v&#7909;.</div>
+when the parcel is handed to you, and there is nothing to pay until it arrives.</p>
+<p>Every method available to you is shown at checkout before you confirm the order.</p>
 """),
 
       ('currency', 'Currency', """
 <p>Prices are shown in Vietnamese &#273;&#7891;ng (&#8363;) and include tax.</p>
-""" + flag('Need a decision', [
-        'Do international customers see prices in their own currency? Brand answered &#8220;yes, but '
-        'that side will have a different price, still deciding&#8221;. A different price for the same '
-        'piece is not a currency setting, it is a second price list, and it changes how the catalogue '
-        'is built. Nothing is configured until this is settled.'])),
+"""),
 
       ('when', 'When we charge', """
-<p>Payment is taken when the order is placed. An order is only confirmed once payment clears. Until then the items are not reserved.</p>
-<p>On a cash-on-delivery order there is nothing to pay until the parcel arrives.</p>
+<p>Payment is taken when the order is placed, unless you are paying cash on delivery. An order is
+only confirmed once payment clears. Until then the items are not reserved.</p>
 """),
-      ('security', 'Card security', """
-<p>Card details are handled entirely by the payment provider. They never reach our servers and
-we never store them.</p>
-""" + flag('Need data', ['Name of the payment provider, to state here explicitly'])),
-     ], stamp='Last updated 29 August 2026')
+     ], stamp='Last updated 30 August 2026')
 
 # ---- 4. SIZE GUIDE ----------------------------------------------------------
 page('size-guide', '04', 'Guide', 'Size Guide',
@@ -469,11 +394,9 @@ page('size-guide', '04', 'Guide', 'Size Guide',
 <p style="margin-top:16px">Measurements can vary by 2 to 3 cm between production batches.</p>
 """),
       ('outerwear', 'Outerwear', """
-<p>Fabric is <strong>500+ GSM heavyweight cotton blend</strong>, signature boxy fit.</p>
-""" + flag('Need data', [
-        'Measurements for THE MOMENTS BOXY HOODIE: length, width, sleeve']) + """
-<div class="vtp-note">Until these exist, the product page deliberately shows no size table for
-outerwear. Showing nothing is better than showing a number that turns into a return.</div>
+<p>Fabric is <strong>500+ GSM heavyweight cotton blend</strong>, cut to a signature boxy fit.</p>
+<p>If you are unsure which size to take, message us before you order. It is faster than an
+exchange, and it costs neither of us shipping.</p>
 """),
       ('between', 'Between two sizes?', """
 <p>Our fit is boxy by design. If you are between sizes and want a closer fit, size down.</p>
@@ -504,8 +427,8 @@ page('faq', '05', 'Help', 'How to Order',
 carrier we can no longer change the address or the contents.</p>
 """),
       ('where', 'Where to buy', """
-<p>This website ships worldwide. Inside Vietnam you can also buy from our Shopee store,
-which has been running for four years.</p>
+<p>This website ships inside Vietnam and to the United States. Inside Vietnam you can also buy
+from our Shopee store, which has been running for four years.</p>
 <p>We sell on Instagram, Facebook, TikTok and Shopee under <strong>@vitalitevn</strong>.
 Anything else is not us.</p>
 """),
@@ -514,21 +437,18 @@ Anything else is not us.</p>
 <p>Damage from incorrect washing is not covered by the
 <a href="/returns">returns policy</a>, so this matters.</p>
 """),
-      ('stock', 'Sold out pieces', flag('Need a decision', [
-        'Do we restock, or is every drop final?',
-        'Is there a back-in-stock notification?'])),
+      ('stock', 'Sold out pieces', """
+<p>Pieces do come back. Whether a design is reprinted depends on how much demand there is for it,
+so a sold-out size is not necessarily gone for good.</p>
+<p>If you want a specific piece and size, tell us on %s. It is the fastest way to find out whether
+it is coming back.</p>
+""" % IG),
      ])
 
 # ---- 6. PRIVACY -------------------------------------------------------------
 page('privacy', '06', 'Legal', 'Privacy Policy',
      'What we collect, why, and who else sees it.',
      [
-      ('review', 'Needs review before publishing', """
-<div class="vtp-flag"><b>Structure only</b>
-<p style="margin:0">The sections below are the ones required, in the order that is standard for
-Vietnamese e-commerce. The wording still needs to be checked by whoever is legally responsible
-for the business. This is a contract with the customer, not marketing copy.</p></div>
-"""),
       ('collect', 'What we collect', """
 <p>Only what an order needs: name, email address, delivery address, phone number, and the
 contents of your order. Payment card details are handled by the payment provider and never
@@ -553,22 +473,17 @@ not survive a page reload.</p>
 """),
       ('rights', 'Your rights', """
 <p>You can ask us what we hold about you, ask us to correct it, or ask us to delete it. Email %s.</p>
-""" % MAIL + flag('Needs specialist confirmation', [
-        'Selling to EU customers may bring GDPR obligations. This needs confirming by someone qualified. It is not a question to guess at.'])),
-      ('holding', 'How long we keep it', flag('Need a decision', [
-        'Retention period for order records',
-        'Retention period for accounts that are never used again'])),
+""" % MAIL),
+      ('holding', 'How long we keep it', """
+<p>Order records are kept for as long as Vietnamese law requires us to keep them. Anything not
+needed for that is deleted when you ask us to.</p>
+"""),
      ])
 
 # ---- 7. TERMS ---------------------------------------------------------------
 page('terms', '07', 'Legal', 'Terms of Service',
      'The rules that apply when you use this site or place an order.',
      [
-      ('review', 'Needs review before publishing', """
-<div class="vtp-flag"><b>Structure only</b>
-<p style="margin:0">Required sections in standard order. Wording must be approved by whoever is
-legally responsible for the business.</p></div>
-"""),
       ('scope', 'Scope', """
 <p>Using this website means you accept these terms and our
 <a href="/privacy">privacy policy</a>. If you do not accept them, please do not use the site.</p>
@@ -587,8 +502,6 @@ it in full rather than fulfil it.</p>
 <p>The VITALITÉ name, the logo, the garment designs, the prints and the photography on this site
 belong to VITALITÉ. Reproducing them for commercial use is not permitted.</p>
 """),
-      ('liability', 'Limitation of liability', flag('Needs legal review', [
-        'This section carries real legal weight and must not be drafted from a template. Have it approved.'])),
       ('law', 'Governing law', """
 <p>These terms are governed by the laws of Vietnam.</p>
 """),
@@ -608,12 +521,7 @@ of an item, attach the unboxing video.</p>
   <div><dt>Phone</dt><dd>%s</dd></div>
   <div><dt>Address</dt><dd>%s</dd></div>
 </dl>
-""" % (MAIL, MAIL, TEL, ADDR) + flag('Need data', [
-        'Is the registered address above also where formal complaints should be sent, or is there a '
-        'separate one? Question 31 was left blank, so the registered address is shown for now.'])),
-      ('times', 'How long we take', flag('Need a decision', [
-        'Deadline to acknowledge a complaint',
-        'Deadline to resolve one'])),
+""" % (MAIL, MAIL, TEL, ADDR)),
       ('escalate', 'If we cannot agree', """
 <p>If we cannot reach an agreement, the matter is settled under Vietnamese law, and you retain
 your right to refer it to the competent consumer-protection authority.</p>
@@ -638,15 +546,7 @@ page('seller-information', '09', 'Legal', 'Seller Information',
   <div><dt>Phone</dt><dd>%s</dd></div>
   <div><dt>Email</dt><dd>%s</dd></div>
 </dl>
-""" % (TAXID, ADDR, TEL, MAIL) + flag('Need data', [
-        'The full registered name on the business licence. &#8220;VITALIT&#201;&#8221; is the trading name. '
-        'The tax code above is in the twelve-digit personal / household-business format, so the name on '
-        'the certificate is likely to be different, and Vietnamese e-commerce law requires the registered '
-        'one. Send a photograph of the licence and this page is finished.']) + """
-<div class="vtp-note"><strong>Ghi ch&#250; cho ch&#7911; site, xo&#225; tr&#432;&#7899;c khi publish.</strong>
-B&#7889;n d&#242;ng tr&#234;n l&#224; fact th&#7853;t brand cung c&#7845;p 29/08. Ch&#7881; c&#242;n d&#242;ng
-t&#234;n &#273;&#259;ng k&#253; l&#224; ch&#432;a &#273;&#7889;i chi&#7871;u &#273;&#432;&#7907;c v&#7899;i gi&#7845;y ph&#233;p.</div>
-"""),
+""" % (TAXID, ADDR, TEL, MAIL)),
       ('contact', 'Contact', """
 <p>Email %s &middot; %s</p>
 <p>Based in Saigon. All pieces are made in Vietnam.</p>
@@ -674,9 +574,7 @@ should go there, because it is the only channel where the whole history stays in
 </dl>
 <p style="margin-top:16px">We are <strong>@vitalitevn</strong> on Instagram, Facebook, TikTok and
 Shopee. Any other account using this name is not us.</p>
-""" % TEL + flag('Need data', [
-        'Opening hours, or a stated reply window. Without one, every unanswered message reads as '
-        'being ignored. Question 32 was left blank.'])),
+""" % TEL),
 
       ('include', 'What to put in the message', """
 <p>Four things let us answer on the first reply instead of the third.</p>
@@ -753,15 +651,7 @@ sizing, and they are still sold.</p>
         '<strong>Porsche</strong>, listed as <em>Need Money For Porsche</em>',
         '<strong>Starlight</strong>, shown on Instagram, not yet listed on Shopee',
         '<strong>Old Money</strong>, a varsity longsleeve, not yet released',
-      ]) + flag('Need data', [
-        'One line of description for each of Pink Graffiti, Porsche, Starlight and Old Money. '
-        'Brand confirmed on 29 August that these lines should get their own page, but sent no copy for them.',
-        'Is Starlight still for sale, and at what price? Question 44 was left blank.',
-        'Old Money has a mockup but no release date. Show it here, or hold it back?']) + """
-<div class="vtp-note"><strong>Ghi chú cho chủ site, xoá trước khi publish.</strong>
-Bốn ô trống trên là chỗ CHỜ, không phải chỗ thiếu ý tưởng. Claude không viết mô tả dòng sản phẩm
-vì đó là tiếng nói thương hiệu, không phải copy chức năng. Có câu của brand thì thay thẳng vào.</div>
-"""),
+      ])),
 
       ('how', 'How collections work here', """
 <p>A collection is not a category. A piece belongs to one product type, a t&#8209;shirt or a piece

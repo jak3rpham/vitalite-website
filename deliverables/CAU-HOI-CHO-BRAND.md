@@ -19,8 +19,12 @@
 > **Vẫn không publish được trang nào:** `returns`, `complaints`, `shipping`, `payment`,
 > `collection`, và phần hoodie của `size-guide`.
 >
-> 👉 **8 câu hỏi bổ sung đã soạn riêng:** `deliverables/CAU-HOI-BO-SUNG-29-08.md`.
-> Ngắn hơn nhiều lần file này. Gửi cái đó, đừng gửi lại file này.
+> ---
+>
+> 🔴 **CHỐT 30/08/2026: KHÔNG HỎI TIẾP.** Những câu để trống được coi là **không có**,
+> không phải "chờ trả lời". File này từ đây là **hồ sơ**, không phải việc cần làm.
+> Site đã publish với những gì có; chỗ nào thiếu fact thì **bỏ hẳn câu đó** thay vì để chỗ chờ.
+> Xem `docs/ASSUMPTIONS.md` mục 30/08 để biết đã bỏ những gì.
 
 Website đã dựng xong phần khung: 11 trang, theme, giỏ hàng, thanh toán. Thứ còn thiếu **không phải
 code, mà là những con số và quyết định chỉ brand mới có**.
