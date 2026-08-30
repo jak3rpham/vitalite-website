@@ -20,21 +20,24 @@ TÊN THƯ MỤC TRONG ZIP
     phút nào site hỏng. Xem `deliverables/setup/DEPLOY.md` bước 2.
 """
 import os
+import re
 import sys
+import unicodedata
 import zipfile
 
 BS = chr(92)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, 'repo', 'vitalite-website', 'vitalite-theme', 'vitalite-theme-2')
-OUT = os.path.join(ROOT, 'vitalite-theme.zip')
-
-# Ten thu muc BEN TRONG zip. Day la ten theme se co tren hosting.
-# 30/08/2026: user da xoa thu muc `vitalite-theme` cu tren production, nen slot
-# nay trong. Extract vao do la ra mot thu muc SACH, khong tron voi ban cu.
-# Neu sau nay tren production da co `vitalite-theme` dang chay, DOI ten o day
-# thanh mot ten chua ton tai (vd `vitalite-theme-3`) roi dung lai zip --
-# lam vay khong phai dong vao theme dang chay, khong co giay nao site hong.
-FOLDER = 'vitalite-theme'
+# Ten thu muc trong zip va ten file zip KHONG viet tay nua: ca hai suy ra tu
+# `Theme Name` trong style.css (xem slug_from_name()). Doi ten theme la thu muc
+# tu doi theo, khong con kha nang hai thu lech nhau.
+#
+# LUAT: ten thu muc phai KHAC moi thu muc theme dang co tren hosting. Extract
+# vao mot ten trong thi khong co buoc ghi de, khong co buoc doi ten, va khong
+# co giay phut nao site hong. Extract de len thu muc da ton tai la TRON chu
+# khong phai thay -- file cu khong con trong ban moi van nam nguyen do.
+FOLDER = None   # dat trong main(), sau khi doc style.css
+OUT = None
 
 SKIP_DIR = {'.git', '__pycache__', 'node_modules', '.vscode', '.idea'}
 SKIP_FILE = {'.DS_Store', 'Thumbs.db', 'desktop.ini', 'Desktop.ini'}
@@ -42,6 +45,23 @@ SKIP_EXT = {'.log', '.pyc', '.map', '.psd', '.ai', '.zip'}
 
 # Ngưỡng cảnh báo. Không chặn, chỉ bắt phải nhìn thấy.
 BIG = 500 * 1024
+
+
+def slug_from_name(name):
+    """Bien `Theme Name` thanh slug thu muc.
+
+        'Vitalite 2.0'  ->  'vitalite-2-0'
+
+    Bo dau tieng Viet truoc, vi ten theme co the mang dau (Vitalite co dau sac)
+    va ten thu muc tren hosting thi khong nen co. Dau cham trong so phien ban
+    thanh dau gach ngang -- dau cham trong ten thu muc de bi nham la duoi file.
+    """
+    s = unicodedata.normalize('NFKD', name)
+    s = ''.join(c for c in s if not unicodedata.combining(c))
+    s = s.replace('đ', 'd').replace('Đ', 'D')   # d gach ngang khong tach dau duoc
+    s = s.lower()
+    s = re.sub(r'[^a-z0-9]+', '-', s).strip('-')
+    return s or 'theme'
 
 
 def main():
@@ -53,11 +73,25 @@ def main():
         sys.exit('Khong thay style.css. Sai thu muc?')
 
     version = ''
+    # KHONG dat ten bien la `name`: vong lap dong goi ben duoi dung `name` cho
+    # ten tung file, va no se ghi de len ten theme truoc khi kip in ra.
+    theme_name = ''
     with open(style, encoding='utf-8') as fh:
         for line in fh:
-            if line.strip().lower().startswith('version:'):
+            low = line.strip().lower()
+            if low.startswith('version:'):
                 version = line.split(':', 1)[1].strip()
+            elif low.startswith('theme name:'):
+                theme_name = line.split(':', 1)[1].strip()
+            if version and theme_name:
                 break
+
+    if not theme_name:
+        sys.exit('style.css khong khai Theme Name')
+
+    global FOLDER, OUT
+    FOLDER = slug_from_name(theme_name)
+    OUT = os.path.join(ROOT, FOLDER + '.zip')
 
     skipped = []
     big = []
@@ -83,7 +117,8 @@ def main():
     zipped = os.path.getsize(OUT)
 
     print('')
-    print('THEME     Vitalite Theme %s' % version)
+    print('THEME     %s  v%s' % (theme_name, version))
+    print('THU MUC   %s/   (trong zip)' % FOLDER)
     print('NGUON     %s' % SRC)
     print('ZIP       %s' % OUT)
     print('')

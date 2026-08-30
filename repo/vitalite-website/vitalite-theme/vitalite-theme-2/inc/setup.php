@@ -219,3 +219,75 @@ add_filter('body_class', function ($classes) {
 
     return $classes;
 });
+
+/* -------------------------------------------------------------------------
+ * Chuyển cấu hình khi đổi sang một bản theme mới
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Chép `theme_mods` từ bản VITALITÉ trước sang bản vừa kích hoạt.
+ *
+ * VÌ SAO CẦN
+ *     Mỗi lần deploy, theme lên hosting dưới một TÊN THƯ MỤC MỚI — đó là luật
+ *     ở `deliverables/setup/DEPLOY.md`, để không phải extract đè lên thư mục
+ *     đang chạy. Nhưng WordPress lưu `theme_mods_<slug>` theo slug, nên với nó
+ *     đây là một theme hoàn toàn khác và mọi thiết lập nằm ở đó không đi theo:
+ *
+ *       - logo tuỳ chỉnh
+ *       - vị trí menu đã gán
+ *       - màu / thiết lập Customizer nếu sau này có
+ *
+ *     Không có hàm này thì mỗi lần cập nhật theme là một lần phải gán lại logo
+ *     và menu bằng tay, và lần nào cũng có người quên.
+ *
+ * KHÔNG ẢNH HƯỞNG PANEL
+ *     Gallery và hero nằm ở `get_option('vt_home')`, không phải theme_mod, nên
+ *     chúng vốn đã sống sót qua mọi lần đổi tên. Hàm này chỉ lo phần WordPress
+ *     giữ hộ.
+ *
+ * CHỈ CHÉP TỪ BẢN VITALITÉ CŨ
+ *     Chuyển từ một theme của người khác sang thì không chép gì — bê thiết lập
+ *     của theme lạ vào đây là rước lỗi khó tìm.
+ *
+ * CHỈ CHÉP KHI BẢN MỚI CÒN TRỐNG
+ *     Đã cấu hình rồi mà chép đè lên là mất công người dùng.
+ *
+ * @param string    $old_name  Tên theme trước đó.
+ * @param WP_Theme $old_theme Đối tượng theme trước đó.
+ */
+add_action('after_switch_theme', function ($old_name, $old_theme = null) {
+
+    if (!is_object($old_theme) || !method_exists($old_theme, 'get_stylesheet')) {
+        return;
+    }
+
+    $old_slug = $old_theme->get_stylesheet();
+    $new_slug = get_stylesheet();
+
+    if ($old_slug === $new_slug) {
+        return;
+    }
+    // Chỉ nhận bản Vitalité trước đó, không nhận theme lạ.
+    if (strpos($old_slug, 'vitalite') !== 0) {
+        return;
+    }
+
+    $old_mods = get_option('theme_mods_' . $old_slug);
+    if (empty($old_mods) || !is_array($old_mods)) {
+        return;
+    }
+
+    $new_mods = get_option('theme_mods_' . $new_slug);
+    if (!empty($new_mods) && is_array($new_mods)) {
+        // `nav_menu_locations` là khoá WordPress tự dựng khi map menu, nên nó
+        // có thể đã tồn tại dù người dùng chưa cấu hình gì. Bỏ nó ra rồi mới
+        // xét "còn trống hay chưa".
+        $probe = $new_mods;
+        unset($probe['nav_menu_locations']);
+        if (!empty($probe)) {
+            return;
+        }
+    }
+
+    update_option('theme_mods_' . $new_slug, $old_mods);
+}, 10, 2);

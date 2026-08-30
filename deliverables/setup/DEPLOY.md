@@ -135,7 +135,7 @@ cả rác. Sau khi xác nhận theme mới chạy ổn, xoá luôn thư mục th
 Zip đã dựng sẵn ở gốc project:
 
 ```
-E:\Vitalite website\vitalite-theme.zip     5,5 MB · 55 file
+E:\Vitalite website\vitalite-2-0.zip     5,5 MB · 57 file
 ```
 
 Dựng lại khi có sửa theme:
@@ -151,14 +151,18 @@ Hiện chỉ có hai, đều đúng chỗ: `video/hero-1280.mp4` 2,32 MB và `vi
 Cuối cùng nó tự kiểm lại zip: đọc được, `style.css` nằm đúng gốc thư mục theme, và chỉ có
 đúng một thư mục gốc. Sai một trong ba là script dừng, không ghi ra zip hỏng.
 
-> **Thư mục trong zip tên `vitalite-theme`.**
-> User đã xoá thư mục `vitalite-theme` cũ trên production ngày 30/08, nên chỗ đó **trống**.
-> Extract vào chỗ trống là ra một thư mục **sạch**, không trộn với bản cũ.
+> **Tên theme: `Vitalité 2.0`. Thư mục trong zip: `vitalite-2-0`.**
+> Khác với `vitalite-theme` đang chạy trên production, nên extract ra là hai theme
+> nằm cạnh nhau. Không đè, không đổi tên, không có giây nào site hỏng.
 >
-> 🔴 **Luật cho mọi lần deploy sau:** tên thư mục trong zip phải **khác** mọi thư mục theme
-> đang có trên hosting. Nếu lần sau `vitalite-theme` đang chạy, sửa hằng `FOLDER` trong
-> `docs/build-theme-zip.py` thành tên chưa tồn tại (`vitalite-theme-3`…) rồi dựng lại zip.
-> Xem bước 2 để biết vì sao.
+> 🔴 **Luật cho mọi lần deploy sau:** tên thư mục phải **khác** mọi thư mục theme đang
+> có trên hosting. Không phải sửa script nữa: **đổi `Theme Name` trong `style.css`**
+> là tên thư mục và tên file zip tự đổi theo (`Vitalité 2.1` → `vitalite-2-1`).
+> Extract đè lên thư mục đã tồn tại là **TRỘN** chứ không phải thay — xem bước 2.
+>
+> ✅ **Đổi thư mục KHÔNG làm mất gì.** Gallery và hero nằm ở `option`, vốn không gắn
+> với theme nào. Logo và vị trí menu nằm ở `theme_mods` (gắn theo slug), nhưng theme
+> tự chép chúng sang khi kích hoạt — xem `inc/setup.php`, hook `after_switch_theme`.
 
 ---
 
