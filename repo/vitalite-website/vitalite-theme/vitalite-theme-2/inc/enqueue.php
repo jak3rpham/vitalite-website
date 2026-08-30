@@ -48,9 +48,10 @@ add_action('wp_enqueue_scripts', function () {
             . '?family=Archivo:wght@400;500;600;700;800'   // 700 dung 48 cho trong CSS;
             // truoc day KHONG duoc tai nen trinh duyet tu bat sang 600 hoac 800
             . '&family=Archivo+Expanded:wght@800'
-            // 700 la weight cua chu tren header. Brand yeu cau dam hon 30/08.
-            // Bo 700 khoi day thi header quay ve synthetic bold, nhoe o 11px.
-            . '&family=JetBrains+Mono:wght@400;500;700'
+            // 800 la weight cua chu tren header, va la nac nang nhat JetBrains Mono co.
+            // Bo 800 khoi day thi header quay ve synthetic bold, nhoe o 11px.
+            // 500 van con dung o cho khac (badge, bang spec, filter chip) nen giu lai.
+            . '&family=JetBrains+Mono:wght@400;500;800'
             . '&display=swap',
         array(),
         null

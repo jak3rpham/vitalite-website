@@ -6,10 +6,10 @@
 <title>VITALITÉ — độ đậm chữ header</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700&family=Archivo+Expanded:wght@800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#0A0A0A; --paper:#FFF; --line:#E4E4E6; --muted:#6E6E76;
+    --ink:#0A0A0A; --paper:#FFF; --line:#E4E4E6; --muted:#6E6E76; --tint:#F7F7F8;
     --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
     --disp:'Archivo Expanded','Archivo','Helvetica Neue',Arial,sans-serif;
     --t-xs:11px;
@@ -19,121 +19,145 @@
        font-family:'Archivo','Helvetica Neue',Arial,sans-serif;
        -webkit-font-smoothing:antialiased}
 
-  .wrap{max-width:1180px;margin:0 auto;padding:48px 24px 80px}
+  .wrap{max-width:1240px;margin:0 auto;padding:48px 24px 90px}
   h1{font-family:var(--disp);font-weight:800;text-transform:uppercase;
-     font-size:clamp(26px,4vw,44px);letter-spacing:-.01em;line-height:1.1;margin:0 0 10px}
-  .lede{color:var(--muted);max-width:66ch;line-height:1.65;margin:0 0 8px}
+     font-size:clamp(26px,4vw,44px);letter-spacing:-.01em;line-height:1.1;margin:0 0 12px}
+  .lede{color:var(--muted);max-width:68ch;line-height:1.65;margin:0}
   .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
            color:var(--muted);margin:0 0 14px}
 
-  .case{margin-top:46px}
+  .case{margin-top:50px}
   .case > h2{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-             margin:0 0 4px;padding-bottom:10px;border-bottom:1px solid var(--line)}
-  .case > p{color:var(--muted);font-size:14px;line-height:1.6;margin:10px 0 16px;max-width:70ch}
+             margin:0;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .case > p{color:var(--muted);font-size:14px;line-height:1.65;margin:12px 0 20px;max-width:72ch}
 
-  /* ---------- khung header giả lập ---------- */
+  /* ---------- header giả lập ---------- */
+  /* Header that co chieu rong 1440px+. O khung hep hon, cho CUON NGANG chu khong
+     cho hai nhom chu dinh vao nhau -- dinh nhau la loi cua khung xem, khong phai
+     cua thiet ke, va nguoi doc tai lieu nay khong phan biet duoc hai thu do. */
+  .row{margin-bottom:22px;overflow-x:auto}
   .bar{height:76px;display:flex;align-items:center;justify-content:space-between;
-       gap:24px;padding:0 26px;border:1px solid var(--line)}
-  .bar + .bar{border-top:0}
-  .bar.dark{background:#0A0A0A;color:#fff;border-color:#0A0A0A;
+       gap:40px;padding:0 22px;border:1px solid var(--line);min-width:940px}
+  .bar.dark{color:#fff;border-color:#0A0A0A;
             background-image:linear-gradient(115deg,#2a2118 0%,#0d0d0f 45%,#1b2430 100%)}
-  .left,.right{display:flex;align-items:center;gap:22px}
+  .left,.right{display:flex;align-items:center;gap:18px;min-width:0}
   .brand{font-family:var(--disp);font-weight:800;text-transform:uppercase;
          font-size:15px;letter-spacing:.02em;white-space:nowrap}
-  nav{display:flex;align-items:center;gap:22px;list-style:none;margin:0;padding:0}
-
-  /* TRƯỚC — weight 500, opacity .82, letter-spacing .14em */
-  .v-old a,.v-old .util{font-family:var(--mono);font-size:var(--t-xs);font-weight:500;
-        letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
-        color:inherit;opacity:.82;white-space:nowrap}
-  .v-old .lang a{opacity:.5;letter-spacing:.12em;font-weight:400;text-transform:none}
-  .v-old .lang .on{opacity:1;font-weight:500}
-  .v-old .cart{border:1px solid currentColor;border-radius:999px;padding:7px 14px;
-        font-family:var(--mono);font-size:var(--t-xs);letter-spacing:.1em;font-weight:400}
-
-  /* SAU — weight 700, opacity .9, letter-spacing .12em */
-  .v-new a,.v-new .util{font-family:var(--mono);font-size:var(--t-xs);font-weight:700;
-        letter-spacing:.12em;text-transform:uppercase;text-decoration:none;
-        color:inherit;opacity:.9;white-space:nowrap}
-  .v-new .lang a{opacity:.45;letter-spacing:.1em;font-weight:700;text-transform:none}
-  .v-new .lang .on{opacity:1}
-  .v-new .cart{border:1.5px solid currentColor;border-radius:999px;padding:7px 14px;
-        font-family:var(--mono);font-size:var(--t-xs);letter-spacing:.1em;font-weight:700}
+  nav{display:flex;align-items:center;gap:20px;list-style:none;margin:0;padding:0}
 
   .lang{display:inline-flex;align-items:center;gap:6px}
   .lang .sep{opacity:.3}
-  .cart{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:inherit;position:relative}
-  .cart svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.6}
+  .cart{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:inherit;position:relative;flex:none}
+  .cart svg{width:21px;height:21px;stroke:currentColor;fill:none}
   .badge{position:absolute;top:-3px;right:-6px;min-width:17px;height:17px;padding:0 4px;
          display:grid;place-items:center;border-radius:999px;background:#0A0A0A;color:#fff;
          font-family:var(--mono);font-size:10px;line-height:1}
-  .v-old .badge{font-weight:500}
-  .v-new .badge{font-weight:700}
   .dark .badge{background:#fff;color:#0A0A0A}
 
-  .tag{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.14em;
-       text-transform:uppercase;padding:3px 8px;border-radius:999px;margin-bottom:10px}
-  .tag.old{background:#F4F4F4;color:#6E6E76}
-  .tag.new{background:#0A0A0A;color:#fff}
+  /* --- A. HIỆN TẠI: 500 --- */
+  .vA a,.vA .util{font-family:var(--mono);font-size:var(--t-xs);font-weight:500;
+      letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:inherit;
+      opacity:.82;white-space:nowrap}
+  .vA .lang a{opacity:.5;letter-spacing:.12em;font-weight:400;text-transform:none}
+  .vA .lang .on{opacity:1;font-weight:500}
+  .vA .cart{border:1px solid currentColor;border-radius:999px;padding:7px 14px;
+      font-family:var(--mono);font-size:var(--t-xs);letter-spacing:.1em;font-weight:400}
+  .vA .cart svg{stroke-width:1.6}
+  .vA .badge{font-weight:500}
 
-  .note{margin-top:14px;padding:14px 16px;background:#F7F7F8;border-left:2px solid var(--ink);
-        font-size:13.5px;line-height:1.65;max-width:78ch}
-  .note b{font-weight:700}
+  /* --- B. BƯỚC 1: 700 --- */
+  .vB a,.vB .util{font-family:var(--mono);font-size:var(--t-xs);font-weight:700;
+      letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:inherit;
+      opacity:.9;white-space:nowrap}
+  .vB .lang a{opacity:.45;letter-spacing:.1em;font-weight:700;text-transform:none}
+  .vB .lang .on{opacity:1}
+  .vB .cart{border:1.5px solid currentColor;border-radius:999px;padding:7px 14px;
+      font-family:var(--mono);font-size:var(--t-xs);letter-spacing:.1em;font-weight:700}
+  .vB .cart svg{stroke-width:1.6}
+  .vB .badge{font-weight:700}
+
+  /* --- C. CHỐT: 800, bỏ hẳn lớp mờ --- */
+  .vC a,.vC .util{font-family:var(--mono);font-size:var(--t-xs);font-weight:800;
+      letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:inherit;
+      opacity:1;white-space:nowrap}
+  .vC .lang a{opacity:.55;letter-spacing:.08em;font-weight:800;text-transform:none}
+  .vC .lang .on{opacity:1}
+  .vC .cart{border:2px solid currentColor;border-radius:999px;padding:7px 14px;
+      font-family:var(--mono);font-size:var(--t-xs);letter-spacing:.08em;font-weight:800}
+  .vC .cart svg{stroke-width:2.1}
+  .vC .badge{font-weight:800}
+
+  .tag{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.14em;
+       text-transform:uppercase;padding:4px 9px;border-radius:999px;margin-bottom:9px;font-weight:500}
+  .tag.a{background:var(--tint);color:var(--muted)}
+  .tag.b{background:var(--tint);color:var(--muted)}
+  .tag.c{background:#0A0A0A;color:#fff;font-weight:700}
+
+  .note{margin-top:16px;padding:16px 18px;background:var(--tint);border-left:2px solid var(--ink);
+        font-size:13.5px;line-height:1.7;max-width:80ch}
 
   table{border-collapse:collapse;width:100%;margin-top:18px;font-size:13.5px}
-  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
   th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
      color:var(--muted);font-weight:500}
   td code{font-family:var(--mono);font-size:12px}
+  td.hi{background:#0A0A0A;color:#fff}
+  td.hi code{color:#fff}
 
-  .zoom{margin-top:18px;display:flex;gap:34px;flex-wrap:wrap;align-items:flex-end}
-  .zoom div{text-align:center}
-  .zoom span{display:block;font-family:var(--mono);text-transform:uppercase;
-             letter-spacing:.12em;font-size:26px}
-  .zoom .o{font-weight:500;opacity:.82}
-  .zoom .n{font-weight:700;opacity:.9}
-  .zoom small{display:block;margin-top:8px;font-family:var(--mono);font-size:9px;
+  .zoom{margin-top:20px;display:flex;gap:40px;flex-wrap:wrap;align-items:flex-end}
+  .zoom div{text-align:left}
+  .zoom span{display:block;font-family:var(--mono);text-transform:uppercase;font-size:30px}
+  .zA{font-weight:500;opacity:.82;letter-spacing:.14em}
+  .zB{font-weight:700;opacity:.9;letter-spacing:.12em}
+  .zC{font-weight:800;opacity:1;letter-spacing:.1em}
+  .zoom small{display:block;margin-top:10px;font-family:var(--mono);font-size:9px;
               letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <p class="eyebrow">01 — Duyệt thay đổi</p>
+  <p class="eyebrow">Duyệt thay đổi · 30.08.2026</p>
   <h1>Độ đậm chữ trên header</h1>
-  <p class="lede">Brand phản hồi chữ header nét quá mảnh. Dưới đây là bản hiện tại và bản đề xuất,
-  dựng bằng đúng CSS của theme, cùng font, cùng cỡ chữ, cùng chiều cao header 76px.</p>
+  <p class="lede">Brand phản hồi chữ header nét quá mảnh. Ba mức dưới đây dựng bằng đúng CSS của
+  theme — cùng font JetBrains Mono, cùng cỡ 11px, cùng chiều cao header 76px. Mức C là bản đã áp
+  dụng vào theme, và là nấc nặng nhất font này có.</p>
 
   <!-- ================= NỀN TRẮNG ================= -->
   <section class="case">
-    <h2>Nền trắng — khi đã cuộn xuống</h2>
-    <p>Đây là trạng thái header ở hầu hết các trang.</p>
+    <h2>Nền trắng — trạng thái ở hầu hết các trang</h2>
+    <p>Sau khi cuộn xuống, header chuyển nền trắng chữ đen.</p>
 
-    <span class="tag old">Hiện tại · weight 500</span>
-    <div class="bar v-old">
-      <div class="left">
-        <span class="brand">VITALITÉ</span>
-        <nav><a href="#">Shop</a><a href="#">Collections</a><a href="#">About</a><a href="#">Contact</a></nav>
-      </div>
-      <div class="right">
-        <a class="util" href="#">Search</a>
-        <a class="util" href="#">Account</a>
-        <span class="lang"><a class="on" href="#">EN</a><span class="sep">/</span><a href="#">VI</a></span>
-        <a class="cart" href="#"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="badge">2</span></a>
+    <div class="row">
+      <span class="tag a">A · hiện tại · weight 500</span>
+      <div class="bar vA">
+        <div class="left"><span class="brand">VITALITÉ</span>
+          <nav><a href="#">Shop</a><a href="#">Collections</a><a href="#">About</a><a href="#">Contact</a></nav></div>
+        <div class="right"><a class="util" href="#">Search</a><a class="util" href="#">Account</a>
+          <span class="lang"><a class="on" href="#">EN</a><span class="sep">/</span><a href="#">VI</a></span>
+          <a class="cart" href="#"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="badge">2</span></a></div>
       </div>
     </div>
 
-    <span class="tag new" style="margin-top:22px">Đề xuất · weight 700</span>
-    <div class="bar v-new">
-      <div class="left">
-        <span class="brand">VITALITÉ</span>
-        <nav><a href="#">Shop</a><a href="#">Collections</a><a href="#">About</a><a href="#">Contact</a></nav>
+    <div class="row">
+      <span class="tag b">B · bước 1 · weight 700</span>
+      <div class="bar vB">
+        <div class="left"><span class="brand">VITALITÉ</span>
+          <nav><a href="#">Shop</a><a href="#">Collections</a><a href="#">About</a><a href="#">Contact</a></nav></div>
+        <div class="right"><a class="util" href="#">Search</a><a class="util" href="#">Account</a>
+          <span class="lang"><a class="on" href="#">EN</a><span class="sep">/</span><a href="#">VI</a></span>
+          <a class="cart" href="#"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="badge">2</span></a></div>
       </div>
-      <div class="right">
-        <a class="util" href="#">Search</a>
-        <a class="util" href="#">Account</a>
-        <span class="lang"><a class="on" href="#">EN</a><span class="sep">/</span><a href="#">VI</a></span>
-        <a class="cart" href="#"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="badge">2</span></a>
+    </div>
+
+    <div class="row">
+      <span class="tag c">C · đã áp dụng · weight 800</span>
+      <div class="bar vC">
+        <div class="left"><span class="brand">VITALITÉ</span>
+          <nav><a href="#">Shop</a><a href="#">Collections</a><a href="#">About</a><a href="#">Contact</a></nav></div>
+        <div class="right"><a class="util" href="#">Search</a><a class="util" href="#">Account</a>
+          <span class="lang"><a class="on" href="#">EN</a><span class="sep">/</span><a href="#">VI</a></span>
+          <a class="cart" href="#"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="badge">2</span></a></div>
       </div>
     </div>
   </section>
@@ -141,34 +165,39 @@
   <!-- ================= NỀN TỐI ================= -->
   <section class="case">
     <h2>Nền tối — header trong suốt đè lên video hero</h2>
-    <p>Đây mới là trường hợp khó. Chữ mảnh đè lên hình động thì nét chữ đứt quãng theo từng khung hình,
-    và ở ngoài nắng trên điện thoại gần như không đọc được.</p>
+    <p>Đây mới là trường hợp khó. Chữ mảnh đè lên hình động thì nét đứt quãng theo từng khung hình,
+    và ngoài nắng trên điện thoại gần như không đọc được.</p>
 
-    <span class="tag old">Hiện tại · weight 500</span>
-    <div class="bar dark v-old">
-      <div class="left">
-        <span class="brand">VITALITÉ</span>
-        <nav><a href="#">Shop</a><a href="#">Collections</a><a href="#">About</a><a href="#">Contact</a></nav>
-      </div>
-      <div class="right">
-        <a class="util" href="#">Search</a>
-        <a class="util" href="#">Account</a>
-        <span class="lang"><a class="on" href="#">EN</a><span class="sep">/</span><a href="#">VI</a></span>
-        <a class="cart" href="#"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="badge">2</span></a>
+    <div class="row">
+      <span class="tag a">A · hiện tại · weight 500</span>
+      <div class="bar dark vA">
+        <div class="left"><span class="brand">VITALITÉ</span>
+          <nav><a href="#">Shop</a><a href="#">Collections</a><a href="#">About</a><a href="#">Contact</a></nav></div>
+        <div class="right"><a class="util" href="#">Search</a><a class="util" href="#">Account</a>
+          <span class="lang"><a class="on" href="#">EN</a><span class="sep">/</span><a href="#">VI</a></span>
+          <a class="cart" href="#"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="badge">2</span></a></div>
       </div>
     </div>
 
-    <span class="tag new" style="margin-top:22px">Đề xuất · weight 700</span>
-    <div class="bar dark v-new">
-      <div class="left">
-        <span class="brand">VITALITÉ</span>
-        <nav><a href="#">Shop</a><a href="#">Collections</a><a href="#">About</a><a href="#">Contact</a></nav>
+    <div class="row">
+      <span class="tag b">B · bước 1 · weight 700</span>
+      <div class="bar dark vB">
+        <div class="left"><span class="brand">VITALITÉ</span>
+          <nav><a href="#">Shop</a><a href="#">Collections</a><a href="#">About</a><a href="#">Contact</a></nav></div>
+        <div class="right"><a class="util" href="#">Search</a><a class="util" href="#">Account</a>
+          <span class="lang"><a class="on" href="#">EN</a><span class="sep">/</span><a href="#">VI</a></span>
+          <a class="cart" href="#"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="badge">2</span></a></div>
       </div>
-      <div class="right">
-        <a class="util" href="#">Search</a>
-        <a class="util" href="#">Account</a>
-        <span class="lang"><a class="on" href="#">EN</a><span class="sep">/</span><a href="#">VI</a></span>
-        <a class="cart" href="#"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="badge">2</span></a>
+    </div>
+
+    <div class="row">
+      <span class="tag c">C · đã áp dụng · weight 800</span>
+      <div class="bar dark vC">
+        <div class="left"><span class="brand">VITALITÉ</span>
+          <nav><a href="#">Shop</a><a href="#">Collections</a><a href="#">About</a><a href="#">Contact</a></nav></div>
+        <div class="right"><a class="util" href="#">Search</a><a class="util" href="#">Account</a>
+          <span class="lang"><a class="on" href="#">EN</a><span class="sep">/</span><a href="#">VI</a></span>
+          <a class="cart" href="#"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="badge">2</span></a></div>
       </div>
     </div>
   </section>
@@ -176,37 +205,46 @@
   <!-- ================= PHÓNG TO ================= -->
   <section class="case">
     <h2>Phóng to để thấy rõ nét chữ</h2>
-    <p>Cùng một chữ, cùng cỡ, chỉ khác độ đậm và độ mờ.</p>
+    <p>Cùng một chữ, cùng cỡ. Khác độ đậm, độ mờ và độ giãn chữ.</p>
     <div class="zoom">
-      <div><span class="o">Collections</span><small>Hiện tại · 500 · mờ .82</small></div>
-      <div><span class="n">Collections</span><small>Đề xuất · 700 · mờ .90</small></div>
+      <div><span class="zA">Collections</span><small>A · 500 · mờ .82</small></div>
+      <div><span class="zB">Collections</span><small>B · 700 · mờ .90</small></div>
+      <div><span class="zC">Collections</span><small>C · 800 · không mờ</small></div>
     </div>
   </section>
 
   <!-- ================= ĐỔI GÌ ================= -->
   <section class="case">
-    <h2>Đổi đúng những gì</h2>
+    <h2>Bản C đổi đúng những gì</h2>
     <table>
-      <tr><th>Phần tử</th><th>Hiện tại</th><th>Đề xuất</th></tr>
-      <tr><td>Menu chính</td><td><code>500</code> · mờ <code>.82</code> · giãn <code>.14em</code></td><td><code>700</code> · mờ <code>.90</code> · giãn <code>.12em</code></td></tr>
-      <tr><td>Search / Account</td><td><code>500</code> · mờ <code>.82</code></td><td><code>700</code> · mờ <code>.90</code></td></tr>
-      <tr><td>EN / VI</td><td>chữ đang chọn <code>500</code>, chữ kia <code>400</code></td><td>cả hai <code>700</code>, phân biệt bằng độ mờ</td></tr>
-      <tr><td>Nút giỏ hàng</td><td><code>400</code> · viền <code>1px</code></td><td><code>700</code> · viền <code>1.5px</code></td></tr>
-      <tr><td>Số trên giỏ hàng</td><td><code>500</code></td><td><code>700</code></td></tr>
-      <tr><td>Chân menu mobile</td><td><code>500</code></td><td><code>700</code></td></tr>
+      <tr><th>Phần tử</th><th>A · hiện tại</th><th>C · đã áp dụng</th></tr>
+      <tr><td>Menu chính</td><td><code>500</code> · mờ <code>.82</code> · giãn <code>.14em</code></td><td class="hi"><code>800</code> · không mờ · giãn <code>.10em</code></td></tr>
+      <tr><td>Search / Account</td><td><code>500</code> · mờ <code>.82</code></td><td class="hi"><code>800</code> · không mờ</td></tr>
+      <tr><td>EN / VI</td><td>chọn <code>500</code>, kia <code>400</code></td><td class="hi">cả hai <code>800</code>, phân biệt bằng độ mờ</td></tr>
+      <tr><td>Nút giỏ hàng</td><td><code>400</code> · viền <code>1px</code></td><td class="hi"><code>800</code> · viền <code>2px</code></td></tr>
+      <tr><td>Icon giỏ hàng</td><td>nét <code>1.6</code></td><td class="hi">nét <code>2.1</code></td></tr>
+      <tr><td>Icon menu mobile</td><td>nét <code>1.6</code></td><td class="hi">nét <code>2.4</code></td></tr>
+      <tr><td>Số trên giỏ hàng</td><td><code>500</code></td><td class="hi"><code>800</code></td></tr>
+      <tr><td>Chân menu mobile</td><td><code>500</code></td><td class="hi"><code>800</code></td></tr>
     </table>
 
     <div class="note">
-      <b>Ba chi tiết không hiện ra ngay nhưng có lý do.</b><br><br>
-      <b>1. Phải nạp thêm font weight 700.</b> Trước đây theme chỉ tải JetBrains Mono 400 và 500.
-      Nếu đặt <code>font-weight:700</code> mà không tải, trình duyệt tự bôi đậm — ở cỡ 11px chữ hoa
-      giãn chữ, kết quả là <b>nhoè</b> chứ không phải đậm. Nay đã tải weight 700 thật.
-      Cái giá: thêm một file font, khoảng 20&nbsp;KB.<br><br>
-      <b>2. Giãn chữ giảm từ .14em xuống .12em.</b> Chữ càng đậm thì càng cần ít khoảng trống giữa
-      các ký tự, nếu không các chữ rời ra thành từng mảnh. Giảm một chút để cụm chữ đọc thành một khối.<br><br>
-      <b>3. EN / VI giờ cùng weight.</b> Trước đây chữ đang chọn đậm hơn chữ kia, nên mỗi lần đổi
-      ngôn ngữ hai chữ đổi chiều rộng và mọi thứ bên cạnh nhích ngang. Nay cả hai cùng đậm,
-      phân biệt bằng độ mờ, không còn nhích.
+      <strong>Bốn quyết định đằng sau bản C.</strong><br><br>
+
+      <strong>1. 800 là hết nấc.</strong> JetBrains Mono nặng nhất ở 800. Muốn đậm hơn nữa thì phải
+      đổi sang font khác, và đó là quyết định về nhận diện thương hiệu chứ không còn là chỉnh CSS.<br><br>
+
+      <strong>2. Phải nạp weight 800 thật.</strong> Theme trước chỉ tải 400 và 500. Đặt
+      <code>font-weight:800</code> mà không tải thì trình duyệt tự bôi đậm, ở 11px chữ hoa giãn chữ
+      kết quả là <strong>nhoè</strong> chứ không phải đậm. Giá: thêm một file font, khoảng 20&nbsp;KB.<br><br>
+
+      <strong>3. Bỏ hẳn lớp mờ trên menu.</strong> Chữ mờ đọc ra mảnh hơn chính nó, nên
+      <code>opacity</code> kéo ngược lại đúng cái brand vừa yêu cầu. Hiệu ứng di chuột giờ là gạch
+      chân — thấy rõ hơn, và không đụng gì tới độ đậm. Chỗ duy nhất còn dùng độ mờ là EN&nbsp;/&nbsp;VI,
+      vì phải nhìn ra ngôn ngữ nào đang bật.<br><br>
+
+      <strong>4. Giãn chữ giảm dần theo độ đậm.</strong> <code>.14em → .10em</code>. Chữ càng đậm càng
+      cần ít khoảng trống giữa ký tự, nếu không các chữ rời ra thành từng mảnh thay vì đọc thành một khối.
     </div>
   </section>
 

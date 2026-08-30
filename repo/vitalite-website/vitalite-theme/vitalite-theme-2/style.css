@@ -5,7 +5,7 @@ Description: Child theme cho VITALITÉ — streetwear, WooCommerce. Header/foote
 Author: Vitalité
 Author URI: https://vitalite.io.vn
 Template: hello-elementor
-Version: 2.0.1
+Version: 2.0.2
 Requires at least: 6.0
 Requires PHP: 8.0
 Text Domain: vitalite
@@ -362,32 +362,43 @@ body.vt-banner-top .site-main { padding-top: 0; }
 .vt-header.is-transparent.is-light-bg .vt-brand img { filter: none; }
 
 .vt-nav { display: flex; align-items: center; gap: clamp(12px, 1.8vw, 26px); list-style: none; margin: 0; padding: 0; }
-/* Chữ header dùng weight 700, KHÔNG phải 500.
-   Brand yêu cầu 30/08: nét mảnh quá. Ở 11px chữ hoa letter-spacing .14em, weight 500
+/* Chữ header dùng weight 800, KHÔNG phải 500.
+   Brand yêu cầu 30/08: nét mảnh quá. Ở 11px chữ hoa có letter-spacing, weight 500
    của một font mono đọc ra rất mảnh, và trên header trong suốt đè lên video thì
-   gần như biến mất. 700 phải được nạp thật trong inc/enqueue.php — thiếu là trình
-   duyệt bôi đậm giả và ra nhoè. */
+   gần như biến mất. 800 là nấc nặng nhất JetBrains Mono có, và nó PHẢI được nạp
+   thật trong inc/enqueue.php — thiếu là trình duyệt bôi đậm giả và ra nhoè.
+
+   KHÔNG dùng opacity để làm hiệu ứng hover nữa. Chữ mờ đọc ra mảnh hơn chính nó,
+   nên mọi lớp mờ đều kéo ngược lại đúng cái brand vừa yêu cầu. Hover giờ là gạch
+   chân — thấy rõ hơn, và không đụng gì tới độ đậm. */
 .vt-nav a {
-  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 700;
-  letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
-  white-space: nowrap; opacity: .9; transition: opacity var(--vt-fast);
+  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+  white-space: nowrap;
+  text-underline-offset: 5px; text-decoration-thickness: 2px;
+  transition: text-decoration-color var(--vt-fast);
+  text-decoration-line: underline; text-decoration-color: transparent;
 }
-.vt-nav a:hover, .vt-nav .current-menu-item > a { opacity: 1; }
+.vt-nav a:hover, .vt-nav .current-menu-item > a { text-decoration-color: currentColor; }
 
 .vt-util {
-  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 700;
-  letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
-  opacity: .9; transition: opacity var(--vt-fast); white-space: nowrap;
+  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase; white-space: nowrap;
+  text-underline-offset: 5px; text-decoration-thickness: 2px;
+  transition: text-decoration-color var(--vt-fast);
+  text-decoration-line: underline; text-decoration-color: transparent;
 }
-.vt-util:hover { opacity: 1; }
+.vt-util:hover { text-decoration-color: currentColor; }
 
 /* Chuyển ngôn ngữ — chữ EN / VI, không dùng cờ quốc gia */
 .vt-lang { display: inline-flex; align-items: center; gap: 6px; }
-/* Ngôn ngữ đang chọn phân biệt bằng ĐỘ MỜ, không phải bằng weight — cả hai đều 700
-   thì hai chữ EN / VI không bị nhảy chiều rộng khi đổi ngôn ngữ. */
+/* Ngôn ngữ đang chọn phân biệt bằng ĐỘ MỜ, không phải bằng weight — cả hai đều 800
+   thì hai chữ EN / VI không bị nhảy chiều rộng khi đổi ngôn ngữ.
+   Đây là chỗ DUY NHẤT trên header còn dùng độ mờ, và nó có lý do: phải thấy được
+   ngôn ngữ nào đang bật. .55 chứ không phải .45 để chữ chưa chọn vẫn đủ đậm. */
 .vt-lang a, .vt-lang span {
-  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 700;
-  letter-spacing: .1em; text-decoration: none; opacity: .45;
+  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 800;
+  letter-spacing: .08em; text-decoration: none; opacity: .55;
 }
 .vt-lang .is-active { opacity: 1; }
 .vt-lang .vt-lang-sep { opacity: .3; }
@@ -396,17 +407,17 @@ body.vt-banner-top .site-main { padding-top: 0; }
 .vt-cart {
   position: relative; display: inline-flex; align-items: center; gap: 8px;
   text-decoration: none; padding: 7px 14px;
-  border: 1.5px solid currentColor; border-radius: 999px;
-  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 700;
-  letter-spacing: .1em;
+  border: 2px solid currentColor; border-radius: 999px;
+  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 800;
+  letter-spacing: .08em;
 }
-.vt-cart svg { width: 21px; height: 21px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+.vt-cart svg { width: 21px; height: 21px; stroke: currentColor; fill: none; stroke-width: 2.1; }
 .vt-cart-count {
   position: absolute; top: -3px; right: -6px;
   min-width: 17px; height: 17px; padding: 0 4px;
   display: grid; place-items: center; border-radius: 999px;
   background: var(--vt-accent); color: var(--vt-accent-on);
-  font-family: var(--vt-font-mono); font-size: 10px; line-height: 1; font-weight: 700;
+  font-family: var(--vt-font-mono); font-size: 10px; line-height: 1; font-weight: 800;
 }
 .vt-cart-count.is-empty { display: none; }
 /* Badge phải giữ tương phản ở cả hai tone */
@@ -415,7 +426,7 @@ body.vt-banner-top .site-main { padding-top: 0; }
 
 /* Nút menu mobile */
 .vt-burger { display: none; background: none; border: 0; padding: 6px; cursor: pointer; color: inherit; }
-.vt-burger svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.6; fill: none; }
+.vt-burger svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2.4; fill: none; }
 
 /* Menu mobile — panel trượt, không phải drawer giỏ hàng */
 .vt-mobile-nav {
@@ -435,8 +446,8 @@ body.vt-banner-top .site-main { padding-top: 0; }
 }
 .vt-mobile-nav .vt-mobile-foot { margin-top: auto; padding-top: 28px; display: flex; gap: 18px; flex-wrap: wrap; }
 .vt-mobile-nav .vt-mobile-foot a {
-  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 700;
-  letter-spacing: .12em; border: 0; padding: 0;
+  font-family: var(--vt-font-mono); font-size: var(--vt-t-xs); font-weight: 800;
+  letter-spacing: .1em; border: 0; padding: 0;
 }
 .vt-mobile-close { position: fixed; top: 18px; right: var(--vt-gutter); z-index: 601; background: none; border: 0; cursor: pointer; padding: 8px; }
 .vt-mobile-close svg { width: 22px; height: 22px; stroke: var(--vt-ink); stroke-width: 1.6; fill: none; }
