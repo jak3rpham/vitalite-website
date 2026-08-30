@@ -193,7 +193,8 @@ Ngoài ra: Nike · Saigon Swagger · StressMama
 | **Quản trị nội dung** | **Theme giữ BỐ CỤC, admin giữ NỘI DUNG.** Gallery + 3 slide hero quản lý ở
 `Appearance → Vitalité`, ảnh lấy từ **Media Library**. Panel cố ý KHÔNG cho đổi bố cục —
 cho đổi là một tháng sau trang chủ không còn giống thiết kế. "Con đường A" vẫn nguyên |
-| Banner archive | **Váng dầu** (`.vt-iri`). Không làm nút chọn kiểu banner — user chốt 30/08 là không cần |
+| Banner đầu trang | **THÉP GẤP** (`.vt-iri.vt-pagebanner`). Chốt 30/08. Không `repeating-` — chu kỳ lặp là thứ làm bản cũ trông như giấy dán tường |
+| Vùng kể chuyện | **VÁNG DẦU** (`.vt-iri`). Hai bề mặt khác nhau là cố ý, không phải sót |
 | Chữ header | **weight 700**, giãn `.12em`, mờ `.90`. Brand yêu cầu 30/08: bản 500 quá mảnh.
 JetBrains Mono phải nạp cả 700 trong `inc/enqueue.php` — bỏ ra là thành bôi đậm giả, nhoè ở 11px |
 | Ngôn ngữ | **EN default tại root**, VI tại `/vi/`. Build EN xong → dịch → launch cùng lúc |

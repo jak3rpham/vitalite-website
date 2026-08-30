@@ -5,7 +5,7 @@ Description: Child theme cho VITALITÉ — streetwear, WooCommerce. Header/foote
 Author: Vitalité
 Author URI: https://vitalite.io.vn
 Template: hello-elementor
-Version: 2.3.0
+Version: 2.4.0
 Requires at least: 6.0
 Requires PHP: 8.0
 Text Domain: vitalite
@@ -70,6 +70,9 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
      đi liền một dãy quang phổ, tách thành bốn biến rời là mời người sau sửa
      lệch một chặng và phá cả dãy. */
   --vt-iri-base: #04060a;
+  /* Nen cua banner dau trang. Toi hon nen vang dau mot chut vi be mat thep
+     phan chieu manh hon, can nen sau hon de canh sang con noi bat. */
+  --vt-steel-base: #070809;
 
   /* ---- Trạng thái ---- */
   --vt-sale: #C2413A;
@@ -716,6 +719,95 @@ body.vt-banner-top .site-main { padding-top: 0; }
 }
 
 .vt-iri > .vt-wrap, .vt-iri > .vt-iri-content { position: relative; z-index: 1; }
+
+/* ==========================================================================
+   THÉP GẤP — chỉ dùng cho banner đầu trang
+   --------------------------------------------------------------------------
+   Váng dầu ở trên vẫn phục vụ VÙNG KỂ CHUYỆN. Khối này đè lên nó, và chỉ khi
+   phần tử mang thêm class `.vt-pagebanner`. Markup không đổi một chữ: hai
+   class nằm trên cùng một thẻ, nên (0,3,0) ở đây thắng (0,2,0) ở trên.
+
+   🔴 BẢN KIM LOẠI ĐẦU TIÊN SAI Ở ĐÂU
+   Nó dùng `repeating-linear-gradient`: một chu kỳ 108px, một góc 102°, lặp vô
+   hạn. Mắt bắt được quy luật trong nửa giây rồi đọc như giấy dán tường. Thiếu
+   không phải màu, thiếu là SỰ KHÔNG ĐỀU.
+
+   NÊN Ở ĐÂY KHÔNG CÓ MỘT `repeating-` NÀO
+   Mỗi chặng viết tay, và bề rộng chênh nhau rất mạnh: 34% tối liền mạch, rồi
+   một cạnh sáng 2%, rồi 5%, rồi 22%. Bản nháp đầu để các bản gần bằng nhau,
+   nhìn lại vẫn ra sọc đều — chênh lệch phải ĐỦ LỚN thì mắt mới không nối được
+   thành nhịp.
+
+   HAI HỆ NẾP CẮT NHAU
+   Lớp dưới ở 99°, lớp trên ở -133° và bị che nửa phải. Cạnh không còn song
+   song, nên nó đọc ra vật liệu BỊ GẤP chứ không phải sọc in.
+
+   VÌ SAO CHỌN THÉP GẤP CHỨ KHÔNG PHẢI KIM LOẠI CHẢY
+   Phần còn lại của site chạy trên đường kẻ hairline, lưới gap 2px, cạnh sắc,
+   không đổ bóng. Thép gấp nói cùng thứ tiếng đó. Bản kim loại chảy đẹp hơn khi
+   đứng một mình nhưng mềm hơn mọi thứ quanh nó.
+
+   VẪN 0 KB: không ảnh, không JS, chạy bằng transform trên GPU.
+   ========================================================================== */
+.vt-iri.vt-pagebanner { background: var(--vt-steel-base); }
+
+.vt-iri.vt-pagebanner > .vt-iri-layer {
+  background: linear-gradient(99deg,
+    #0a0c0f 0%,    #0a0c0f 34%,
+    #cdd4dd 34%,   #cdd4dd 36%,
+    #232830 36%,   #232830 41%,
+    #070809 41%,   #070809 63%,
+    #7d858f 63%,   #7d858f 64.5%,
+    #171b21 64.5%, #171b21 78%,
+    #f0f3f7 78%,   #f0f3f7 79.5%,
+    #3d434b 79.5%, #3d434b 83%,
+    #0b0d11 83%,   #0b0d11 100%);
+  filter: none;
+  mix-blend-mode: normal;
+  opacity: 1;
+  -webkit-mask-image: none;
+  mask-image: none;
+  animation: vt-steel-a 40s ease-in-out infinite alternate;
+}
+
+.vt-iri.vt-pagebanner > .vt-iri-layer::before {
+  background: linear-gradient(-133deg,
+    transparent 0%,   transparent 22%,
+    #e6eaf0 22%,      #e6eaf0 23.4%,
+    #1b1f26 23.4%,    #1b1f26 47%,
+    #949ca7 47%,      #949ca7 48%,
+    #0d1014 48%,      #0d1014 71%,
+    #5a616b 71%,      #5a616b 72%,
+    transparent 72%,  transparent 100%);
+  filter: none;
+  mix-blend-mode: normal;
+  opacity: .9;
+  -webkit-mask-image: linear-gradient(112deg, transparent 26%, #000 46%, #000 78%, transparent 96%);
+  mask-image: linear-gradient(112deg, transparent 26%, #000 46%, #000 78%, transparent 96%);
+  animation: vt-steel-b 47s ease-in-out infinite alternate;
+}
+
+/* Vệt sáng + mặt nạ tối, gộp một lớp.
+   Mặt nạ KHÔNG được chuyển động: nó tối dần về đáy, đúng chỗ tiêu đề banner
+   nằm, và đó là thứ giữ chữ trắng còn đọc được. Cho nó trôi theo là có lúc
+   chữ rơi vào vùng sáng. Chuyển động đã có ở hai lớp nếp bên dưới. */
+.vt-iri.vt-pagebanner > .vt-iri-layer::after {
+  background:
+    linear-gradient(99deg, transparent 38%, rgba(255,255,255,.20) 47%, transparent 56%),
+    radial-gradient(125% 125% at 24% 20%, transparent 0%,
+      rgba(7,8,9,.30) 58%, rgba(7,8,9,.90) 100%),
+    linear-gradient(to top, rgba(7,8,9,.85) 0%, transparent 48%);
+}
+
+@keyframes vt-steel-a {
+  from { transform: translate3d(-4%, 0, 0) scale(1.08); }
+  to   { transform: translate3d(4%, 0, 0)  scale(1.14); }
+}
+@keyframes vt-steel-b {
+  from { transform: translate3d(5%, 0, 0)   scale(1.12); }
+  to   { transform: translate3d(-5%, 0, 0)  scale(1.05); }
+}
+
 
 /* ---- Banner đầu trang archive / category ----
    Dùng lại nguyên bộ .vt-iri ở trên — không nhân bản gradient, không thêm KB.

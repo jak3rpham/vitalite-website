@@ -177,9 +177,21 @@ Token đại diện: `--vt-archive-pink: #C52458`.
 
 ⛔ **Không dùng cho UI.** Nó thuộc về hàng archive. Chỉ dùng khi đang nói về chính dòng sản phẩm cũ.
 
-## 2.6 Váng dầu 🔧 QUAN SÁT, KHÔNG PHẢI SPEC
+## 2.6 Hai bề mặt nền 🔧 QUYẾT ĐỊNH BUILD
 
-Bốn màu `--vt-iri-1` đến `--vt-iri-4` quan sát từ ảnh Instagram thời kỳ mới.
+| Bề mặt | Token nền | Dùng ở đâu |
+|---|---|---|
+| **Váng dầu** | `--vt-iri-base: #04060a` | **Chỉ vùng kể chuyện** — About, band ngăn |
+| **Thép gấp** | `--vt-steel-base: #070809` | **Chỉ banner đầu trang** — shop, category, search |
+
+Cả hai dựng bằng CSS thuần, **0 KB ảnh, 0 KB JS**, chạy bằng `transform` trên GPU.
+
+🔴 **Cả hai đều KHÔNG dùng `repeating-`.** Bản kim loại đầu tiên dùng
+`repeating-linear-gradient` — một chu kỳ, một góc, lặp vô hạn — và mắt bắt được quy luật
+trong nửa giây rồi đọc nó như giấy dán tường. Brand phản hồi đúng chỗ đó 30/08/2026.
+Bốn biến `--vt-iri-1..4` của bản cũ **đã bỏ**: dải quang phổ viết thẳng bằng `hsl()` trong
+`style.css`, vì các chặng phải đi liền một dãy, tách thành bốn biến rời là mời người sau
+sửa lệch một chặng và phá cả dãy.
 
 ⛔ **Chỉ dùng cho mảng nền lớn.** Không dùng cho chữ, không dùng cho UI, không dùng cho bất cứ
 thứ gì cần đọc được. Chúng chuyển động và đổi độ sáng liên tục, nên không có tỷ lệ tương phản nào
@@ -493,7 +505,7 @@ Tỷ lệ khuyến nghị **4:5 dọc**. Hiện tại mọi thứ là 1:1 vì mo
 |---|---|---|---|---|
 | Trang chủ | Full | Trắng + khối tối | `--vt-t-hero` | Hero 3 slide |
 | About | Full | Tối mở đầu, trắng giữa, tối đóng | `--vt-t-hero` | Hero chuỗi frame, marquee, váng dầu đóng trang |
-| Shop archive | Full | Trắng | `--vt-t-2xl` | Banner váng dầu, lưới khe 2px |
+| Shop archive | Full | Trắng | `--vt-t-2xl` | Banner **thép gấp**, lưới khe 2px |
 | PDP | Full | Trắng | `--vt-t-xl` | Gallery hai tầng, summary dính, thanh mua dính đáy trên mobile |
 | Collections | 1180 | Trắng | `--vt-t-xl` | Lưới hai thời kỳ |
 | 10 trang chính sách | 1180 | Trắng | `--vt-t-lg` | Mục lục dính trái |

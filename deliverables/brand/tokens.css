@@ -78,6 +78,9 @@
      chang mau phai di lien mot day quang pho, tach thanh bon bien roi la moi
      nguoi sau sua lech mot chang va pha ca day. */
   --vt-iri-base: #04060a;
+  /* Nen banner dau trang (thep gap). Toi hon nen vang dau mot chut vi be mat
+     thep phan chieu manh hon, can nen sau hon de canh sang con noi bat. */
+  --vt-steel-base: #070809;
 
   /* ---------- TRẠNG THÁI ----------
      Đây là màu CHỨC NĂNG, không phải màu thương hiệu. Chúng tồn tại để báo
