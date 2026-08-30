@@ -45,9 +45,18 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style(
         'vitalite-fonts',
         'https://fonts.googleapis.com/css2'
-            . '?family=Archivo:wght@400;500;600;700;800'   // 700 dung 48 cho trong CSS;
-            // truoc day KHONG duoc tai nen trinh duyet tu bat sang 600 hoac 800
-            . '&family=Archivo+Expanded:wght@800'
+            // ARCHIVO LA VARIABLE FONT HAI TRUC: wdth 62..125, wght 100..900.
+            // Be ngang chon bang font-stretch trong CSS, KHONG phai bang ten family.
+            //
+            // 🔴 Truoc 30/08/2026 cho nay goi 'Archivo+Expanded' -- MOT FAMILY KHONG
+            // TON TAI. Goi rieng no thi Google tra 400 Font family not found; goi
+            // chung voi family khac thi Google IM LANG bo qua no. Ket qua: moi tieu
+            // de tren site roi ve Archivo be ngang thuong suot tu dau, va khong co
+            // loi nao hien ra de ai biet.
+            //
+            // Dai wdth chi lay 100..125 vi khong cho nao dung hep hon 100.
+            // Dai wght 400..800: 400 chu chay, 800 tieu de.
+            . '?family=Archivo:wdth,wght@100..125,400..800'
             // 800 la weight cua chu tren header, va la nac nang nhat JetBrains Mono co.
             // Bo 800 khoi day thi header quay ve synthetic bold, nhoe o 11px.
             // 500 van con dung o cho khac (badge, bang spec, filter chip) nen giu lai.

@@ -3,7 +3,7 @@
 <title>Vitalité Static Preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=Archivo+Expanded:wght@800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500;800&display=swap">
 <style>
 
 
@@ -21,7 +21,7 @@
 :root {
   /* ---- Typography ---- */
   --vt-font-primary: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
-  --vt-font-display: 'Archivo Expanded', 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --vt-font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
   --vt-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* ---- Ground & ink ---- */
@@ -183,14 +183,14 @@ body.home .site-main { padding-top: 0; }
    ========================================================================== */
 
 .vt-display {
-  font-family: var(--vt-font-display);
+  font-family: var(--vt-font-display); font-stretch: 125%;
   font-weight: 800; text-transform: uppercase;
   letter-spacing: -.03em; line-height: 1.02; margin: 0;
 }
-/* .vt-title dùng cho tiêu đề section — Archivo Expanded, cỡ khổng lồ, in hoa.
+/* .vt-title dùng cho tiêu đề section — Archivo bề ngang 125%, cỡ khổng lồ, in hoa.
    Đây là điểm nhấn thị giác chính, không phải chữ trang trí. */
 .vt-title {
-  font-family: var(--vt-font-display); font-size: var(--vt-t-2xl); font-weight: 800;
+  font-family: var(--vt-font-display); font-stretch: 125%; font-size: var(--vt-t-2xl); font-weight: 800;
   letter-spacing: -.03em; line-height: 1.02; margin: 0; text-transform: uppercase;
 }
 /* Bản nhỏ hơn cho tiêu đề trang tĩnh, PDP — không cần hét */
@@ -337,7 +337,7 @@ body.home .site-main { padding-top: 0; }
 }
 .vt-mobile-nav.is-open { transform: translateY(0); visibility: visible; }
 .vt-mobile-nav a {
-  font-family: var(--vt-font-display); font-size: clamp(24px, 7vw, 38px); font-weight: 800;
+  font-family: var(--vt-font-display); font-stretch: 125%; font-size: clamp(24px, 7vw, 38px); font-weight: 800;
   text-transform: uppercase; letter-spacing: -.02em; text-decoration: none;
   padding-block: 10px; border-bottom: 1px solid var(--vt-line);
 }
@@ -405,7 +405,7 @@ body.home .site-main { padding-top: 0; }
   letter-spacing: .2em; text-transform: uppercase; opacity: .8; margin: 0 0 20px;
 }
 .vt-slide-title {
-  font-family: var(--vt-font-display); font-size: var(--vt-t-hero); font-weight: 800;
+  font-family: var(--vt-font-display); font-stretch: 125%; font-size: var(--vt-t-hero); font-weight: 800;
   line-height: 1.02; letter-spacing: -.035em; margin: 0;
   text-transform: uppercase; max-width: 16ch;
 }
@@ -512,7 +512,7 @@ body.home .site-main { padding-top: 0; }
   color: var(--vt-on-dark-muted); margin: 0 0 14px;
 }
 .vt-pagebanner-title {
-  font-family: var(--vt-font-display); font-weight: 800; text-transform: uppercase;
+  font-family: var(--vt-font-display); font-stretch: 125%; font-weight: 800; text-transform: uppercase;
   font-size: clamp(30px, 4.2vw, 62px); line-height: 1.02; letter-spacing: -.03em;
   margin: 0; color: var(--vt-on-dark);
 }
@@ -660,7 +660,7 @@ body.home .site-main { padding-top: 0; }
   letter-spacing: .2em; text-transform: uppercase; opacity: .6; margin: 0;
 }
 .vt-collection-title {
-  font-family: var(--vt-font-display); font-weight: 800; text-transform: uppercase;
+  font-family: var(--vt-font-display); font-stretch: 125%; font-weight: 800; text-transform: uppercase;
   font-size: clamp(40px, 6vw, 96px); line-height: 1.02; letter-spacing: -.03em;
   margin: 0 0 24px;
 }
@@ -1073,7 +1073,7 @@ body { background: #16161A; margin: 0; }
     </div>
     <div class="vt-banner-sentinel" data-vt-header-sentinel aria-hidden="true"></div>
     <div style="position:absolute;inset:0 0 auto 0;height:var(--vt-header-h);display:flex;align-items:center;justify-content:space-between;padding-inline:var(--vt-gutter);color:var(--vt-paper);font-family:var(--vt-font-mono);font-size:var(--vt-t-xs);letter-spacing:.14em;text-transform:uppercase;z-index:5;pointer-events:none">
-      <span style="font-family:var(--vt-font-display);font-weight:800;letter-spacing:-.02em;font-size:15px">VITALITÉ</span>
+      <span style="font-family:var(--vt-font-display);font-stretch:125%;font-stretch:125%;font-weight:800;letter-spacing:-.02em;font-size:15px">VITALITÉ</span>
       <span style="opacity:.82">Shop · Search · Cart (0)</span>
     </div>
   </section>

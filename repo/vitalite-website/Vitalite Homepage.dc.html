@@ -10,7 +10,7 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Expanded:wght@700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   html, body { margin: 0; padding: 0; background: #F4F4F4; }
   body { font-family: Archivo, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
@@ -80,7 +80,7 @@
           <div style="position: absolute; inset: 0; background: {{ s.scrim }};"></div>
           <div style="position: absolute; left: 32px; bottom: 132px; right: 32px; color: {{ s.fg }};">
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .2em; margin-bottom: 20px; opacity: .8;">{{ s.tag }}</div>
-            <h1 style="font-family: 'Archivo Expanded', Archivo, sans-serif; font-weight: 900; font-size: clamp(56px, 8.4vw, 152px); line-height: 1.02; letter-spacing: -.03em; margin: 0; text-transform: uppercase; max-width: 16ch;">{{ s.title }}</h1>
+            <h1 style="font-family: 'Archivo', Archivo, sans-serif; font-weight: 900; font-size: clamp(56px, 8.4vw, 152px); line-height: 1.02; letter-spacing: -.03em; margin: 0; text-transform: uppercase; max-width: 16ch;">{{ s.title }}</h1>
             <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-top: 28px; flex-wrap: wrap;">
               <p style="margin: 0; max-width: 46ch; font-size: 15px; line-height: 1.6; opacity: .82;">{{ s.sub }}</p>
               <a href="#" style="display: inline-flex; align-items: center; gap: 14px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; padding: 16px 30px; border-radius: 999px; background: {{ s.btnBg }}; color: {{ s.btnFg }}; transition: transform .25s;" style-hover="transform: translateY(-2px); opacity: 1;">{{ s.cta }} <span style="font-family: 'JetBrains Mono', monospace;">→</span></a>
@@ -105,7 +105,7 @@
       <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; border-bottom: 1px solid #0A0A0A; padding-bottom: 22px; flex-wrap: wrap;">
         <div>
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .2em; color: #7A7A7A; margin-bottom: 14px;">01 — FEATURED / NỔI BẬT</div>
-          <h2 style="font-family: 'Archivo Expanded', Archivo, sans-serif; font-weight: 900; font-size: clamp(38px, 5.4vw, 84px); line-height: 1.02; letter-spacing: -.03em; margin: 0; text-transform: uppercase;">Áo / Tops</h2>
+          <h2 style="font-family: 'Archivo', Archivo, sans-serif; font-weight: 900; font-size: clamp(38px, 5.4vw, 84px); line-height: 1.02; letter-spacing: -.03em; margin: 0; text-transform: uppercase;">Áo / Tops</h2>
         </div>
         <a href="#" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .16em; border-bottom: 1px solid #0A0A0A; padding-bottom: 4px;">XEM TẤT CẢ / VIEW ALL →</a>
       </div>
@@ -144,7 +144,7 @@
           <div style="padding: 64px; display: flex; flex-direction: column; justify-content: space-between;">
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .2em; opacity: .6;">02 — NEW COLLECTION / BST MỚI</div>
             <div>
-              <h2 style="font-family: 'Archivo Expanded', Archivo, sans-serif; font-weight: 900; font-size: clamp(44px, 6vw, 96px); line-height: 1.02; letter-spacing: -.03em; margin: 0 0 24px; text-transform: uppercase;">Đường<br />Phố / SS26</h2>
+              <h2 style="font-family: 'Archivo', Archivo, sans-serif; font-weight: 900; font-size: clamp(44px, 6vw, 96px); line-height: 1.02; letter-spacing: -.03em; margin: 0 0 24px; text-transform: uppercase;">Đường<br />Phố / SS26</h2>
               <p style="margin: 0 0 32px; max-width: 42ch; font-size: 15px; line-height: 1.65; opacity: .72;">Bộ sưu tập lấy chất liệu từ nhịp sống Sài Gòn: cotton dày, form rộng, in lụa thủ công. 24 mẫu, phát hành theo đợt.</p>
               <a href="#" style="display: inline-flex; align-items: center; gap: 14px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; padding: 16px 30px; border-radius: 999px; background: #fff; color: #0A0A0A;">Khám phá BST <span style="font-family: 'JetBrains Mono', monospace;">→</span></a>
             </div>
@@ -160,7 +160,7 @@
       <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; padding: 0 32px 22px; border-bottom: 1px solid #0A0A0A; margin: 0 32px; flex-wrap: wrap;">
         <div>
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .2em; color: #7A7A7A; margin-bottom: 14px;">03 — GALLERY / HÌNH ẢNH</div>
-          <h2 style="font-family: 'Archivo Expanded', Archivo, sans-serif; font-weight: 900; font-size: clamp(38px, 5.4vw, 84px); line-height: 1.02; letter-spacing: -.03em; margin: 0; text-transform: uppercase;">On The Street</h2>
+          <h2 style="font-family: 'Archivo', Archivo, sans-serif; font-weight: 900; font-size: clamp(38px, 5.4vw, 84px); line-height: 1.02; letter-spacing: -.03em; margin: 0; text-transform: uppercase;">On The Street</h2>
         </div>
         <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .16em; color: #7A7A7A;">#VITALITEDAILY</div>
       </div>
@@ -204,7 +204,7 @@
     <div style="padding: 56px 32px 26px; border-bottom: 1px solid #0A0A0A;">
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .16em; color: #7A7A7A; margin-bottom: 22px;">TRANG CHỦ / SHOP ALL / ÁO</div>
       <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap;">
-        <h1 style="font-family: 'Archivo Expanded', Archivo, sans-serif; font-weight: 900; font-size: clamp(44px, 6.6vw, 108px); line-height: 1.02; letter-spacing: -.03em; margin: 0; text-transform: uppercase;">Áo / Tops</h1>
+        <h1 style="font-family: 'Archivo', Archivo, sans-serif; font-weight: 900; font-size: clamp(44px, 6.6vw, 108px); line-height: 1.02; letter-spacing: -.03em; margin: 0; text-transform: uppercase;">Áo / Tops</h1>
         <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6E6E6E;">{{ productCount }} SẢN PHẨM</div>
       </div>
     </div>

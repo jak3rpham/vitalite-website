@@ -5,7 +5,7 @@ Description: Child theme cho VITALITÉ — streetwear, WooCommerce. Header/foote
 Author: Vitalité
 Author URI: https://vitalite.io.vn
 Template: hello-elementor
-Version: 2.0.2
+Version: 2.1.0
 Requires at least: 6.0
 Requires PHP: 8.0
 Text Domain: vitalite
@@ -28,7 +28,10 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 :root {
   /* ---- Typography ---- */
   --vt-font-primary: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
-  --vt-font-display: 'Archivo Expanded', 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  /* Archivo variable, truc wdth. 'Archivo Expanded' KHONG ton tai tren Google
+     Fonts -- xem inc/enqueue.php. Be ngang dat bang --vt-display-wide. */
+  --vt-font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --vt-display-wide: 125%;
   --vt-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* ---- Ground & ink ---- */
@@ -242,14 +245,14 @@ body.vt-banner-top .site-main { padding-top: 0; }
    ========================================================================== */
 
 .vt-display {
-  font-family: var(--vt-font-display);
+  font-family: var(--vt-font-display); font-stretch: 125%; font-stretch: var(--vt-display-wide);
   font-weight: 800; text-transform: uppercase;
   letter-spacing: -.03em; line-height: 1.02; margin: 0;
 }
-/* .vt-title dùng cho tiêu đề section — Archivo Expanded, cỡ khổng lồ, in hoa.
+/* .vt-title dùng cho tiêu đề section — Archivo ở bề ngang 125%, cỡ khổng lồ, in hoa.
    Đây là điểm nhấn thị giác chính, không phải chữ trang trí. */
 .vt-title {
-  font-family: var(--vt-font-display); font-size: var(--vt-t-2xl); font-weight: 800;
+  font-family: var(--vt-font-display); font-stretch: 125%; font-stretch: var(--vt-display-wide); font-size: var(--vt-t-2xl); font-weight: 800;
   letter-spacing: -.03em; line-height: 1.02; margin: 0; text-transform: uppercase;
 }
 /* Bản nhỏ hơn cho tiêu đề trang tĩnh, PDP — không cần hét */
@@ -440,7 +443,7 @@ body.vt-banner-top .site-main { padding-top: 0; }
 }
 .vt-mobile-nav.is-open { transform: translateY(0); visibility: visible; }
 .vt-mobile-nav a {
-  font-family: var(--vt-font-display); font-size: clamp(24px, 7vw, 38px); font-weight: 800;
+  font-family: var(--vt-font-display); font-stretch: 125%; font-stretch: var(--vt-display-wide); font-size: clamp(24px, 7vw, 38px); font-weight: 800;
   text-transform: uppercase; letter-spacing: -.02em; text-decoration: none;
   padding-block: 10px; border-bottom: 1px solid var(--vt-line);
 }
@@ -509,7 +512,7 @@ body.vt-banner-top .site-main { padding-top: 0; }
   letter-spacing: .2em; text-transform: uppercase; opacity: .8; margin: 0 0 20px;
 }
 .vt-slide-title {
-  font-family: var(--vt-font-display); font-size: var(--vt-t-hero); font-weight: 800;
+  font-family: var(--vt-font-display); font-stretch: 125%; font-stretch: var(--vt-display-wide); font-size: var(--vt-t-hero); font-weight: 800;
   line-height: 1.02; letter-spacing: -.035em; margin: 0;
   text-transform: uppercase; max-width: 16ch;
 }
@@ -699,7 +702,7 @@ body.vt-banner-top .site-main { padding-top: 0; }
   color: var(--vt-on-dark-muted); margin: 0 0 14px;
 }
 .vt-pagebanner-title {
-  font-family: var(--vt-font-display); font-weight: 800; text-transform: uppercase;
+  font-family: var(--vt-font-display); font-stretch: 125%; font-stretch: var(--vt-display-wide); font-weight: 800; text-transform: uppercase;
   /* Nhỏ hơn tiêu đề section một bậc. Banner là chỉ dẫn "bạn đang ở đâu",
      không phải tuyên ngôn — để nó to bằng hero là ăn mất chỗ của sản phẩm. */
   font-size: clamp(30px, 4.2vw, 62px); line-height: 1.02; letter-spacing: -.03em;
@@ -868,7 +871,7 @@ body.vt-banner-top .site-main { padding-top: 0; }
   letter-spacing: .2em; text-transform: uppercase; opacity: .6; margin: 0;
 }
 .vt-collection-title {
-  font-family: var(--vt-font-display); font-weight: 800; text-transform: uppercase;
+  font-family: var(--vt-font-display); font-stretch: 125%; font-stretch: var(--vt-display-wide); font-weight: 800; text-transform: uppercase;
   font-size: clamp(40px, 6vw, 96px); line-height: 1.02; letter-spacing: -.03em;
   margin: 0 0 24px;
 }

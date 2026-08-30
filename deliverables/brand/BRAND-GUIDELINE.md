@@ -228,14 +228,31 @@ Váng dầu không nằm trong tỷ lệ này. Nó là **sự kiện**, dùng đ
 
 ## 3.1 Ba họ 🔧 QUYẾT ĐỊNH BUILD
 
-🔴 **Brand chưa cấp typeface.** Ba font dưới đây là lựa chọn của bản dựng.
+🔴 **Brand chưa cấp typeface.** Hai họ dưới đây là lựa chọn của bản dựng.
 Brand có font riêng thì đổi ở `--vt-font-*` trong `tokens.css`.
+
+> 🔴 **Lỗi đã sửa 30/08/2026: `Archivo Expanded` không tồn tại.**
+> Trước ngày này, `--vt-font-display` gọi một family tên `Archivo Expanded`.
+> Google Fonts **không có family nào tên như vậy** — gọi riêng nó trả về
+> `400: Font family not found`. Nhưng trong URL gộp nhiều family, Google **im lặng
+> bỏ qua** family sai và vẫn trả CSS cho phần còn lại. Nên không có lỗi nào hiện ra.
+>
+> Hệ quả: **mọi tiêu đề trên site rơi về Archivo bề ngang thường** suốt từ đầu, kể cả
+> hero 152px. Không ai phát hiện vì nó vẫn ra một chữ hợp lý, chỉ là không phải chữ
+> đã thiết kế. Đã kiểm chứng bằng cách gọi thẳng API và dựng trang đối chiếu.
+>
+> URL mới `family=Archivo:wdth,wght@100..125,400..800` trả **21 `@font-face`** thay vì 33,
+> tức là **nhẹ hơn** bản cũ, và có đủ subset tiếng Việt.
 
 | Token | Font | Dùng vào |
 |---|---|---|
-| `--vt-font-display` | **Archivo Expanded** 800 | Tiêu đề, tên sản phẩm, số liệu lớn. Chữ in hoa |
-| `--vt-font-primary` | **Archivo** 400/500/600/700 | Chữ chạy, đoạn văn, nhãn |
-| `--vt-font-mono` | **JetBrains Mono** 400/500 | Eyebrow, spec, giá, mã đơn, nhãn kỹ thuật |
+| `--vt-font-display` | **Archivo** 800 · bề ngang **125%** | Tiêu đề, tên sản phẩm, số liệu lớn. Chữ in hoa |
+| `--vt-font-primary` | **Archivo** 400–800 · bề ngang 100% | Chữ chạy, đoạn văn, nhãn |
+| `--vt-font-mono` | **JetBrains Mono** 400/500/800 | Eyebrow, spec, giá, mã đơn, nhãn kỹ thuật |
+
+**Display và primary là CÙNG MỘT font**, khác nhau ở trục bề ngang. Archivo là variable font
+hai trục: `wdth 62–125`, `wght 100–900`. Bề ngang đặt bằng `font-stretch: var(--vt-display-wide)`
+(= `125%`), **không phải** bằng một tên family riêng.
 
 **Vì sao ba họ chứ không phải hai.** Mono không phải trang trí ở đây, nó mang nghĩa:
 mọi thứ *đo được* thì viết bằng mono. Giá, số đo, mã đơn, GSM, ngày. Mắt học được luật đó
@@ -243,17 +260,29 @@ sau vài màn hình, và sau đó nó tự phân loại thông tin hộ mình.
 
 ## 3.2 Weight nào được tải 🔴 ĐÃ SỬA MỘT LỖI
 
-| Weight | Được tải | Dùng bao nhiêu chỗ |
-|---|---|---|
-| 400 | ✅ | 2 |
-| 500 | ✅ | 75 |
-| 600 | ✅ | 86 |
-| **700** | ✅ **vừa thêm** | **48** |
-| 800 | ✅ | 148 |
+**Archivo** nạp dưới dạng variable font, dải `wght 400..800` và `wdth 100..125`.
+Một file cho mỗi subset, phủ hết mọi weight và mọi bề ngang — không cần liệt kê từng weight nữa.
 
-🔴 **Weight 700 đang được dùng 48 chỗ nhưng CHƯA BAO GIỜ được tải.** Trình duyệt tự bắt sang
-600 hoặc 800, nên những chỗ đó hiển thị sai độ đậm mà không ai biết. Đã thêm `700` vào cả
-`inc/enqueue.php` của theme lẫn bản xem trước.
+**JetBrains Mono** nạp `400`, `500`, `800`.
+
+| Weight mono | Dùng vào |
+|---|---|
+| 400 | Chữ mono thường |
+| 500 | Badge, bảng spec, filter chip |
+| **800** | **Toàn bộ chữ trên header.** Brand yêu cầu đậm hơn 30/08 |
+
+🔴 **Weight nào dùng thì phải nạp.** Đây là lỗi đã xảy ra **hai lần**: weight 700 dùng 48 chỗ
+mà chưa bao giờ được tải, và `Archivo Expanded` là một family không tồn tại. Cả hai lần trình
+duyệt đều tự xoay xở — bắt sang weight gần nhất, hoặc rơi về font sau trong stack — nên
+**không có lỗi nào hiện ra**. Chữ chỉ đơn giản là hiển thị sai.
+
+Cách kiểm nhanh, dán vào console trình duyệt trên site thật:
+
+```js
+document.fonts.check('800 16px Archivo')          // phải true
+document.fonts.check('800 16px "JetBrains Mono"') // phải true
+getComputedStyle(document.querySelector('.vt-title')).fontStretch  // phải "125%"
+```
 
 ## 3.3 Thang chữ ✅ đang dùng thật
 

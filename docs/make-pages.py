@@ -38,7 +38,10 @@ CSS = """
   --p-flag:var(--vt-flag,#B45309);
   --p-flagbg:var(--vt-flag-bg,#FEF6E7);
   --p-mono:var(--vt-font-mono,'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace);
-  --p-disp:var(--vt-font-display,'Archivo Expanded','Archivo','Helvetica Neue',Arial,sans-serif);
+  --p-disp:var(--vt-font-display,'Archivo','Helvetica Neue',Arial,sans-serif);
+  /* Be ngang cua chu tieu de. Archivo la variable font, be ngang dat bang
+     font-stretch chu khong phai bang mot ten family rieng. */
+  --p-wide:var(--vt-display-wide,125%);
   color:var(--p-ink);
   font-size:16px;line-height:1.7;
   -webkit-font-smoothing:antialiased;
@@ -70,7 +73,7 @@ CSS = """
   color:var(--p-muted);margin-bottom:16px;
 }
 .vtp-title{
-  font-family:var(--p-disp);font-weight:800;text-transform:uppercase;
+  font-family:var(--p-disp);font-stretch:var(--p-wide);font-weight:800;text-transform:uppercase;
   font-size:clamp(30px,5vw,60px);line-height:1.02;letter-spacing:-.03em;
 }
 .vtp-lede{margin-top:20px;max-width:62ch;font-size:clamp(16px,1.3vw,19px);color:var(--p-muted);}
@@ -106,7 +109,7 @@ CSS = """
 .vtp-sec:first-child{padding-top:0;}
 .vtp-sec + .vtp-sec{margin-top:clamp(26px,3vw,40px);border-top:1px solid var(--p-line);}
 .vtp-sec h2{
-  font-family:var(--p-disp);font-weight:800;text-transform:uppercase;
+  font-family:var(--p-disp);font-stretch:var(--p-wide);font-weight:800;text-transform:uppercase;
   font-size:clamp(19px,2vw,26px);letter-spacing:-.01em;line-height:1.15;margin-bottom:18px;
 }
 .vtp-sec h3{font-size:15px;font-weight:700;letter-spacing:.02em;margin:26px 0 10px;}
@@ -172,7 +175,7 @@ CSS = """
    Trang thương hiệu, không phải trang chính sách. Chữ to hơn, nhịp thưa hơn,
    và có vài khối chỉ dùng đúng ở đây. */
 .vtp-manifesto{
-  font-family:var(--p-disp);font-weight:800;text-transform:uppercase;
+  font-family:var(--p-disp);font-stretch:var(--p-wide);font-weight:800;text-transform:uppercase;
   font-size:clamp(26px,3.6vw,50px);line-height:1.06;letter-spacing:-.03em;
   max-width:16ch;margin:0;
 }
@@ -184,7 +187,7 @@ CSS = """
 /* Dải số — hairline, không phải thẻ bo góc */
 .vtp-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--p-line);margin-top:24px;border:1px solid var(--p-line);}
 .vtp-stats > div{background:var(--p-paper);padding:20px 16px;}
-.vtp-stats b{display:block;font-family:var(--p-disp);font-weight:800;font-size:clamp(22px,2.6vw,34px);line-height:1;letter-spacing:-.02em;}
+.vtp-stats b{display:block;font-family:var(--p-disp);font-stretch:var(--p-wide);font-weight:800;font-size:clamp(22px,2.6vw,34px);line-height:1;letter-spacing:-.02em;}
 .vtp-stats span{display:block;margin-top:9px;font-family:var(--p-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--p-muted);}
 /* Hai thời kỳ */
 .vtp-era{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--p-line);margin-top:22px;}
@@ -194,7 +197,7 @@ CSS = """
   display:block;font-style:normal;font-family:var(--p-mono);font-size:10px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--p-muted);margin-bottom:12px;
 }
-.vtp-era strong{display:block;font-family:var(--p-disp);font-weight:800;text-transform:uppercase;font-size:clamp(16px,1.6vw,21px);letter-spacing:-.01em;margin-bottom:10px;}
+.vtp-era strong{display:block;font-family:var(--p-disp);font-stretch:var(--p-wide);font-weight:800;text-transform:uppercase;font-size:clamp(16px,1.6vw,21px);letter-spacing:-.01em;margin-bottom:10px;}
 /* Khối spec theo đúng khuôn brand tự viết trên Instagram */
 .vtp-spec{margin-top:20px;border-top:1px solid var(--p-ink);}
 .vtp-spec div{display:flex;gap:18px;padding:12px 0;border-bottom:1px solid var(--p-line);}
@@ -738,7 +741,7 @@ PREVIEW_HEAD = """<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>%(title)s</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Archivo+Expanded:wght@800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500;800&display=swap">
 <style>
 %(tokens)s
 *{box-sizing:border-box}body{margin:0;background:%(bg)s;font-family:"Archivo",system-ui,sans-serif;color:#0A0A0A}

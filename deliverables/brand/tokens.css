@@ -25,7 +25,10 @@
      Không phải font chính thức của brand. Brand chưa cấp typeface.
      Đây là lựa chọn của bản build, xem BRAND-GUIDELINE.md mục 3. */
   --vt-font-primary: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
-  --vt-font-display: 'Archivo Expanded', 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  /* 🔴 'Archivo Expanded' KHONG ton tai tren Google Fonts. Da kiem 30/08/2026.
+     Archivo la variable font, be ngang dat bang font-stretch: var(--vt-display-wide). */
+  --vt-display-wide: 125%;
+  --vt-font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
   --vt-font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* ---------- NỀN & MỰC ----------
