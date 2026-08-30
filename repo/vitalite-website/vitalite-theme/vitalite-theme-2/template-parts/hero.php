@@ -82,6 +82,53 @@ $vt_slides = array(
     ),
 );
 
+/*
+ * ĐÈ BẰNG NỘI DUNG TỪ ADMIN — Appearance → Vitalité.
+ *
+ * Mảng ở trên giờ là MẶC ĐỊNH, không còn là nguồn duy nhất. Người quản trị đổi
+ * ảnh hay chữ trong wp-admin thì ghi đè lên từng ô tương ứng.
+ *
+ * Đè theo TỪNG Ô, không thay cả slide. Lý do: người ta thường chỉ đổi ảnh mà
+ * chưa viết chữ, hoặc ngược lại. Thay cả slide thì ô chưa điền hoá rỗng và
+ * hero mất chữ mà không ai hiểu vì sao.
+ *
+ * Video vẫn khai trong file này, KHÔNG đưa lên admin. Nó gắn với logic không
+ * tải trên mobile và preload trong <head> — để người quản trị đổi được là mở
+ * đường cho một file 60 MB rơi vào hero.
+ */
+if (function_exists('vt_home_opt')) {
+    foreach (vt_home_opt()['hero'] as $vt_i => $vt_row) {
+        if (!isset($vt_slides[$vt_i])) {
+            continue;
+        }
+
+        if (!empty($vt_row['id'])) {
+            $vt_src = wp_get_attachment_image_url((int) $vt_row['id'], 'full');
+            if ($vt_src) {
+                $vt_slides[$vt_i]['img'] = $vt_src;
+            }
+        }
+        if (!empty($vt_row['tone'])) {
+            $vt_slides[$vt_i]['tone'] = $vt_row['tone'] === 'light' ? 'light' : 'dark';
+        }
+        if (!empty($vt_row['url'])) {
+            $vt_slides[$vt_i]['url'] = $vt_row['url'];
+        }
+        if (!empty($vt_row['label'])) {
+            $vt_slides[$vt_i]['label'] = $vt_row['label'];
+        }
+        if (!empty($vt_row['text']) && function_exists('vt_i18n')) {
+            foreach (array('tag', 'title', 'sub', 'cta') as $vt_k) {
+                $vt_val = vt_i18n($vt_row['text'], $vt_k);
+                if ($vt_val !== '') {
+                    $vt_slides[$vt_i][$vt_k] = $vt_val;
+                }
+            }
+        }
+    }
+    unset($vt_row, $vt_src, $vt_k, $vt_val);
+}
+
 // Slide thiếu ảnh thì bỏ hẳn — thà 2 slide đẹp còn hơn 3 slide có một ô đen
 $vt_slides = array_values(array_filter($vt_slides, function ($s) { return !empty($s['img']); }));
 if (empty($vt_slides)) return;

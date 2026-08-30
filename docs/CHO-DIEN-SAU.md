@@ -178,6 +178,10 @@ hộ kinh doanh. Tên trên giấy gần như chắc chắn **không phải** "V
       nội địa Mỹ. Woo đang một kho. Bán một chiếc đang nằm ở TP.HCM cho khách Mỹ thì phải chờ
       chuyến kế. Chưa có cơ chế nào mô tả việc này. Quyết định khi nhập sản phẩm.
 - [ ] **`.htaccess` bảo vệ nội dung.** Xem `deliverables/setup/BAO-VE-NOI-DUNG.md`.
+- [x] ~~**Gallery + hero quản lý trong admin.**~~ ✅ 30/08 — `Appearance → Vitalité`.
+      Ảnh từ Media Library, kéo thả sắp xếp, chọn cỡ ô, alt theo từng ngôn ngữ.
+      🔴 **Vào panel chọn ảnh ngay sau khi deploy.** Chưa chọn thì gallery rơi về 8 ảnh
+      trong theme — và đúng những ảnh đó bị đè mỗi lần upload theme mới.
 - [ ] Ảnh mockup nền trong suốt → cần Canva Pro
 - [ ] Premmerce có tương thích Polylang không (test bằng 2 SKU giả)
 

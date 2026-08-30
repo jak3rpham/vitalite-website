@@ -72,10 +72,12 @@
      QUAN SÁT TỪ ẢNH INSTAGRAM thời kỳ mới, KHÔNG phải mã spec.
      ⛔ Chỉ dùng cho mảng nền lớn. Không dùng cho chữ, không dùng cho UI,
      không dùng cho bất cứ thứ gì cần đọc được. */
-  --vt-iri-1: rgba(126, 72, 240, .85);
-  --vt-iri-2: rgba(38, 196, 190, .72);
-  --vt-iri-3: rgba(214, 72, 158, .60);
-  --vt-iri-4: rgba(58, 102, 232, .75);
+  /* Nen cua vang dau. Gan den, am xanh luc rat nhe -- dau tren nhua duong
+     khong bao gio den tuyet doi. Bon bien --vt-iri-1..4 cu da bo 30/08/2026:
+     ban moi dung dai quang pho bang hsl() viet thang trong style.css, vi cac
+     chang mau phai di lien mot day quang pho, tach thanh bon bien roi la moi
+     nguoi sau sua lech mot chang va pha ca day. */
+  --vt-iri-base: #04060a;
 
   /* ---------- TRẠNG THÁI ----------
      Đây là màu CHỨC NĂNG, không phải màu thương hiệu. Chúng tồn tại để báo

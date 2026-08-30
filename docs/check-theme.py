@@ -98,7 +98,13 @@ print('=' * 74)
 css = io.open(os.path.join(ROOT, 'style.css'), encoding='utf-8').read()
 css_no_comment = re.sub(r'/\*.*?\*/', ' ', css, flags=re.S)
 used_classes = set()
+# File CHI CHAY TRONG WP-ADMIN mang CSS rieng (vt_admin_css()), khong nam trong
+# style.css. Soi chung o day chi ra bao dong gia, va mot checker keu sai vai lan
+# la lan sau khong ai doc no nua.
+ADMIN_ONLY = ('inc' + os.sep + 'admin-options.php',)
 for f in files:
+    if any(f.endswith(a) for a in ADMIN_ONLY):
+        continue
     src = io.open(f, encoding='utf-8').read()
     for m in re.finditer(r'class="([^"]*)"', src):
         for c in m.group(1).split():
@@ -118,9 +124,21 @@ HOOK_ONLY = {
 }
 def is_real_class(c):
     return re.fullmatch(r'vt-[a-z0-9-]+', c) is not None
+
+def has_rule(c):
+    """Co luat CSS cho class nay khong.
+
+    Class ket thuc bang `--` la TIEN TO DONG, kieu `'vt-g--' . $row['size']`
+    trong helpers.php. No khong bao gio xuat hien nguyen ven trong CSS, nen so
+    khop chinh xac se bao thieu sai. Voi tien to, chi can co IT NHAT MOT luat
+    bat dau bang no la du -- neu khong co cai nao thi moi that su la thieu.
+    """
+    if c.endswith('--'):
+        return re.search(r'\.' + re.escape(c) + r'[\w-]+', css_no_comment) is not None
+    return re.search(r'\.' + re.escape(c) + r'(?![\w-])', css_no_comment) is not None
+
 missing_css = [c for c in sorted(used_classes)
-               if is_real_class(c) and c not in HOOK_ONLY
-               and not re.search(r'\.' + re.escape(c) + r'(?![\w-])', css_no_comment)]
+               if is_real_class(c) and c not in HOOK_ONLY and not has_rule(c)]
 print('  class vt-* dung: %d' % len(used_classes))
 print('  KHONG co rule  : %s' % (missing_css or 'khong'))
 if missing_css: problems.append('class thieu CSS: %s' % missing_css)

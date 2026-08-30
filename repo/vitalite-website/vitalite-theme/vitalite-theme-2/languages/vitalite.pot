@@ -64,7 +64,7 @@ msgstr ""
 msgid "Shop outerwear"
 msgstr ""
 
-#: front-page.php:63
+#: front-page.php:63 inc/admin-options.php:347
 msgid "Gallery"
 msgstr ""
 
@@ -83,6 +83,150 @@ msgstr ""
 
 #: header.php:31
 msgid "Skip to content"
+msgstr ""
+
+#: inc/admin-options.php:139
+msgid "Normal — 1 cell"
+msgstr ""
+
+#: inc/admin-options.php:140
+msgid "Tall — 1 wide, 2 high"
+msgstr ""
+
+#: inc/admin-options.php:141
+msgid "Wide — 2 wide, 1 high"
+msgstr ""
+
+#: inc/admin-options.php:142
+msgid "Large — 2 by 2"
+msgstr ""
+
+#: inc/admin-options.php:143
+msgid "Full row — 4 wide"
+msgstr ""
+
+#: inc/admin-options.php:238 inc/admin-options.php:333
+msgid "Vitalité — Home content"
+msgstr ""
+
+#: inc/admin-options.php:239
+msgid "Vitalité"
+msgstr ""
+
+#: inc/admin-options.php:273
+msgid "Choose images"
+msgstr ""
+
+#: inc/admin-options.php:274
+msgid "Use these"
+msgstr ""
+
+#: inc/admin-options.php:275
+msgid "Choose an image"
+msgstr ""
+
+#: inc/admin-options.php:276
+msgid "Use this image"
+msgstr ""
+
+#: inc/admin-options.php:277 inc/admin-options.php:369
+msgid "Remove"
+msgstr ""
+
+#: inc/admin-options.php:278
+msgid "Remove this image from the gallery?"
+msgstr ""
+
+#: inc/admin-options.php:335
+msgid "This page controls the pictures and words on the home page. It does not control layout — grid, spacing and type live in the theme, on purpose."
+msgstr ""
+
+#: inc/admin-options.php:340
+msgid "Images are shared across languages. Only text has a box per language."
+msgstr ""
+
+#: inc/admin-options.php:349
+msgid "Drag a picture to reorder. The first eight are the ones that show."
+msgstr ""
+
+#: inc/admin-options.php:354
+msgid "Nothing chosen yet."
+msgstr ""
+
+#: inc/admin-options.php:355
+msgid "Until you add pictures here, the home page falls back to the eight images shipped inside the theme. Those get overwritten every time the theme is re-uploaded, which is exactly what this page exists to stop."
+msgstr ""
+
+#: inc/admin-options.php:371
+msgid "Cell size"
+msgstr ""
+
+#: inc/admin-options.php:380
+msgid "Alt text (%s)"
+msgstr ""
+
+#: inc/admin-options.php:391
+msgid "Add pictures"
+msgstr ""
+
+#: inc/admin-options.php:395
+msgid "Leave alt text empty for pictures that are decoration only. An empty alt is the correct answer for a screen reader, not a missing one."
+msgstr ""
+
+#: inc/admin-options.php:398
+msgid "Hero slides"
+msgstr ""
+
+#: inc/admin-options.php:400
+msgid "Three slides, cross-fading. Slide 1 also carries the video — that part stays in the theme because it has to not load on mobile."
+msgstr ""
+
+#: inc/admin-options.php:417
+msgid "Choose image"
+msgstr ""
+
+#: inc/admin-options.php:420
+msgid "Tone"
+msgstr ""
+
+#: inc/admin-options.php:422
+msgid "Dark picture — white text"
+msgstr ""
+
+#: inc/admin-options.php:423
+msgid "Light picture — black text"
+msgstr ""
+
+#: inc/admin-options.php:429
+msgid "Slide %d"
+msgstr ""
+
+#: inc/admin-options.php:432
+msgid "Internal name — not shown to customers"
+msgstr ""
+
+#: inc/admin-options.php:437
+msgid "Button link"
+msgstr ""
+
+#: inc/admin-options.php:472
+msgid "Eyebrow — small line above"
+msgstr ""
+
+#: inc/admin-options.php:473
+msgid "Headline — use <br> to break the line"
+msgstr ""
+
+#: inc/admin-options.php:474
+msgid "Sub-line"
+msgstr ""
+
+#: inc/admin-options.php:475
+msgid "Button label"
+msgstr ""
+
+#: inc/admin-options.php:492
+msgid "A slide with no picture is skipped. Two good slides beat three with a black gap."
 msgstr ""
 
 #: inc/seo.php:198 inc/woocommerce.php:257
@@ -291,11 +435,11 @@ msgstr ""
 msgid "Earlier drops, still in stock."
 msgstr ""
 
-#: template-parts/hero.php:95
+#: template-parts/hero.php:142
 msgid "Featured campaigns"
 msgstr ""
 
-#: template-parts/hero.php:151
+#: template-parts/hero.php:198
 msgid "Choose slide"
 msgstr ""
 

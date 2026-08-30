@@ -15,7 +15,7 @@
 
 if (!defined('ABSPATH')) exit;
 
-define('VT_VERSION', '2.0.0');
+define('VT_VERSION', '2.2.0');
 define('VT_DIR', get_stylesheet_directory());
 define('VT_URI', get_stylesheet_directory_uri());
 
@@ -24,6 +24,7 @@ $vt_modules = array(
     'setup',
     'enqueue',
     'seo',
+    'admin-options', // Appearance → Vitalité: ảnh gallery + slide hero
 );
 
 // WooCommerce có thể bị tắt (khi debug, hoặc trước khi cài). Không được để trắng site.

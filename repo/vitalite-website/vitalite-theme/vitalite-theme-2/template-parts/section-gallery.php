@@ -85,7 +85,14 @@ $vt_spans = array(
   <div class="vt-bleed">
     <div class="vt-gallery">
       <?php foreach ($vt_images as $vt_i => $vt_img) :
-          $vt_span = $vt_spans[$vt_i % count($vt_spans)];
+          /*
+           * Cỡ ô do người quản trị chọn trong Appearance → Vitalité.
+           * Chưa chọn thì rơi về mẫu lặp chu kỳ 8 bên dưới — mẫu đó vẫn là
+           * bố cục đã thiết kế, không phải bố cục ngẫu nhiên.
+           */
+          $vt_span = !empty($vt_img['span'])
+              ? $vt_img['span']
+              : $vt_spans[$vt_i % count($vt_spans)];
       ?>
         <figure class="vt-g <?php echo esc_attr($vt_span); ?>">
           <img src="<?php echo esc_url($vt_img['url']); ?>"

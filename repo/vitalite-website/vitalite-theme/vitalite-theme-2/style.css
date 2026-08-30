@@ -5,7 +5,7 @@ Description: Child theme cho VITALITÉ — streetwear, WooCommerce. Header/foote
 Author: Vitalité
 Author URI: https://vitalite.io.vn
 Template: hello-elementor
-Version: 2.1.1
+Version: 2.2.0
 Requires at least: 6.0
 Requires PHP: 8.0
 Text Domain: vitalite
@@ -64,10 +64,12 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
      Xem reference/BRAND_ASSETS_AUDIT.md muc 2. KHONG dung cho UI. */
   --vt-archive-pink: #C52458;
 
-  --vt-iri-1: rgba(126, 72, 240, .85);
-  --vt-iri-2: rgba(38, 196, 190, .72);
-  --vt-iri-3: rgba(214, 72, 158, .60);
-  --vt-iri-4: rgba(58, 102, 232, .75);
+  /* Nền của váng dầu. Gần đen, ám xanh lục rất nhẹ — dầu trên nhựa đường
+     không bao giờ đen tuyệt đối. Bốn biến --vt-iri-1..4 của bản cũ đã bỏ:
+     bản mới dựng dải quang phổ bằng hsl() viết thẳng, vì các chặng màu phải
+     đi liền một dãy quang phổ, tách thành bốn biến rời là mời người sau sửa
+     lệch một chặng và phá cả dãy. */
+  --vt-iri-base: #04060a;
 
   /* ---- Trạng thái ---- */
   --vt-sale: #C2413A;
@@ -609,62 +611,110 @@ body.vt-banner-top .site-main { padding-top: 0; }
    ========================================================================== */
 
 .vt-iri {
-  position: relative; overflow: hidden; background: var(--vt-ink);
+  position: relative; overflow: hidden; background: var(--vt-iri-base);
   contain: paint; isolation: isolate;
 }
+
+/* ==========================================================================
+   VÁNG DẦU
+   --------------------------------------------------------------------------
+   🔴 BẢN CŨ SAI VỀ CẤU TRÚC, KHÔNG PHẢI VỀ MÀU.
+   Bản trước dùng bốn vệt radial lớn rồi `blur(26px)`, phủ thêm một lớp quang
+   phổ `blur(44px)`. Bảng màu thì đúng, nhưng làm mờ ở mức đó xoá sạch mọi chi
+   tiết tần số cao — thứ còn lại là một khối gradient tím xanh, không ai đọc ra
+   váng dầu. Brand phản hồi đúng chỗ đó ngày 30/08/2026.
+
+   VÁNG DẦU THẬT LÀ GÌ
+   Giao thoa màng mỏng: ánh sáng phản xạ ở mặt trên và mặt dưới của lớp dầu
+   lệch pha nhau, cho ra các DẢI QUANG PHỔ HẸP lặp lại, bám theo đường viền
+   của vũng dầu. Ba tính chất phải giữ:
+     1. Dải HẸP và LẶP  → repeating-radial-gradient, không phải radial thường
+     2. Blur RẤT NHẸ    → 2-4px, đủ mượt, không xoá vân
+     3. Không phủ đều   → mặt nạ theo mảng, phần lớn diện tích vẫn gần đen
+
+   VÌ SAO TÂM VÂN ĐẶT NGOÀI KHUNG
+   `at 18% 128%` và `at 118% -20%` — cả hai đều nằm ngoài. Đặt tâm bên trong
+   thì mắt đọc ra bia bắn đồng tâm. Đặt ngoài thì chỉ thấy CUNG vân quét ngang,
+   đúng như nhìn một vũng dầu trên mặt đường.
+
+   BA LỚP, KHÔNG THÊM THẺ HTML NÀO
+     .vt-iri-layer          vân chính
+     .vt-iri-layer::before  vân thứ hai, chu kỳ khác, tâm phía đối diện
+     .vt-iri-layer::after   mặt nạ tối + ánh phản chiếu
+
+   Hai chu kỳ 120px và 138px không chia hết nhau, nên chỗ giao nhau không bao
+   giờ lặp đều — đó là thứ phá cảm giác "hoa văn in sẵn".
+
+   VẪN 0 KB: không ảnh, không JS, chạy bằng transform trên GPU.
+   ========================================================================== */
 .vt-iri > .vt-iri-layer {
-  position: absolute; inset: -30%; z-index: 0; pointer-events: none;
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
   will-change: transform;
   background:
-    radial-gradient(46% 58% at 22% 28%, var(--vt-iri-1), transparent 62%),
-    radial-gradient(52% 46% at 78% 36%, var(--vt-iri-2), transparent 64%),
-    radial-gradient(44% 52% at 58% 78%, var(--vt-iri-3), transparent 62%),
-    radial-gradient(60% 60% at 12% 88%, var(--vt-iri-4), transparent 66%);
-  filter: blur(26px) saturate(1.45);
-  /* Bốn chu kỳ là số nguyên tố, không chia hết nhau → tổ hợp gần như không lặp.
-     Đây là cách làm chuyển động "không trật tự" mà vẫn 0 KB JS và chạy trên GPU.
-
-     Chu kỳ ĐÃ RÚT NGẮN so với bản đầu (17/23/31/41s). Ở nhịp cũ, trong 5 giây
-     đầu — tức là toàn bộ thời gian khách thật sự nhìn vào banner — chuyển động
-     nhỏ tới mức không phân biệt được với ảnh tĩnh. Vẫn giữ số nguyên tố. */
-  animation: vt-iri-slide 13s linear infinite,
-             vt-iri-grow 19s ease-in-out infinite alternate,
-             vt-iri-turn 23s ease-in-out infinite alternate,
-             vt-iri-hue 29s ease-in-out infinite alternate;
-}
-
-/* ---- Lớp ánh kim: đây là thứ biến gradient thành VÁNG DẦU ----
-   Bốn radial-gradient ở trên chỉ cho ra một khối màu loang. Váng dầu thật có
-   các DẢI QUANG PHỔ chạy vòng — hiện tượng giao thoa màng mỏng. Mô phỏng bằng
-   một conic-gradient lặp, làm mờ mạnh rồi trộn `screen` để nó ánh lên chứ không
-   phủ đè. Xoay chậm ngược chiều với lớp dưới → hai lớp trượt lên nhau.
-
-   Vẫn 0 KB: không ảnh, không JS, chạy bằng `rotate` trên GPU. */
-.vt-iri > .vt-iri-layer::after {
-  content: ''; position: absolute; inset: -12%;
-  background: repeating-conic-gradient(from 210deg at 50% 50%,
-      hsl(276 92% 62% / .60)   0deg,
-      hsl(192 95% 58% / .60)  38deg,
-      hsl(322 92% 62% / .58)  76deg,
-      hsl(152 88% 56% / .52) 114deg,
-      hsl(248 94% 62% / .60) 152deg,
-      hsl(276 92% 62% / .60) 190deg);
-  filter: blur(44px);
+    repeating-radial-gradient(128% 82% at 18% 128%,
+      hsl(316 92% 60% / .95)   0px, hsl(24  98% 62% / .95)  19px,
+      hsl(52  94% 64% / .90)  35px, hsl(160 88% 56% / .95)  54px,
+      hsl(202 96% 58% / .95)  73px, hsl(272 92% 62% / .95)  95px,
+      hsl(316 92% 60% / .95) 120px);
+  filter: blur(2.5px) saturate(1.3);
   mix-blend-mode: screen;
-  /* Giữ ở mức này. Cao hơn là chữ trắng trên banner mất tương phản. */
-  opacity: .34;
-  animation: vt-iri-spin 37s linear infinite reverse;
+  opacity: .66;
+  -webkit-mask-image:
+    radial-gradient(66% 82% at 28% 46%, #000 0%, rgba(0,0,0,.35) 58%, transparent 78%),
+    radial-gradient(42% 54% at 82% 24%, #000 0%, transparent 74%);
+  mask-image:
+    radial-gradient(66% 82% at 28% 46%, #000 0%, rgba(0,0,0,.35) 58%, transparent 78%),
+    radial-gradient(42% 54% at 82% 24%, #000 0%, transparent 74%);
+  animation: vt-iri-drift 30s ease-in-out infinite alternate;
 }
-@keyframes vt-iri-spin { to { rotate: 360deg; } }
+
+.vt-iri > .vt-iri-layer::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    repeating-radial-gradient(96% 120% at 118% -20%,
+      hsl(268 92% 62% / .90)   0px, hsl(192 96% 58% / .90)  27px,
+      hsl(146 90% 56% / .85)  51px, hsl(40 100% 62% / .90)  77px,
+      hsl(326 92% 60% / .90) 105px, hsl(268 92% 62% / .90) 138px);
+  filter: blur(3.5px) saturate(1.25);
+  mix-blend-mode: screen;
+  opacity: .54;
+  -webkit-mask-image: radial-gradient(78% 70% at 68% 76%, #000 0%, transparent 76%);
+  mask-image: radial-gradient(78% 70% at 68% 76%, #000 0%, transparent 76%);
+  animation: vt-iri-drift2 38s ease-in-out infinite alternate;
+}
+
+/* Mặt nạ tối ở rìa + một vệt sáng phản chiếu.
+   Mặt nạ là thứ quyết định nó đọc ra MỘT VŨNG DẦU thay vì một tấm nền sặc màu.
+   Vệt sáng làm bề mặt trông ướt, không phải giấy in.
+   Lớp này cũng là thứ giữ chữ trắng còn đọc được: nó tối dần về phía đáy,
+   đúng chỗ tiêu đề banner nằm. */
+.vt-iri > .vt-iri-layer::after {
+  content: ''; position: absolute; inset: 0; z-index: 2;
+  background:
+    radial-gradient(52% 38% at 24% 16%, rgba(255,255,255,.14), transparent 62%),
+    radial-gradient(118% 128% at 30% 34%, transparent 0%,
+      rgba(4,6,10,.34) 58%, rgba(4,6,10,.92) 100%),
+    linear-gradient(to top, rgba(4,6,10,.82) 0%, transparent 48%);
+}
+
+@keyframes vt-iri-drift {
+  from { transform: translate3d(-3%, -2%, 0) scale(1.04) rotate(0deg); }
+  to   { transform: translate3d(4%, 3%, 0)  scale(1.16) rotate(8deg); }
+}
+@keyframes vt-iri-drift2 {
+  from { transform: translate3d(3%, 2%, 0)   scale(1.10) rotate(0deg); }
+  to   { transform: translate3d(-4%, -3%, 0) scale(1.02) rotate(-10deg); }
+}
 
 .vt-iri.is-idle > .vt-iri-layer,
-.vt-iri.is-idle > .vt-iri-layer::after { animation-play-state: paused; }
+.vt-iri.is-idle > .vt-iri-layer::before { animation-play-state: paused; }
 
 /* Tôn trọng người tắt chuyển động: giữ nguyên màu, bỏ hẳn animation. */
 @media (prefers-reduced-motion: reduce) {
   .vt-iri > .vt-iri-layer,
-  .vt-iri > .vt-iri-layer::after { animation: none; }
+  .vt-iri > .vt-iri-layer::before { animation: none; }
 }
+
 .vt-iri > .vt-wrap, .vt-iri > .vt-iri-content { position: relative; z-index: 1; }
 
 /* ---- Banner đầu trang archive / category ----

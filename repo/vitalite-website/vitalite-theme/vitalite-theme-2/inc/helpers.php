@@ -247,6 +247,43 @@ function vt_gallery_images($limit = 8) {
 
     $cached = get_transient('vt_gallery');
     if ($cached === false) {
+
+        /*
+         * NGUỒN 1 — Appearance → Vitalité.
+         * Đây là nguồn thật. Ảnh nằm trong Media Library nên upload theme mới
+         * không bao giờ đè mất, và đổi ảnh không cần đụng tới file nào.
+         */
+        $out = array();
+        if (function_exists('vt_home_opt')) {
+            foreach (vt_home_opt()['gallery'] as $row) {
+                $id  = (int) $row['id'];
+                $src = wp_get_attachment_image_src($id, 'large');
+                if (!$src) {
+                    continue;   // ảnh đã bị xoá khỏi Media Library
+                }
+                $out[] = array(
+                    'url'  => $src[0],
+                    'alt'  => function_exists('vt_i18n') ? vt_i18n($row['alt']) : '',
+                    'w'    => (int) $src[1],
+                    'h'    => (int) $src[2],
+                    'span' => 'vt-g--' . $row['size'],
+                );
+            }
+        }
+
+        if ($out) {
+            set_transient('vt_gallery', $out, 12 * HOUR_IN_SECONDS);
+            $cached = $out;
+            return $limit > 0 ? array_slice(apply_filters('vt_gallery_images', $cached), 0, $limit)
+                              : apply_filters('vt_gallery_images', $cached);
+        }
+
+        /*
+         * NGUỒN 2 — thư mục trong theme, CHỈ LÀ ĐƯỜNG LÙI.
+         * Chạy khi chưa ai cấu hình gì. Không có nó thì từ lúc kích hoạt theme
+         * tới lúc chọn xong ảnh, trang chủ mất hẳn một section.
+         * Ảnh ở đây BỊ ĐÈ mỗi lần upload theme — đó chính là lý do có nguồn 1.
+         */
         $dir  = get_stylesheet_directory() . '/assets/gallery/';
         $uri  = get_stylesheet_directory_uri() . '/assets/gallery/';
         $out  = array();
