@@ -228,6 +228,20 @@ public_html/wp-content/themes/
 | 404 | `/khong-ton-tai-abc` |
 | Mobile | thu nhỏ cửa sổ dưới 768px, mở menu |
 
+🔴 **Kiểm tràn ngang, không tin bằng mắt.** Dán vào Console trên `/cart` và `/checkout`:
+
+```js
+const W=innerWidth;[...document.querySelectorAll('body *')].filter(e=>{const r=e.getBoundingClientRect();return r.width&&(r.left<-2||r.right>W+2)}).map(e=>e.className)
+```
+
+Kết quả đúng là mảng **chỉ chứa `vt-skip`** (link bỏ qua, cố ý nằm ngoài màn hình).
+Có tên nào khác là có phần tử tràn.
+
+> **Vì sao phải kiểm bằng lệnh.** Ngày 30/08 đã có một lần "sửa xong" mà không sửa được gì:
+> luật CSS đúng cú pháp, nằm đúng trong file, nhưng neo vào một class **không tồn tại** trên
+> trang đó nên không bao giờ khớp. Kiểm "CSS có trong file chưa" và kiểm "luật có ăn trên
+> trang thật không" là hai câu hỏi khác nhau, và chỉ câu thứ hai mới có nghĩa.
+
 ### Bước 5 — hỏng thì lùi
 
 `Giao diện → Giao diện` → kích hoạt lại theme cũ. Xong. Không mất gì.

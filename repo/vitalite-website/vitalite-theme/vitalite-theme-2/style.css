@@ -5,7 +5,7 @@ Description: Child theme cho VITALITÉ — streetwear, WooCommerce. Header/foote
 Author: Vitalité
 Author URI: https://vitalite.io.vn
 Template: hello-elementor
-Version: 2.4.0
+Version: 2.4.1
 Requires at least: 6.0
 Requires PHP: 8.0
 Text Domain: vitalite
@@ -1163,23 +1163,32 @@ body.vt-banner-top .site-main { padding-top: 0; }
 /* ---- 🔴 SỬA LỖI TRÀN NGANG Ở /cart VÀ /checkout ----
    WooCommerce 8+ dựng giỏ hàng và thanh toán bằng BLOCK, và block đó mang sẵn
    class `alignwide` của Gutenberg. Trong một block theme, `alignwide` được nuôi
-   bằng biến `--wp--style--root--padding-*`: khung cha có padding, margin âm chỉ
-   ăn vào phần padding đó. Theme này KHÔNG phải block theme, khung cha padding 0,
-   nên margin âm ăn thẳng ra ngoài màn hình.
+   bằng biến `--wp--style--root--padding-*`: khung cha có padding nên margin âm
+   chỉ ăn vào phần padding đó. Theme này KHÔNG phải block theme, khung cha
+   padding 0, nên margin âm ăn thẳng ra ngoài màn hình.
 
-   Đo trên site thật 30/08/2026: `.wp-block-woocommerce-cart.alignwide` có
-   `margin: 0 -80px`, đẩy nội dung sang trái 62px. Chữ "Your cart is currently
-   empty!" bị cắt mất đầu câu, và trang cuộn ngang.
+   THỦ PHẠM LÀ THEME CHA, KHÔNG PHẢI WOOCOMMERCE.
+   Đo trên site thật: `hello-elementor/assets/css/theme.css` khai
+       .alignwide { margin-inline: -80px }
+   Chỉ (0,1,0), và dùng thuộc tính LOGIC `margin-inline`.
 
-   VÌ SAO PHẢI 3 CẤP CHỌN LỌC, KHÔNG PHẢI 2:
-   `wc-blocks.css` nạp SAU `style.css` của theme (kiểm bằng thứ tự thẻ link).
-   Luật của Woo là (0,2,0). Viết `.vt-woo .alignwide` cũng (0,2,0) → hoà, và
-   hoà thì file nạp sau thắng. Nên phải lên (0,3,0). Không dùng !important —
-   !important ở đây sẽ chặn cả những chỉnh sửa hợp lệ về sau. */
-.vt-woo .vt-woo-page .alignwide,
-.vt-woo .vt-woo-page .alignfull {
-  margin-left: 0;
-  margin-right: 0;
+   🔴 BẢN SỬA NGÀY 30/08 KHÔNG CHẠY, GHI LẠI ĐỂ KHÔNG LẶP:
+   Nó viết `.vt-woo .vt-woo-page .alignwide`. Nhưng `.vt-woo` do
+   `vt_woo_wrapper_start()` in ra, và hàm đó CHỈ chạy trên template của
+   WooCommerce (shop archive, trang sản phẩm). Giỏ hàng, thanh toán, tài khoản
+   là **WP Page** dựng bằng `page.php` — ở đó chỉ có `.vt-woo-page`, không có
+   `.vt-woo`. Luật đúng cú pháp, nằm đúng trong file, và không bao giờ khớp.
+
+   Nên ở đây neo vào `.vt-woo-page` — class CÓ THẬT trên những trang đó — và
+   đặt `margin-inline` để triệt đúng thuộc tính mà theme cha dùng.
+   (0,2,0) so với (0,1,0) là đủ, không cần !important. */
+.vt-woo-page .alignwide,
+.vt-woo-page .alignfull,
+.vt-woo .alignwide,
+.vt-woo .alignfull,
+.vt-prose .alignwide,
+.vt-prose .alignfull {
+  margin-inline: 0;
   max-width: 100%;
 }
 
