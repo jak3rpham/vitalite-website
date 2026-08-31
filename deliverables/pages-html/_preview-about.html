@@ -174,9 +174,30 @@
      data-seq-pad="3"
      data-seq-ext="webp">
 <style>
-/* Mốc cho header trong suốt. Nằm ở ĐÁY hero, cao 1px: header đục lại đúng
-   lúc đáy hero chạm gáy header. Giống .vt-hero-sentinel trong style.css. */
-.vsq-sentinel{position:absolute;bottom:0;left:0;width:100%;height:1px;pointer-events:none;}
+/* Mốc cho header trong suốt.
+
+   🔴 PHẢI LÀ `sticky`, KHÔNG PHẢI `absolute` NHƯ .vt-hero-sentinel.
+   Bản đầu chép y khuôn của theme: `position:absolute; bottom:0`. Sai, và sai vì
+   một lý do hình học.
+
+   Theme dùng khuôn đó cho `.vt-hero` và `.vt-pagebanner` — hai khối cao ĐÚNG
+   một khung nhìn. Mốc dán ở đáy chúng thì ngay lúc chưa cuộn nó đã nằm ở mép
+   dưới màn hình, tức IntersectionObserver thấy nó, tức header trong suốt.
+
+   `.vsq-track` ở đây KHÔNG cao một khung nhìn — nó cao bằng quãng cuộn của
+   chuỗi 96 frame. Đo trên site: 4500px trên màn 900px, tức GẤP 5 LẦN. Mốc dán
+   ở đáy nó nằm tận y=4500, ngoài tầm nhìn, nên observer không bao giờ báo
+   "đang thấy" và header không bao giờ trong suốt. Đó đúng là lỗi đã xảy ra.
+
+   `sticky` + `top:calc(100vh - 1px)` giữ mốc dính ở mép dưới khung nhìn suốt
+   chiều dài track, rồi thả ra khi track kết thúc. Kết quả đo lại trên trang
+   thật: trong suốt từ scroll 0 tới 4300, trắng lại từ 5100. Đúng ý đồ.
+
+   `margin-top:-1px` để 1px chiều cao này không đội layout lên. */
+.vsq-sentinel{
+  position:sticky;top:calc(100vh - 1px);
+  height:1px;margin-top:-1px;pointer-events:none;
+}
 .vsq{
   --q-ink:var(--vt-ink,#0A0A0A);
   --q-onDark:var(--vt-on-dark,#F2F2F4);
