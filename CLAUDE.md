@@ -237,7 +237,9 @@ JetBrains Mono phải nạp cả 700 trong `inc/enqueue.php` — bỏ ra là th�
 5. DEPLOY — upload + kích hoạt                     ← ĐANG Ở ĐÂY, việc TAY
    → `deliverables/setup/DEPLOY.md` bước 1b → 6
 6. Cấu hình WordPress (title, permalink, category)
-7. Polylang — 6 quyết định, CHƯA dịch gì           ← CHẶN bước 9
+7. ~~Polylang — cài + bật EN/VI~~                  ✅ XONG 31/08 (Polylang Pro 3.8.6
+   + Polylang for WooCommerce 2.2.3, đều đang chạy). CHƯA dịch nội dung.
+   🔴 `/vi/` đang chuyển hướng sang `/vi/elementor-28` — phải sửa
 8. Shipping zone + phương thức thanh toán (freeship theo số lượng: code đã có sẵn)
 9. Tạo attributes → nhập 2 SẢN PHẨM TEST → kiểm
 10. Nhập phần còn lại
