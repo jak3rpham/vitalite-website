@@ -74,6 +74,10 @@ phải tường thành, nhưng nó lọc được đúng nhóm "bấm một nút
 `wp-config.php`, `.git`, `readme.html`, `xmlrpc.php`. Cái này là bảo mật cơ bản, không liên quan
 copy nội dung, nhưng đã sửa `.htaccess` thì làm luôn.
 
+🔴 **Kèm `debug.log` và `error_log`.** Nếu có lúc nào bật `WP_DEBUG_LOG`, WordPress ghi log vào
+`wp-content/debug.log` — và trên phần lớn hosting file đó **tải về được bằng URL**. Log lỗi PHP
+chứa đường dẫn tuyệt đối trên server, tên plugin, đôi khi cả câu truy vấn. Chặn sẵn còn hơn nhớ.
+
 ---
 
 ## 2. Cách làm
@@ -121,7 +125,7 @@ RewriteRule .* - [F,L]
 </IfModule>
 
 # ---------- 4. Khoá file nhạy cảm ----------
-<FilesMatch "^(wp-config\.php|readme\.html|license\.txt|xmlrpc\.php|\.htaccess|\.gitignore)$">
+<FilesMatch "^(wp-config\.php|readme\.html|license\.txt|xmlrpc\.php|\.htaccess|\.gitignore|debug\.log|error_log)$">
   Require all denied
 </FilesMatch>
 
