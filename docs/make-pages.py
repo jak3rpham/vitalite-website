@@ -66,12 +66,11 @@ CSS = """
    Kiem lai: getComputedStyle($('.vtp-lede')).marginTop === '20px' */
 :where(.vtp) :where(p,ul,ol,table,h1,h2,h3){margin:0;}
 
-/* ---- Đầu trang: eyebrow đánh số + tiêu đề lớn + đường kẻ đen ---- */
+/* ---- Đầu trang: tiêu đề lớn + đường kẻ đen ----
+   Eyebrow đánh số ĐÃ BỎ 30/08/2026 theo yêu cầu, cùng lượt với eyebrow của
+   các section trang chủ. Tham số `number` và `kicker` vẫn còn trong hàm page()
+   để 11 lời gọi bên dưới không phải sửa, nhưng chúng không được in ra nữa. */
 .vtp-head{padding-bottom:26px;border-bottom:1px solid var(--p-ink);}
-.vtp-eyebrow{
-  font-family:var(--p-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--p-muted);margin-bottom:16px;
-}
 .vtp-title{
   font-family:var(--p-disp);font-stretch:var(--p-wide);font-weight:800;text-transform:uppercase;
   font-size:clamp(30px,5vw,60px);line-height:1.02;letter-spacing:-.03em;
@@ -256,7 +255,18 @@ IG = '<a href="https://www.instagram.com/vitalitevn/" target="_blank" rel="noope
 PAGES = []
 
 
-def page(slug, number, kicker, title, lede, sections, stamp='Last updated 23 August 2026'):
+# Ngay mac dinh cho dong "Last updated". Trang nao doi noi dung o ngay khac
+# thi truyen `stamp=` rieng khi goi page().
+#
+# 🔴 DONG NAY LA CAM KET VOI KHACH, KHONG PHAI TRANG TRI. Khach quay lai
+# doc ngay cu se ket luan chinh sach chua doi. Ngay 30/08 sau trang dung mac
+# dinh nay van ghi 23/08 trong khi noi dung da doi that -- returns bo han muc
+# Refunds, terms bo muc gioi han trach nhiem, privacy viet lai muc luu tru.
+# Doi noi dung chinh sach thi PHAI doi ngay o day.
+STAMP = 'Last updated 30 August 2026'
+
+
+def page(slug, number, kicker, title, lede, sections, stamp=STAMP):
     PAGES.append(dict(slug=slug, number=number, kicker=kicker, title=title,
                       lede=lede, sections=sections, stamp=stamp))
 
@@ -359,7 +369,7 @@ problem is treated as accepting the order in the condition it arrived.</p>
 <p>If something is wrong, the unboxing video described in our
 <a href="/returns">returns policy</a> is what lets us make a claim with the carrier on your behalf.</p>
 """),
-     ], stamp='Last updated 30 August 2026')
+     ])
 
 # ---- 3. PAYMENT -------------------------------------------------------------
 # Cap nhat 30/08/2026. Chi noi nhung gi da xac nhan: COD noi dia, gia VND da gom thue.
@@ -382,7 +392,7 @@ when the parcel is handed to you, and there is nothing to pay until it arrives.<
 <p>Payment is taken when the order is placed, unless you are paying cash on delivery. An order is
 only confirmed once payment clears. Until then the items are not reserved.</p>
 """),
-     ], stamp='Last updated 30 August 2026')
+     ])
 
 # ---- 4. SIZE GUIDE ----------------------------------------------------------
 page('size-guide', '04', 'Guide', 'Size Guide',
@@ -529,7 +539,7 @@ of an item, attach the unboxing video.</p>
 <p>If we cannot reach an agreement, the matter is settled under Vietnamese law, and you retain
 your right to refer it to the competent consumer-protection authority.</p>
 """),
-     ], stamp='Last updated 29 August 2026')
+     ])
 
 # ---- 9. SELLER INFORMATION --------------------------------------------------
 # Cap nhat 29/08/2026, cau 1-4.
@@ -554,7 +564,7 @@ page('seller-information', '09', 'Legal', 'Seller Information',
 <p>Email %s &middot; %s</p>
 <p>Based in Saigon. All pieces are made in Vietnam.</p>
 """ % (MAIL, IG)),
-     ], stamp='Last updated 29 August 2026')
+     ])
 
 
 # ---- 10. CONTACT -----------------------------------------------------------
@@ -663,7 +673,7 @@ lets you filter by either.</p>
 <p>Sizing does not change between collections. S, M and L mean the same measurements across every
 drop, old and new. The <a href="/size-guide">size guide</a> covers all of them.</p>
 """),
-     ], stamp='Last updated 29 August 2026')
+     ])
 
 
 # ---- ABOUT ------------------------------------------------------------------
@@ -684,7 +694,6 @@ SHELL = """<!-- ============================================================
 <style>%(css)s</style>
 
 <header class="vtp-head">
-  <p class="vtp-eyebrow">%(number)s &middot; %(kicker)s</p>
   <h1 class="vtp-title">%(title)s</h1>
   <p class="vtp-lede">%(lede)s</p>
   <p class="vtp-stamp">%(stamp)s</p>

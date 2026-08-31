@@ -186,7 +186,7 @@ Ngoài ra: Nike · Saigon Swagger · StressMama
 | Shortcode | Còn giữ làm **lớp tương thích** (vỏ mỏng gọi template part, chống render 2 lần) |
 | Trang chủ | Dựng bằng **PHP** `front-page.php` ⚠️ lệch với ghi chú cũ — xem `HANDOFF.md` mục 7 |
 | **Layout** | **FULL-WIDTH.** Không khung 1440px. Tiêu đề section tới 84px. Lưới gap 2px. Nút bo tròn |
-| Eyebrow đánh số | 🔴 **ĐÃ BỎ 30/08.** User override quyết định cũ. Tham số `number`/`kicker` vẫn còn trong template, để trống thì không in gì |
+| Eyebrow đánh số | 🔴 **ĐÃ BỎ 30/08 ở CẢ trang chủ LẪN 11 trang tĩnh.** User override quyết định cũ. Tham số `number`/`kicker` vẫn còn trong template và trong `page()` của `make-pages.py`, nhưng không in ra nữa |
 | Cỡ chữ hero | Chặn theo **cả vw lẫn vh**: `min(--vt-t-hero, 12vh)`. Chỉ chặn theo vw là trên màn thấp chữ chui sau header |
 | Chiều cao khối lớn | Đo theo **vh**, không phải px cố định. Và ảnh trong ô lưới phải `position:absolute` — nếu không chiều cao thật của ảnh kéo cả section |
 | Hero | **3 slide** cross-fade + thanh tiến trình. Video CHỈ ở slide 1, không tải trên mobile |
