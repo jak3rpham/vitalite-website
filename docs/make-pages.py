@@ -20,8 +20,9 @@ MÀU VÀ FONT
     Theme đổi màu nhấn thì các trang này đổi theo, không phải sửa lại.
 """
 import io
-import re
 import os
+import re
+import sys
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    '..', 'deliverables', 'pages-html')
@@ -713,6 +714,49 @@ SHELL = """<!-- ============================================================
 """
 
 
+def strip_comments(html):
+    """Cat comment khoi HTML sinh ra. Comment trong file NAY thi giu nguyen.
+
+    VI SAO
+        Khoi nay duoc DAN VAO ELEMENTOR va di thang xuong trinh duyet khach.
+        Comment trong do la ghi chu noi bo -- "DUNG sua tay o day", "Ghi chu cho
+        chu site" -- va chung hien nguyen van trong view-source cua site that.
+        Do tren returns.html: 1 comment HTML + 17 comment CSS = 2,7 KB moi trang,
+        nhan 11 trang la ~30 KB day xuong khach de khong phuc vu ai.
+
+        Comment KHONG mat di: chung nam trong chinh file nay, dung cho nguoi sua
+        can doc. Chi ban sinh ra la sach.
+
+    VI SAO TACH RIENG CSS VA HTML
+        Ban dau dinh cat ca hai bang mot regex tren toan bo chuoi, va chot chan
+        kiem `//` bao dong ngay -- vi `https://` trong cac the <a> cung khop.
+        Nen phai cat DUNG PHAM VI: `/* */` chi trong <style>, `<!-- -->` chi o
+        phan con lai. Hep hon thi het kha nang cat nham.
+    """
+    i = html.find('<style>')
+    j = html.find('</style>')
+    if i == -1 or j == -1:
+        head, css, tail = html, '', ''
+    else:
+        head = html[:i + len('<style>')]
+        css = html[i + len('<style>'):j]
+        tail = html[j:]
+
+    # CHOT CHAN: cat `/* */` bang regex chi an toan khi CSS khong co url() va
+    # khong co `//`. Hai thu do ma xuat hien thi regex cat nham, lam hong CSS
+    # ma khong ai thay ngay. Tha dung build con hon build ra file hong am tham.
+    for bad in ('url(', '//'):
+        if bad in css:
+            sys.exit('DUNG: CSS gio co %r. Sua strip_comments() truoc khi build.' % bad)
+
+    css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
+
+    out = head + css + tail
+    out = re.sub(r'<!--.*?-->', '', out, flags=re.S)
+    out = re.sub(r'\n[ \t]*\n[ \t]*\n+', '\n\n', out)
+    return out.strip() + '\n'
+
+
 def build():
     if not os.path.isdir(OUT):
         os.makedirs(OUT)
@@ -726,10 +770,11 @@ def build():
             '    <section class="vtp-sec" id="%s-%s">\n      <h2>%s</h2>\n%s\n    </section>'
             % (p['slug'], sid, h, body.strip())
             for sid, h, body in p['sections'])
-        html = SHELL % dict(css=css, toc=toc, secs=secs, **p)
+        html = strip_comments(SHELL % dict(css=css, toc=toc, secs=secs, **p))
         path = os.path.join(OUT, p['slug'] + '.html')
         io.open(path, 'w', encoding='utf-8', newline='\n').write(html)
-        made.append((p['slug'], len(html), html.count('<div class="vtp-flag">')))
+        made.append((p['slug'], p['title'], len(html),
+                     html.count('<div class="vtp-flag">')))
     return made
 
 
@@ -804,10 +849,17 @@ def build_previews():
 
 if __name__ == '__main__':
     rows = build()
-    print('%-22s %8s  %s' % ('SLUG', 'BYTES', 'O CANH BAO'))
-    for slug, size, flags in rows:
-        print('%-22s %8d  %s' % (slug, size, flags if flags else '-'))
+    # Bang nay THAY CHO comment dau file da bi cat: no la cho duy nhat con lai
+    # noi ro trang nao dat slug gi. Slug phai dung tung ky tu -- footer va cac
+    # trang link cheo nhau bang chinh no, sai mot chu la link gay.
+    print('%-22s %-26s %8s  %s' % ('SLUG', 'TIEU DE TRANG', 'BYTES', 'O CANH BAO'))
+    for slug, title, size, flags in rows:
+        import html as _h
+        print('%-22s %-26s %8d  %s'
+              % (slug, _h.unescape(title), size, flags if flags else '-'))
     print('')
     print('%d trang -> %s' % (len(rows), os.path.normpath(OUT)))
+    print('Dan TOAN BO tung file vao mot widget HTML cua Elementor,')
+    print('page layout = Elementor Full Width.')
     for f in build_previews():
         print('preview  %s' % f)
