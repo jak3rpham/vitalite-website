@@ -2,7 +2,7 @@
 
 **Tạo:** 2026-08-22 · **Cập nhật:** 2026-08-23
 **Trạng thái:** ✅ **ĐÃ TÍCH HỢP VÀO TRANG ABOUT** (2026-08-23).
-Bản đang chạy nằm trong `deliverables/pages-html/about.html`, là **HERO của trang** (khối đầu tiên).
+Bản đang chạy nằm trong `deliverables/pages-html/about.src.html`, là **HERO của trang** (khối đầu tiên).
 `component.html` trong thư mục này giờ là **bản mẫu**, không phải bản đang dùng —
 sửa nó không ảnh hưởng gì tới trang About. Sửa thẳng trong `about.html`.
 
@@ -372,3 +372,19 @@ Mở `http://127.0.0.1:8790/_preview.html`. Frame demo là hình khối chuyển
 kiểm cơ chế scrub, mốc chữ, thanh tiến trình và các mức suy giảm.
 
 Thay bằng asset thật thì chỉ đổi `data-seq-base` và `data-seq-count`.
+
+---
+
+## 🔴 Sửa trang About thì sửa `about.src.html`
+
+Từ 31/08/2026 trang About tách làm hai file, cùng luật với 11 trang chính sách:
+
+| File | Vai trò |
+|---|---|
+| `about.src.html` | **NGUỒN.** Giữ nguyên comment. Sửa ở đây |
+| `about.html` | **SINH RA** bởi `docs/make-pages.py`, đã cắt sạch comment. Đây là bản dán vào Elementor |
+
+Sửa thẳng `about.html` là lần chạy `make-pages.py` sau ghi đè mất.
+
+Lý do tách: comment chiếm **24,3%** file (10,1 KB / 41,7 KB) và đi thẳng xuống
+trình duyệt khách, kèm ghi chú nội bộ. Comment sống trong nguồn, chết ở đầu ra.

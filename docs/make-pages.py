@@ -812,6 +812,30 @@ PREVIEW_ALL_EXTRA = """.pv-top{position:sticky;top:0;z-index:9;background:#0A0A0
 main{max-width:1240px;margin:0 auto;padding:0 20px 90px}"""
 
 
+def build_about():
+    """Sinh about.html tu about.src.html, cat sach comment.
+
+    VI SAO TACH LAM HAI FILE
+        Trang About viet tay, khong sinh tu script nhu 11 trang kia. Truoc day
+        no vua la nguon vua la ban dan, nen 10,1 KB comment -- 24,3% file -- di
+        thang xuong trinh duyet khach, kem ghi chu noi bo.
+
+        Gio no theo dung luat cua 11 trang kia: comment song trong NGUON
+        (about.src.html), chet o DAU RA (about.html).
+
+    🔴 SUA TRANG ABOUT THI SUA about.src.html.
+        Sua thang about.html la lan chay sau bi ghi de mat.
+    """
+    src = os.path.join(OUT, 'about.src.html')
+    if not os.path.isfile(src):
+        return None
+    raw = io.open(src, encoding='utf-8').read()
+    out = strip_comments(raw)
+    io.open(os.path.join(OUT, 'about.html'), 'w',
+            encoding='utf-8', newline='\n').write(out)
+    return (len(raw), len(out))
+
+
 def build_previews():
     """Sinh lai hai file xem truoc. CHI de xem, KHONG dan len WordPress.
 
@@ -861,5 +885,10 @@ if __name__ == '__main__':
     print('%d trang -> %s' % (len(rows), os.path.normpath(OUT)))
     print('Dan TOAN BO tung file vao mot widget HTML cua Elementor,')
     print('page layout = Elementor Full Width.')
+    ab = build_about()
+    if ab:
+        print('about    about.src.html %d -> about.html %d bytes (cat %d)'
+              % (ab[0], ab[1], ab[0] - ab[1]))
+
     for f in build_previews():
         print('preview  %s' % f)

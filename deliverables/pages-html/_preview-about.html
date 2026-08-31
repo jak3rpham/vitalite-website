@@ -8,55 +8,11 @@
 *{box-sizing:border-box}body{margin:0;background:#fff;font-family:"Archivo",system-ui,sans-serif;color:#0A0A0A}
 
 </style></head><body>
-<!-- ============================================================
-     VITALITÉ — ABOUT
-     Slug trang phải là: about
-
-     ⚠️ TRANG NÀY VIẾT TAY, KHÔNG do docs/make-pages.py sinh ra.
-     Chín trang chính sách dùng chung một khuôn; trang này là trang thương hiệu
-     nên có hệ riêng. Sửa thẳng ở file này.
-
-     ⚠️ TRƯỚC KHI DÁN — upload thư mục ảnh:
-        deliverables/scroll-sequence/frames/0823/  →  wp-content/uploads/seq/0823/
-        99 file: 96 frame .webp + 3 poster (poster-960 / 1440 / 1920).
-        Thiếu frame thì hero chỉ còn ảnh tĩnh, KHÔNG sập trang.
-        Thiếu poster thì hero trống — poster là thứ bắt buộc.
-
-     ⚠️ TRƯỚC KHI DÁN — đặt section Elementor chứa nó:
-        Layout → Content Width: Full Width
-        Layout → Padding: 0 tất cả các cạnh
-     Hero và các khối tối cần chạm hai mép. Còn padding là chúng lọt thỏm
-     trong một cái khung trắng và mất hết sức nặng.
-
-     THỨ TỰ TRANG
-        HERO   chuỗi frame, dính màn hình, 4 mốc chữ   ← đây là banner
-        Marquee câu của brand chạy ngang
-        01     The name
-        02     The comeback
-        03     Two eras, one label
-        04     What it is made of
-        05     The record            ← váng dầu iridescent đóng trang
-
-     🔴 LCP — ĐỌC TRƯỚC KHI SỬA HERO
-     Chuỗi 96 frame nặng 10,6 MB và nó nằm NGAY ĐẦU TRANG. Hai thứ giữ cho
-     LCP không sập, đừng gỡ cái nào:
-       1. LCP là <img class="vsq-poster"> — poster riêng 30/50/72 KB theo srcset,
-          eager + fetchpriority=high. KHÔNG phải 001.webp 2560px/189KB.
-       2. 96 frame chỉ bắt đầu tải SAU window.load. Trước đó chúng không được
-          phép tranh băng thông với poster.
-     Bỏ một trong hai là trang đầu tải 10,6 MB trước khi khách thấy gì.
-
-     MOTION
-       · hero: frame WebP vẽ vào <canvas> theo vị trí cuộn, không phải <video>
-       · váng dầu iridescent đóng trang: 4 radial-gradient + 1 conic, chạy trên GPU, 0 KB
-       · chữ hiện dần khi cuộn tới: IntersectionObserver
-       · marquee: transform thuần CSS, không JS
-       · đếm số: chỉ chạy đúng một lần khi vào màn hình
-       · mọi thứ tự tắt khi người dùng bật "giảm chuyển động"
-     ============================================================ -->
 <div class="vta">
 <style>
 .vta{
+  
+  margin-bottom:calc(-1 * clamp(56px, 8vw, 120px));
   --a-ink:var(--vt-ink,#0A0A0A);
   --a-paper:var(--vt-paper,#FFFFFF);
   --a-line:var(--vt-line,#E4E4E6);
@@ -72,51 +28,30 @@
   --a-disp:var(--vt-font-display,'Archivo','Helvetica Neue',Arial,sans-serif);
   --a-gut:clamp(20px,5vw,72px);
   color:var(--a-ink);font-size:16px;line-height:1.7;
-  /* 🔴 FRAGMENT PHẢI TỰ SƠN NỀN, ĐỪNG GỠ.
-     Khối này là một mảnh dán vào trang khác, nên nếu không tự đặt nền thì nó
-     ăn nền của trang chủ nhà. Mở thẳng file .html trong trình duyệt đang bật
-     dark mode là ra nền đen + chữ đen, không đọc được gì. Trên WordPress cũng
-     vỡ y hệt nếu section Elementor chứa nó được đặt nền tối.
-     `color-scheme:light` để ô input, select, scrollbar không bị trình duyệt
-     tự đảo màu ở dark mode. */
+  
   background:var(--vt-paper,#FFFFFF);
   color-scheme:light;
 
 }
 .vta *,.vta *::before,.vta *::after{box-sizing:border-box;}
 
-/* 🔴 `:where()` KHÔNG PHẢI TRANG TRÍ, ĐỪNG ĐỔI VỀ SELECTOR THƯỜNG.
-   Bản cũ viết `.vta p,.vta h1,...{margin:0}` — độ đặc hiệu (0,1,1), CAO HƠN
-   mọi class như `.vta-lead{margin-top:26px}` (0,1,0). Kết quả: **toàn bộ
-   khoảng cách giữa các đoạn trong trang bị nuốt**, computed margin = 0px.
-   Triệu chứng nhìn thấy: dấu sắc của VITALITÉ dính vào gạch ngang của eyebrow,
-   vì cái gap 38px đáng ra phải có đã biến mất.
-   `:where()` đóng góp độ đặc hiệu BẰNG 0, nên reset thành (0,0,0) và mọi class
-   thắng nó. Kiểm lại bằng: getComputedStyle($('.vta-lead')).marginTop === '26px' */
 :where(.vta) :where(p,h1,h2,h3,ul,dl,dd){margin:0;}
 .vta section{padding-inline:var(--a-gut);}
 
-/* ---------- Lưới hai cột cho các section chữ ----------
-   Trước đây mọi thứ dồn hết về trái, nửa phải màn hình bỏ trống.
-   Eyebrow chạy hết chiều ngang để giữ gạch ngang full-width (đúng ngôn ngữ
-   layout đã chốt), phần thân chia hai cột. */
 .vta-two{
   display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
   gap:clamp(26px,4.5vw,88px);align-items:start;
 }
 .vta-two > * {min-width:0;}
-/* Phần tử đầu mỗi cột phải thẳng hàng với cột kia — margin-top của
-   .vta-lead / .vta-note ở đây là thừa, nó đẩy cột phải tụt xuống. */
+
 .vta-two > div > :first-child{margin-top:0;}
 @media (max-width:900px){ .vta-two{grid-template-columns:1fr;gap:26px;} }
 
-/* Hai bảng spec: xếp dọc cho tới khi cột phải đủ rộng cho hai bảng */
 .vta-specs{display:grid;grid-template-columns:1fr;gap:clamp(22px,3vw,44px);}
 @media (min-width:1200px){ .vta-specs{grid-template-columns:1fr 1fr;} }
 .vta-specs .vta-spec dt{flex:0 0 clamp(76px,7vw,104px);}
 .vta-specs h3{margin-top:0 !important;}
 
-/* ---------- Váng dầu iridescent — giờ dùng để ĐÓNG trang ---------- */
 .vta-oil{
   position:absolute;inset:-30%;z-index:0;pointer-events:none;will-change:transform;
   background:
@@ -127,7 +62,7 @@
   filter:blur(30px) saturate(1.45);opacity:.5;
   animation:vta-slide 13s linear infinite,vta-grow 19s ease-in-out infinite alternate,vta-turn 23s ease-in-out infinite alternate;
 }
-/* Lớp quang phổ — đây mới là thứ cho ra vân váng dầu, không phải khối màu loang */
+
 .vta-oil::after{
   content:"";position:absolute;inset:-12%;
   background:repeating-conic-gradient(from 210deg at 50% 50%,
@@ -141,7 +76,6 @@
 @keyframes vta-turn{from{rotate:-6deg;}to{rotate:8deg;}}
 @keyframes vta-spin{to{rotate:360deg;}}
 
-/* ---------- Marquee: chính brand tự viết những câu này ---------- */
 .vta-marq{
   background:var(--a-ink);color:var(--a-onDark);
   padding-block:clamp(14px,2vw,22px);overflow:hidden;
@@ -158,7 +92,6 @@
 .vta-marq-track span:nth-child(odd){opacity:.9;}
 @keyframes vta-marq{to{transform:translateX(-50%);}}
 
-/* ---------- Khối chữ thường ---------- */
 .vta-body{padding-block:clamp(56px,9vw,130px);}
 .vta-eyebrow{
   font-family:var(--a-mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
@@ -176,7 +109,6 @@
 }
 .vta-quote p{font-family:var(--a-disp);font-stretch:125%;font-weight:800;text-transform:uppercase;font-size:clamp(19px,2.6vw,36px);line-height:1.1;letter-spacing:-.025em;max-width:20ch;}
 
-/* ---------- Hai thời kỳ ---------- */
 .vta-eras{padding-block:clamp(40px,6vw,90px);background:var(--a-tint);}
 .vta-eras-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--a-line);border:1px solid var(--a-line);}
 .vta-era{background:var(--a-paper);padding:clamp(24px,3.2vw,46px);}
@@ -187,19 +119,16 @@
 .vta-era ul{list-style:none;padding:0;margin-top:20px;}
 .vta-era li{font-family:var(--a-mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;padding:9px 0;border-top:1px solid currentColor;opacity:.5;}
 
-/* ---------- Spec ---------- */
 .vta-spec{margin-top:26px;border-top:1px solid var(--a-ink);}
 .vta-spec > div{display:flex;gap:clamp(14px,2vw,28px);padding:14px 0;border-bottom:1px solid var(--a-line);}
 .vta-spec dt{flex:0 0 clamp(88px,10vw,130px);font-family:var(--a-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--a-muted);padding-top:3px;}
 .vta-spec dd{font-weight:600;}
 
-/* ---------- Dải số ---------- */
 .vta-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(242,242,244,.2);margin-top:clamp(28px,4vw,48px);}
 .vta-stats > div{background:var(--a-ink);padding:clamp(18px,2.4vw,30px) clamp(12px,1.6vw,20px);}
 .vta-stats b{display:block;font-family:var(--a-disp);font-stretch:125%;font-weight:800;font-size:clamp(26px,4.2vw,58px);line-height:1;letter-spacing:-.035em;}
 .vta-stats span{display:block;margin-top:12px;font-family:var(--a-mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--a-onDarkMuted);}
 
-/* ---------- Đóng trang ---------- */
 .vta-close{
   position:relative;overflow:hidden;isolation:isolate;
   background:var(--a-ink);color:var(--a-onDark);padding-block:clamp(56px,9vw,120px);
@@ -217,19 +146,11 @@
 .vta-btn--ghost:hover{background:var(--a-onDark);color:var(--a-ink);}
 .vta-close a:not(.vta-btn),.vta-body a:not(.vta-btn){color:inherit;text-decoration:underline;text-underline-offset:3px;}
 
-/* ---------- Dòng dẫn nguồn dưới dải số ----------
-   🔴 ĐỪNG GỠ. Không có nó thì "Average rating 4.9" đọc như điểm của CHÍNH SITE NÀY,
-   mà site chưa có một đánh giá nào. Con số là thật nhưng nó nằm trên Shopee. */
 .vta-source{
   margin-top:16px;font-family:var(--a-mono);font-size:10px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--a-onDarkMuted);
 }
 
-/* ---------- Hiện dần khi cuộn tới ----------
-   🔴 Trạng thái ẩn CHỈ áp dụng khi có `.js-on` — class đó do JS gắn ở dòng đầu
-   tiên của script. Nghĩa là: JS chết, JS bị chặn, hoặc trình duyệt tắt JS →
-   `.js-on` không bao giờ xuất hiện → chữ hiện bình thường.
-   Nếu để `.vta-rev{opacity:0}` vô điều kiện thì chỉ cần một lỗi JS là cả trang trắng. */
 .vta.js-on .vta-rev{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);}
 .vta.js-on .vta-rev.is-in{opacity:1;transform:none;}
 .vta.js-on .vta-rev:nth-child(2){transition-delay:.07s;}
@@ -239,7 +160,7 @@
   .vta-eras-grid{grid-template-columns:1fr;}
   .vta-stats{grid-template-columns:1fr 1fr;}
 }
-/* Người bật "giảm chuyển động": giữ nguyên màu, bỏ hết animation */
+
 @media (prefers-reduced-motion:reduce){
   .vta-oil,.vta-oil::after,.vta-marq-track{animation:none;}
   .vta-h1 span i{transform:none;animation:none;}
@@ -247,21 +168,15 @@
 }
 </style>
 
-<!-- ============================================================
-     HERO — CHUỖI FRAME LÀM BANNER
-     96 frame WebP 2560px · 10,6 MB · CHỈ tải trên desktop (≤820px bị chặn ở JS)
-     và CHỈ sau window.load. Xem khối 🔴 LCP ở đầu file.
-
-     🔴 LUẬT KHÔNG ĐƯỢC PHÁ (đã sập một lần — scroll-sequence/README.md §5)
-        Trạng thái ẩn của chữ CHỈ áp dụng khi có class .is-ready, do chính JS gắn.
-        Đừng bao giờ viết opacity:0 vô điều kiện cho nội dung chờ JS hiện ra.
-     ============================================================ -->
 <div class="vsq"
      data-seq-base="../scroll-sequence/frames/0823/"
      data-seq-count="96"
      data-seq-pad="3"
      data-seq-ext="webp">
 <style>
+/* Mốc cho header trong suốt. Nằm ở ĐÁY hero, cao 1px: header đục lại đúng
+   lúc đáy hero chạm gáy header. Giống .vt-hero-sentinel trong style.css. */
+.vsq-sentinel{position:absolute;bottom:0;left:0;width:100%;height:1px;pointer-events:none;}
 .vsq{
   --q-ink:var(--vt-ink,#0A0A0A);
   --q-onDark:var(--vt-on-dark,#F2F2F4);
@@ -301,15 +216,6 @@
 }
 
 /* HUD trên */
-.vsq-hud{
-  position:absolute;top:clamp(20px,3vh,36px);left:var(--q-gut);right:var(--q-gut);
-  display:flex;justify-content:space-between;align-items:center;gap:16px;z-index:4;
-  font-family:var(--q-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--q-onDarkMuted);pointer-events:none;
-}
-.vsq-hud-brand{color:var(--q-onDark);font-weight:600;display:flex;align-items:center;gap:9px;}
-.vsq-hud-brand::before{content:"";display:inline-block;width:6px;height:6px;background:var(--q-accent);border-radius:50%;}
-
 /* Lưới bất đối xứng */
 .vsq-viewport{
   position:relative;z-index:2;width:100%;height:100%;
@@ -410,12 +316,12 @@
 }
 </style>
 
-<div class="vsq-track">
+<div class="vsq-track" data-tone="dark">
+  <div class="vsq-sentinel" data-vt-header-sentinel aria-hidden="true"></div>
   <div class="vsq-stage">
 
     <div class="vsq-media">
-      <!-- 🔴 ĐÂY LÀ LCP CỦA TOÀN TRANG. eager + fetchpriority=high, KHÔNG lazy.
-           Ba cỡ riêng 30 / 50 / 72 KB. Đừng thay bằng 001.webp (2560px, 189KB). -->
+      
       <img class="vsq-poster"
            src="../scroll-sequence/frames/0823/poster-1440.webp"
            srcset="../scroll-sequence/frames/0823/poster-960.webp 960w,
@@ -429,11 +335,6 @@
     </div>
 
     <div class="vsq-scrim" aria-hidden="true"></div>
-
-    <div class="vsq-hud" aria-hidden="true">
-      <span class="vsq-hud-brand">Vitalité &#174; &middot; Saigon &middot; Est. 2022</span>
-      <span>Worldwide shipping</span>
-    </div>
 
     <div class="vsq-viewport">
 
@@ -473,9 +374,8 @@
       <div class="vsq-col-right">
         <div class="vsq-card" data-from="0.00" data-to="0.26">
           <div class="vsq-card-tag"><span>The label</span><span>[Record]</span></div>
-          <div class="vsq-spec-item"><span>Selling since</span><b>2022</b></div>
           <div class="vsq-spec-item"><span>Based in</span><b>Saigon, Vietnam</b></div>
-          <div class="vsq-spec-item"><span>Shipping</span><b>Worldwide</b></div>
+          <div class="vsq-spec-item"><span>Ships to</span><b>Vietnam &middot; United States</b></div>
           <div class="vsq-spec-item"><span>Also on</span><b>Shopee &middot; IG &middot; TikTok</b></div>
         </div>
 
@@ -655,7 +555,6 @@
 </script>
 </div>
 
-<!-- ============ MARQUEE — câu của chính brand ============ -->
 <div class="vta-marq" aria-hidden="true">
   <div class="vta-marq-track">
     <span>Finding harmony within chaos</span><span>&#9679;</span>
@@ -669,7 +568,6 @@
   </div>
 </div>
 
-<!-- ============ CÁI TÊN ============ -->
 <section class="vta-body">
   <p class="vta-eyebrow vta-rev">01 &middot; The name</p>
   <div class="vta-two">
@@ -688,7 +586,6 @@
   </div>
 </section>
 
-<!-- ============ COMEBACK ============ -->
 <section class="vta-body" style="background:var(--a-tint)">
   <p class="vta-eyebrow vta-rev">02 &middot; The comeback</p>
   <div class="vta-two">
@@ -711,7 +608,6 @@
   </div>
 </section>
 
-<!-- ============ HAI THỜI KỲ ============ -->
 <section class="vta-eras">
   <p class="vta-eyebrow vta-rev">03 &middot; Two eras, one label</p>
   <div class="vta-eras-grid vta-rev">
@@ -744,7 +640,6 @@
   </div>
 </section>
 
-<!-- ============ CHẤT LIỆU ============ -->
 <section class="vta-body">
   <p class="vta-eyebrow vta-rev">04 &middot; What it is made of</p>
   <div class="vta-two">
@@ -781,7 +676,6 @@
   </div>
 </section>
 
-<!-- ============ ĐÓNG TRANG ============ -->
 <section class="vta-close">
   <div class="vta-oil" aria-hidden="true"></div>
   <p class="vta-eyebrow vta-rev" style="color:var(--a-onDarkMuted);border-bottom-color:rgba(242,242,244,.3)">05 &middot; The record</p>
@@ -790,9 +684,9 @@
       <h2 class="vta-h2 vta-rev">Four years before this site existed.</h2>
     </div>
     <div>
-      <p class="vta-lead vta-rev" style="color:var(--a-onDarkMuted);max-width:none">This site ships
-      worldwide. Inside Vietnam you can also buy through Shopee, where the label has traded since
-      2022. We are <strong style="color:var(--a-onDark)">@vitalitevn</strong> on Instagram,
+      <p class="vta-lead vta-rev" style="color:var(--a-onDarkMuted);max-width:none">This site ships inside
+      Vietnam and to the United States. Inside Vietnam you can also buy through Shopee, where the
+      label has traded for four years. We are <strong style="color:var(--a-onDark)">@vitalitevn</strong> on Instagram,
       Facebook, TikTok and Shopee. Anything else is not us.</p>
       <div class="vta-cta vta-rev">
         <a class="vta-btn" href="/shop">Shop all</a>
