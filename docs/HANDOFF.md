@@ -1,5 +1,6 @@
 # HANDOFF — VITALITÉ WEBSITE
-**Cập nhật:** 2026-08-22 · **Dành cho:** phiên Claude Code mới
+
+**Cập nhật:** 2026-08-31 · **Dành cho:** phiên Claude Code mới
 **Đọc file này ngay sau `CLAUDE.md`, trước khi làm bất cứ việc gì.**
 
 > ⚠️ **Terminal máy này là Windows PowerShell 5.1 — `&&` KHÔNG tồn tại.**
@@ -9,345 +10,283 @@
 
 ## 0. Đứng ở đâu — một đoạn
 
-Theme **đã deploy và đang chạy thật** trên `vitalite.io.vn`, thư mục
-`wp-content/themes/vitalite-theme-2/`. Git sạch, đã push, lịch sử đã gỡ 93MB video.
+**Site đang chạy thật và đã có đủ khung.** `vitalite.io.vn`, theme **`Vitalité 2.0` v2.5.0**
+ở `wp-content/themes/vitalite-2-0/`. Trang chủ đủ 6 section, 12 trang tĩnh đã publish,
+footer tự đầy link, Polylang bật EN/VI, panel quản trị nội dung chạy.
 
-> 🔴 **23/08/2026: repo git chuyển lên GỐC PROJECT.**
-> Trước đây `.git` nằm ở `repo/vitalite-website/` và chỉ track theme.
-> Bây giờ nó ở `E:\Vitalite website\` và track **tất cả**: `docs/`, `deliverables/`,
-> `reference/`, `CLAUDE.md`, `Logo/`, `mockup-all/`, `model/`, và theme ở vị trí cũ.
-> Lịch sử giữ nguyên (62 rename), `git log --follow` vẫn chạy.
-> Chạy `git` từ gốc project, **đừng `cd repo/vitalite-website`** nữa.
+**Thứ còn thiếu là SẢN PHẨM.** Chưa có một SKU nào trong WooCommerce. Mọi việc kỹ thuật còn
+lại đều xoay quanh việc mở đường cho lần nhập hàng đầu tiên.
 
-Phần code coi như xong. **Thứ còn lại là NỘI DUNG và DỮ LIỆU, không phải code** —
-và phần lớn đang chờ những con số chỉ user mới có.
+> 🔴 **Git ở GỐC PROJECT** (`E:\Vitalite website\`), không phải `repo/vitalite-website/`.
+> Chạy `git` từ gốc.
 
 ---
 
-## 1. Việc kế tiếp
+## 1. 🔴 VIỆC KẾ TIẾP — làm theo thứ tự này
 
-📍 **User đọc `docs/VIEC-CUA-BAN.md`** — đó là bản tổng hợp việc, viết cho user chứ không
-phải cho Claude. Đừng bắt user đọc lại toàn bộ tài liệu.
+Bốn việc đầu là việc trong wp-admin, **user làm, Claude không làm được** (không có SSH,
+không có quyền admin). Claude soạn hướng dẫn và kiểm lại kết quả trên site thật.
 
-### 🎨 Brand guideline
+### Bước A — Dọn plugin *(10 phút, an toàn)*
 
-`deliverables/brand/` (27/08). Ba file: `tokens.css` giữ **giá trị** (45 token),
-`BRAND-GUIDELINE.md` giữ **lý do**, `guideline.html` là **bảng xem** sinh tự động từ tokens.
+Đọc từ ảnh chụp user gửi 31/08. Hiện **10 plugin, 8 active**.
 
-Ba script sinh trang đều đọc `tokens.css`. Kiểm lệch trước khi commit:
-`python docs/check-tokens.py`
-
-🔴 Ba lỗi tìm ra khi dựng bộ này, đã sửa: `--vt-dim` trượt chuẩn tiếp cận (2,79:1),
-`--vt-ok` hụt AA đúng 0,01, và **weight 700 dùng 48 chỗ nhưng chưa bao giờ được tải**.
-
-### 📋 Bộ câu hỏi cho brand
-
-`deliverables/CAU-HOI-CHO-BRAND.md` + bản Word `CAU-HOI-CHO-BRAND.docx` (24/08).
-**50 câu**, gom từ 22 ô cam trên 10 trang, các mục `[NEED]` trong `deliverables/content/`,
-mục 10 của `BRAND_FACTS_OBSERVED.md` và mục 7 của `CLAUDE.md`.
-
-Bản `.md` là **gốc**, bản `.docx` **sinh ra** bằng `node docs/make-brand-docx.js`.
-Đừng sửa tay file Word, lần chạy sau ghi đè.
-
-Chia 5 nhóm theo cái nó chặn: **A** chặn launch (21) · **B** chặn một trang (12) ·
-**C** quyết định kinh doanh (8) · **D** dữ liệu brand (5) · **E** cần chuyên môn pháp lý (4).
-Trả lời được nhóm **A1 + A2** là mở khoá được nhiều nhất.
-
-### Đang chờ user làm
-
-```
-1. Upload 2 file theme mới nhất  →  style.css · template-parts/site-footer.php
-2. Đổi template trang chủ về "Mẫu mặc định" (Sửa nhanh, KHÔNG mở Elementor)
-3. Cấu hình WP: tiêu đề site vẫn là "Vitalite – My WordPress Blog"
-4. Tạo trang + dán HTML từ deliverables/pages-html/
-5. Trả lời 11 câu ở VIEC-CUA-BAN.md mục 3
-```
-
-### ✅ Đã hoàn thành bởi Antigravity (Sẵn sàng cho Claude)
-
-Chuỗi **Scroll-Sequence 4K/2K** đã hoàn thiện 100% về cả asset và component:
-- **Chuỗi frame thực tế:** `deliverables/scroll-sequence/frames/0823/` (96 frame · 2560px QHD Ultra-Sharp · WebP nén tối ưu).
-- **Component HTML/CSS/JS hoàn chỉnh:** `deliverables/scroll-sequence/component.html` (Bố cục chữ Asymmetric Editorial bất đối xứng 2 bên, HUD Header `vitalité ® // ARCHIVE`, live frame counter `001/096`, thanh tiến trình).
-- **File test preview:** `deliverables/scroll-sequence/_preview.html`.
-- **Bộ tư liệu & prompt gốc:** `deliverables/video-scenes/scroll-orbit-item-focus/`.
-
-✅ **ĐÃ TÍCH HỢP (2026-08-23).** Chuỗi frame **là HERO của trang About**, khối đầu tiên,
-thay hẳn banner váng dầu cũ. Thứ tự trang giờ là:
-
-```
-HERO   chuỗi frame dính màn hình, 4 mốc chữ
-       Marquee
-01     The name
-02     The comeback
-03     Two eras, one label
-04     What it is made of
-05     The record          ← váng dầu iridescent chuyển xuống đây đóng trang
-```
-
-Bốn mốc chữ trong hero: **H1 của trang** (*Even in chaos, you are alive.*) rồi
-*Heavy in weight* · *Unmatched in fit* · *Holds its shape all day*. Ba câu sau nguyên văn IG 25/07/2026.
-
-### 🔴 LCP — hai thứ giữ cho trang không sập, đừng gỡ cái nào
-
-Chuỗi 10,6 MB giờ nằm **ngay đầu trang**, đúng cái mà `scroll-sequence/README.md` §6 cấm.
-Nó chạy được vì hai hàng rào:
-
-| | |
+| Plugin | Làm gì |
 |---|---|
-| **LCP là poster riêng, không phải frame** | `poster-960/1440/1920.webp` — **30 / 50 / 72 KB**, srcset, `eager` + `fetchpriority=high`. KHÔNG dùng `001.webp` (2560px, 189 KB) |
-| **96 frame chỉ tải SAU `window.load`** | IntersectionObserver không còn là cái van (khối ở đầu trang thì nó báo "thấy rồi" ngay khung hình đầu). Van bây giờ là `load` |
+| **Akismet Anti-spam** — inactive | **Xoá.** Chống spam bình luận, mà site không có blog và tab review PDP đã bị `unset` trong `inc/woocommerce.php`. Nó còn cần API key mới chạy |
+| **Premmerce Multi-Currency** — inactive | **Xoá.** Xem ghi chú bên dưới |
+| **Elementor Pro 4.2.1** | **Cập nhật lên 4.2.2.** Auto-update không dùng được (bản Pro cần license) → cập nhật tay. **Backup UpdraftPlus trước** |
 
-Đo trên preview: poster xong ở **147 ms**, `loadEventEnd` **234 ms**, request frame đầu tiên
-**589 ms**. Gỡ hàng rào `load` là trang đầu tải 10,6 MB trước khi khách thấy gì.
+> ⚠️ **Về Premmerce Multi-Currency.** Nó được cài cho câu 36 (khách quốc tế thấy giá tiền của
+> họ). Nhưng brand trả lời *"có nhưng bên đó sẽ có giá khác"* — **giá khác không phải là bài
+> toán đổi tiền tệ**, nó là bảng giá thứ hai. Plugin này giải sai bài. Xoá, cài lại 2 phút
+> nếu cần.
 
-Trên mobile (≤820px) **không một frame nào được tải** — đã đo, 0 request. Chỉ poster 30 KB.
+### Bước B — 🔴 Tắt `WP_DEBUG_DISPLAY` *(5 phút, đây là lỗi bảo mật)*
 
-### Đã sửa so với bản `component.html` gốc, đừng dựng lại
+Site Health báo **1 critical**: site đang in lỗi PHP ra cho khách. Đây là lý do user thấy
+`Warning: wp_version_check()...` trên Dashboard — và dòng đó đã lộ đường dẫn tuyệt đối
+`/home/vitalite/public_html/...`.
 
-| Bản gốc | Đã sửa thành | Vì sao |
-|---|---|---|
-| `500+ GSM ... COTTON FLEECE` | `500+ GSM COTTON BLEND` | Brand ghi **Cotton Blend**, không phải fleece |
-| `HARDWARE: ACETATE EYEWEAR`, `COORDINATES 10.7769° N` | bỏ hẳn | Vitalité **không bán kính**. Liệt kê vào bảng spec là dựng ra sản phẩm |
-| `Engineered and crafted in Saigon` | bỏ, chỉ còn `Made in: Vietnam` | Claim về xưởng — `CLAUDE.md` §2 cấm |
-| `#CA2058` magenta | trắng | Magenta là màu **thời kỳ cũ**; hàng trong ảnh là thời kỳ **mới** |
-| `// ARCHIVE` | `Vitalité ® · Saigon · Est. 2022` | Đây không phải hàng archive |
-| `Unmatched in cut` | `Unmatched in fit` | Brand viết *fit*. Đó là câu trích nguyên văn, không được sửa |
+Sửa trong `public_html/wp-config.php` (cPanel File Manager), **copy file ra máy trước khi sửa**:
 
-### 🔴 Hai lỗi bố cục tĩnh trong bản gốc — đã sửa, đừng để tái phát
+```php
+define('WP_DEBUG', false);
+```
 
-Mức suy giảm mà `component.html` mô tả **chưa bao giờ chạy đúng**. Đây là bố cục **mặc định của
-mọi khách mobile**, nên hỏng ở đây là hỏng với đa số:
+Đã quét 6 trang frontend: **hiện chưa rò ra trang khách**. Nhưng thiết lập vẫn đang mở, nên
+lỗi PHP tiếp theo — từ plugin thanh toán, từ checkout — sẽ hiện cho khách.
 
-1. `.vsq-stage` giữ `overflow:hidden` + `.vsq-viewport` giữ `height:100%` → chữ xếp dọc bị
-   **cắt cụt**, đo được 722px trong khi nội dung cao 1703px. Mất 3/4 nội dung.
-2. Bốn mốc chữ đều đặt `grid-area:1/1` để chồng lên nhau lúc chạy thật. Cột cha vẫn
-   `display:grid` ở bố cục tĩnh → chúng **vẫn chồng**, khách chỉ đọc được mốc cuối. Đo được
-   8 khối dùng chung 2 hộp.
+⚠️ **Đừng dùng `'sslverify' => false`** để dập cảnh báo wordpress.org. Đó là tắt kiểm tra
+chứng chỉ, đổi một cảnh báo lấy một lỗ hổng.
 
-Cả hai đã vá trong khối `.vsq:not(.is-ready)` của `about.html`, có ghi chú 🔴 tại chỗ.
+### Bước C — Sửa URL tiếng Việt *(15 phút)*
 
-### 🟡 Còn một việc chưa xử
+🔴 **`/vi/` đang chuyển hướng sang `/vi/elementor-28`.** Đo được 31/08. `elementor-28` là
+slug tự sinh của một trang Elementor rỗng — nó đang đóng vai trang chủ tiếng Việt.
 
-Cái áo trong 96 frame là **ảnh CGI**, không phải ảnh chụp hàng thật.
+Cần kiểm trong `Pages`, cột ngôn ngữ của Polylang: trang đó có thật sự được nối làm bản dịch
+của trang chủ EN (page ID 28) không, và đổi slug cho tử tế.
 
-**Đính chính 24/08:** bản ghi trước nói dòng in lưng *"IT'S THE ONLY MOMENT THAT MATTERS"*
-không có nguồn brand. **Sai.** `reference/BRAND_ASSETS_AUDIT.md` dòng 107 ghi đó là hình in lưng
-của `THE MOMENTS BOXY HOODIE`, đọc từ mockup 13-16 của chính brand, SKU đang bán trên Shopee.
-Màu xám, wordmark ngực, hoodie hai lớp đều khớp.
+Kiểm lại bằng: mở `vitalite.io.vn/vi/` — URL phải **đứng yên ở `/vi/`**, không nhảy đi đâu.
 
-Còn lại vẫn đúng: đây là ảnh dựng, phom dáng và chất vải chưa ai đối chiếu với hàng thật.
-Nhãn `CGI visualisation` đã gỡ theo yêu cầu user 24/08.
+> ℹ️ `/vi/returns` hiện chuyển về `/returns` (bản EN). Đó là **đúng** ở giai đoạn này —
+> chưa dịch trang nào. Dịch là bước cuối cùng trước launch.
 
-⚠️ **Trước khi publish:** upload `deliverables/scroll-sequence/frames/0823/` lên
-`wp-content/uploads/seq/0823/` — **99 file**: 96 frame (10,6 MB) + 3 poster.
-Thiếu frame thì hero chỉ còn ảnh tĩnh, không sập trang. **Thiếu poster thì hero trống.**
+### Bước D — 🔴 Shipping zone + phương thức thanh toán
 
+**Đây là việc chặn nhập sản phẩm.** Không có zone thì checkout không tính được phí.
+
+| Zone | Cấu hình |
+|---|---|
+| **Việt Nam** | Flat rate **30.000₫** + một phương thức **Free shipping** |
+| **Hoa Kỳ** | Chưa có số. Xem `docs/CHO-DIEN-SAU.md` mục A8 |
+
+🔴 **Phải tạo phương thức "Free shipping" trong zone Việt Nam** thì luật freeship-từ-3-áo
+mới chạy. Code đã có sẵn: `inc/woocommerce.php` mục 7, hằng `VT_FREE_SHIP_MIN_QTY = 3`,
+`VT_FREE_SHIP_COUNTRY = 'VN'`.
+
+⚠️ Ô **"Minimum order amount"** của Woo ở màn hình đó **vô tác dụng** — chính sách tính theo
+*số lượng*, không theo tiền. Theme có admin notice nhắc ngay tại chỗ.
+
+Thanh toán: network log cho thấy **BACS (chuyển khoản) và COD đã bật**. Nhưng brand xác nhận
+*chưa có tài khoản kinh doanh*, nên chưa cổng nào cho khách Mỹ. Trang `payment` đang nói
+*"phương thức hiện ở checkout"* — nếu tới launch mà khách Mỹ không có gì bấm thì câu đó
+thành lời hứa suông.
+
+### Bước E — Nhập **2 sản phẩm test** rồi mới nhập cả bộ
+
+Không được bỏ bước này. Sửa cấu trúc lúc có 2 sản phẩm là 10 phút; lúc có 40 SKU × 6
+variation là làm lại từ đầu. Quy ước nhập: **mục 8** bên dưới.
+
+Sau khi có 2 SKU test, kiểm luôn hai thứ đang treo:
+- **Premmerce Product Filter có tương thích Polylang không**
+- **Kho bên Mỹ là kho thứ hai** — hàng xách tay theo lô, người bên Mỹ giữ hàng và phân phối
+  nội địa Mỹ. Woo đang một kho, chưa có cơ chế nào mô tả việc này
+
+### Bước F — Việc còn lại, không chặn ai
+
+- **Menu footer**: `faq` (How to Order) và `collection` hiện **không có link nào trỏ tới**.
+  Sửa bằng `Appearance → Menus`, tạo menu gán vào vị trí `Footer — Support`.
+  ⚠️ Gán menu là **thay toàn bộ** cột đó, phải tick đủ cả 4 mục đang có.
+- **`.htaccess` bảo vệ nội dung** → `deliverables/setup/BAO-VE-NOI-DUNG.md`.
+  Làm **sau** khi site chạy ổn, không làm chung lượt với việc khác — `.htaccess` hỏng là
+  lỗi 500 trắng trơn và không biết lỗi từ đâu.
+- **Redis object cache**: host có hỗ trợ. **Để sau bước E** — nó tăng tốc truy vấn database
+  mà hiện chưa có sản phẩm nào để truy vấn. Bật bây giờ là bật mù.
+- **Elementor JS thừa**: `frontend.min.js` nạp trên mọi trang và báo
+  `elementorFrontendConfig is not defined` rồi chết. Vài trăm KB vô ích. Nhưng 12 trang tĩnh
+  **là** trang Elementor thật nên không tắt cả loạt được — phải lọc theo trang, và phải sửa theme.
+- **Link bio Instagram** vẫn trỏ `shopee.vn/vitalitevn`. Brand chốt *chỉ thêm, không đổi*.
+  Ngày launch phải thêm link site, nếu không 7.001 follower không bao giờ tới.
+
+### Bước G — Ngày launch
+
+1. Dịch VI toàn bộ
+2. `Settings → Reading` → **bỏ tick "Discourage search engines"**
+   *(hiện đang tick, và đó là ĐÚNG cho tới ngày launch — theme có cảnh báo thường trực trong admin)*
 
 ---
 
-## 2. Cấu trúc theme hiện tại
+## 2. Cấu trúc theme
 
-`repo/vitalite-website/vitalite-theme/vitalite-theme-2/`
+Nguồn: `repo/vitalite-website/vitalite-theme/vitalite-theme-2/`
+Trên hosting: `wp-content/themes/vitalite-2-0/`
 
-⚠️ Thư mục tên **`vitalite-theme-2`** — đổi tên để deploy song song, khớp với
-tên trên hosting. Bản cũ `vitalite-theme` vẫn còn trên production để lùi lại được.
+> 🔴 **Tên thư mục nguồn ≠ tên thư mục trên hosting.** Thư mục trong zip suy ra từ
+> `Theme Name` trong `style.css` qua `slug_from_name()`. Đổi Theme Name là thư mục và tên
+> file zip tự đổi theo.
 
 ```
-style.css                     hệ token đầy đủ + toàn bộ CSS (~40KB thô)
-functions.php                 chỉ bootstrap, nạp inc/
+style.css                     token + toàn bộ CSS (~81KB thô). Theme Name: Vitalité 2.0
+functions.php                 chỉ bootstrap, nạp inc/. VT_VERSION phải khớp style.css
 inc/
-  helpers.php                 vt_shop_url, vt_cat_url, vt_page_url, vt_maybe_link,
-                              vt_gallery_images, vt_product_back_image, vt_icon…
-  setup.php                   theme support, menu, image size, bảo mật, shortcode compat
-  enqueue.php                 asset, font, preload LCP, bỏ CSS/JS Woo ở trang không cần
-  woocommerce.php             hook Woo, cart badge, bảng size PDP, ?on_sale=1
-  seo.php                     meta, OG, JSON-LD — TỰ TẮT khi có plugin SEO
-header.php  footer.php
-front-page.php                trang chủ, 6 section
-page.php  index.php  404.php  search.php  searchform.php
-single.php                    bài viết đơn — lưới an toàn, thiếu nó thì bài viết
-                              rơi xuống index.php và KHÔNG in ra nội dung
-screenshot.jpg                ảnh theme trong Giao diện → Themes
-languages/vitalite.pot        90 chuỗi giao diện. Sinh lại: python docs/make-pot.py
-template-parts/
-  site-header  site-footer  hero  product-card  empty-state
-  section-products  section-collection  section-gallery
-  section-iridescent  section-editorial  section-services
-  section-page-banner           banner váng dầu đầu trang archive/category, 0 KB
-woocommerce/
-  archive-product.php  content-product.php     ← 2 file Woo duy nhất bị đè
+  helpers.php                 vt_shop_url, vt_page_url, vt_maybe_link, vt_gallery_images…
+  setup.php                   theme support, menu, image size, + CHÉP theme_mods khi đổi bản
+  enqueue.php                 asset, font, preload LCP
+  woocommerce.php             hook Woo · mục 7 = freeship theo SỐ LƯỢNG
+  seo.php                     meta, OG, JSON-LD — tự tắt khi có plugin SEO
+  admin-options.php           ⭐ Appearance → Vitalité: gallery + 3 slide hero
+template-parts/               site-header · site-footer · hero · section-* · product-card
+woocommerce/                  archive-product.php · content-product.php (2 file duy nhất bị đè)
 assets/
-  js/site.js                  slider, header xuyên thấu + trượt ẩn/hiện, menu mobile, iridescent
-  gallery/                    8 ảnh — THẢ FILE VÀO LÀ HIỆN, không cần wp-admin
-  hero-poster.webp  cb-poster.webp  slide-03.webp  collection-01.webp
-  editorial-01.webp  og-default.jpg  logo PNG
-  video/                      ✅ 4.1MB — hero-1280.mp4 (2.43MB) + hero-1280.webm (1.66MB)
-                              master nằm ở repo/vitalite-website/_not-in-theme/, KHÔNG commit
-(product-images/ đã gỡ — 17 PNG không được reference ở đâu, chuyển ra _not-in-theme/)
+  js/site.js                  slider, header xuyên thấu, menu mobile
+  js/admin-options.js         ⭐ media picker + kéo thả, CHỈ chạy trong wp-admin
+  gallery/                    8 ảnh — chỉ còn là ĐƯỜNG LÙI, xem mục 8
+  video/hero-1280.mp4 + .webm 4,0 MB. Master ở _not-in-theme/, ngoài theme
 ```
 
-### Ngôn ngữ layout (đừng làm ngược lại)
-- **FULL-WIDTH.** Không có khung 1440px. Chỉ có lề `clamp(16px, 2.4vw, 32px)`.
-- **HEADER XUYÊN THẤU.** Trang mở bằng banner (`body.vt-banner-top`) → nội dung bắt đầu
-  từ mép trên viewport, header trong suốt đè lên banner. Trang không banner → đệm
-  `var(--vt-header-h)`, header đục. Quyết định ở **một chỗ duy nhất**:
-  `vt_top_banner_tone()` trong `inc/helpers.php`. Thêm banner ở đâu thì khai báo ở đó.
-- **Tràn sát mép (`.vt-bleed`, lề 0):** collection · gallery mosaic · banner archive.
-  **Giữ lề (`.vt-wrap`):** lưới sản phẩm `.vt-grid` · đầu section · breadcrumb · toolbar.
-  Lưới sản phẩm cần lề để đọc được như bảng giá; khối hình ảnh cần tràn để có sức nặng.
-  Đây là quyết định của user, đã xác nhận 2026-08-20 — đừng đảo lại.
-- Tiêu đề section **khổng lồ**: `clamp(38px, 5.4vw, 84px)`, Archivo Expanded 800, in hoa.
-- Mỗi section có eyebrow **đánh số** (`01 — FEATURED`) + **đường kẻ đen** dưới tiêu đề.
-  Đường kẻ đó giữ nhịp cho cả trang.
-- Lưới sản phẩm **gap 2px** trên nền màu đường kẻ → khe hở thành hairline, ô sát nhau.
-- Nút **bo tròn hoàn toàn** (`border-radius: 999px`).
+### Đóng gói
+
+```bash
+cd "E:/Vitalite website"; python docs/build-theme-zip.py
+```
+
+Tự bỏ rác, in ra mọi file > 500 KB, rồi tự kiểm zip. **Luật: tên thư mục trong zip phải
+KHÁC mọi thư mục theme đang có trên hosting** — extract đè lên thư mục đã tồn tại là **TRỘN**
+chứ không phải thay.
+
+✅ Đổi thư mục **không mất gì**: gallery + hero ở `option`, còn logo và vị trí menu ở
+`theme_mods` thì hook `after_switch_theme` trong `inc/setup.php` tự chép sang.
+
+### Ngôn ngữ layout
+
+- **FULL-WIDTH**, lề `clamp(16px, 2.4vw, 32px)`
+- **HEADER XUYÊN THẤU** — quyết định ở **một chỗ**: JS tìm `[data-vt-header-sentinel]`.
+  Thấy mốc → header trong suốt + bỏ đệm đầu trang. Không thấy → header đục + có đệm.
+  🔴 Mốc phải **nằm trong tầm nhìn ở scroll 0**. Khối cao hơn một khung nhìn thì mốc phải
+  `position: sticky`, không phải `absolute; bottom:0` — xem `about.src.html`.
+- **Không còn eyebrow đánh số** ở bất kỳ đâu (bỏ 30/08)
+- Tiêu đề section `clamp(38px, 5.4vw, 84px)` · hero `min(--vt-t-hero, 12vh)`
+- Lưới sản phẩm **gap 2px** · nút **bo tròn hoàn toàn**
+- **Chiều cao khối lớn đo theo `vh`.** Và ảnh trong ô lưới phải `position:absolute` —
+  nếu không chiều cao thật của ảnh kéo cả section (đã xảy ra: ảnh 1050×1400 kéo khối lên 899px)
 
 ---
 
-## 3. Quyết định đã chốt — KHÔNG mở lại nếu không có lý do mới
+## 3. Quyết định đã chốt — xem bảng đầy đủ ở `CLAUDE.md` mục 5
+
+Những cái mới nhất, dễ bị làm ngược:
 
 | Chủ đề | Chốt |
 |---|---|
-| Header/footer | Theme PHP, **KHÔNG** Elementor Theme Builder |
-| Shortcode | Còn giữ làm **lớp tương thích** (vỏ mỏng gọi template part), có chống render 2 lần |
-| Trang chủ | Dựng bằng **PHP** `front-page.php` ⚠️ lệch CLAUDE.md — xem mục 7 |
-| Ngôn ngữ | **EN tại root**, VI tại `/vi/`. Build EN xong hết → dịch → launch cùng lúc |
-| Auto-detect ngôn ngữ | **KHÔNG** |
-| Permalink | `/%postname%` không trailing slash |
-| Language switcher | Chữ `EN / VI`, không dùng cờ |
-| Hero | **3 slide** cross-fade + thanh tiến trình. Video CHỈ ở slide 1 |
-| Cart | Icon + badge. Rỗng → ẩn số. **KHÔNG** mini-cart drawer |
-| Nền site | **TRẮNG** ở vùng sản phẩm. Tối + iridescent chỉ ở vùng kể chuyện |
-| Màu nhấn | `--vt-accent` đang là **ĐEN** tạm thời — brand đổi chủ, hệ màu mới chưa chốt |
-| Logo | Dùng bản **ĐEN** (`Logo/Black Sabbath/`) |
-| Hệ size | **S / M / L** duy nhất, hàng cũ cũng đổi sang |
-| Bảng số đo | S 70/55 · M 73/58 · L 76/61 — **dùng chung cho cả hàng cũ** |
-| Hàng thời kỳ cũ | Treat như hàng bình thường, **không** tách `Archive` |
-| Chính sách đổi trả | **Giữ nguyên** 5 ngày, 1 lần/đơn, khách chịu ship 2 chiều |
-| Shopee | Vẫn bán song song |
-| Media translation | **TẮT** trong Polylang |
-| Minify CSS/JS | **TẮT** trong LiteSpeed — xung đột Elementor |
+| Quản trị nội dung | **Theme giữ BỐ CỤC, admin giữ NỘI DUNG.** Panel cố ý KHÔNG cho đổi bố cục |
+| Eyebrow đánh số | **ĐÃ BỎ** ở cả trang chủ lẫn 11 trang tĩnh |
+| Banner đầu trang | **THÉP GẤP** (`.vt-iri.vt-pagebanner`) |
+| Vùng kể chuyện | **VÁNG DẦU** (`.vt-iri`). Hai bề mặt khác nhau là cố ý |
+| Chữ header | **weight 800**, giãn `.10em`, không dùng độ mờ |
+| Font | **Archivo** (variable, `wdth 100..125`) + **JetBrains Mono**. `Archivo Expanded` KHÔNG tồn tại |
+| Ngày trên trang chính sách | Đổi nội dung chính sách thì **phải** đổi ngày. Xem hằng `STAMP` |
+| Đơn đi Mỹ | **Xách tay theo lô**, người bên Mỹ phân phối nội địa |
 
 ---
 
-## 4. Fact brand đã xác minh — dùng trực tiếp, không hỏi lại
+## 4. Fact brand — dùng trực tiếp, không hỏi lại
 
-Nguồn: đọc trực tiếp Shopee / Instagram / Facebook ngày 2026-08-19.
-Chi tiết đầy đủ: `reference/BRAND_FACTS_OBSERVED.md` + `reference/BRAND_ERA_SPLIT.md`
+Chi tiết: `reference/BRAND_FACTS_OBSERVED.md` + `reference/BRAND_ERA_SPLIT.md`
 
 | | |
 |---|---|
-| Tên đúng | **`VITALITÉ ®`** — có dấu sắc, có ® |
-| Email | `vitalitevn@gmail.com` |
-| Kênh | IG `@vitalitevn` (7.001) · FB `/vitalitevn` (6,8K) · Shopee `shopee.vn/vitalitevn` (2,9k) · TikTok `@vitalitevn` |
-| Shopee | **4.9 sao · 973 đánh giá · 4 năm · 10 SKU** |
-| Giá thật | **276.100₫ – 599.100₫** |
-| Áo thun | **250 GSM Cotton**, in lụa, unisex |
-| Áo khoác | **500+ GSM Heavyweight Cotton Blend**, Signature Boxy Fit |
-| Xuất xứ | **Việt Nam** — xác nhận cả từ user lẫn Shopee |
-| Dòng sản phẩm | THE ICONIC · THE MOMENTS · PINK GRAFFITI · PORSCHE · STARLIGHT · OLD MONEY |
-| Bio IG | `Quality and quantity` · `Worldwide shipping` · `Based in Saigon` |
+| Tên | **`VITALITÉ ®`** — có dấu sắc, có ® |
+| Email · SĐT | `vitalitevn@gmail.com` · **093 838 14 07** |
+| Pháp nhân | MST `079203010516` · 766/16/23/26 CMT8, P. Tân Sơn Nhất, TP.HCM |
+| Shopee | **4.9★ · 973 đánh giá · 4 năm · 10 SKU** · giá 276.100₫–599.100₫ |
+| Vải | Áo thun **250 GSM cotton** · outerwear **500+ GSM cotton blend** |
+| Ship nội địa | **SPX** · 30k · freeship từ **3 áo** · nội thành 1 ngày, tỉnh 1–3 ngày · có COD |
+| Ship quốc tế | **Mỹ**, 1–2 tuần, **xách tay theo lô** |
+| Size | S 70/55 · M 73/58 · L 76/61 (cm) |
 
-### 🔴 Brand ĐÃ ĐỔI CHỦ — đọc `BRAND_ERA_SPLIT.md` trước khi viết bất kỳ copy nào
-Thời kỳ cũ (hồng magenta, size 1/2/3) ≠ thời kỳ mới (xanh dương + tím, S/M/L, caption tiếng Anh,
-người mẫu Tây). Comeback 18/04/2026. Mọi thứ theo **thời kỳ mới**.
+### 🔴 Ba con số TUYỆT ĐỐI KHÔNG in ra
 
-### Copy thật đang dùng trên site (nguyên văn IG, không tự nghĩ)
-```
-"Even in chaos, you are alive."          29/07  THE ICONIC        → hero slide 1
-"Heavy in weight. Unmatched in fit."     25/07  THE MOMENTS       → hero slide 2
-"Old things still shine."                20/07  archive           → hero slide 3
-"Finding harmony within chaos"           29/07                    → band iridescent
-```
+- **Năm thành lập.** Brand nói 2023, Shopee hiển thị 4 năm, một bản About cũ ghi 2022 — ba
+  con số khác nhau. Không in ở đâu cho tới khi làm rõ. Được phép dùng *"four years"* vì đó
+  là con số quan sát được thật trên Shopee.
+- **"Worldwide shipping".** Brand trả lời **chỉ Mỹ**. Bio Instagram vẫn ghi worldwide —
+  một trong hai phải sửa, nhưng **trang web nói theo brand**.
+- **Phí ship quốc tế 200k.** Chưa publish. Xem `docs/ASSUMPTIONS.md`.
 
-### ⛔ TUYỆT ĐỐI KHÔNG dùng lại (đã gỡ, là chuỗi bịa)
-`SS26` · `BST Đường Phố` · `Sống Hết Công Suất` · `cotton 480GSM` · `in lụa thủ công` ·
-`phát hành 20.08` · `Heavyweight Hoodie 480GSM` · `1.290.000₫` · `1.450.000₫` ·
-8 tên sản phẩm giả trong lưới cũ. Có script quét: `docs/check-theme.py` mục 5.
+### ⛔ Chuỗi bịa đã gỡ, đừng dùng lại
+`SS26` · `BST Đường Phố` · `cotton 480GSM` · `in lụa thủ công` · `1.290.000₫` · 8 tên
+sản phẩm giả. Script quét: `docs/check-theme.py` mục 5.
 
 ---
 
-## 5. 🔴 Đang CHẶN — cập nhật 2026-08-22
+## 5. 🔴 Rủi ro đã chấp nhận khi publish — KHÔNG phải việc chờ ai
 
-### 5.1 Ship quốc tế — chặn nhiều nhất, VẪN TRỐNG HOÀN TOÀN
-User xác nhận 22/08: **chưa có thông tin gì.**
-Chặn: multi-currency · shipping zone · trang `shipping` · và thực tế chặn launch.
+User chốt 30/08: **không hỏi brand nữa.** Thiếu fact thì bỏ hẳn câu đó khỏi trang.
 
-Áo ~280.000₫ (~$11), ship quốc tế thường $25–40 → **phí gấp 3 lần giá hàng**.
-Website tồn tại để phục vụ khách quốc tế (IG 7.002 follower, bio `Worldwide shipping`,
-Shopee.vn không phục vụ quốc tế). Nếu con số đó đúng thì đây là **rủi ro mô hình kinh doanh**,
-không phải rủi ro kỹ thuật.
+- **`seller-information` thiếu tên đăng ký.** MST 12 số đầu `079` là dạng hộ kinh doanh,
+  nên tên trên giấy phép gần như chắc chắn không phải "Vitalité". Nghị định TMĐT đòi tên
+  đăng ký. **Đây là thiếu tuân thủ, đã ghi nhận, đã publish.**
+- **`terms` không có mục giới hạn trách nhiệm.** Bỏ còn hơn bịa từ bản mẫu. Cần luật sư.
+- **Khách Mỹ chưa có phương thức thanh toán.** Xem bước D.
 
-### 5.2 Ship trong nước — ✅ ĐÃ CHỐT MÔ HÌNH, thiếu con số
-User chốt 22/08: **phí tính theo địa chỉ khách điền ở checkout.**
-
-Phân tích đầy đủ hai cách làm: **`deliverables/woo/SHIPPING-SETUP.md`**
-- Cách A: Shipping Zones native — chỉ cần 4 con số, không plugin. **Đề xuất dùng để launch**
-- Cách B: plugin GHN/GHTK gọi API — chính xác hơn nhưng **sửa form checkout** (thêm ô
-  quận/huyện, phường/xã vì Woo chỉ có Tỉnh/Thành)
-
-🔴 **Dù chọn cách nào cũng phải điền CÂN NẶNG cho mọi SKU ngay lúc nhập.** Đó là thứ duy nhất
-chặn đường sang cách B sau này, và nó miễn phí ở thời điểm nhập.
-
-### 5.3 Thông tin pháp nhân
-Bắt buộc theo pháp luật TMĐT Việt Nam. Shopee cho thấy brand **đã có pháp nhân** — chỉ cần
-lấy thông tin ra. Chặn trang `seller-information`.
-
-### 5.4 Số đo hoodie
-`THE MOMENTS BOXY HOODIE` chưa có số đo nào. Theme cố ý **không hiện bảng size** cho sản phẩm
-ngoài danh mục áo thun — không hiện còn hơn hiện sai.
+Mọi thứ bị bỏ khỏi trang và cách điền lại: **`docs/CHO-DIEN-SAU.md`**.
 
 ---
 
-## 6. 🟡 Chờ quyết
+## 6. Trạng thái trên production — đo 31/08, không phải phỏng đoán
 
 | | |
 |---|---|
-| Mã hex **tím / xanh** thời kỳ mới | `--vt-accent` đang đen. Có mã thì đổi **đúng một biến CSS** |
-| Có hiện "4.9★ · 973 đánh giá Shopee" không? | Social proof thật, dẫn nguồn được — nhưng gửi khách sang Shopee. **Quyết định kinh doanh** |
-| Ảnh mockup nền trong suốt | Cần Canva Pro. Đã thử cắt tự động: **hỏng với áo sáng** (`MOCKUP-PIPELINE.md`) |
-| Số hotline nào còn dùng | FB About `093 838 14 07` vs bài 2023 `037 963 2222` |
+| Theme | `vitalite-2-0` v2.5.0 · active |
+| Trang chủ | Đủ **6 section**, `front-page.php` kiểm soát. *(Cảnh báo cũ "Elementor chiếm quyền" đã hết hiệu lực)* |
+| 12 trang tĩnh | 200 hết · slug đúng · 0 eyebrow · 0 ô cam · 0 comment lọt |
+| Footer | Tự đầy 2 cột Support + Legal |
+| Polylang | EN + VI đã bật, có hreflang. Chưa dịch nội dung |
+| Tràn ngang | Sạch trên `/`, `/shop`, `/cart`, `/checkout`, `/my-account` |
+| Font | Archivo 800 + JetBrains Mono 800 tải được, `--vt-display-wide: 125%` |
+| Sản phẩm | **0** |
 
 ---
 
-## 7. ⚠️ Hai điểm lệch so với CLAUDE.md — cần user xác nhận
-
-**7.1 — Trang chủ dựng bằng PHP, không phải Elementor.**
-
-🔴 **Trên production, Elementor ĐANG CHIẾM QUYỀN trang chủ.** Trang chủ là một page Elementor
-(ID 28) dùng template `elementor_header_footer`. Elementor ghi đè `front-page.php` qua filter
-`template_include`, chạy SAU template hierarchy nên nó thắng. Hệ quả: trang chủ chỉ render
-**2 trong 6 section** (hero + một lưới sản phẩm), vì page đó chỉ chèn hai shortcode.
-
-**Cách sửa:** `Trang → Tất cả trang → Sửa nhanh → Mẫu → Mẫu mặc định → Cập nhật`.
-⚠️ **KHÔNG mở Elementor để đổi** — nó báo *"the content area was not found"* và không cho đổi,
-vì `front-page.php` không gọi `the_content()`. Sửa nhanh không load Elementor nên không dính.
-
-CLAUDE.md ghi *"Homepage: build bằng Elementor"*. Nhưng `Structure homepage` nằm trong
-OPEN ITEMS và chưa bao giờ được chốt, còn user cần bản nền chạy được ngay.
-**Đường lui còn nguyên:** mỗi section là template part độc lập và đều có shortcode
-(`[vt_banner]` `[vt_products]` `[vt_collection]` `[vt_gallery]` `[vt_services]`).
-Muốn chuyển sang Elementor: tạo trang Elementor, chèn shortcode, đặt làm trang chủ, xoá `front-page.php`.
-
-**7.2 — Shortcode chưa gỡ hẳn.**
-CLAUDE.md ghi *"Bỏ shortcode"*. Hiện chúng vẫn còn nhưng chỉ là vỏ mỏng gọi
-`get_template_part()`, và có `vt_mark_rendered()` chống render hai lần.
-Lý do: xoá ngay thì trang Elementor cũ đang chèn chúng sẽ in chuỗi thô cho khách thấy.
-Gỡ hẳn sau khi kiểm tra không trang nào còn dùng.
-
----
-
-## 8. Quy ước phải nhớ khi nhập sản phẩm
+## 7. Quy ước nhập sản phẩm
 
 | | |
 |---|---|
-| **Ảnh** | `Product image` = **MẶT TRƯỚC** · `Gallery ảnh đầu tiên` = **MẶT SAU**. Hover trên lưới đổi trước↔sau. Sai thứ tự là hỏng hiệu ứng. Đã có meta box nhắc trong màn hình sửa sản phẩm |
-| **Category slug** | `t-shirts` · `outerwear` · `bottoms` — **slug tiếng Anh**, theme dò theo đúng chuỗi này |
-| **Attribute variation** | `pa_size` (S/M/L, **Custom ordering**) · `pa_color` |
+| **Ảnh** | `Product image` = **MẶT TRƯỚC** · gallery ảnh đầu = **MẶT SAU**. Hover đổi trước↔sau. Có meta box nhắc trong màn hình sửa sản phẩm |
+| **Category slug** | `t-shirts` · `outerwear` · `bottoms` — **tiếng Anh**, theme dò đúng chuỗi này |
+| **Attribute variation** | `pa_size` (S/M/L, Custom ordering) · `pa_color` |
 | **Attribute spec** | `pa_fabric` · `pa_fit` · `pa_collection` · `pa_print` — **KHÔNG** tick "used for variations" |
-| **Sản phẩm** | Phải là **Variable**. Shopee tách mỗi màu một listing; trên Woo gộp thành 1 product |
-| **Gallery trang chủ** | Thả ảnh vào `assets/gallery/`, đặt tên `01-…` `02-…`. Số đầu quyết định ô to nhỏ. Cache 12h — xoá transient `vt_gallery` nếu chưa thấy |
-| **Không tạo category** | `New Arrivals` `Sale` `Collection` — chúng là *cách sắp xếp*, theme đã làm bằng `?orderby=date` và `?on_sale=1` |
+| **Loại sản phẩm** | **Variable.** Shopee tách mỗi màu một listing; Woo gộp thành 1 product |
+| **Cân nặng** | 🔴 **Điền cho MỌI SKU ngay lúc nhập.** Miễn phí lúc này, và là thứ duy nhất chặn đường sang tính phí ship theo API sau này |
+| **Không tạo category** | `New Arrivals` · `Sale` · `Collection` là *cách sắp xếp*, theme làm bằng `?orderby=date` và `?on_sale=1` |
+
+🔴 **Polylang phải bật TRƯỚC khi tạo attribute.** Attribute term là taxonomy term — tạo
+trước khi bật Polylang là phải gán ngôn ngữ tay từng term. *(Polylang đã bật rồi ✅)*
+
+---
+
+## 8. Gallery trang chủ — cách quản lý ĐÃ ĐỔI
+
+**`Appearance → Vitalité`.** Chọn ảnh từ **Media Library**, kéo thả sắp xếp, chọn cỡ ô
+(5 cỡ khớp đúng class CSS), alt riêng từng ngôn ngữ. Hero 3 slide cũng ở đây.
+
+Thư mục `assets/gallery/` giờ **chỉ là đường lùi** khi chưa cấu hình gì — và đúng những ảnh
+đó bị đè mỗi lần upload theme mới. Đó là lý do có panel.
+
+⚠️ Video hero **cố ý không đưa lên admin**: nó gắn với logic không tải trên mobile và preload
+trong `<head>`. Cho đổi trong admin là mở đường cho một file 60 MB rơi vào hero.
 
 ---
 
@@ -355,120 +294,71 @@ Gỡ hẳn sau khi kiểm tra không trang nào còn dùng.
 
 | Cần gì | Đọc file |
 |---|---|
-| **VIỆC CỦA USER — đọc cái này trước** | **`docs/VIEC-CUA-BAN.md`** 📍 |
-| HTML 10 trang tĩnh, dán vào Elementor | `deliverables/pages-html/README.md` |
-| So sánh chính sách với Saigon Swagger + StressMama | `deliverables/content/POLICIES.md` |
-| **Kế hoạch dựng site trên WordPress — runbook chủ** | **`docs/BUILD-ON-WORDPRESS.md`** 🔴 |
-| Bắt đầu / tổng quan | `docs/START-HERE.md` |
-| Deploy lên hosting | `deliverables/setup/DEPLOY.md` |
+| **Cái gì bị bỏ khỏi trang và cách điền lại** | **`docs/CHO-DIEN-SAU.md`** 📍 |
+| **Mọi giả định + rủi ro đã chấp nhận** | **`docs/ASSUMPTIONS.md`** 🔴 |
+| Deploy theme | `deliverables/setup/DEPLOY.md` |
+| Bảo vệ nội dung, `.htaccess` | `deliverables/setup/BAO-VE-NOI-DUNG.md` |
+| Cấu hình vận chuyển Woo | `deliverables/woo/SHIPPING-SETUP.md` |
+| Cấu trúc WooCommerce | `deliverables/woo/STRUCTURE-SETUP.md` |
 | Cấu hình WordPress | `deliverables/setup/WORDPRESS-SETUP.md` |
 | Plugin nào, không cài gì | `deliverables/setup/PLUGINS.md` |
-| cPanel / LiteSpeed / bảo mật | `deliverables/setup/HOSTING-LITESPEED.md` |
-| Tối ưu tốc độ | `deliverables/setup/PERFORMANCE.md` |
-| Cấu trúc WooCommerce | `deliverables/woo/STRUCTURE-SETUP.md` |
-| Nội dung 6 trang tĩnh (dạng chữ) | `deliverables/content/PAGES-CONTENT.md` |
-| **HTML 10 trang tĩnh, dán vào Elementor** | `deliverables/pages-html/README.md` |
-| So sánh chính sách với Saigon Swagger + StressMama | `deliverables/content/POLICIES.md` |
-| **Cấu hình vận chuyển WooCommerce** | `deliverables/woo/SHIPPING-SETUP.md` |
-| **Chuỗi frame scroll — spec cho Antigravity** | `deliverables/scroll-sequence/README.md` |
-| SEO / sitemap / redirect | `deliverables/seo/SEO-PLAN.md` |
-| GA4 / event / báo cáo | `deliverables/analytics/TRACKING-PLAN.md` |
-| Ảnh mockup, cặp trước/sau | `deliverables/images/MOCKUP-PIPELINE.md` |
-| Nén video | `deliverables/video/encode.md` |
-| Fact brand | `reference/BRAND_FACTS_OBSERVED.md` |
-| **Brand đổi chủ** | `reference/BRAND_ERA_SPLIT.md` 🔴 |
-| Logo / mockup / ảnh model | `reference/BRAND_ASSETS_AUDIT.md` |
-| Audit production cũ | `deliverables/audit/production-audit-2026-08-19.md` |
-| Kết quả tự kiểm | `docs/BUILD-CHECK.md` |
-| Sinh lại file dịch `.pot` | `docs/make-pot.py` |
-| Sinh lại HTML 9 trang chính sách | `docs/make-pages.py` |
-| Mọi giả định theo thời gian | `docs/ASSUMPTIONS.md` |
-| Xem giao diện không cần server | `deliverables/preview/static-preview.html` |
-| Nghiên cứu motion iridescent | `deliverables/motion/iridescent.html` |
+| Hệ màu, chữ, token | `deliverables/brand/BRAND-GUIDELINE.md` + `tokens.css` |
+| Fact brand · brand đổi chủ | `reference/BRAND_FACTS_OBSERVED.md` · `BRAND_ERA_SPLIT.md` 🔴 |
+| Chuỗi frame scroll | `deliverables/scroll-sequence/README.md` |
+| 50 câu hỏi brand *(hồ sơ, KHÔNG phải việc)* | `deliverables/CAU-HOI-CHO-BRAND.md` |
+| SEO · analytics | `deliverables/seo/SEO-PLAN.md` · `deliverables/analytics/TRACKING-PLAN.md` |
+
+### Script
+
+```bash
+python docs/check-theme.py "repo/vitalite-website/vitalite-theme/vitalite-theme-2"
+python docs/check-tokens.py          # token khớp ở cả ba nơi
+python docs/make-pages.py            # sinh 11 trang + about.html + preview
+python docs/make-pot.py              # sinh lại .pot
+python docs/build-theme-zip.py       # đóng gói theme
+python docs/make-guideline.py        # sinh guideline.html từ tokens.css
+```
+
+🔴 **Sửa trang tĩnh thì sửa `docs/make-pages.py`, không sửa `.html`** — lần chạy sau ghi đè.
+🔴 **Sửa trang About thì sửa `about.src.html`**, `about.html` là bản sinh ra.
 
 ---
 
-## 10. Công cụ tự kiểm
+## 10. 🔴 Hạn chế môi trường — đọc trước khi tự kiểm
 
-```bash
-python docs/check-theme.py "E:/Vitalite website/repo/vitalite-website/vitalite-theme/vitalite-theme"
-```
+**1. Tab browser NỀN cho kết quả sai, không phải chỉ thiếu.**
+`IntersectionObserver` và `requestAnimationFrame` không chạy đáng tin ở tab nền — có lượt
+không callback lần nào, có lượt treo cả tab 45 giây. Ngày 31/08 nó suýt làm kết luận nhầm
+rằng "CSS bị đè" trong khi CSS hoàn toàn bình thường.
+→ **Đưa tab ra trước (`tabs_select`) rồi mới đo hành vi cuộn.** Đo cấu trúc tĩnh
+(`getBoundingClientRect`, `getComputedStyle`, DOM, số request) thì tab nền vẫn được.
 
-Kiểm 7 mục: cân bằng cú pháp · hàm `vt_*` chưa định nghĩa · `get_template_part()` trỏ file có thật ·
-class CSS thiếu rule · **chuỗi bịa còn sót** · `echo` biến chưa escape · text-domain nhất quán.
-
-**Chạy lại sau MỖI lần sửa theme.** Lần chạy gần nhất: sạch.
-
-⚠️ Nó **không thay được `php -l`**. Máy không có PHP CLI. Có PHP thì chạy thêm:
-```bash
-find . -name "*.php" -exec php -l {} \;
-```
-
----
-
-## 10b. 🔴 Hạn chế môi trường — đọc trước khi tự kiểm bằng browser
-
-Ba thứ đã làm mất thời gian, ghi lại để phiên sau không vấp:
-
-**1. Tab browser trong app KHÔNG render khung hình.**
-Nó chạy nền, không composite. Hệ quả:
-- `IntersectionObserver` **không đáng tin** — có lượt callback không chạy lần nào, có lượt
-  lại báo `isIntersecting: true` cho phần tử cách fold gần 4 màn hình. **Cùng một hình học,
-  hai kết quả trái ngược.**
-- `requestAnimationFrame` không chạy → animation đếm số, transition không tiến
-- `computer{action:"screenshot"}` báo lỗi *"Browser pane is not displayed"*
-
-→ **Đo cấu trúc thì được** (getBoundingClientRect, getComputedStyle, class, DOM, số request).
-**Đừng kết luận về hành vi cuộn hay animation.** Nếu một khẳng định phụ thuộc IO/rAF thì phải
-nói thẳng là chưa xác minh được, đừng báo cáo như đã kiểm.
-
-**2. `git push --force` và rewrite lịch sử bị harness chặn.**
-`git commit --amend` thì chạy được. `push --force` thì không — phải đưa lệnh cho user chạy tay.
+**2. Kiểm "CSS có trong file" KHÁC kiểm "luật có ăn trên trang".**
+Đã sai một lần: luật `.vt-woo .vt-woo-page .alignwide` đúng cú pháp, nằm đúng trong file,
+và **không bao giờ khớp** vì `.vt-woo` không tồn tại trên trang đó. Phải đo trên trang thật:
+tiêm luật vào rồi đo lại `getComputedStyle`.
 
 **3. Heredoc trong Bash tool nuốt dấu backslash.**
-Viết script Python nhiều `\` hoặc regex bằng heredoc là hỏng. Dùng **Write tool** để tạo
-file script, hoặc **Edit tool** cho sửa chính xác. Đã vấp 3 lần.
+Script Python nhiều `\` hoặc regex mà viết bằng heredoc là hỏng. **Dùng Write tool.**
+Đã vấp 5 lần.
 
-**4. `python` in ra tiếng Việt bị lỗi encode trên Windows.**
+**4. `python` in tiếng Việt lỗi encode trên Windows.**
 Luôn đặt `PYTHONIOENCODING=utf-8` trước lệnh python nào có in tiếng Việt.
 
----
+**5. `git push --force` bị harness chặn.** `git commit --amend` thì chạy được.
 
-## 11. Việc lặt vặt còn treo
-
-- [x] ~~Gỡ 93MB video khỏi lịch sử git~~ ✅ **XONG 21/08.** Remote đã sạch, `.git` 121MB → 5,5MB
-- [x] ~~Đưa docs/deliverables lên git~~ ✅ **XONG 23/08.** `.git` chuyển lên gốc project,
-      `.git` 5,6MB → 34MB
-- [x] ~~Đồng bộ nốt video master~~ ✅ **XONG 27/08.** User quyết đẩy hết, không giữ gì ngoài git.
-      **396 file** trên remote (khởi điểm 68), `.git` 34MB → **188MB**.
-      🔴 `260417_VTL_PROMO_02.mp4` nặng **60,2MB**, GitHub cảnh báo mỗi lần push (giới hạn cứng
-      100MB nên vẫn qua). Blob nhị phân trong lịch sử là **vĩnh viễn**: muốn gỡ phải viết đè
-      lịch sử và force-push, đúng cái đã phải làm hồi tháng 8.
-      Cân nhắc **Git LFS** nếu còn thêm video master nữa
-- [x] ~~Hero video không vào git~~ ✅ **XONG 23/08.** Negation trong `.gitignore` trỏ tên thư mục
-      theme cũ từ commit `65aed7d`, `*.mp4` nuốt mất `hero-1280.mp4` + `.webm` (3,9MB) mà không
-      báo gì. Đổi sang `vitalite-theme/*/video/` để lần đổi tên sau không tái phát
-- [x] ~~Nén video hero~~ ✅ **XONG.** 2,43MB mp4 + 1,66MB webm. Kết quả + SSIM: `deliverables/video/encode.md`
-- [ ] 🔴 **Đổi link trong bio Instagram** — hiện trỏ về `shopee.vn/vitalitevn`, không phải site.
-      7.002 follower là đúng tệp khách website sinh ra để phục vụ. Không đổi link vào ngày
-      launch thì họ không bao giờ tới site. *(phát hiện 22/08, chưa có tài liệu nào khác ghi)*
-- [ ] 🟡 **`vitalitevn.com` đã chết** — DNS không phân giải. Đó là site của chủ cũ, Google vẫn
-      index. Cân nhắc mua lại hoặc ít nhất biết để không nhầm
-- [ ] Highlight Instagram vẫn toàn tên **thời kỳ cũ** (White PG · Black PG · Black Porsche ·
-      Pink Starlight · White Porsche). Mặt tiền IG đang kể câu chuyện cũ
-- [ ] Vector hoá logo sang SVG *(hiện là PNG 995px, header cần SVG cho màn 2x/3x)*
-- [ ] `<title>` và tagline: đổi trong `Cài đặt → Chung`, **không phải file theme**
-- [ ] Xoá thư mục theme CŨ trên production sau khi chắc bản mới ổn *(nhiều khả năng còn ~96MB
-      video master trong đó)*
-- [ ] 🔴 **Ngày launch: TẮT "Ngăn công cụ tìm kiếm"** — theme đã cài cảnh báo thường trực trong admin
+**6. Không có PHP CLI.** `docs/check-theme.py` thay được phần lớn nhưng **không thay được
+`php -l`**.
 
 ---
 
-## 12. Cách làm việc user mong đợi
+## 11. Cách làm việc user mong đợi
 
 - Đội 5 người trong `CLAUDE.md` — giới thiệu tên trước khi nói, Challenger phản biện thẳng
-- **Không bịa** brand fact, product spec, policy. Thiếu thì `[NEED: …]`, không điền đại
+- **Không bịa** brand fact, product spec, policy. Thiếu thì **bỏ hẳn câu đó**, không để ô cam
+- **Đo trên site thật trước khi báo đã sửa.** User đã bắt được một lần báo sai
 - Nêu tác động **LCP** ở mọi quyết định build
 - Ràng buộc **solo operator** — không đề xuất gì cần dev team
 - Không đụng logic **cart / checkout**
-- User deploy bằng **cPanel File Manager** (chưa quen FTP, hosting không có SSH)
+- User deploy bằng **cPanel File Manager** (hosting không có SSH)
+- Sửa CSS thôi thì **gửi file lẻ**, đừng bắt upload lại cả theme
