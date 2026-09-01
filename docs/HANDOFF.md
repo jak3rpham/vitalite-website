@@ -1,6 +1,6 @@
 # HANDOFF — VITALITÉ WEBSITE
 
-**Cập nhật:** 2026-08-31 · **Dành cho:** phiên Claude Code mới
+**Cập nhật:** 2026-09-01 · **Dành cho:** phiên Claude Code mới
 **Đọc file này ngay sau `CLAUDE.md`, trước khi làm bất cứ việc gì.**
 
 > ⚠️ **Terminal máy này là Windows PowerShell 5.1 — `&&` KHÔNG tồn tại.**
@@ -24,41 +24,26 @@ lại đều xoay quanh việc mở đường cho lần nhập hàng đầu tiê
 
 ## 1. 🔴 VIỆC KẾ TIẾP — làm theo thứ tự này
 
-Bốn việc đầu là việc trong wp-admin, **user làm, Claude không làm được** (không có SSH,
-không có quyền admin). Claude soạn hướng dẫn và kiểm lại kết quả trên site thật.
+Việc trong wp-admin là **user làm, Claude không làm được** (không có SSH, không có
+quyền admin). Claude soạn hướng dẫn và kiểm lại kết quả trên site thật.
 
-### Bước A — Dọn plugin *(10 phút, an toàn)*
+### Bước A — Dọn plugin *(5 phút, an toàn)*
 
 Đọc từ ảnh chụp user gửi 31/08. Hiện **10 plugin, 8 active**.
+User chốt 01/09: **chỉ xoá Akismet.** Hai mục kia giữ nguyên.
 
 | Plugin | Làm gì |
 |---|---|
 | **Akismet Anti-spam** — inactive | **Xoá.** Chống spam bình luận, mà site không có blog và tab review PDP đã bị `unset` trong `inc/woocommerce.php`. Nó còn cần API key mới chạy |
-| **Premmerce Multi-Currency** — inactive | **Xoá.** Xem ghi chú bên dưới |
-| **Elementor Pro 4.2.1** | **Cập nhật lên 4.2.2.** Auto-update không dùng được (bản Pro cần license) → cập nhật tay. **Backup UpdraftPlus trước** |
+| **Premmerce Multi-Currency** — inactive | ✅ **GIỮ.** User chốt 01/09: để đó phòng khi sau này cần. Inactive nên không nạp code, chi phí runtime ~0. Vẫn phải cập nhật khi có bản vá |
+| **Elementor Pro 4.2.1** | ✅ **KHÔNG cập nhật.** User chốt 01/09. Bản Pro không auto-update được (cần license), và 12 trang tĩnh đang là trang Elementor thật — cập nhật là rủi ro vỡ layout, đổi lấy một patch chưa rõ nội dung. Xem lại nếu 4.2.2 hoá ra là bản vá bảo mật |
 
-> ⚠️ **Về Premmerce Multi-Currency.** Nó được cài cho câu 36 (khách quốc tế thấy giá tiền của
-> họ). Nhưng brand trả lời *"có nhưng bên đó sẽ có giá khác"* — **giá khác không phải là bài
-> toán đổi tiền tệ**, nó là bảng giá thứ hai. Plugin này giải sai bài. Xoá, cài lại 2 phút
-> nếu cần.
+### Bước B — ~~Tắt `WP_DEBUG_DISPLAY`~~ ✅ XONG 01/09
 
-### Bước B — 🔴 Tắt `WP_DEBUG_DISPLAY` *(5 phút, đây là lỗi bảo mật)*
+User đã sửa `wp-config.php`. Site Health critical về việc in lỗi PHP ra cho khách đã đóng.
 
-Site Health báo **1 critical**: site đang in lỗi PHP ra cho khách. Đây là lý do user thấy
-`Warning: wp_version_check()...` trên Dashboard — và dòng đó đã lộ đường dẫn tuyệt đối
-`/home/vitalite/public_html/...`.
-
-Sửa trong `public_html/wp-config.php` (cPanel File Manager), **copy file ra máy trước khi sửa**:
-
-```php
-define('WP_DEBUG', false);
-```
-
-Đã quét 6 trang frontend: **hiện chưa rò ra trang khách**. Nhưng thiết lập vẫn đang mở, nên
-lỗi PHP tiếp theo — từ plugin thanh toán, từ checkout — sẽ hiện cho khách.
-
-⚠️ **Đừng dùng `'sslverify' => false`** để dập cảnh báo wordpress.org. Đó là tắt kiểm tra
-chứng chỉ, đổi một cảnh báo lấy một lỗ hổng.
+⚠️ Ghi lại để lần sau không lặp: **đừng dùng `'sslverify' => false`** để dập cảnh báo
+wordpress.org. Đó là tắt kiểm tra chứng chỉ, đổi một cảnh báo lấy một lỗ hổng.
 
 ### Bước C — Sửa URL tiếng Việt *(15 phút)*
 
