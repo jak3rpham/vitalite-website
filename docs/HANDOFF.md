@@ -27,14 +27,14 @@ lại đều xoay quanh việc mở đường cho lần nhập hàng đầu tiê
 Việc trong wp-admin là **user làm, Claude không làm được** (không có SSH, không có
 quyền admin). Claude soạn hướng dẫn và kiểm lại kết quả trên site thật.
 
-### Bước A — Dọn plugin *(5 phút, an toàn)*
+### Bước A — ~~Dọn plugin~~ ✅ XONG 01/09
 
 Đọc từ ảnh chụp user gửi 31/08. Hiện **10 plugin, 8 active**.
 User chốt 01/09: **chỉ xoá Akismet.** Hai mục kia giữ nguyên.
 
 | Plugin | Làm gì |
 |---|---|
-| **Akismet Anti-spam** — inactive | **Xoá.** Chống spam bình luận, mà site không có blog và tab review PDP đã bị `unset` trong `inc/woocommerce.php`. Nó còn cần API key mới chạy |
+| **Akismet Anti-spam** | ✅ **ĐÃ XOÁ 01/09.** Chống spam bình luận, mà site không có blog và tab review PDP đã bị `unset` trong `inc/woocommerce.php`. Nó còn cần API key mới chạy |
 | **Premmerce Multi-Currency** — inactive | ✅ **GIỮ.** User chốt 01/09: để đó phòng khi sau này cần. Inactive nên không nạp code, chi phí runtime ~0. Vẫn phải cập nhật khi có bản vá |
 | **Elementor Pro 4.2.1** | ✅ **KHÔNG cập nhật.** User chốt 01/09. Bản Pro không auto-update được (cần license), và 12 trang tĩnh đang là trang Elementor thật — cập nhật là rủi ro vỡ layout, đổi lấy một patch chưa rõ nội dung. Xem lại nếu 4.2.2 hoá ra là bản vá bảo mật |
 
@@ -47,37 +47,69 @@ wordpress.org. Đó là tắt kiểm tra chứng chỉ, đổi một cảnh báo
 
 ### Bước C — Sửa URL tiếng Việt *(15 phút)*
 
-🔴 **`/vi/` đang chuyển hướng sang `/vi/elementor-28`.** Đo được 31/08. `elementor-28` là
-slug tự sinh của một trang Elementor rỗng — nó đang đóng vai trang chủ tiếng Việt.
+🔴 **`/vi/` trả 301 sang `/vi/elementor-28`.** Vẫn còn, đo lại 01/09.
 
-Cần kiểm trong `Pages`, cột ngôn ngữ của Polylang: trang đó có thật sự được nối làm bản dịch
-của trang chủ EN (page ID 28) không, và đổi slug cho tử tế.
+**Đo được 01/09 — chẩn đoán cũ SAI, đừng đi lại đường đó:**
 
-Kiểm lại bằng: mở `vitalite.io.vn/vi/` — URL phải **đứng yên ở `/vi/`**, không nhảy đi đâu.
+| Đo | Kết quả |
+|---|---|
+| `/vi/` | `301 → /vi/elementor-28` |
+| `/vi/elementor-28` | `200`, `page-id-44`, body class **`home`**, render đủ hero + 6 section |
+| hreflang trên **cả hai** trang | `en → /` và `vi → /vi/elementor-28`, đối xứng |
 
-> ℹ️ `/vi/returns` hiện chuyển về `/returns` (bản EN). Đó là **đúng** ở giai đoạn này —
-> chưa dịch trang nào. Dịch là bước cuối cùng trước launch.
+hreflang đối xứng nghĩa là **trang 44 ĐÃ được nối làm bản dịch VI của trang chủ EN (28)** —
+Polylang biết cặp này. Nội dung VI cũng đúng, `front-page.php` đang render. Hỏng **chỉ ở URL**:
+Polylang đang không nhận trang 44 là *trang chủ tĩnh* của tiếng Việt, nên WordPress đá về
+permalink của nó.
+
+**Làm theo thứ tự, rẻ trước. Dừng ngay khi `/vi/` đứng yên:**
+
+1. `Settings → Reading` → **không đổi gì**, bấm **Save Changes**.
+   Polylang dựng lại bản đồ `page_on_front` cho từng ngôn ngữ lúc lưu. Bản đồ này hay bị cũ
+   khi trang chủ được đặt *trước* lúc nối bản dịch — đúng thứ tự đã xảy ra ở site này.
+2. `Settings → Permalinks` → **Save Changes** (không đổi gì). Nạp lại rewrite rule.
+3. `Languages → Settings → URL modifications` → **Save**.
+4. Chỉ khi 1–3 không ăn: mở trang 44, gỡ liên kết dịch rồi nối lại với trang 28, làm lại bước 1.
+
+**Sau khi `/vi/` đã đứng yên** mới đổi slug `elementor-28` → `trang-chu`. Đổi trước là mất một
+biến để đối chiếu.
+
+**Kiểm lại bằng lệnh này** — phải ra `200`, không phải `301`:
+
+```bash
+powershell -Command "try{$r=Invoke-WebRequest 'https://vitalite.io.vn/vi/' -MaximumRedirection 0 -UseBasicParsing}catch{$r=$_.Exception.Response}; \"$([int]$r.StatusCode) $($r.Headers['Location'])\""
+```
+
+> ℹ️ `/vi/returns` chuyển về `/returns` là **đúng** ở giai đoạn này — chưa dịch trang nào.
+> Dịch là bước cuối trước launch.
 
 ### Bước D — 🔴 Shipping zone + phương thức thanh toán
 
-**Đây là việc chặn nhập sản phẩm.** Không có zone thì checkout không tính được phí.
+**Đây là việc chặn nhập sản phẩm.** Chưa có zone thì checkout hiện
+*"There are no shipping methods available"* và đơn dừng tại đó.
 
-| Zone | Cấu hình |
+📄 **Quy trình bấm-từng-bước: `deliverables/woo/SHIPPING-SETUP.md`** *(viết lại 01/09)*.
+Bản 22/08 của file đó đề xuất **4 zone chia theo miền** — đã hết hiệu lực, đừng dùng.
+
+Tóm tắt cái phải dựng:
+
+| | |
 |---|---|
-| **Việt Nam** | Flat rate **30.000₫** + một phương thức **Free shipping** |
-| **Hoa Kỳ** | Chưa có số. Xem `docs/CHO-DIEN-SAU.md` mục A8 |
+| `Settings → General` | Selling **và** Shipping location = **Vietnam + United States**. Không mở Mỹ ở đây thì zone Mỹ vô dụng |
+| Zone **Việt Nam** | **Free shipping** (requires = *N/A*) đặt **TRÊN** → **Flat rate** `30000` |
+| Zone **United States** | Flat rate — con số cần user chốt, đề xuất `200000` |
 
-🔴 **Phải tạo phương thức "Free shipping" trong zone Việt Nam** thì luật freeship-từ-3-áo
-mới chạy. Code đã có sẵn: `inc/woocommerce.php` mục 7, hằng `VT_FREE_SHIP_MIN_QTY = 3`,
-`VT_FREE_SHIP_COUNTRY = 'VN'`.
+🔴 **Thứ tự hai phương thức trong zone VN là thật, không phải chi tiết thẩm mỹ.** Đơn từ 3 áo
+hiện cả hai, Woo chọn sẵn cái đứng đầu. Flat rate đứng trên là khách không để ý trả 30.000₫
+cho một đơn lẽ ra miễn phí.
 
-⚠️ Ô **"Minimum order amount"** của Woo ở màn hình đó **vô tác dụng** — chính sách tính theo
-*số lượng*, không theo tiền. Theme có admin notice nhắc ngay tại chỗ.
+⚠️ Ô **"Minimum order amount"** của Woo **vô tác dụng** — chính sách tính theo *số lượng*,
+không theo tiền. Luật thật ở `inc/woocommerce.php` mục 7 (`VT_FREE_SHIP_MIN_QTY = 3`).
+Theme có admin notice nhắc ngay tại màn hình đó.
 
-Thanh toán: network log cho thấy **BACS (chuyển khoản) và COD đã bật**. Nhưng brand xác nhận
-*chưa có tài khoản kinh doanh*, nên chưa cổng nào cho khách Mỹ. Trang `payment` đang nói
-*"phương thức hiện ở checkout"* — nếu tới launch mà khách Mỹ không có gì bấm thì câu đó
-thành lời hứa suông.
+**Thanh toán:** network log cho thấy **BACS + COD đã bật**. Brand chưa có tài khoản kinh doanh
+nên chưa cổng nào cho khách Mỹ. Trang `payment` đang nói *"phương thức hiện ở checkout"* —
+tới launch mà khách Mỹ không có gì bấm thì câu đó thành lời hứa suông.
 
 ### Bước E — Nhập **2 sản phẩm test** rồi mới nhập cả bộ
 

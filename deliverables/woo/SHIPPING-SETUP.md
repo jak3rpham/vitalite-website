@@ -1,142 +1,196 @@
 # VẬN CHUYỂN — cấu hình WooCommerce
 
-**Cập nhật:** 2026-08-22
-**Đã chốt:** phí ship trong nước **tính theo địa chỉ khách điền ở checkout**.
-**Chưa có:** ship quốc tế — toàn bộ.
+**Cập nhật:** 2026-09-01 · **Thay thế hoàn toàn** bản 22/08
+**Trạng thái:** đây là **bước D** trong `docs/HANDOFF.md` — việc đang **chặn nhập sản phẩm**.
+
+> 🔴 Bản 22/08 của file này đề xuất **4 zone chia theo miền** và để trống 8 ô `[NEED:]`.
+> Cả hai đều đã hết hiệu lực: brand trả lời 29/08 là **một mức 30.000₫ toàn quốc**, và
+> `CLAUDE.md` mục 5 đã chốt như vậy. Ai còn cầm bản cũ thì bỏ đi.
 
 ---
 
-## 0. Một câu phải đọc trước khi nhập sản phẩm
+## 0. Vì sao đây là việc chặn
 
-> 🔴 **Quyết cách tính ship TRƯỚC khi nhập 40 sản phẩm.**
-> Nếu chọn cách B (API hãng vận chuyển) thì **mọi SKU phải có cân nặng**. Nhập xong 40 sản phẩm
-> rồi mới phát hiện thiếu cân nặng là mở lại từng sản phẩm một để điền tay.
->
-> Đây cùng loại với luật "nhập 2 sản phẩm test rồi dừng" — sửa lúc có 2 là 10 phút,
-> lúc có 40 là một buổi chiều.
+Chưa có shipping zone thì WooCommerce **không tính được phí ở checkout**. Khách bấm vào giỏ
+hàng và thấy *"There are no shipping methods available."* Đơn dừng ngay tại đó.
+
+Và nó chặn cả bước nhập sản phẩm: nhập 40 SKU rồi mới phát hiện phải sửa cấu trúc vận chuyển
+là mở lại từng sản phẩm. Nhập 2 SKU test **sau khi** zone đã đứng thì kiểm được cả chuỗi
+giỏ hàng → phí ship → checkout trong một lượt.
 
 ---
 
-## 1. "Tính theo địa chỉ" — có hai cách làm, khác nhau rất xa
-
-### Cách A — Shipping Zones của WooCommerce *(native, không plugin)*
-
-Chia tỉnh thành vùng, mỗi vùng một mức phí cố định.
-
-```
-Zone 1  TP.HCM                    →  [NEED: … ₫]
-Zone 2  Các tỉnh miền Nam         →  [NEED: … ₫]
-Zone 3  Miền Trung                →  [NEED: … ₫]
-Zone 4  Miền Bắc                  →  [NEED: … ₫]
-```
+## 1. Số liệu — đã chốt, không phải đề xuất
 
 | | |
 |---|---|
-| Cần gì | **Chỉ 4 con số.** Không cần tài khoản hãng, không cần API, không cần cân nặng |
-| Checkout | Khách chọn Tỉnh/Thành → phí hiện ra ngay, **không gọi mạng** |
-| Rủi ro | Gần như không. Đây là tính năng lõi của WooCommerce |
-| Nhược | Phí cố định. Đơn 1 áo và đơn 5 áo trả cùng một mức. Lệch với giá hãng thật |
+| Hãng nội địa | **SPX** |
+| Phí nội địa | **30.000₫**, một mức, toàn quốc |
+| Miễn phí ship | **từ 3 áo trở lên** — theo *số lượng*, không theo tiền |
+| Thời gian | Nội thành TP.HCM 1 ngày · tỉnh khác 1–3 ngày |
+| COD | **Có**, chỉ nội địa |
+| Quốc tế | **Chỉ Hoa Kỳ.** 1–2 tuần. Xách tay theo lô, người bên Mỹ phân phối nội địa |
 
-WooCommerce **có sẵn danh sách tỉnh/thành Việt Nam**, không phải cài thêm gì.
+Nguồn: brand trả lời 29/08 · `CLAUDE.md` mục 5 · `reference/BRAND_FACTS_OBSERVED.md`.
 
-### Cách B — Plugin hãng vận chuyển gọi API lấy giá thật *(GHN · GHTK · Viettel Post)*
-
-Plugin gửi điểm đến + cân nặng sang hãng, hãng trả về phí thật.
-
-| | |
-|---|---|
-| Cần gì | Tài khoản hãng · API key · **cân nặng cho từng SKU** · **quận/huyện và phường/xã ở checkout** |
-| Checkout | Mỗi lần khách đổi địa chỉ là **một lần gọi mạng**. Hãng chậm thì ô phí quay vòng |
-| Rủi ro | 🔴 **Cao.** Nó sửa form checkout — thêm ô quận/huyện, phường/xã |
-| Ưu | Phí đúng thực tế. Không phải bảo trì bảng giá tay |
-
-#### 🔴 Vì sao cách B rủi ro hơn nó trông
-
-WooCommerce chỉ có **Tỉnh/Thành**. GHN và GHTK cần tối thiểu **Quận/Huyện**, thường cần cả
-**Phường/Xã** mới ra được phí. Nghĩa là plugin phải **chèn thêm ô vào form checkout** —
-đúng cái chỗ `CLAUDE.md` gọi là thay đổi rủi ro cao nhất trong stack.
-
-Và nếu API hãng chậm hoặc lỗi, khách thấy ô phí ship quay mãi không ra số. Ở bước cuối cùng
-trước khi trả tiền. Đó là chỗ mất đơn đắt nhất.
+⚠️ Một điểm chưa khớp còn treo: brand trả lời câu 7 là "nội địa 30k" nhưng câu 12/13 lại ghi
+"tùy khoảng cách". Trang `shipping` đang publish **30.000₫ toàn quốc**. Nếu thật sự tùy vùng
+thì phải sửa **hai chỗ**: câu trong `docs/make-pages.py` và zone ở đây. Xem `docs/CHO-DIEN-SAU.md` A8.
 
 ---
 
-## 2. Đề xuất
+## 2. Trước khi tạo zone — kiểm một ô dễ bỏ sót
 
-**Launch bằng cách A. Chuyển sang cách B sau, khi đã có đơn thật.**
+`WooCommerce → Settings → General`
 
-Lý do:
+| Ô | Phải là |
+|---|---|
+| **Selling location(s)** | *Sell to specific countries* → **Vietnam** + **United States** |
+| **Shipping location(s)** | *Ship to specific countries only* → **Vietnam** + **United States** |
+| **Default customer location** | *Shop country/region* |
 
-1. Cách A cần **4 con số**, cách B cần tài khoản + API + cân nặng 40 SKU + sửa checkout.
-   Cái nào chặn launch lâu hơn thì rõ.
-2. Chưa có đơn nào thì chưa biết phân bố khách theo vùng. Đặt 4 mức phẳng, chạy một tháng,
-   nhìn số liệu thật rồi mới biết cách B có đáng không.
-3. Đổi từ A sang B **không phải làm lại gì** — chỉ tắt zone, bật plugin. Ngược lại cũng vậy.
-4. Ràng buộc solo operator: cách B thêm một plugin phải theo dõi, một API có thể chết, và
-   một form checkout đã bị sửa.
+🔴 Không mở Hoa Kỳ ở ô này thì zone Mỹ dựng xong vẫn vô dụng — khách Mỹ không chọn được nước
+của họ ở checkout. Đây là chỗ hay mất nửa tiếng đi tìm.
 
-### Nhưng vẫn nhập cân nặng ngay từ đầu
+---
 
-Kể cả chọn cách A, **cứ điền cân nặng cho mọi sản phẩm khi nhập**. Nó miễn phí ở thời điểm
-nhập, và là thứ duy nhất chặn đường sang cách B sau này.
+## 3. Zone 1 — Việt Nam
 
-Cân nặng ước tính — `[NEED: cân thật một cái áo và một cái hoodie]`:
+`WooCommerce → Settings → Shipping → Add zone`
+
+| Ô | Điền |
+|---|---|
+| Zone name | `Việt Nam` |
+| Zone region(s) | `Vietnam` |
+
+Thêm **hai** phương thức, **theo đúng thứ tự này**:
+
+### 3.1 Free shipping *(thêm TRƯỚC)*
+
+| Ô | Điền |
+|---|---|
+| Method title | `Miễn phí giao hàng — từ 3 sản phẩm` |
+| Free shipping requires… | **N/A** |
+| Minimum order amount | *(để trống)* |
+
+🔴 **Ô "Minimum order amount" vô tác dụng ở site này.** Chính sách tính theo **số lượng**,
+mà ô của Woo tính theo **tiền**. Điều kiện thật nằm trong theme:
+`inc/woocommerce.php` mục 7 — `VT_FREE_SHIP_MIN_QTY = 3`, `VT_FREE_SHIP_COUNTRY = 'VN'`.
+Theme có admin notice hiện ngay trên màn hình Shipping nhắc việc này.
+
+Đặt "requires" = **N/A** là đúng: theme quyết định, không phải Woo. Chọn giá trị khác chỉ
+làm màn hình admin nói một đằng còn checkout làm một nẻo.
+
+### 3.2 Flat rate *(thêm SAU)*
+
+| Ô | Điền |
+|---|---|
+| Method title | `SPX — giao tiêu chuẩn` |
+| Tax status | `Taxable` |
+| Cost | `30000` |
+
+⚠️ Gõ `30000`, **không dấu chấm, không `₫`**. VND không có phần thập phân.
+
+### 3.3 Vì sao thứ tự quan trọng
+
+Đơn từ 3 áo trở lên sẽ hiện **cả hai** phương thức. WooCommerce chọn sẵn cái **đứng đầu
+danh sách**. Free shipping đứng trên thì khách mặc định được miễn phí; Flat rate đứng trên
+thì khách phải tự bấm chuyển, và người không để ý sẽ trả 30.000₫ cho một đơn lẽ ra miễn phí.
+
+Đó là một khiếu nại thật, xảy ra ở đúng bước cuối cùng trước khi trả tiền. Kéo thả để
+**Free shipping nằm trên**.
+
+---
+
+## 4. Zone 2 — Hoa Kỳ
+
+| Ô | Điền |
+|---|---|
+| Zone name | `United States` |
+| Zone region(s) | `United States (US)` |
+| Phương thức | Flat rate |
+| Method title | `US delivery` |
+| Cost | 🔴 **cần chốt — xem dưới** |
+
+### 🔴 Con số cho zone Mỹ — cần user quyết trước khi bấm
+
+Brand trả lời câu 7: **"ngoài nước: 200k"**.
+
+Ngày 29/08 con số này bị gác lại vì so với bảng giá FedEx VN→Mỹ ($40–60) nó thấp gấp 5–8 lần.
+**Fact ngày 30/08 lật lại kết luận đó:** đơn đi Mỹ không phải ship quốc tế từng đơn — hàng
+**xách tay theo lô**, người bên Mỹ giữ hàng và **phân phối nội địa Mỹ**. Với chặng nội địa Mỹ,
+200.000₫ ≈ $8 là **hợp lý**. `CLAUDE.md` mục 2 đã ghi nhận đúng như vậy.
+
+→ Đề xuất: **`200000`**.
+→ Nhưng đây là tiền thật chảy ra mỗi đơn, nên **user xác nhận trước khi điền**.
+
+⚠️ Zone Mỹ **không được để trống**. Trang `shipping` đang publish câu *"Shipping is calculated
+at checkout and shown before you pay"* cho khách Mỹ. Không có zone thì câu đó thành lời hứa
+suông và checkout Mỹ đứng im — đúng cái rủi ro đã ghi ở `HANDOFF.md` mục 5.
+
+⚠️ **Không** bật COD cho zone Mỹ. COD chỉ nội địa.
+
+---
+
+## 5. Kiểm lại — bắt buộc, không được bỏ
+
+Zone cấu hình sai **không báo lỗi**. Nó im lặng tính sai tiền.
+
+Chỉ kiểm được sau khi có **ít nhất 1 sản phẩm** (bước E). Làm ngay trong lượt nhập 2 SKU test.
+
+| # | Làm | Phải thấy |
+|---|---|---|
+| 1 | Cart, địa chỉ VN, **1 áo** | Phí **30.000₫** |
+| 2 | Tăng lên **2 áo** | Vẫn **30.000₫** |
+| 3 | Tăng lên **3 áo** | Hiện **Miễn phí giao hàng**, và nó **được chọn sẵn** |
+| 4 | Giảm về **2 áo** | Quay lại 30.000₫, không còn dòng miễn phí |
+| 5 | Đổi địa chỉ sang **United States** | Hiện `US delivery`, **không** có dòng miễn phí, **không** có COD |
+| 6 | Checkout với địa chỉ VN | COD có trong danh sách phương thức thanh toán |
+
+Bước 4 là bước hay bị bỏ nhất, và nó bắt được lỗi ngược chiều — miễn phí ship "dính" lại
+trong session sau khi giỏ hàng đã tụt xuống dưới 3 món.
+
+---
+
+## 6. Cân nặng — vẫn phải điền, kể cả khi chưa dùng tới
+
+Cấu hình trên đây **không cần cân nặng**. Nhưng cứ điền cân nặng cho **mọi SKU ngay lúc nhập**.
+
+Nó miễn phí ở thời điểm nhập, và là thứ **duy nhất** chặn đường sang cách tính phí theo API
+hãng vận chuyển sau này. Nhập xong 40 SKU rồi mới cần cân nặng là mở lại từng sản phẩm một.
+
+Ước tính theo GSM — `[NEED: cân thật một áo và một hoodie]`:
 
 | | Ước tính |
 |---|---|
 | Áo thun 250 GSM | ~200–250 g |
 | Hoodie 500+ GSM | ~600–800 g |
 
-⚠️ Đây là **ước tính theo GSM, không phải số đo**. Cân thật rồi ghi đè.
+⚠️ Đây là **ước tính từ định lượng vải, không phải số đo**. Cân thật rồi ghi đè.
 
 ---
 
-## 3. Còn thiếu gì
+## 7. Chuyển sang API hãng vận chuyển — để sau, và biết trước cái giá
 
-### Trong nước
-- `[NEED: hãng vận chuyển]` — GHN / GHTK / Viettel Post / J&T
-- `[NEED: phí TP.HCM]`
-- `[NEED: phí miền Nam]`
-- `[NEED: phí miền Trung]`
-- `[NEED: phí miền Bắc]`
-- `[NEED: có ngưỡng miễn phí ship không]`
-- `[NEED: COD hay trả trước 100%]`
-- `[NEED: cân nặng thật của áo thun và hoodie]`
+Không làm bây giờ. Ghi lại để lần sau không phải phân tích lại.
 
-> Cách chia vùng ở trên là **đề xuất**, không phải quyết định. Hãng vận chuyển nào cũng có
-> bảng vùng riêng của họ — lấy bảng đó rồi chia zone theo cho khớp, đừng chia theo cảm tính.
+GHN / GHTK / Viettel Post gọi API lấy giá thật, nhưng WooCommerce chỉ có ô **Tỉnh/Thành**,
+còn các hãng cần tối thiểu **Quận/Huyện**, thường cả **Phường/Xã**. Nghĩa là plugin phải
+**chèn thêm ô vào form checkout** — đúng cái mà `CLAUDE.md` gọi là thay đổi rủi ro cao nhất
+trong stack. Và khi API hãng chậm, khách thấy ô phí quay mãi không ra số, ở bước cuối cùng
+trước khi trả tiền.
 
-### Quốc tế — vẫn trống hoàn toàn
-- `[NEED: hãng]`
-- `[NEED: ship tới nước nào]`
-- `[NEED: phí theo vùng]`
-- `[NEED: thời gian]`
-- `[NEED: thuế nhập khẩu — DDP hay DDU]`
-
-Đây vẫn là mục chặn lớn nhất của dự án. Website tồn tại để phục vụ khách quốc tế, mà đó là
-tệp khách duy nhất chưa có một con số nào.
+Đổi từ zone sang plugin **không phải làm lại gì** — tắt zone, bật plugin. Ngược lại cũng vậy.
+Nên chạy zone một tháng, nhìn đơn thật, rồi mới quyết.
 
 ---
 
-## 4. Khi có số rồi thì làm gì
-
-```
-1. WooCommerce → Cài đặt → Vận chuyển → thêm Zone theo bảng vùng của hãng
-2. Mỗi zone: thêm phương thức Flat rate → điền phí
-3. Nếu có ngưỡng miễn phí ship: thêm Free shipping với điều kiện "Minimum order amount"
-4. Đặt thử một đơn tới mỗi zone, kiểm phí hiện đúng
-5. Viết trang shipping từ deliverables/pages-html/shipping.html — xoá hết ô cam
-```
-
-Bước 4 không được bỏ. Zone cấu hình sai thì không báo lỗi — nó chỉ **im lặng tính sai tiền**.
-
----
-
-## 5. Liên quan
+## 8. Liên quan
 
 | | |
 |---|---|
-| Trang chính sách giao hàng | `deliverables/pages-html/shipping.html` |
-| So sánh với 2 đối thủ | `deliverables/content/POLICIES.md` |
+| Trang chính sách giao hàng | sinh từ `docs/make-pages.py` mục 2 |
+| Cái gì bị bỏ khỏi trang, cách điền lại | `docs/CHO-DIEN-SAU.md` A8 |
+| Luật freeship trong theme | `inc/woocommerce.php` mục 7 |
 | Cấu trúc sản phẩm, attribute | `deliverables/woo/STRUCTURE-SETUP.md` |
-| Thứ tự dựng site | `docs/BUILD-ON-WORDPRESS.md` |
+| Thứ tự việc | `docs/HANDOFF.md` mục 1 |
