@@ -200,7 +200,7 @@ cho đổi là một tháng sau trang chủ không còn giống thiết kế. "C
 | Vùng kể chuyện | **VÁNG DẦU** (`.vt-iri`). Hai bề mặt khác nhau là cố ý, không phải sót |
 | Chữ header | **weight 700**, giãn `.12em`, mờ `.90`. Brand yêu cầu 30/08: bản 500 quá mảnh.
 JetBrains Mono phải nạp cả 700 trong `inc/enqueue.php` — bỏ ra là thành bôi đậm giả, nhoè ở 11px |
-| Ngôn ngữ | **EN default tại root**, VI tại `/vi/`. Build EN xong → dịch → launch cùng lúc |
+| Ngôn ngữ | 🔴 **ĐỔI 01/09: `/en` VÀ `/vi`, cả hai đều có prefix.** Root `/` chuyển hướng sang `/en`. Quyết định cũ "EN tại root" bị user override. Build EN xong → dịch → launch cùng lúc |
 | Auto-detect ngôn ngữ | **KHÔNG** |
 | Permalink | `/%postname%` không trailing slash |
 | Language switcher | Chữ `EN / VI`, **không dùng cờ** |

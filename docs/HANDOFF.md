@@ -45,43 +45,74 @@ User đã sửa `wp-config.php`. Site Health critical về việc in lỗi PHP r
 ⚠️ Ghi lại để lần sau không lặp: **đừng dùng `'sslverify' => false`** để dập cảnh báo
 wordpress.org. Đó là tắt kiểm tra chứng chỉ, đổi một cảnh báo lấy một lỗ hổng.
 
-### Bước C — Sửa URL tiếng Việt *(15 phút)*
+### Bước C — 🔴 Đổi sang `/en` + `/vi`, rồi sửa URL tiếng Việt
 
-🔴 **`/vi/` trả 301 sang `/vi/elementor-28`.** Vẫn còn, đo lại 01/09.
+**Quyết định đổi 01/09.** User override quyết định cũ "EN tại root": muốn **cả hai ngôn ngữ
+đều có prefix** — `/en` cho tiếng Anh, `/vi` cho tiếng Việt. `CLAUDE.md` mục 5 đã cập nhật.
 
-**Đo được 01/09 — chẩn đoán cũ SAI, đừng đi lại đường đó:**
+#### C0 — Trạng thái thật, đo 01/09 bằng REST API
 
-| Đo | Kết quả |
-|---|---|
-| `/vi/` | `301 → /vi/elementor-28` |
-| `/vi/elementor-28` | `200`, `page-id-44`, body class **`home`**, render đủ hero + 6 section |
-| hreflang trên **cả hai** trang | `en → /` và `vi → /vi/elementor-28`, đối xứng |
+| ID | slug | link | là gì |
+|---|---|---|---|
+| **28** | `elementor-28` | `/` | **trang chủ EN**, đặt ở `Settings → Reading` |
+| **44** | `elementor-28` | `/vi/elementor-28` | bản dịch VI của 28 |
 
-hreflang đối xứng nghĩa là **trang 44 ĐÃ được nối làm bản dịch VI của trang chủ EN (28)** —
-Polylang biết cặp này. Nội dung VI cũng đúng, `front-page.php` đang render. Hỏng **chỉ ở URL**:
-Polylang đang không nhận trang 44 là *trang chủ tĩnh* của tiếng Việt, nên WordPress đá về
-permalink của nó.
+Hai trang **cùng slug** vì Polylang nhân bản trang 28 để tạo bản VI. `elementor-28` là slug
+tự sinh của Elementor (`elementor-` + ID) cho một trang không đặt tên. Trên EN slug đó vô hình
+vì trang là front page; trên VI nó lộ ra vì `/vi/` chưa nhận 44 là front page.
 
-**Làm theo thứ tự, rẻ trước. Dừng ngay khi `/vi/` đứng yên:**
+Bằng chứng bản dịch **đã nối**: hreflang trên cả hai trang đối xứng (`en → /`, `vi → /vi/elementor-28`),
+và `/vi/elementor-28` trả `200` với body class `home`, render đủ hero + 6 section.
+→ Hỏng **chỉ ở URL**, không phải ở liên kết dịch. Đừng đi tìm lại chuyện "đã nối chưa".
 
-1. `Settings → Reading` → **không đổi gì**, bấm **Save Changes**.
-   Polylang dựng lại bản đồ `page_on_front` cho từng ngôn ngữ lúc lưu. Bản đồ này hay bị cũ
-   khi trang chủ được đặt *trước* lúc nối bản dịch — đúng thứ tự đã xảy ra ở site này.
-2. `Settings → Permalinks` → **Save Changes** (không đổi gì). Nạp lại rewrite rule.
-3. `Languages → Settings → URL modifications` → **Save**.
-4. Chỉ khi 1–3 không ăn: mở trang 44, gỡ liên kết dịch rồi nối lại với trang 28, làm lại bước 1.
+Rác cần dọn: **`sample-page` (ID 2)** vẫn publish tại `/sample-page`. Xoá.
 
-**Sau khi `/vi/` đã đứng yên** mới đổi slug `elementor-28` → `trang-chu`. Đổi trước là mất một
-biến để đối chiếu.
+#### C1 — Bật prefix cho ngôn ngữ mặc định *(làm TRƯỚC)*
 
-**Kiểm lại bằng lệnh này** — phải ra `200`, không phải `301`:
+`Languages → Settings → URL modifications` → **bỏ tick "Hide URL language information for the
+default language"** → Save. Rồi `Settings → Permalinks` → Save.
+
+🔴 **Phải làm trước C2.** Lỗi `/vi/` nằm đúng ở chỗ bất đối xứng giữa "ngôn ngữ mặc định không
+có prefix" và "ngôn ngữ kia có prefix". Bỏ tick là ép Polylang dựng lại front page cho **cả hai**
+ngôn ngữ theo cùng một luật — nhiều khả năng `/vi/` tự hết lỗi. Làm C2 trước là sửa mù.
+
+⚠️ **Không** bật "Detect browser language" — `CLAUDE.md` mục 5 đã chốt KHÔNG auto-detect.
+
+#### C2 — Nếu `/vi/` vẫn 301, làm tiếp, rẻ trước
+
+1. `Settings → Reading` → **không đổi gì**, bấm **Save Changes**. Polylang dựng lại bản đồ
+   `page_on_front` theo ngôn ngữ lúc lưu. Bản đồ này hay bị cũ khi trang chủ được đặt *trước*
+   lúc nối bản dịch — đúng thứ tự đã xảy ra ở site này.
+2. `Settings → Permalinks` → Save.
+3. Chỉ khi 1–2 không ăn: gỡ liên kết dịch của trang 44 rồi nối lại với 28, làm lại bước 1.
+
+#### C3 — Đổi slug *(sau cùng, khi URL đã đứng yên)*
+
+`elementor-28` → `home` (ID 28) và `trang-chu` (ID 44). Đổi trước là mất một biến để đối chiếu.
+
+#### C4 — Kiểm lại
 
 ```bash
-powershell -Command "try{$r=Invoke-WebRequest 'https://vitalite.io.vn/vi/' -MaximumRedirection 0 -UseBasicParsing}catch{$r=$_.Exception.Response}; \"$([int]$r.StatusCode) $($r.Headers['Location'])\""
+powershell -Command "foreach($u in @('https://vitalite.io.vn/','https://vitalite.io.vn/en/','https://vitalite.io.vn/vi/')){try{$r=Invoke-WebRequest $u -MaximumRedirection 0 -UseBasicParsing}catch{$r=$_.Exception.Response}; \"$u -> $([int]$r.StatusCode) $($r.Headers['Location'])\"}"
 ```
 
-> ℹ️ `/vi/returns` chuyển về `/returns` là **đúng** ở giai đoạn này — chưa dịch trang nào.
-> Dịch là bước cuối trước launch.
+Phải thấy: `/` → `301` sang `/en/` · `/en/` → `200` · `/vi/` → `200`.
+
+#### C5 — 🔴 Cái sẽ gãy sau khi đổi, đã kiểm
+
+**12 link tuyệt đối** nằm trong nội dung 12 trang tĩnh:
+`/returns` ×4 · `/size-guide` ×4 · `/shipping` · `/faq` · `/privacy` · `/seller-information`
+
+Sau khi có prefix, chúng trỏ ra ngoài ngôn ngữ và ăn thêm một cú redirect. Tới lúc dịch VI thì
+link trên trang VI sẽ nhảy về bản EN.
+
+→ Sửa ở **`docs/make-pages.py`**, KHÔNG sửa file `.html` (lần chạy sau ghi đè).
+→ Chưa gấp: hiện chỉ có bản EN. Nhưng **phải xong trước bước G (dịch VI)**.
+
+✅ Theme sạch — không có link tuyệt đối nào, dùng `get_permalink()` / `wc_get_page_permalink()`
+nên tự đúng ngôn ngữ.
+
+> ℹ️ `/vi/returns` chuyển về bản EN là **đúng** ở giai đoạn này — chưa dịch trang nào.
 
 ### Bước D — 🔴 Shipping zone + phương thức thanh toán
 
