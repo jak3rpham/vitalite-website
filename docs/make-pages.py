@@ -264,6 +264,22 @@ PAGES = []
 # dinh nay van ghi 23/08 trong khi noi dung da doi that -- returns bo han muc
 # Refunds, terms bo muc gioi han trach nhiem, privacy viet lai muc luu tru.
 # Doi noi dung chinh sach thi PHAI doi ngay o day.
+# ---------------------------------------------------------------- tien to ngon ngu
+# Tu 01/09/2026 Polylang bat prefix cho CA HAI ngon ngu: /en va /vi.
+# Truoc do tieng Anh nam o goc (`/returns`), nen moi link tuyet doi trong noi dung
+# duoi day deu viet khong tien to. Gio chung phai co tien to, neu khong:
+#   - tren trang EN: an them mot cu redirect /returns -> /en/returns
+#   - tren trang VI: link nhay THANG VE BAN EN, khach dang doc tieng Viet bi da sang
+#     trang tieng Anh giua chung
+#
+# Vi sao lam bang mot buoc hau ky chu khong sua 16 chuoi trong noi dung:
+# noi dung o duoi la NGUON dung chung cho moi ngon ngu. Nhung ngay dich sang tieng
+# Viet, chi doi hang nay thanh '/vi' la ca bo trang tu dung link -- khong phai
+# di sua 16 cho lan nua va khong the quen mot cho.
+#
+# De chuoi rong '' neu sau nay bo prefix.
+LANG_PREFIX = '/en'
+
 STAMP = 'Last updated 30 August 2026'
 
 
@@ -757,6 +773,36 @@ def strip_comments(html):
     return out.strip() + '\n'
 
 
+def localize_links(html):
+    """Them LANG_PREFIX vao moi link tuyet doi trong cung site.
+
+    CHI dung toi `href="/..."`. Khong dung toi:
+        href="#..."             moc trong trang
+        href="http..."          link ra ngoai
+        href="mailto:..."       email
+        href="//..."            protocol-relative
+        href="/en/..."          da co tien to roi (chay lai khong nhan doi)
+
+    Query string di theo nguyen ven: `/shop?collection=the-iconic`
+    -> `/en/shop?collection=the-iconic`.
+    """
+    if not LANG_PREFIX:
+        return html, 0
+
+    pat = re.compile(r'href="(/(?!/)[^"]*)"')
+
+    n = [0]
+
+    def sub(m):
+        url = m.group(1)
+        if url == LANG_PREFIX or url.startswith(LANG_PREFIX + '/'):
+            return m.group(0)
+        n[0] += 1
+        return 'href="%s%s"' % (LANG_PREFIX, url)
+
+    return pat.sub(sub, html), n[0]
+
+
 def build():
     if not os.path.isdir(OUT):
         os.makedirs(OUT)
@@ -771,6 +817,7 @@ def build():
             % (p['slug'], sid, h, body.strip())
             for sid, h, body in p['sections'])
         html = strip_comments(SHELL % dict(css=css, toc=toc, secs=secs, **p))
+        html, _ = localize_links(html)
         path = os.path.join(OUT, p['slug'] + '.html')
         io.open(path, 'w', encoding='utf-8', newline='\n').write(html)
         made.append((p['slug'], p['title'], len(html),
@@ -831,6 +878,7 @@ def build_about():
         return None
     raw = io.open(src, encoding='utf-8').read()
     out = strip_comments(raw)
+    out, _ = localize_links(out)
     io.open(os.path.join(OUT, 'about.html'), 'w',
             encoding='utf-8', newline='\n').write(out)
     return (len(raw), len(out))

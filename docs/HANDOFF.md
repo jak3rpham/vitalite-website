@@ -98,21 +98,38 @@ powershell -Command "foreach($u in @('https://vitalite.io.vn/','https://vitalite
 
 Phải thấy: `/` → `301` sang `/en/` · `/en/` → `200` · `/vi/` → `200`.
 
-#### C5 — 🔴 Cái sẽ gãy sau khi đổi, đã kiểm
+#### C5 — ~~Link tuyệt đối trong trang tĩnh~~ ✅ ĐÃ SỬA 01/09
 
-**12 link tuyệt đối** nằm trong nội dung 12 trang tĩnh:
-`/returns` ×4 · `/size-guide` ×4 · `/shipping` · `/faq` · `/privacy` · `/seller-information`
+`docs/make-pages.py` giờ có hằng **`LANG_PREFIX = '/en'`** và bước hậu kỳ `localize_links()`
+chạy trong cả `build()` lẫn `build_about()`.
 
-Sau khi có prefix, chúng trỏ ra ngoài ngôn ngữ và ăn thêm một cú redirect. Tới lúc dịch VI thì
-link trên trang VI sẽ nhảy về bản EN.
+Không sửa 16 chuỗi trong nội dung, vì nội dung đó là **nguồn dùng chung cho mọi ngôn ngữ**.
+Ngày dịch sang tiếng Việt chỉ đổi **một hằng** thành `'/vi'` là cả bộ trang tự đúng link.
 
-→ Sửa ở **`docs/make-pages.py`**, KHÔNG sửa file `.html` (lần chạy sau ghi đè).
-→ Chưa gấp: hiện chỉ có bản EN. Nhưng **phải xong trước bước G (dịch VI)**.
+Đã sinh lại và đếm trên file thật:
 
-✅ Theme sạch — không có link tuyệt đối nào, dùng `get_permalink()` / `wc_get_page_permalink()`
-nên tự đúng ngôn ngữ.
+| | |
+|---|---|
+| Link nội bộ có prefix | `/en/size-guide` ×5 · `/en/returns` ×4 · `/en/shop` + 2 biến thể `?collection=` · `/en/shipping` · `/en/seller-information` · `/en/privacy` · `/en/faq` |
+| Còn sót không prefix | **0** trong bản sinh ra *(`about.src.html` giữ nguyên — nó là NGUỒN)* |
+| `mailto:` · `https://` · `#anchor` | **không bị đụng tới** — 21 · 22 · 93, nguyên vẹn |
 
-> ℹ️ `/vi/returns` chuyển về bản EN là **đúng** ở giai đoạn này — chưa dịch trang nào.
+Query string đi theo nguyên vẹn: `/shop?collection=the-iconic` → `/en/shop?collection=the-iconic`.
+Chạy lại nhiều lần không nhân đôi prefix.
+
+✅ Theme sạch từ đầu — không có link tuyệt đối nào, dùng `get_permalink()` /
+`wc_get_page_permalink()` nên tự đúng ngôn ngữ.
+
+#### C6 — 🔴 Dán lại 12 trang, và ĐÚNG THỜI ĐIỂM
+
+12 trang tĩnh đang chạy trên production là **HTML đã dán vào widget Elementor**. Sửa file trong
+repo **không** đổi gì trên site. Phải dán lại từng trang:
+11 file `deliverables/pages-html/*.html` + `about.html`.
+
+🔴 **Dán SAU C1, không dán trước.** Trước khi Polylang bật prefix thì `/en/returns` chưa tồn tại
+— dán sớm là tự tay biến 16 link đang chạy thành 16 link 404.
+
+Thứ tự đúng: **C1 → C2 (nếu cần) → dán lại 12 trang → C3 đổi slug → C4 đo lại.**
 
 ### Bước D — 🔴 Shipping zone + phương thức thanh toán
 
