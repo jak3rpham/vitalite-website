@@ -238,7 +238,7 @@ JetBrains Mono phải nạp cả 700 trong `inc/enqueue.php` — bỏ ra là th�
 7. ~~Polylang — cài + bật EN/VI~~                  ✅ XONG 31/08 (Polylang Pro 3.8.6
    + Polylang for WooCommerce 2.2.3, đều đang chạy). CHƯA dịch nội dung.
    ✅ 05/09: đổi sang **`/en` + `/vi`**, cả hai trả 200. Lỗi `/vi/` cũ đã hết.
-   ⚠️ Còn: `/` nhảy về `/en/elementor-28` chứ không phải `/en/` — `HANDOFF.md` C-1
+   ✅ 05/09: `/` → `302 → /en/`, hreflang + canonical đúng. C-1 và C-2 đã đóng
 8. Shipping zone + phương thức thanh toán           ← 🔴 ĐANG Ở ĐÂY, việc TAY
    → `deliverables/woo/SHIPPING-SETUP.md` (viết lại 01/09). Đây là thứ CHẶN bước 9
 9. Tạo attributes → nhập 2 SẢN PHẨM TEST → kiểm
