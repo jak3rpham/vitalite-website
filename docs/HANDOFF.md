@@ -1,6 +1,6 @@
 # HANDOFF — VITALITÉ WEBSITE
 
-**Cập nhật:** 2026-09-01 · **Dành cho:** phiên Claude Code mới
+**Cập nhật:** 2026-09-05 · **Dành cho:** phiên Claude Code mới
 **Đọc file này ngay sau `CLAUDE.md`, trước khi làm bất cứ việc gì.**
 
 > ⚠️ **Terminal máy này là Windows PowerShell 5.1 — `&&` KHÔNG tồn tại.**
@@ -12,7 +12,10 @@
 
 **Site đang chạy thật và đã có đủ khung.** `vitalite.io.vn`, theme **`Vitalité 2.0` v2.5.0**
 ở `wp-content/themes/vitalite-2-0/`. Trang chủ đủ 6 section, 12 trang tĩnh đã publish,
-footer tự đầy link, Polylang bật EN/VI, panel quản trị nội dung chạy.
+footer tự đầy link, panel quản trị nội dung chạy.
+
+**Cấu trúc URL đã đổi xong 05/09:** `/en` và `/vi` — cả hai ngôn ngữ đều có prefix,
+`/` chuyển hướng sang EN. Lỗi `/vi/` cũ đã hết.
 
 **Thứ còn thiếu là SẢN PHẨM.** Chưa có một SKU nào trong WooCommerce. Mọi việc kỹ thuật còn
 lại đều xoay quanh việc mở đường cho lần nhập hàng đầu tiên.
@@ -45,91 +48,71 @@ User đã sửa `wp-config.php`. Site Health critical về việc in lỗi PHP r
 ⚠️ Ghi lại để lần sau không lặp: **đừng dùng `'sslverify' => false`** để dập cảnh báo
 wordpress.org. Đó là tắt kiểm tra chứng chỉ, đổi một cảnh báo lấy một lỗ hổng.
 
-### Bước C — 🔴 Đổi sang `/en` + `/vi`, rồi sửa URL tiếng Việt
+### Bước C — ~~Đổi sang `/en` + `/vi`~~ ✅ XONG 05/09 *(còn 2 việc nhỏ)*
 
-**Quyết định đổi 01/09.** User override quyết định cũ "EN tại root": muốn **cả hai ngôn ngữ
-đều có prefix** — `/en` cho tiếng Anh, `/vi` cho tiếng Việt. `CLAUDE.md` mục 5 đã cập nhật.
+User đã bấm xong trong wp-admin: bỏ tick *"Hide URL language information for the default
+language"*, lưu lại Permalinks.
 
-#### C0 — Trạng thái thật, đo 01/09 bằng REST API
+**Đo trên site thật 05/09** — đây là số đo, không phải phỏng đoán:
 
-| ID | slug | link | là gì |
-|---|---|---|---|
-| **28** | `elementor-28` | `/` | **trang chủ EN**, đặt ở `Settings → Reading` |
-| **44** | `elementor-28` | `/vi/elementor-28` | bản dịch VI của 28 |
+| URL | Kết quả |
+|---|---|
+| `/en/` | **200** ✅ |
+| `/vi/` | **200** ✅ — lỗi 301 cũ đã hết |
+| `/` | `302 → /en/elementor-28` ⚠️ xem C-1 |
+| `/returns` | `301 → /en/returns` ✅ URL cũ vẫn còn đường về |
+| `/en/shop` · `/vi/shop` | 200 cả hai ✅ |
+| 12 trang tĩnh | 200 hết, canonical đúng `/en/<slug>` ✅ |
+| Link nội bộ trong nội dung | **đều đã có prefix** ✅ — `docs/make-pages.py` đã sinh lại |
 
-Hai trang **cùng slug** vì Polylang nhân bản trang 28 để tạo bản VI. `elementor-28` là slug
-tự sinh của Elementor (`elementor-` + ID) cho một trang không đặt tên. Trên EN slug đó vô hình
-vì trang là front page; trên VI nó lộ ra vì `/vi/` chưa nhận 44 là front page.
+`docs/make-pages.py` đã có hằng **`LANG_PREFIX = '/en'`** (dòng 281) và hàm
+**`localize_links()`** (dòng 776) tự thêm prefix vào mọi link tuyệt đối trong cùng site.
+🔴 Tới lúc dịch VI thì đổi hằng này rồi chạy lại — **đừng sửa tay file `.html`**.
 
-Bằng chứng bản dịch **đã nối**: hreflang trên cả hai trang đối xứng (`en → /`, `vi → /vi/elementor-28`),
-và `/vi/elementor-28` trả `200` với body class `home`, render đủ hero + 6 section.
-→ Hỏng **chỉ ở URL**, không phải ở liên kết dịch. Đừng đi tìm lại chuyện "đã nối chưa".
+#### C-1 ⚠️ Trang chủ đang có HAI URL — cần sửa TRƯỚC launch
 
-Rác cần dọn: **`sample-page` (ID 2)** vẫn publish tại `/sample-page`. Xoá.
+`/` không nhảy về `/en/` mà nhảy về **`/en/elementor-28`**. Cả hai URL đều trả **200** và
+render cùng một trang chủ. Đo thêm:
 
-#### C1 — Bật prefix cho ngôn ngữ mặc định *(làm TRƯỚC)*
+- Trang chủ **không có thẻ `rel=canonical`** — WordPress core chỉ in canonical ở trang
+  `is_singular()`, front page thì không. Theme cũng không tự in *(`inc/seo.php` chỉ dùng
+  `vt_current_url()` cho `og:url`)*. Đây là hành vi chuẩn của WP, không phải lỗi theme.
+- **hreflang đang trỏ vào bản slug**: `en → /en/elementor-28`, `vi → /vi/elementor-28`,
+  `x-default → /`.
 
-`Languages → Settings → URL modifications` → **bỏ tick "Hide URL language information for the
-default language"** → Save. Rồi `Settings → Permalinks` → Save.
+→ Nghĩa là với Google, trang chủ có hai địa chỉ và không có tín hiệu nào nói cái nào là chính.
+Chưa hại gì lúc này *(đang chặn index)*, nhưng **là lỗi trùng nội dung ngay ngày launch**.
 
-🔴 **Phải làm trước C2.** Lỗi `/vi/` nằm đúng ở chỗ bất đối xứng giữa "ngôn ngữ mặc định không
-có prefix" và "ngôn ngữ kia có prefix". Bỏ tick là ép Polylang dựng lại front page cho **cả hai**
-ngôn ngữ theo cùng một luật — nhiều khả năng `/vi/` tự hết lỗi. Làm C2 trước là sửa mù.
+**Cách sửa — một ô tick, không đụng code:**
+`Languages → Settings → URL modifications` → tick
+**"The front page URL contains the language code instead of the page name or page id"** → Save
+→ rồi `Settings → Permalinks` → Save.
 
-⚠️ **Không** bật "Detect browser language" — `CLAUDE.md` mục 5 đã chốt KHÔNG auto-detect.
+Sau đó `/` phải nhảy thẳng về `/en/`, và hreflang phải trỏ `/en/` + `/vi/`.
 
-#### C2 — Nếu `/vi/` vẫn 301, làm tiếp, rẻ trước
-
-1. `Settings → Reading` → **không đổi gì**, bấm **Save Changes**. Polylang dựng lại bản đồ
-   `page_on_front` theo ngôn ngữ lúc lưu. Bản đồ này hay bị cũ khi trang chủ được đặt *trước*
-   lúc nối bản dịch — đúng thứ tự đã xảy ra ở site này.
-2. `Settings → Permalinks` → Save.
-3. Chỉ khi 1–2 không ăn: gỡ liên kết dịch của trang 44 rồi nối lại với 28, làm lại bước 1.
-
-#### C3 — Đổi slug *(sau cùng, khi URL đã đứng yên)*
-
-`elementor-28` → `home` (ID 28) và `trang-chu` (ID 44). Đổi trước là mất một biến để đối chiếu.
-
-#### C4 — Kiểm lại
+Kiểm lại:
 
 ```bash
 powershell -Command "foreach($u in @('https://vitalite.io.vn/','https://vitalite.io.vn/en/','https://vitalite.io.vn/vi/')){try{$r=Invoke-WebRequest $u -MaximumRedirection 0 -UseBasicParsing}catch{$r=$_.Exception.Response}; \"$u -> $([int]$r.StatusCode) $($r.Headers['Location'])\"}"
 ```
 
-Phải thấy: `/` → `301` sang `/en/` · `/en/` → `200` · `/vi/` → `200`.
+Xong C-1 rồi mới đổi slug `elementor-28` → `home` (ID 28) và `trang-chu` (ID 44).
 
-#### C5 — ~~Link tuyệt đối trong trang tĩnh~~ ✅ ĐÃ SỬA 01/09
+#### C-2 ⚠️ `Sample Page` VẪN CÒN publish
 
-`docs/make-pages.py` giờ có hằng **`LANG_PREFIX = '/en'`** và bước hậu kỳ `localize_links()`
-chạy trong cả `build()` lẫn `build_about()`.
+Đo 05/09: `sample-page` (ID **2**) vẫn sống tại `/en/sample-page`, trả **200**.
+Xoá trong `Pages`.
 
-Không sửa 16 chuỗi trong nội dung, vì nội dung đó là **nguồn dùng chung cho mọi ngôn ngữ**.
-Ngày dịch sang tiếng Việt chỉ đổi **một hằng** thành `'/vi'` là cả bộ trang tự đúng link.
+Ba trang **draft** thì không kiểm được từ ngoài *(draft không public)*. Nếu chưa xoá thì xoá nốt:
 
-Đã sinh lại và đếm trên file thật:
-
-| | |
+| Trang | Vì sao là rác |
 |---|---|
-| Link nội bộ có prefix | `/en/size-guide` ×5 · `/en/returns` ×4 · `/en/shop` + 2 biến thể `?collection=` · `/en/shipping` · `/en/seller-information` · `/en/privacy` · `/en/faq` |
-| Còn sót không prefix | **0** trong bản sinh ra *(`about.src.html` giữ nguyên — nó là NGUỒN)* |
-| `mailto:` · `https://` · `#anchor` | **không bị đụng tới** — 21 · 22 · 93, nguyên vẹn |
+| `Elementor #7` — Draft | Trang Elementor rỗng bỏ lại |
+| `Refund and Returns Policy` — Draft | Bản mẫu WooCommerce. Đã có **Returns & Exchanges** thật |
+| `Privacy Policy` — Draft | Bản mẫu WordPress. Đã có **Privacy Policy — Elementor** thật |
 
-Query string đi theo nguyên vẹn: `/shop?collection=the-iconic` → `/en/shop?collection=the-iconic`.
-Chạy lại nhiều lần không nhân đôi prefix.
-
-✅ Theme sạch từ đầu — không có link tuyệt đối nào, dùng `get_permalink()` /
-`wc_get_page_permalink()` nên tự đúng ngôn ngữ.
-
-#### C6 — 🔴 Dán lại 12 trang, và ĐÚNG THỜI ĐIỂM
-
-12 trang tĩnh đang chạy trên production là **HTML đã dán vào widget Elementor**. Sửa file trong
-repo **không** đổi gì trên site. Phải dán lại từng trang:
-11 file `deliverables/pages-html/*.html` + `about.html`.
-
-🔴 **Dán SAU C1, không dán trước.** Trước khi Polylang bật prefix thì `/en/returns` chưa tồn tại
-— dán sớm là tự tay biến 16 link đang chạy thành 16 link 404.
-
-Thứ tự đúng: **C1 → C2 (nếu cần) → dán lại 12 trang → C3 đổi slug → C4 đo lại.**
+⚠️ Riêng `Privacy Policy` draft: vào `Settings → Privacy` chọn bản **published** trước, **rồi mới**
+xoá draft. Xoá trước là WordPress còn trỏ vào một trang trong thùng rác.
 
 ### Bước D — 🔴 Shipping zone + phương thức thanh toán
 
@@ -310,18 +293,22 @@ Mọi thứ bị bỏ khỏi trang và cách điền lại: **`docs/CHO-DIEN-SAU
 
 ---
 
-## 6. Trạng thái trên production — đo 31/08, không phải phỏng đoán
+## 6. Trạng thái trên production — đo 05/09, không phải phỏng đoán
 
 | | |
 |---|---|
 | Theme | `vitalite-2-0` v2.5.0 · active |
-| Trang chủ | Đủ **6 section**, `front-page.php` kiểm soát. *(Cảnh báo cũ "Elementor chiếm quyền" đã hết hiệu lực)* |
-| 12 trang tĩnh | 200 hết · slug đúng · 0 eyebrow · 0 ô cam · 0 comment lọt |
+| Trang chủ | Đủ **6 section**, `front-page.php` kiểm soát |
+| URL ngôn ngữ | **`/en` + `/vi`, cả hai đều 200** ✅ · `/` → `302 → /en/elementor-28` ⚠️ xem C-1 |
+| 12 trang tĩnh | 200 hết tại `/en/<slug>` · canonical đúng · link nội bộ đã có prefix |
+| URL cũ không prefix | `301` về bản `/en/...` ✅ không gãy link nào |
 | Footer | Tự đầy 2 cột Support + Legal |
-| Polylang | EN + VI đã bật, có hreflang. Chưa dịch nội dung |
-| Tràn ngang | Sạch trên `/`, `/shop`, `/cart`, `/checkout`, `/my-account` |
-| Font | Archivo 800 + JetBrains Mono 800 tải được, `--vt-display-wide: 125%` |
+| Polylang | EN + VI bật, có hreflang *(đang trỏ bản slug — xem C-1)*. **Chưa dịch nội dung** |
+| Trang rác | `sample-page` ID 2 **vẫn còn** ⚠️ · 3 draft chưa kiểm được từ ngoài |
+| `WP_DEBUG` | Đã tắt ✅ |
+| Plugin | Akismet đã xoá · Elementor Pro giữ 4.2.1 · Multi-Currency giữ (inactive) |
 | Sản phẩm | **0** |
+| Shipping zone | **CHƯA CÓ** 🔴 — đây là thứ chặn bước E |
 
 ---
 

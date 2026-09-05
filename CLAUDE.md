@@ -138,7 +138,7 @@ Clarification → Individual inputs → Debate → Chếch chốt → Jaker+Mai 
 > **Chi tiết đầy đủ: `docs/HANDOFF.md`** — đọc ngay sau file này.
 
 **Brand:** VITALITÉ ® — fashion, domain `vitalite.io.vn`
-**Stack:** WordPress + WooCommerce + Elementor Pro + Hello Elementor (parent) + `vitalite-theme` (child, v2.0.0)
+**Stack:** WordPress + WooCommerce + Elementor Pro + Hello Elementor (parent) + `vitalite-2-0` (child, **v2.5.0**, đang active trên production)
 **Hosting:** shared cPanel (zhost.vn), LiteSpeed, PHP 8.3, **không có SSH**
 **DB prefix:** `vtl_` · **Currency:** VND
 
@@ -150,18 +150,17 @@ Clarification → Individual inputs → Debate → Chếch chốt → Jaker+Mai 
 - ✅ Audit brand qua Shopee / IG / FB — fact thật đã ghi lại
 - ✅ Tự kiểm 7 mục bằng `docs/check-theme.py` — sạch
 
-### 🔴 Chưa chạy thử trên hosting lần nào
-Theme đã đóng gói xong 30/08: `vitalite-theme.zip` (5,5 MB, 55 file), **v2.0.1**, self-check sạch 7/7.
-Việc kế tiếp là **upload bằng tay** — Claude không làm được, không có SSH.
-Quy trình song song, lùi lại được: `deliverables/setup/DEPLOY.md` bước 1b → 6.
+### ✅ Đã deploy và đang chạy trên production
+Theme **`vitalite-2-0` v2.5.0** đang active tại `wp-content/themes/vitalite-2-0/`.
+Trang chủ 6 section, 12 trang tĩnh publish, footer tự đầy. Trạng thái đo thật: `docs/HANDOFF.md` mục 6.
 
-> User đã xoá thư mục `vitalite-theme` cũ trên production 30/08 (kèm ~96 MB video master
-> bên trong), nên slot đó trống. Extract vào chỗ trống là ra thư mục sạch.
->
 > 🔴 **Luật cho mọi lần deploy sau:** tên thư mục trong zip phải **khác** mọi thư mục theme
 > đang có trên hosting. Sửa hằng `FOLDER` trong `docs/build-theme-zip.py` rồi dựng lại.
 > Extract đè lên thư mục đã có là **trộn**, không phải thay — file cũ sót lại và không
 > nhìn ra bằng mắt được.
+>
+> ✅ Đổi thư mục không mất nội dung: gallery + hero nằm ở `option`, logo và vị trí menu ở
+> `theme_mods` thì hook `after_switch_theme` trong `inc/setup.php` tự chép sang.
 
 ### Đang chờ
 - ~~Nén video hero~~ ✅ XONG. `hero-1280.mp4` **2,32 MB** (x264 CRF 30, 8s, không audio,
@@ -234,13 +233,14 @@ JetBrains Mono phải nạp cả 700 trong `inc/enqueue.php` — bỏ ra là th�
 4. ~~Gỡ video master + đóng gói theme~~            ✅ XONG 30/08
    → `vitalite-theme.zip` 5,5 MB · 55 file · theme self-check sạch 7/7
    → freeship theo số lượng đã viết sẵn trong theme (`inc/woocommerce.php` mục 7)
-5. DEPLOY — upload + kích hoạt                     ← ĐANG Ở ĐÂY, việc TAY
-   → `deliverables/setup/DEPLOY.md` bước 1b → 6
-6. Cấu hình WordPress (title, permalink, category)
+5. ~~DEPLOY — upload + kích hoạt~~                  ✅ XONG (v2.5.0 đang active)
+6. ~~Cấu hình WordPress (title, permalink, category)~~  ✅ XONG
 7. ~~Polylang — cài + bật EN/VI~~                  ✅ XONG 31/08 (Polylang Pro 3.8.6
    + Polylang for WooCommerce 2.2.3, đều đang chạy). CHƯA dịch nội dung.
-   🔴 `/vi/` đang chuyển hướng sang `/vi/elementor-28` — phải sửa
-8. Shipping zone + phương thức thanh toán (freeship theo số lượng: code đã có sẵn)
+   ✅ 05/09: đổi sang **`/en` + `/vi`**, cả hai trả 200. Lỗi `/vi/` cũ đã hết.
+   ⚠️ Còn: `/` nhảy về `/en/elementor-28` chứ không phải `/en/` — `HANDOFF.md` C-1
+8. Shipping zone + phương thức thanh toán           ← 🔴 ĐANG Ở ĐÂY, việc TAY
+   → `deliverables/woo/SHIPPING-SETUP.md` (viết lại 01/09). Đây là thứ CHẶN bước 9
 9. Tạo attributes → nhập 2 SẢN PHẨM TEST → kiểm
 10. Nhập phần còn lại
 11. `.htaccess` bảo vệ nội dung → `deliverables/setup/BAO-VE-NOI-DUNG.md`
