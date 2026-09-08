@@ -1,6 +1,6 @@
 # WOOCOMMERCE — CẤU TRÚC & QUY TRÌNH MỞ ĐƯỜNG NHẬP SẢN PHẨM
 
-**Cập nhật:** 2026-09-05 · **Thay thế hoàn toàn** bản 19/08
+**Cập nhật:** 2026-09-08 · **Thay thế hoàn toàn** bản 19/08
 **Cho:** user tự bấm trong wp-admin (Claude không có SSH, không có quyền admin)
 **Đây là bước E** trong `docs/HANDOFF.md`.
 
@@ -11,15 +11,15 @@
 
 ---
 
-## 0. Trạng thái ngay lúc này — đo 05/09
+## 0. Trạng thái ngay lúc này — đo 08/09
 
 | | |
 |---|---|
 | `/` → `/en/` | ✅ 302 đúng, hreflang + canonical đã sạch |
 | `sample-page` | ✅ đã xoá, trả 404 |
 | Polylang EN + VI | ✅ đang chạy, chưa dịch nội dung |
-| Product categories | ❌ chưa có |
-| Attributes | ❌ chưa có |
+| Product categories | ✅ **đã có** — `t-shirts` · `outerwear` · `bottoms` đều trả 200 *(đo 08/09)* |
+| Attributes | ✅ **đã tạo 6 cái**, Custom ordering. `pa_collection` + `pa_print` **chưa có term** |
 | Shipping zone | ❌ chưa có — **chặn checkout, không chặn attribute** |
 | Sản phẩm | **0** |
 
@@ -29,31 +29,34 @@
 
 ## 1. 🔴 QUYẾT ĐỊNH PHẢI CHỐT TRƯỚC KHI TẠO TERM ĐẦU TIÊN
 
-### 1.1 — Attribute có dịch sang tiếng Việt không?
+### 1.1 — 🔴 Term màu và bản dịch VI — **CHƯA ĐO XONG, đừng nhập SKU trước khi rõ**
 
-**Khuyến nghị: KHÔNG dịch `pa_color` và `pa_size`. Giữ tên tiếng Anh ở cả hai ngôn ngữ.**
-
-Lý do là code, không phải sở thích. `inc/helpers.php` dòng 199–212 map **tên term** sang mã màu:
+`inc/helpers.php` dòng 199–212 map **tên term** sang mã màu để vẽ chấm màu trên thẻ sản phẩm:
 
 ```php
 'black' => '#0A0A0A',  'white' => '#FFFFFF',  'pure white' => '#FFFFFF',
 'grey'  => '#B8B8BC',  'gray'  => '#B8B8BC',  'cream'      => '#EFE7D2',
 ```
 
-Không khớp chuỗi → rơi về `#DDDDE1`, một chấm xám vô nghĩa. Dịch `Black` thành `Đen` là
-**mọi chấm màu trên `/vi/` thành xám**, và không có thông báo lỗi nào — chỉ là trông hỏng.
+Không khớp chuỗi → rơi về `#DDDDE1`, chấm xám vô nghĩa. **Không có lỗi, không có cảnh báo,
+chỉ là trông hỏng.** Nếu term màu bị dịch thành `Đen / Trắng` thì mọi chấm màu trên `/vi/`
+thành xám.
 
-Ba đường đi, chọn một:
+⚠️ **Bản 05/09 của file này đề xuất "bỏ tick `pa_color` trong Polylang" — SAI, không làm được.**
+`pa_*`, `product`, `product_cat`, `product_tag` **không xuất hiện** trong
+`Languages → Settings → Custom post types and Taxonomies`, vì **Polylang for WooCommerce đã
+tiếp quản** cả nhóm này và gỡ chúng khỏi danh sách tuỳ chọn. Không có ô nào để bỏ tick.
 
-| | Cách | Đánh giá |
+**Phép đo cần làm:** `Products → Attributes → Color → Configure terms` —
+màn hình đó **có cột `Language` / cờ ngôn ngữ / bộ lọc ngôn ngữ không?**
+
+| Kết quả đo | Nghĩa là | Làm gì |
 |---|---|---|
-| **A** ✅ | Tắt dịch cho `pa_color` + `pa_size` trong Polylang. Term dùng chung, tên tiếng Anh | Không đụng code. `S / M / L` và `Black / White` khách Việt đọc được. **Chọn cái này** |
-| B | Cho dịch, rồi mở rộng map trong `helpers.php` thêm `'đen'`, `'trắng'`… | Phải sửa theme, và mỗi màu mới phải nhớ sửa hai chỗ |
-| C | Cho dịch mà không sửa map | Chấm xám trên `/vi/`. Đừng |
+| **Không có** cột ngôn ngữ | Term màu dùng chung cả EN lẫn VI | ✅ Không phải làm gì. Rủi ro không tồn tại |
+| **Có** cột ngôn ngữ | Term bị chia theo ngôn ngữ | Sửa map trong `inc/helpers.php` để nhận cả tên Việt, deploy lại **1 file**. Đừng dịch term màu bằng tay rồi hy vọng |
 
-Nhóm B (`pa_fabric` · `pa_fit` · `pa_collection` · `pa_print`) thì **nên cho dịch** — chúng
-đổ vào tab *Details* dạng chữ, khách đọc thật. `250 GSM Cotton` để nguyên cũng được, nhưng
-`Signature Boxy Fit` thì bản VI nên có chữ Việt.
+Nhóm spec (`pa_fabric` · `pa_fit` · `pa_collection` · `pa_print`) **không có rủi ro này** —
+chúng chỉ đổ chữ vào tab *Details*, không map sang mã màu. Dịch thoải mái.
 
 ### 1.2 — Thuế
 
@@ -121,11 +124,15 @@ Danh mục Shopee `Thời Trang Nữ > Áo > Áo thun` là taxonomy của Shopee
 Trộn nhầm là nổ số variation theo cấp số nhân: 3 size × 2 màu = 6 variation thật.
 Thêm nhầm fabric + fit vào variation → 6 × 2 × 2 = **24 variation** cho một sản phẩm chỉ có 6 SKU.
 
-### Nhóm A — tick ✅ *Used for variations* ở màn hình sản phẩm
+### Nhóm A — sẽ dùng cho variation
+
+🔴 **Ô "Used for variations" KHÔNG nằm ở màn hình `Products → Attributes`.** Nó không phải
+thuộc tính của attribute mà của **cặp (sản phẩm, attribute)** — cùng một `pa_color` có thể là
+variation ở sản phẩm này và chỉ là spec ở sản phẩm khác. Xem mục 6.1.
 
 | Name | Slug | Terms | Ghi chú bắt buộc |
 |---|---|---|---|
-| **Size** | `size` → thành `pa_size` | `S` `M` `L` | 🔴 **Default sort order = `Custom ordering`**, rồi kéo term đúng thứ tự S→M→L. Để `Name` là thành `L, M, S` |
+| **Size** | `size` → thành `pa_size` | `S` `M` `L` | 🔴 Đặt `Custom ordering` **chưa đủ** — phải vào `Configure terms` và **kéo thả** cho đúng S→M→L. Chưa kéo thì vẫn ra `L, M, S` |
 | **Color** | `color` → thành `pa_color` | `Black` `White` `Grey` `Pure White` `Cream` | 🔴 **Tên term phải viết đúng y như vậy** — xem 1.1. `Pure White` và `White` là hai term khác nhau, đừng gộp |
 
 > Ô "Slug" khi tạo attribute nhập `size`, WooCommerce tự thêm tiền tố `pa_`.
@@ -134,7 +141,7 @@ Thêm nhầm fabric + fit vào variation → 6 × 2 × 2 = **24 variation** cho 
 `template-parts/product-card.php:85` đọc `pa_size` để in tối đa 4 size lên thẻ sản phẩm ở
 trang shop, mỗi size là một link lọc sẵn. Không có `pa_size` thì phần đó im lặng biến mất.
 
-### Nhóm B — **KHÔNG** tick *Used for variations*
+### Nhóm B — spec, **không** đưa vào variation
 
 | Name | Slug | Terms |
 |---|---|---|
@@ -150,18 +157,17 @@ Bốn cái này đổ vào tab **Details** của PDP (`inc/woocommerce.php` đã
 `pa_collection` thay cho việc tạo category cho từng drop: một sản phẩm thuộc **một** loại
 (T-Shirt) nhưng thuộc collection nào cũng được — hai trục độc lập, phải là hai taxonomy.
 
-### 4.1 — Ngay sau khi tạo xong 6 attribute: vào Polylang
+### 4.1 — Polylang: không phải bấm gì, nhưng phải ĐO một thứ
 
-`Languages → Settings → Custom post types and Taxonomies`
+`Languages → Settings → Custom post types and Taxonomies` **không liệt kê** `product`,
+`product_cat`, `product_tag` hay `pa_*`. Đo 08/09: danh sách chỉ còn hai mục Elementor
+(`Floating Elements`, `My Templates`).
 
-Taxonomy `pa_*` **chỉ xuất hiện trong danh sách này sau khi attribute đã tồn tại**. Đó là
-lý do bước này nằm ở đây chứ không nằm trước.
+Đó **không phải lỗi**. Polylang for WooCommerce tiếp quản toàn bộ nhóm WooCommerce và bật
+dịch cho chúng mặc định, nên chúng bị gỡ khỏi danh sách tuỳ chọn — không còn là thứ để chọn.
 
-- `pa_size`, `pa_color` → **bỏ tick** (theo quyết định 1.1)
-- `pa_fabric`, `pa_fit`, `pa_collection`, `pa_print` → **tick**
-- `product`, `product_cat`, `product_tag` → **tick** (Polylang for WooCommerce lo phần này)
-
-Rồi `Settings → Permalinks` → Save. Polylang cần lượt này để ghi lại rewrite rule.
+→ **Không có gì để tick ở đây.** Việc duy nhất cần làm là **phép đo ở mục 1.1**: mở
+`Products → Attributes → Color → Configure terms` xem có cột ngôn ngữ không.
 
 ---
 
@@ -211,6 +217,21 @@ Giá khác nhau giữa màu là bình thường — set ở **cấp variation**.
 **Nguyên tắc tách:** cùng thân áo, khác màu → **variation**. Khác đồ hoạ → **product riêng**.
 → `THE MOMENTS BOXY HOODIE` Pure White + Grey = một product, hai variation màu.
 → `The Iconic` và `Pink Graffiti` = hai product riêng.
+
+### 6.1 — 🔴 "Used for variations" nằm ở ĐÂY, không nằm ở màn hình Attributes
+
+```
+Products → Add new product
+  → khối "Product data"
+  → đổi dropdown "Simple product" thành "Variable product"      ← BƯỚC BỊ QUÊN NHIỀU NHẤT
+  → tab "Attributes" → "Add existing" → chọn Size
+  → lúc này checkbox "Used for variations" mới hiện ra
+  → tick cho Size và Color · KHÔNG tick cho Fabric / Fit / Collection / Print
+  → Save attributes → sang tab "Variations" → "Generate variations"
+```
+
+Chưa đổi sang **Variable product** thì checkbox đó **không bao giờ xuất hiện**, và tab
+Variations cũng không có. Không phải thiếu plugin, không phải lỗi theme.
 
 ### Bốn việc bắt buộc ở mỗi sản phẩm
 
@@ -263,6 +284,8 @@ Vỡ chỗ nào sửa chỗ đó, **rồi mới** nhập phần còn lại.
 ## 9. Dữ liệu CHƯA CÓ — cần trước khi nhập hàng loạt
 
 Không chặn mục 1–5. Chặn mục 7 trở đi.
+
+- [ ] 🔴 **Kết quả phép đo ở mục 1.1** — có cột ngôn ngữ ở `Configure terms` của Color không
 
 - [ ] 🔴 **Giá site từng SKU** — bán bằng giá Shopee, hay bằng giá gốc chưa giảm? Chưa quyết
       thì không nhập được cái nào
