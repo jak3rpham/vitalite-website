@@ -417,3 +417,41 @@ add_action('add_meta_boxes', function () {
         'low'
     );
 });
+
+/* -------------------------------------------------------------------------
+ * 9. Polylang — tắt dịch cho những attribute không có gì để dịch
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Polylang for WooCommerce bật dịch cho MỌI taxonomy sản phẩm và không cho tắt
+ * trong admin — `pa_*` không xuất hiện trong Languages → Settings → Custom post
+ * types and Taxonomies, vì plugin đã tiếp quản cả nhóm.
+ *
+ * Vấn đề với `pa_color` không phải là phiền, mà là SAI:
+ * `vt_product_color_swatches()` trong inc/helpers.php map TÊN term sang mã màu
+ * ('black' => '#0A0A0A'). Dịch `Black` thành `Đen` là mọi chấm màu trên /vi/
+ * rơi về #DDDDE1 — không có lỗi PHP, không có cảnh báo, chỉ là trông hỏng.
+ *
+ * Bốn taxonomy dưới đây không có gì để dịch:
+ *   pa_size        S / M / L — giống hệt nhau ở cả hai ngôn ngữ
+ *   pa_color       xem trên
+ *   pa_collection  Pink Graffiti, Porsche… là tên riêng
+ *   pa_print       một term duy nhất
+ *
+ * Bỏ chúng khỏi danh sách của Polylang → term dùng CHUNG cho cả EN lẫn VI,
+ * không phải tạo bản sao, không phải nhớ gì khi thêm màu mới.
+ *
+ * 🔴 pa_fabric và pa_fit CỐ Ý không nằm trong danh sách — "Signature Boxy Fit"
+ * dịch ra tiếng Việt có ích thật. Muốn tắt nốt thì thêm vào mảng.
+ *
+ * Đảo lại: xoá filter này là Polylang bật dịch lại như cũ. Không mất dữ liệu.
+ */
+add_filter('pll_get_taxonomies', function ($taxonomies, $is_settings) {
+    $shared = array('pa_size', 'pa_color', 'pa_collection', 'pa_print');
+
+    foreach ($shared as $tax) {
+        unset($taxonomies[$tax]);
+    }
+
+    return $taxonomies;
+}, 20, 2);

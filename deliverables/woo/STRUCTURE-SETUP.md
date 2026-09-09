@@ -20,6 +20,7 @@
 | Polylang EN + VI | ✅ đang chạy, chưa dịch nội dung |
 | Product categories | ✅ **đã có** — `t-shirts` · `outerwear` · `bottoms` đều trả 200 *(đo 08/09)* |
 | Attributes | ✅ **đã tạo 6 cái**, Custom ordering. `pa_collection` + `pa_print` **chưa có term** |
+| Dịch attribute | ✅ đã tắt cho 4 taxonomy vô nghĩa — **cần theme v2.5.1**, xem 1.1 |
 | Shipping zone | ❌ chưa có — **chặn checkout, không chặn attribute** |
 | Sản phẩm | **0** |
 
@@ -29,34 +30,46 @@
 
 ## 1. 🔴 QUYẾT ĐỊNH PHẢI CHỐT TRƯỚC KHI TẠO TERM ĐẦU TIÊN
 
-### 1.1 — 🔴 Term màu và bản dịch VI — **CHƯA ĐO XONG, đừng nhập SKU trước khi rõ**
+### 1.1 — ✅ ĐÃ ĐO VÀ ĐÃ XỬ LÝ 09/09 — term attribute dùng chung hai ngôn ngữ
 
-`inc/helpers.php` dòng 199–212 map **tên term** sang mã màu để vẽ chấm màu trên thẻ sản phẩm:
+**Kết quả đo:** `Products → Attributes → Color → Configure terms` **CÓ** cột ngôn ngữ —
+hai cột cờ 🇻🇳 🇺🇸, mỗi term có dấu `+` để tạo bản dịch. Tức là `pa_color` đang bị chia
+theo ngôn ngữ thật.
+
+**Vì sao đó là vấn đề, không chỉ là phiền:** `inc/helpers.php` dòng 199–212 map **tên term**
+sang mã màu để vẽ chấm màu trên thẻ sản phẩm:
 
 ```php
 'black' => '#0A0A0A',  'white' => '#FFFFFF',  'pure white' => '#FFFFFF',
 'grey'  => '#B8B8BC',  'gray'  => '#B8B8BC',  'cream'      => '#EFE7D2',
 ```
 
-Không khớp chuỗi → rơi về `#DDDDE1`, chấm xám vô nghĩa. **Không có lỗi, không có cảnh báo,
-chỉ là trông hỏng.** Nếu term màu bị dịch thành `Đen / Trắng` thì mọi chấm màu trên `/vi/`
-thành xám.
+Dịch `Black` thành `Đen` → không khớp → rơi về `#DDDDE1`. **Mọi chấm màu trên `/vi/` thành
+xám. Không có lỗi PHP, không có cảnh báo, chỉ là trông hỏng.**
 
-⚠️ **Bản 05/09 của file này đề xuất "bỏ tick `pa_color` trong Polylang" — SAI, không làm được.**
-`pa_*`, `product`, `product_cat`, `product_tag` **không xuất hiện** trong
-`Languages → Settings → Custom post types and Taxonomies`, vì **Polylang for WooCommerce đã
-tiếp quản** cả nhóm này và gỡ chúng khỏi danh sách tuỳ chọn. Không có ô nào để bỏ tick.
+**Cách xử lý — đã làm, không phải việc của bạn:** `inc/woocommerce.php` **mục 9** (thêm 09/09)
+dùng filter `pll_get_taxonomies` gỡ 4 taxonomy khỏi danh sách của Polylang:
 
-**Phép đo cần làm:** `Products → Attributes → Color → Configure terms` —
-màn hình đó **có cột `Language` / cờ ngôn ngữ / bộ lọc ngôn ngữ không?**
-
-| Kết quả đo | Nghĩa là | Làm gì |
+| Taxonomy | Trạng thái | Vì sao |
 |---|---|---|
-| **Không có** cột ngôn ngữ | Term màu dùng chung cả EN lẫn VI | ✅ Không phải làm gì. Rủi ro không tồn tại |
-| **Có** cột ngôn ngữ | Term bị chia theo ngôn ngữ | Sửa map trong `inc/helpers.php` để nhận cả tên Việt, deploy lại **1 file**. Đừng dịch term màu bằng tay rồi hy vọng |
+| `pa_size` | **dùng chung** | `S / M / L` giống hệt nhau ở hai ngôn ngữ |
+| `pa_color` | **dùng chung** | dịch là vỡ chấm màu — xem trên |
+| `pa_collection` | **dùng chung** | `Pink Graffiti`, `Porsche` là tên riêng |
+| `pa_print` | **dùng chung** | một term duy nhất |
+| `pa_fabric` | 🌐 vẫn dịch | `250 GSM Cotton` → viết lại được cho khách Việt |
+| `pa_fit` | 🌐 vẫn dịch | `Signature Boxy Fit` → dịch ra có ích thật |
 
-Nhóm spec (`pa_fabric` · `pa_fit` · `pa_collection` · `pa_print`) **không có rủi ro này** —
-chúng chỉ đổ chữ vào tab *Details*, không map sang mã màu. Dịch thoải mái.
+→ Số term phải dịch tay: từ **20 xuống 4**. Thêm màu mới sau này không phải nhớ gì.
+
+🔴 **Cần theme v2.5.1 trở lên.** Đang chạy v2.5.0 thì filter chưa tồn tại và cột cờ vẫn còn.
+Deploy: upload đè 3 file `inc/woocommerce.php` · `functions.php` · `style.css`
+vào `wp-content/themes/vitalite-2-0/` *(đây là sửa file lẻ, KHÔNG phải extract lại cả theme —
+luật "đổi tên thư mục" chỉ áp cho lần thay nguyên bộ)*.
+
+**Kiểm sau khi upload:** mở lại `Products → Attributes → Color → Configure terms` —
+**hai cột cờ phải biến mất.** Còn thấy cờ là file chưa lên đúng chỗ.
+
+Đảo lại được: xoá mục 9 là Polylang bật dịch lại như cũ, không mất dữ liệu.
 
 ### 1.2 — Thuế
 
@@ -285,7 +298,6 @@ Vỡ chỗ nào sửa chỗ đó, **rồi mới** nhập phần còn lại.
 
 Không chặn mục 1–5. Chặn mục 7 trở đi.
 
-- [ ] 🔴 **Kết quả phép đo ở mục 1.1** — có cột ngôn ngữ ở `Configure terms` của Color không
 
 - [ ] 🔴 **Giá site từng SKU** — bán bằng giá Shopee, hay bằng giá gốc chưa giảm? Chưa quyết
       thì không nhập được cái nào
