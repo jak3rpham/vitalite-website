@@ -79,11 +79,47 @@ không đưa lên site.** `19` rỗng 7KB.
 
 Tất cả đều **Variable product**, category **T-Shirts** trừ hoodie (**Outerwear**).
 
-### 3.1 — Áo graffiti xanh *(⚠️ tên sản phẩm chưa chốt, xem 3.5)*
+### 3.0 — Giá và tồn kho — áp cho MỌI sản phẩm
+
+**User chốt 12/09:** giá gốc hiển thị đúng như Shopee, cộng đúng % giảm như Shopee.
+Trong WooCommerce nghĩa là hai ô, không phải một:
+
+| Ô Woo | Điền gì |
+|---|---|
+| **Regular price** | Giá **gạch ngang** trên Shopee *(giá gốc)* |
+| **Sale price** | Giá **đang bán** trên Shopee *(sau giảm)* |
+
+Woo tự tính và hiện `-14%`. Không phải gõ % vào đâu cả.
+
+🔴 **Còn thiếu đúng hai con số.** Đo Shopee 12/09: trang shop công khai cho xem header
+nhưng **chặn danh sách sản phẩm, đòi đăng nhập** — Claude không đăng nhập tài khoản của bạn.
+`reference/BRAND_FACTS_OBSERVED.md` chỉ ghi giá **sau giảm** và **%**, không ghi giá gạch ngang.
+
+**Tính ngược ra giá gốc là bịa số** — `276.100 ÷ 0,84 = 328.690,47`, một con số không ai
+đặt bao giờ. % trên Shopee là số đã làm tròn, nên phép chia ngược không ra giá thật.
+
+→ Mở Shopee, đọc **giá gạch ngang** của hai thứ, điền vào đây:
+
+| Sản phẩm | Giá đang bán *(đã biết)* | Giá gạch ngang *(cần bạn)* |
+|---|---|---|
+| Áo thun — `PINK GRAFFITI ĐEN` | `276.100₫` · -16% | `[CHỜ]` |
+| Áo thun — các mã còn lại | `282.680₫` · -14% | `[CHỜ]` |
+| Hoodie `THE MOMENTS` | `599.100₫` · -14% | `[CHỜ]` |
+
+*(Nếu mọi áo thun dùng chung một giá gốc thì chỉ cần 2 con số.)*
+
+**Tồn kho — user chốt: KHÔNG quản lý.**
+Trong tab *Inventory* của từng sản phẩm: **bỏ tick** `Manage stock?`, để `Stock status` = `In stock`.
+Không nhập số ở cấp variation.
+
+⚠️ Đánh đổi đã chấp nhận: bán quá số hàng thật thì phải tự xin lỗi khách. Đổi sang quản lý
+tồn kho sau được, **không phải làm lại sản phẩm** — chỉ tick lại ô đó.
+
+### 3.1 — ICONIC
 
 | | |
 |---|---|
-| Category | `T-Shirts` |
+| Category | `T-Shirts` · `pa_collection` `The Iconic` |
 | `pa_color` | `Black` · `White` |
 | `pa_size` | `S` `M` `L` |
 | `pa_fabric` | `250 GSM Cotton` |
@@ -130,8 +166,7 @@ trong `product-images/` rồi — cứ theo tên file, đừng theo số.
 | Black | `porsche-black-front.webp` | `porsche-black-back.webp` |
 | White | `porsche-white-front.webp` | `porsche-white-back.webp` |
 
-⚠️ Bản trắng (`9`/`10`) trông hơi ngả ấm so với bản trắng của áo khác. **Trắng hay kem —
-bạn xác nhận.** Nếu là kem thì term là `Cream`, không phải `White`.
+✅ **User chốt 12/09: `White`**, không phải `Cream`. Dùng chung term với các áo trắng khác.
 
 ### 3.4 — The Moments Boxy Hoodie
 
@@ -153,15 +188,23 @@ bạn xác nhận.** Nếu là kem thì term là `Cream`, không phải `White`.
 `t-shirts`, và hoodie chưa có số đo riêng. Đó là **cố ý**: không hiện còn hơn hiện số sai.
 Có số đo thật thì xem `docs/CHO-DIEN-SAU.md`.
 
-### 3.5 — ⚠️ Một tên sản phẩm tôi không tự quyết được
+### 3.5 — ✅ Tên `ICONIC` — cách suy ra, để sau này kiểm lại được
 
-Audit cũ gọi mặt trước là `ICONIC` và mặt sau là `STARLIGHT` — **hai tên cho một cái áo.**
-Một trong hai sai. Shopee có listing tên `ICONIC`; `STARLIGHT` audit ghi *"chỉ IG"*.
+Audit cũ gán `ICONIC` cho mặt trước và `STARLIGHT` cho mặt sau — hai tên cho **một cái áo**.
 
-**Bạn biết sản phẩm, bạn chốt.** Tôi không đoán tên SKU — đó là fact, không phải copy.
-Tên file `graffiti-blue-*` chỉ là nhãn tạm để nhận dạng, đổi thoải mái.
+Chốt `ICONIC`, căn cứ:
 
----
+1. `reference/BRAND_FACTS_OBSERVED.md` đọc được **7/10 listing Shopee**: PINK GRAFFITI ×2,
+   PORSCHE, **ICONIC ×2**, THE MOMENTS HOODIE ×2
+2. Ba trong bốn mockup đã khớp tên Shopee: pink graffiti · porsche · hoodie
+3. `ICONIC` là **tên áo thun Shopee duy nhất còn lại chưa gán**
+4. Audit mô tả ICONIC là *"script ngực nhỏ"* — đúng mặt trước `1`/`3`
+
+`STARLIGHT` là tên line có thật *(mục 7 `BRAND_FACTS_OBSERVED.md`)* nhưng **không phải áo này** —
+nhiều khả năng là một trong 3 SKU Shopee chưa đọc được, hoặc hàng chỉ bán qua IG.
+
+⚠️ Đây là **suy luận từ bằng chứng**, không phải fact đọc trực tiếp. Mở được listing Shopee
+thì đối chiếu lại ảnh. Sai thì đổi tên sản phẩm — không ảnh hưởng cấu trúc.
 
 ## 4. Ảnh — ba điều cần biết trước khi upload
 
@@ -176,19 +219,17 @@ Tên file `graffiti-blue-*` chỉ là nhãn tạm để nhận dạng, đổi th
 
 ---
 
-## 5. 🔴 Ba thứ CHƯA CÓ — không lấy được từ ảnh
+## 5. Còn thiếu gì
 
-Nhập được cấu trúc, ảnh, attribute. **Không nhập được sản phẩm hoàn chỉnh nếu thiếu ba thứ này:**
-
-| | Vì sao chặn |
+| | Trạng thái |
 |---|---|
-| **Giá từng variation** | Bằng giá Shopee đang bán, hay giá gốc chưa giảm? Chưa chốt thì không lưu được sản phẩm |
-| **Cân nặng (kg)** | Cân một áo thun + một hoodie là đủ, dùng chung cả dòng. Điền lúc nhập là miễn phí; điền bù cho 40 SKU là mở lại từng cái |
-| **Tồn kho mỗi variation** | Hoặc tắt quản lý tồn kho và để `In stock` — nhưng phải quyết, không để mặc định |
-
-Thiếu số đo hoodie thì **không phải thứ chặn** — đã xử lý bằng cách không hiện bảng size.
-
----
+| **Giá gạch ngang Shopee** | 🔴 **CHẶN** — 2–3 con số, xem mục 3.0 |
+| Giá sau giảm | ✅ đã có trong `BRAND_FACTS_OBSERVED.md` |
+| Tồn kho | ✅ chốt: không quản lý, `In stock` |
+| Tên sản phẩm | ✅ chốt cả 4 |
+| Màu | ✅ chốt |
+| **Cân nặng (kg)** | 🟡 cân một áo thun + một hoodie. Không chặn lưu sản phẩm, nhưng điền bù cho 40 SKU là mở lại từng cái |
+| Số đo hoodie | ⚪ không chặn — PDP hoodie cố ý không hiện bảng size |
 
 ## 6. Thứ tự bấm
 
