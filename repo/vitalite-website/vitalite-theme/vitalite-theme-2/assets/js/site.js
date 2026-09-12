@@ -420,6 +420,79 @@
   })();
 
   /* ---------------------------------------------------------------
+   * Chấm màu trên thẻ sản phẩm — đổi ảnh ngay tại lưới
+   *
+   * Lưới shop chỉ khoe được một ảnh mỗi thẻ. Rê vào chấm màu là thấy màu đó,
+   * không phải mở PDP mới biết bản trắng trông thế nào.
+   *
+   * Gắn một listener duy nhất ở document (uỷ quyền sự kiện) thay vì một
+   * listener cho mỗi chấm: lưới 12 sản phẩm × 3 màu là 36 listener, và thẻ
+   * còn được nạp thêm khi phân trang.
+   *
+   * Ảnh mặt sau là ảnh cấp SẢN PHẨM, không có bản theo màu — nên khi đang xem
+   * màu khác thì lớp .is-swapped tắt hiệu ứng hover. Thà đứng im còn hơn lật
+   * sang mặt sau của một màu khác.
+   * ------------------------------------------------------------ */
+  (function () {
+    var SWATCH = '.vt-card-swatches.is-interactive .vt-card-swatch';
+
+    function swap(swatch) {
+      var card = swatch.closest ? swatch.closest('.vt-card') : null;
+      if (!card) return;
+      var img = card.querySelector('.vt-card-front');
+      var url = swatch.getAttribute('data-vt-img');
+      if (!img || !url) return;
+
+      // Giữ ảnh gốc lại lần đầu để còn đường quay về.
+      if (!img.dataset.vtOriginal) img.dataset.vtOriginal = img.getAttribute('src');
+      if (img.getAttribute('src') === url) return;
+
+      img.setAttribute('src', url);
+      card.classList.add('is-swapped');
+
+      var siblings = swatch.parentNode.querySelectorAll('.vt-card-swatch');
+      Array.prototype.forEach.call(siblings, function (s) {
+        s.classList.toggle('is-active', s === swatch);
+      });
+    }
+
+    function restore(card) {
+      var img = card.querySelector('.vt-card-front');
+      if (img && img.dataset.vtOriginal) {
+        img.setAttribute('src', img.dataset.vtOriginal);
+      }
+      card.classList.remove('is-swapped');
+      var all = card.querySelectorAll('.vt-card-swatch');
+      Array.prototype.forEach.call(all, function (s) { s.classList.remove('is-active'); });
+    }
+
+    // Rê chuột: đổi ngay. Dùng mouseover chứ không mouseenter — mouseenter
+    // không nổi bọt lên document nên uỷ quyền sự kiện không bắt được.
+    document.addEventListener('mouseover', function (e) {
+      var swatch = e.target.closest && e.target.closest(SWATCH);
+      if (swatch) swap(swatch);
+    });
+
+    // Rời hẳn thẻ thì trả ảnh gốc. Rời từ chấm này sang chấm kia thì không.
+    document.addEventListener('mouseout', function (e) {
+      var card = e.target.closest && e.target.closest('.vt-card');
+      if (!card || !card.classList.contains('is-swapped')) return;
+      if (e.relatedTarget && card.contains(e.relatedTarget)) return;
+      restore(card);
+    });
+
+    // Bàn phím và cảm ứng: không có hover, nên focus và click cũng phải đổi.
+    document.addEventListener('focusin', function (e) {
+      var swatch = e.target.closest && e.target.closest(SWATCH);
+      if (swatch) swap(swatch);
+    });
+    document.addEventListener('click', function (e) {
+      var swatch = e.target.closest && e.target.closest(SWATCH);
+      if (swatch) { e.preventDefault(); swap(swatch); }
+    });
+  })();
+
+  /* ---------------------------------------------------------------
    * Tiện ích
    * ------------------------------------------------------------ */
   function idle(fn) {

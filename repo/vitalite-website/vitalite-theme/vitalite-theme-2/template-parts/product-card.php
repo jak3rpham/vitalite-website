@@ -32,7 +32,22 @@ if (!$vt_front && function_exists('wc_placeholder_img_src')) {
     $vt_front = wc_placeholder_img_src('vt-card');
 }
 $vt_back  = vt_product_back_image($product, 'vt-card');
-$vt_colors = vt_product_color_swatches($product);
+
+/*
+ * Màu + ảnh mặt trước của từng màu, để rê vào chấm màu là ảnh trên thẻ đổi theo.
+ * Sản phẩm đơn (không biến thể) thì trả mảng rỗng → rơi về bản chỉ đọc pa_color,
+ * chấm màu vẫn vẽ nhưng không bấm được. Không có màu nào → không vẽ gì.
+ */
+$vt_colors = vt_product_color_variants($product, 'vt-card');
+if (empty($vt_colors)) {
+    $vt_colors = vt_product_color_swatches($product);
+}
+
+// Có ít nhất một màu kèm ảnh thì mới đáng gắn JS.
+$vt_has_color_img = false;
+foreach ($vt_colors as $vt_c) {
+    if (!empty($vt_c['img'])) { $vt_has_color_img = true; break; }
+}
 ?>
 
 <article <?php wc_product_class('vt-card', $product); ?>>
@@ -110,11 +125,35 @@ $vt_colors = vt_product_color_swatches($product);
     </div>
 
     <?php if (!empty($vt_colors)) : ?>
-      <div class="vt-card-swatches" aria-label="<?php esc_attr_e('Available colours', 'vitalite'); ?>">
+      <?php
+      /*
+       * Chấm màu.
+       *
+       * Có ảnh theo màu  → <button>, rê/bấm là ảnh trên thẻ đổi. JS đọc data-vt-img.
+       * Không có ảnh     → <span> trơ như cũ. Không dựng nút bấm mà bấm không ra gì —
+       *                    đó là lừa người dùng, và hỏng cả bàn phím lẫn trình đọc màn hình.
+       *
+       * Ảnh mặt sau (hover) là ảnh cấp SẢN PHẨM, không có bản theo màu. Nên khi
+       * đang xem màu khác, CSS tắt luôn hiệu ứng hover — thà không đổi còn hơn
+       * đổi sang mặt sau của màu khác.
+       */
+      ?>
+      <?php $vt_sw_class = $vt_has_color_img ? 'vt-card-swatches is-interactive' : 'vt-card-swatches'; ?>
+      <div class="<?php echo esc_attr($vt_sw_class); ?>"
+           aria-label="<?php esc_attr_e('Available colours', 'vitalite'); ?>">
         <?php foreach ($vt_colors as $vt_c) : ?>
-          <span class="vt-card-swatch"
-                style="background: <?php echo esc_attr($vt_c['hex']); ?>"
-                title="<?php echo esc_attr($vt_c['name']); ?>"></span>
+          <?php if ($vt_has_color_img && !empty($vt_c['img'])) : ?>
+            <button type="button" class="vt-card-swatch"
+                    style="background: <?php echo esc_attr($vt_c['hex']); ?>"
+                    data-vt-img="<?php echo esc_url($vt_c['img']); ?>"
+                    title="<?php echo esc_attr($vt_c['name']); ?>">
+              <span class="screen-reader-text"><?php echo esc_html($vt_c['name']); ?></span>
+            </button>
+          <?php else : ?>
+            <span class="vt-card-swatch"
+                  style="background: <?php echo esc_attr($vt_c['hex']); ?>"
+                  title="<?php echo esc_attr($vt_c['name']); ?>"></span>
+          <?php endif; ?>
         <?php endforeach; ?>
       </div>
     <?php endif; ?>

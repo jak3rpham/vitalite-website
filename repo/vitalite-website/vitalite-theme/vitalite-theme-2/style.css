@@ -5,7 +5,7 @@ Description: Child theme cho VITALITÉ — streetwear, WooCommerce. Header/foote
 Author: Vitalité
 Author URI: https://vitalite.io.vn
 Template: hello-elementor
-Version: 2.5.1
+Version: 2.6.0
 Requires at least: 6.0
 Requires PHP: 8.0
 Text Domain: vitalite
@@ -979,6 +979,30 @@ body.vt-banner-top .site-main { padding-top: 0; }
 .vt-card-price ins { text-decoration: none; color: var(--vt-sale); }
 .vt-card-swatches { display: flex; gap: 5px; flex-basis: 100%; }
 .vt-card-swatch { width: 11px; height: 11px; border-radius: 999px; border: 1px solid var(--vt-line-strong); }
+
+/* ---- Chấm màu bấm được ----
+   Chỉ khi biến thể có ảnh riêng theo màu (.is-interactive). Không có ảnh thì
+   chấm vẫn là <span> trơ — dựng nút bấm mà bấm không ra gì là lừa người dùng. */
+.vt-card-swatches.is-interactive .vt-card-swatch {
+  padding: 0; cursor: pointer; appearance: none; -webkit-appearance: none;
+  transition: transform var(--vt-fast) var(--vt-ease), box-shadow var(--vt-fast) var(--vt-ease);
+}
+.vt-card-swatches.is-interactive .vt-card-swatch:hover,
+.vt-card-swatches.is-interactive .vt-card-swatch.is-active {
+  transform: scale(1.35);
+  box-shadow: 0 0 0 1px var(--vt-paper), 0 0 0 2px var(--vt-ink);
+}
+/* Vùng chạm 24px cho ngón tay, nhưng chấm vẫn vẽ 11px */
+@media (hover: none) {
+  .vt-card-swatches.is-interactive .vt-card-swatch { position: relative; }
+  .vt-card-swatches.is-interactive .vt-card-swatch::after {
+    content: ''; position: absolute; inset: -7px;
+  }
+}
+/* Đang xem màu khác → tắt lật mặt sau.
+   Ảnh mặt sau là ảnh cấp SẢN PHẨM, không có bản theo màu; lật sang nó lúc này
+   là hiện mặt sau của MỘT MÀU KHÁC. Thà đứng im. */
+.vt-card.is-swapped .vt-card-back { opacity: 0 !important; }
 
 /* ---- Nút chọn nhanh size, hiện khi rê chuột ----
    Không phải nút thêm giỏ hàng. Nó là LỐI TẮT tới PDP đã chọn sẵn size —

@@ -202,26 +202,128 @@ function vt_product_color_swatches($product) {
     $raw = $product->get_attribute('pa_color');
     if (!$raw) return array();
 
-    $map = array(
-        'black'      => '#0A0A0A',
-        'white'      => '#FFFFFF',
-        'pure white' => '#FFFFFF',
-        'grey'       => '#B8B8BC',
-        'gray'       => '#B8B8BC',
-        'cream'      => '#EFE7D2',
-    );
-
     $out = array();
     foreach (array_map('trim', explode(',', $raw)) as $name) {
         if ($name === '') continue;
-        $key = strtolower($name);
         $out[] = array(
             'name' => $name,
-            'hex'  => isset($map[$key]) ? $map[$key] : '#DDDDE1',
+            'hex'  => vt_color_hex($name),
+            'img'  => '',
         );
     }
     return $out;
 }
+
+/**
+ * Tên màu → mã hex.
+ *
+ * WooCommerce core không lưu hex cho term, nên bảng này là nơi duy nhất biết
+ * `Black` trông thế nào. Nhận cả tên lẫn slug để không phụ thuộc việc term
+ * được đặt tên kiểu gì ở bản dịch.
+ *
+ * 🔴 Thêm màu mới thì thêm vào đây. Không khớp → #DDDDE1, một chấm xám vô nghĩa:
+ * không có lỗi, không có cảnh báo, chỉ là trông hỏng.
+ *
+ * @param string $name Tên hoặc slug của term màu.
+ * @return string Mã hex.
+ */
+function vt_color_hex($name) {
+    $map = array(
+        'black'      => '#0A0A0A',
+        'white'      => '#FFFFFF',
+        'pure white' => '#FFFFFF',
+        'pure-white' => '#FFFFFF',
+        'grey'       => '#B8B8BC',
+        'gray'       => '#B8B8BC',
+        'cream'      => '#EFE7D2',
+    );
+    $key = strtolower(trim($name));
+    return isset($map[$key]) ? $map[$key] : '#DDDDE1';
+}
+
+/**
+ * Màu của sản phẩm biến thể, KÈM ảnh mặt trước của từng màu.
+ *
+ * Dùng cho thẻ sản phẩm ở lưới shop: rê vào chấm màu thì ảnh trên thẻ đổi theo.
+ * Không có cái này thì lưới chỉ khoe được một màu, các màu khác là chấm tròn chết.
+ *
+ * 🔴 KHÔNG dùng get_available_variations(). Hàm đó dựng cả mảng dữ liệu đầy đủ
+ * cho từng biến thể — trên archive 12 sản phẩm là hàng trăm truy vấn. Ở đây chỉ
+ * đọc đúng hai meta của mỗi biến thể: màu và ID ảnh.
+ *
+ * Kết quả cache 12 tiếng. Lưu/sửa sản phẩm hoặc biến thể thì transient tự xoá
+ * (xem hook cuối file này) — không phải chờ hết hạn.
+ *
+ * @param WC_Product $product
+ * @param string     $size    Cỡ ảnh đã đăng ký.
+ * @return array Danh sách ['name','slug','hex','img'] · 'img' rỗng nếu biến thể chưa có ảnh.
+ */
+function vt_product_color_variants($product, $size = 'vt-card') {
+    if (!$product || !method_exists($product, 'is_type') || !$product->is_type('variable')) {
+        return array();
+    }
+
+    $cache_key = 'vt_colorimg_' . $product->get_id() . '_' . $size;
+    $cached    = get_transient($cache_key);
+    if (is_array($cached)) return $cached;
+
+    $terms = wc_get_product_terms($product->get_id(), 'pa_color', array('fields' => 'all'));
+    if (empty($terms) || is_wp_error($terms)) {
+        set_transient($cache_key, array(), 12 * HOUR_IN_SECONDS);
+        return array();
+    }
+
+    // slug màu → ID ảnh, lấy từ biến thể đầu tiên có ảnh của màu đó.
+    $thumb_by_slug = array();
+    foreach ($product->get_children() as $child_id) {
+        $slug = get_post_meta($child_id, 'attribute_pa_color', true);
+        if ($slug === '' || isset($thumb_by_slug[$slug])) continue;
+        $thumb = (int) get_post_meta($child_id, '_thumbnail_id', true);
+        if ($thumb > 0) $thumb_by_slug[$slug] = $thumb;
+    }
+
+    $out = array();
+    foreach ($terms as $term) {
+        $url = '';
+        if (isset($thumb_by_slug[$term->slug])) {
+            $maybe = wp_get_attachment_image_url($thumb_by_slug[$term->slug], $size);
+            if ($maybe) $url = $maybe;
+        }
+        $out[] = array(
+            'name' => $term->name,
+            'slug' => $term->slug,
+            'hex'  => vt_color_hex($term->name) !== '#DDDDE1'
+                        ? vt_color_hex($term->name)
+                        : vt_color_hex($term->slug),
+            'img'  => $url,
+        );
+    }
+
+    set_transient($cache_key, $out, 12 * HOUR_IN_SECONDS);
+    return $out;
+}
+
+/**
+ * Xoá cache ảnh-theo-màu khi sản phẩm hoặc biến thể được lưu.
+ *
+ * Không có hook này thì đổi ảnh biến thể xong phải chờ 12 tiếng mới thấy,
+ * và người sửa sẽ tưởng mình làm sai.
+ */
+function vt_flush_color_variant_cache($product_id) {
+    $product_id = (int) $product_id;
+    if (!$product_id) return;
+
+    // Biến thể thì xoá cache của SẢN PHẨM CHA, không phải của chính nó.
+    $parent = wp_get_post_parent_id($product_id);
+    $target = $parent ? $parent : $product_id;
+
+    foreach (array('vt-card', 'vt-card-2x', 'woocommerce_thumbnail') as $size) {
+        delete_transient('vt_colorimg_' . $target . '_' . $size);
+    }
+}
+add_action('woocommerce_update_product', 'vt_flush_color_variant_cache');
+add_action('woocommerce_save_product_variation', 'vt_flush_color_variant_cache');
+add_action('save_post_product_variation', 'vt_flush_color_variant_cache');
 
 /* -------------------------------------------------------------------------
  * Gallery
