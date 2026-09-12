@@ -228,10 +228,13 @@ Variations cũng không có. Không phải thiếu plugin, không phải lỗi t
 
 ### Bốn việc bắt buộc ở mỗi sản phẩm
 
-1. **Ảnh:** `Product image` = **MẶT TRƯỚC** · ảnh **đầu tiên** trong gallery = **MẶT SAU**.
-   Theme hover đổi trước↔sau. Có meta box nhắc ngay trong màn hình sửa sản phẩm.
-2. **Ảnh riêng theo variation màu.** Chọn Black → ảnh phải đổi sang mockup áo đen.
-   Không set thì khách chọn màu mà ảnh đứng im.
+1. **Ảnh:** `Product image` = **MẶT TRƯỚC** của màu chủ đạo · ảnh **đầu tiên** trong
+   gallery = **MẶT SAU của cùng màu đó**. `vt_product_back_image()` đọc gallery ở **cấp
+   sản phẩm**, nên một sản phẩm chỉ có **một cặp** trước/sau cho hover — phải chọn màu
+   chủ đạo. Có meta box nhắc ngay trong màn hình sửa sản phẩm.
+2. **Ảnh riêng theo variation màu.** Chọn Black → ảnh chính đổi sang mockup áo đen.
+   🔴 Woo cho variation **đúng một ảnh**, không có gallery theo màu — nên đổi màu **không**
+   đổi được mặt sau. Chi tiết: `NHAP-SAN-PHAM.md` mục 3.6.
 3. **SKU riêng từng variation.** Khuôn: `VTL-PG-BLK-M`. Cần cho tồn kho và đối soát Shopee.
 4. 🔴 **Cân nặng — điền cho MỌI variation ngay lúc nhập.** Miễn phí lúc này. Đây là thứ duy
    nhất chặn đường sang tính phí ship theo API sau này, và điền bù cho 40 SKU là mở lại từng cái.

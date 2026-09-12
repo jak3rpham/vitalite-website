@@ -127,7 +127,7 @@ tồn kho sau được, **không phải làm lại sản phẩm** — chỉ tick
 | `pa_print` | `Silkscreen` |
 | Variation | **6** |
 
-| Màu | Product image *(trước)* | Gallery ảnh đầu *(sau)* |
+| Màu | Ảnh mặt trước | Ảnh mặt sau |
 |---|---|---|
 | Black | `graffiti-blue-black-front.webp` | `graffiti-blue-black-back.webp` |
 | White | `graffiti-blue-white-front.webp` | `graffiti-blue-white-back.webp` |
@@ -144,7 +144,7 @@ Mặt sau in `2023©VITALITÉ SIGNATURE COLLECTION` → `pa_collection` = **`Sig
 | Variation | **6** |
 | Ghi chú | Shopee ghi **bán chạy nhất, 2k+ đã bán** |
 
-| Màu | Trước | Sau |
+| Màu | Ảnh mặt trước | Ảnh mặt sau |
 |---|---|---|
 | Black | `pink-graffiti-black-front.webp` | `pink-graffiti-black-back.webp` |
 | White | `pink-graffiti-white-front.webp` | `pink-graffiti-white-back.webp` |
@@ -161,7 +161,7 @@ trong `product-images/` rồi — cứ theo tên file, đừng theo số.
 | Vải / fit / print | `250 GSM Cotton` · `Unisex Regular` · `Silkscreen` |
 | Variation | **6** |
 
-| Màu | Trước | Sau |
+| Màu | Ảnh mặt trước | Ảnh mặt sau |
 |---|---|---|
 | Black | `porsche-black-front.webp` | `porsche-black-back.webp` |
 | White | `porsche-white-front.webp` | `porsche-white-back.webp` |
@@ -179,7 +179,7 @@ trong `product-images/` rồi — cứ theo tên file, đừng theo số.
 | `pa_collection` | `The Moments` |
 | Variation | **6** |
 
-| Màu | Trước | Sau |
+| Màu | Ảnh mặt trước | Ảnh mặt sau |
 |---|---|---|
 | Grey | `moments-hoodie-grey-front.webp` | `moments-hoodie-grey-back.webp` |
 | Pure White | `moments-hoodie-pure-white-front.webp` | `moments-hoodie-pure-white-back.webp` |
@@ -205,6 +205,59 @@ nhiều khả năng là một trong 3 SKU Shopee chưa đọc được, hoặc h
 
 ⚠️ Đây là **suy luận từ bằng chứng**, không phải fact đọc trực tiếp. Mở được listing Shopee
 thì đối chiếu lại ảnh. Sai thì đổi tên sản phẩm — không ảnh hưởng cấu trúc.
+
+### 3.6 — 🔴 Gán ảnh — chỗ dễ làm sai nhất
+
+WooCommerce cho **mỗi variation đúng MỘT ảnh**, không có gallery riêng theo màu.
+Và `vt_product_back_image()` (`inc/helpers.php:175`) lấy **ảnh gallery đầu tiên của SẢN PHẨM**
+làm mặt sau khi hover — cấp sản phẩm, không phải cấp variation.
+
+→ Một sản phẩm chỉ có **một cặp trước/sau** cho hover. Phải chọn **màu chủ đạo**.
+
+| Ô trong wp-admin | Điền |
+|---|---|
+| **Product image** | mặt **trước** của màu chủ đạo |
+| **Gallery ảnh #1** | mặt **sau** của **cùng màu chủ đạo** ← hover đọc đúng ô này |
+| Gallery ảnh #2, #3 | trước + sau của màu còn lại |
+| **Variation image** | mặt **trước** của màu tương ứng — set cho **cả 3 size** của màu đó |
+
+Ví dụ ICONIC, màu chủ đạo `Black`:
+
+```
+Product image            graffiti-blue-black-front.webp
+Gallery #1               graffiti-blue-black-back.webp      <- hover
+Gallery #2               graffiti-blue-white-front.webp
+Gallery #3               graffiti-blue-white-back.webp
+Variation Black S/M/L    graffiti-blue-black-front.webp
+Variation White S/M/L    graffiti-blue-white-front.webp
+```
+
+| Sản phẩm | Màu chủ đạo | Vì sao |
+|---|---|---|
+| ICONIC | `Black` | |
+| Pink Graffiti | `Black` | 2k+ đã bán, bản bán chạy nhất shop |
+| Need Money For Porsche | `White` | màu duy nhất có listing Shopee đọc được |
+| The Moments Hoodie | `Grey` | |
+
+#### Hai giới hạn đã chấp nhận
+
+1. **Hover ở trang shop chỉ đúng cho màu chủ đạo.** Khách thích bản trắng vẫn thấy
+   đen↔đen. Giới hạn của thiết kế thẻ *(một thẻ = một sản phẩm = một cặp ảnh)*.
+2. **Chọn màu ở PDP đổi được ảnh chính, KHÔNG đổi mặt sau.** Woo core cho variation
+   một ảnh. Ảnh mặt sau của màu phụ nằm trong gallery chung, không gắn với màu.
+
+Tránh được cả hai chỉ bằng cách **tách mỗi màu thành một sản phẩm riêng** — đúng như Shopee.
+Nhưng thế là mất chấm màu, mất chọn size trong một trang, và ngược quyết định "Variable
+product" ở `STRUCTURE-SETUP.md` mục 6. **Không đổi.**
+
+### 3.7 — Ba việc bắt buộc còn lại
+
+1. **SKU riêng từng variation.** Khuôn `VTL-ICO-BLK-M`. Cần cho đối soát với Shopee.
+2. 🔴 **Cân nặng (kg) cho MỌI variation.** Miễn phí lúc nhập; điền bù cho 40 SKU là mở
+   lại từng cái. Là thứ duy nhất chặn đường sang tính phí ship theo API sau này.
+3. **Tồn kho: bỏ tick `Manage stock?`**, để `In stock` *(user chốt 12/09)*.
+
+---
 
 ## 4. Ảnh — ba điều cần biết trước khi upload
 
