@@ -277,7 +277,7 @@ Mọi thứ bị bỏ khỏi trang và cách điền lại: **`docs/CHO-DIEN-SAU
 
 | | |
 |---|---|
-| Theme | `vitalite-2-0` v2.5.0 · active |
+| Theme | `vitalite-2-0` **v2.5.1** · active · `style.css` mtime 12/09 đo từ ngoài ✅ |
 | Trang chủ | Đủ **6 section**, `front-page.php` kiểm soát |
 | URL ngôn ngữ | **`/en` + `/vi`, cả hai đều 200** ✅ · `/` → **`302 → /en/`** ✅ |
 | 12 trang tĩnh | 200 hết tại `/en/<slug>` · canonical đúng · link nội bộ đã có prefix |
@@ -378,6 +378,12 @@ Script Python nhiều `\` hoặc regex mà viết bằng heredoc là hỏng. **D
 Luôn đặt `PYTHONIOENCODING=utf-8` trước lệnh python nào có in tiếng Việt.
 
 **5. `git push --force` bị harness chặn.** `git commit --amend` thì chạy được.
+
+**7. LiteSpeed cache HTML — đo từ ngoài ra số CŨ sau khi đã upload file mới.**
+Đo 12/09: trang trả `?ver=` là filemtime cũ (22/08) trong khi file thật đã lên.
+Thêm một query lạ (`?vtcachebust=...`) mới ra `x-litespeed-cache: miss` và thấy số đúng.
+→ **Purge LiteSpeed sau mỗi lần sửa file theme**, và khi tự kiểm thì thêm query phá cache.
+Suýt kết luận nhầm "upload hỏng" một lần vì chuyện này.
 
 **6. Không có PHP CLI.** `docs/check-theme.py` thay được phần lớn nhưng **không thay được
 `php -l`**.
