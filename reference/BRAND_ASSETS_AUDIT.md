@@ -94,6 +94,20 @@ thì nó vừa báo hiệu vừa xây nhận diện. Thêm màu đỏ thứ 3 ch
 19 file, tất cả `1000×1000` PNG. Template thống nhất tuyệt đối:
 nền trắng · cụm hình mây/blob trắng phía sau · wordmark `vitalité®` canh giữa trên đầu · áo chụp phẳng chính diện.
 
+> 🔴 **ĐÍNH CHÍNH 2026-09-12 — bảng ngay dưới đây ĐỌC SAI, đừng dùng.**
+>
+> Bảng này giả định mỗi file là một sản phẩm, nên đếm ra "8 dòng sản phẩm" và kết luận
+> ở mục 4 rằng *"phần lớn SKU không có ảnh mặc trên người"* / *"chỉ có mockup phẳng"*.
+>
+> Đọc lại từng ảnh 12/09: các file đi theo **cặp mặt trước + mặt sau của CÙNG một áo**.
+> `1`+`2` là hai mặt của một áo đen (script nhỏ trước, graffiti xanh lưng sau).
+> `6`+`5` là hai mặt của một áo đen khác — bản in hồng chạy vòng thân, số file bị ngược.
+>
+> Thực tế: **4 sản phẩm × 2 màu × (trước + sau) = 16 ảnh đủ bộ**, khớp đúng quy ước
+> hover của theme. `17` và `18` là bản vẽ kỹ thuật, không phải ảnh sản phẩm. `19` rỗng.
+>
+> **Bảng đúng: `deliverables/woo/NHAP-SAN-PHAM.md` mục 3.**
+
 ### Catalog đọc được từ mockup
 
 | # | Sản phẩm | Có trên Shopee? |
