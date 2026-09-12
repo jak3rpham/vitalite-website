@@ -1,41 +1,60 @@
 # BỘ FILE SẴN SÀNG NHẬP SẢN PHẨM
 
 **Ngày:** 2026-09-12 · **Cho:** nhập hàng vào WooCommerce, không phải đi tìm file nữa
-**Đi kèm:** `deliverables/woo/product-images/` (16 ảnh) · `deliverables/woo/mu-plugin/`
+**Đi kèm:** `deliverables/woo/product-images/` (16 ảnh)
 
 ---
 
-## 0. Ba thứ trong gói này
+## 0. Hai thứ trong gói này
 
 | Thứ | Ở đâu | Làm gì với nó |
 |---|---|---|
 | **16 ảnh sản phẩm** | `product-images/` | Upload thẳng vào Media Library |
-| **1 file mu-plugin** | `mu-plugin/vitalite-shared-attributes.php` | Upload vào `wp-content/mu-plugins/` — sửa lỗi cột cờ ngôn ngữ |
 | **Bảng nhập bên dưới** | file này | Vừa nhập vừa nhìn, mục 3 |
 
 ---
 
-## 1. 🔴 Sửa lỗi cột cờ ngôn ngữ — làm TRƯỚC
+## 1. Cột cờ ngôn ngữ — KHÔNG tắt, và đó là đúng
 
-Filter đặt trong theme **không ăn**. Lý do là thứ tự nạp của WordPress:
+Đã thử hai lần tắt bằng filter `pll_get_taxonomies`: đặt trong theme, rồi đặt trong
+mu-plugin. **Cả hai đều không ăn.** Polylang for WooCommerce đăng ký `pa_*` bằng cơ chế
+riêng, filter đó không với tới.
 
-```
-mu-plugins  →  plugins (Polylang)  →  theme functions.php
-```
+Tra tài liệu chính thức mới thấy đó không phải lỗi mà là **thiết kế**:
 
-Polylang chốt danh sách taxonomy được dịch ngay khi nó khởi động — **trước** khi file theme
-được đọc. Filter đăng ký trong theme là đăng ký sau khi tàu đã chạy.
+> *"You must translate the attributes and their terms before using them in your products.
+> Otherwise you will have some synchronization issues between the product translations."*
+> — Polylang, *Managing WooCommerce Products*
 
-**Cách sửa:** upload `mu-plugin/vitalite-shared-attributes.php` vào
-`wp-content/mu-plugins/`. Chưa có thư mục đó thì tạo. **Không cần kích hoạt** — mu-plugin
-luôn chạy, không hiện trong danh sách Plugins.
+→ Né bằng code là đi ngược plugin, và cái giá là lỗi đồng bộ giữa bản dịch sản phẩm —
+đúng thứ sẽ nổ lúc có 40 SKU chứ không phải lúc có 2.
 
-**Kiểm:** `Products → Attributes → Color → Configure terms` → **hai cột cờ phải biến mất.**
+### Cách làm đúng: dịch term, nhưng ĐẶT TÊN Y HỆT TIẾNG ANH
 
-> Mục 9 trong `inc/woocommerce.php` của theme giờ là code chết. Vô hại, để đó,
-> gỡ ở lần deploy theme kế tiếp. Ghi lại ở đây để sáu tháng nữa không ai đi tìm hai chỗ.
+`Products → Attributes → Color → Configure terms` → bấm `+` ở cột 🇻🇳 → ô **Name** gõ
+**`Black`** (không phải `Đen`) → Save.
 
----
+Polylang tự thêm hậu tố vào *slug* để không trùng, nhưng **tên term vẫn là `Black`**.
+`vt_product_color_swatches()` map theo **tên**, nên chấm màu trên `/vi/` vẫn đúng.
+**Không phải sửa theme dòng nào.**
+
+| Attribute | Số term | Tên bản VI |
+|---|---|---|
+| `pa_color` | 5 | y hệt EN — `Black` `Cream` `Grey` `Pure White` `White` |
+| `pa_size` | 3 | y hệt EN — `S` `M` `L` |
+| `pa_collection` | 7 | y hệt EN — tên riêng, không dịch |
+| `pa_print` | 1 | `In lụa` ✅ dịch được, không ảnh hưởng gì |
+| `pa_fabric` · `pa_fit` | 4 | ✅ **dịch thật** — đây là chỗ dịch có ích |
+
+**Tổng 20 term, làm một lần.** Không phải việc lặp lại — thêm màu mới sau này mới phải
+thêm một cặp.
+
+🔴 **Làm trước khi nhập sản phẩm đầu tiên.** Đúng lời cảnh báo của vendor: nhập SKU trước
+rồi mới dịch term là tự tạo lỗi đồng bộ.
+
+> **Dọn rác của hai lần thử hỏng:**
+> — Xoá `wp-content/mu-plugins/vitalite-shared-attributes.php` khỏi hosting nếu đã upload
+> — Mục 9 trong `inc/woocommerce.php` của theme là code chết, vô hại. Gỡ ở lần deploy sau
 
 ## 2. 🔴 Đính chính `reference/BRAND_ASSETS_AUDIT.md`
 
@@ -174,9 +193,9 @@ Thiếu số đo hoodie thì **không phải thứ chặn** — đã xử lý b�
 ## 6. Thứ tự bấm
 
 ```
-1. Upload mu-plugin  → kiểm cột cờ biến mất          ← chặn mọi thứ sau
-2. Upload 16 ảnh vào Media Library, sửa alt
-3. Thêm term pa_collection (Signature, Porsche, The Moments) + pa_print (Silkscreen)
+1. Thêm term còn thiếu: pa_collection (7) + pa_print (Silkscreen)
+2. Dịch VI cho 20 term — GIỮ TÊN TIẾNG ANH, xem mục 1   ← chặn bước 5
+3. Upload 16 ảnh vào Media Library, sửa alt
 4. Shipping zone                                      ← chặn checkout
 5. Nhập 2 sản phẩm TEST: Pink Graffiti + The Moments Hoodie
 6. Kiểm 8 mục ở STRUCTURE-SETUP.md mục 7

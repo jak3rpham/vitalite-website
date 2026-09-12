@@ -20,7 +20,7 @@
 | Polylang EN + VI | ✅ đang chạy, chưa dịch nội dung |
 | Product categories | ✅ **đã có** — `t-shirts` · `outerwear` · `bottoms` đều trả 200 *(đo 08/09)* |
 | Attributes | ✅ **đã tạo 6 cái**, Custom ordering. `pa_collection` + `pa_print` **chưa có term** |
-| Dịch attribute | ✅ đã tắt cho 4 taxonomy vô nghĩa — **cần theme v2.5.1**, xem 1.1 |
+| Dịch attribute | ⚠️ **không tắt được** — phải dịch, giữ tên EN cho `pa_color`. Xem 1.1 |
 | Shipping zone | ❌ chưa có — **chặn checkout, không chặn attribute** |
 | Sản phẩm | **0** |
 
@@ -30,46 +30,26 @@
 
 ## 1. 🔴 QUYẾT ĐỊNH PHẢI CHỐT TRƯỚC KHI TẠO TERM ĐẦU TIÊN
 
-### 1.1 — ✅ ĐÃ ĐO VÀ ĐÃ XỬ LÝ 09/09 — term attribute dùng chung hai ngôn ngữ
+### 1.1 — Term attribute PHẢI dịch, và cách dịch để không vỡ chấm màu
 
-**Kết quả đo:** `Products → Attributes → Color → Configure terms` **CÓ** cột ngôn ngữ —
-hai cột cờ 🇻🇳 🇺🇸, mỗi term có dấu `+` để tạo bản dịch. Tức là `pa_color` đang bị chia
-theo ngôn ngữ thật.
+**Không tắt được dịch cho `pa_*`.** Đã thử filter `pll_get_taxonomies` ở cả theme lẫn
+mu-plugin, cả hai đều không ăn — Polylang for WooCommerce đăng ký attribute taxonomy bằng
+cơ chế riêng. Và theo tài liệu chính thức thì dịch term là **bắt buộc**, không dịch sẽ
+sinh lỗi đồng bộ giữa các bản dịch sản phẩm.
 
-**Vì sao đó là vấn đề, không chỉ là phiền:** `inc/helpers.php` dòng 199–212 map **tên term**
-sang mã màu để vẽ chấm màu trên thẻ sản phẩm:
+🔴 **Rủi ro thật:** `inc/helpers.php` map **tên term** sang mã màu
+(`'black' => '#0A0A0A'`…). Dịch `Black` thành `Đen` → không khớp → rơi về `#DDDDE1`,
+**mọi chấm màu trên `/vi/` thành xám, không có cảnh báo nào.**
 
-```php
-'black' => '#0A0A0A',  'white' => '#FFFFFF',  'pure white' => '#FFFFFF',
-'grey'  => '#B8B8BC',  'gray'  => '#B8B8BC',  'cream'      => '#EFE7D2',
-```
+**Cách tránh — đặt tên bản dịch Y HỆT tiếng Anh:** bấm `+` ở cột 🇻🇳, ô Name gõ `Black`.
+Polylang tự thêm hậu tố vào slug, tên giữ nguyên → chấm màu vẫn đúng.
 
-Dịch `Black` thành `Đen` → không khớp → rơi về `#DDDDE1`. **Mọi chấm màu trên `/vi/` thành
-xám. Không có lỗi PHP, không có cảnh báo, chỉ là trông hỏng.**
+| Attribute | Bản VI đặt tên |
+|---|---|
+| `pa_color` · `pa_size` · `pa_collection` | **y hệt tiếng Anh** — bắt buộc với `pa_color` |
+| `pa_print` · `pa_fabric` · `pa_fit` | dịch thật, thoải mái |
 
-**Cách xử lý — đã làm, không phải việc của bạn:** `inc/woocommerce.php` **mục 9** (thêm 09/09)
-dùng filter `pll_get_taxonomies` gỡ 4 taxonomy khỏi danh sách của Polylang:
-
-| Taxonomy | Trạng thái | Vì sao |
-|---|---|---|
-| `pa_size` | **dùng chung** | `S / M / L` giống hệt nhau ở hai ngôn ngữ |
-| `pa_color` | **dùng chung** | dịch là vỡ chấm màu — xem trên |
-| `pa_collection` | **dùng chung** | `Pink Graffiti`, `Porsche` là tên riêng |
-| `pa_print` | **dùng chung** | một term duy nhất |
-| `pa_fabric` | 🌐 vẫn dịch | `250 GSM Cotton` → viết lại được cho khách Việt |
-| `pa_fit` | 🌐 vẫn dịch | `Signature Boxy Fit` → dịch ra có ích thật |
-
-→ Số term phải dịch tay: từ **20 xuống 4**. Thêm màu mới sau này không phải nhớ gì.
-
-🔴 **Cần theme v2.5.1 trở lên.** Đang chạy v2.5.0 thì filter chưa tồn tại và cột cờ vẫn còn.
-Deploy: upload đè 3 file `inc/woocommerce.php` · `functions.php` · `style.css`
-vào `wp-content/themes/vitalite-2-0/` *(đây là sửa file lẻ, KHÔNG phải extract lại cả theme —
-luật "đổi tên thư mục" chỉ áp cho lần thay nguyên bộ)*.
-
-**Kiểm sau khi upload:** mở lại `Products → Attributes → Color → Configure terms` —
-**hai cột cờ phải biến mất.** Còn thấy cờ là file chưa lên đúng chỗ.
-
-Đảo lại được: xoá mục 9 là Polylang bật dịch lại như cũ, không mất dữ liệu.
+Chi tiết + thứ tự làm: `deliverables/woo/NHAP-SAN-PHAM.md` mục 1.
 
 ### 1.2 — Thuế
 
