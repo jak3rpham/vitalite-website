@@ -5,7 +5,7 @@ Description: Child theme cho VITALITÉ — streetwear, WooCommerce. Header/foote
 Author: Vitalité
 Author URI: https://vitalite.io.vn
 Template: hello-elementor
-Version: 2.6.0
+Version: 2.6.1
 Requires at least: 6.0
 Requires PHP: 8.0
 Text Domain: vitalite
@@ -925,10 +925,20 @@ body.vt-banner-top .site-main { padding-top: 0; }
 
 /* Bố cục FEATURED: ô đầu tiên chiếm 2×2, phần còn lại 1×1.
    Một sản phẩm được nâng lên làm trung tâm thay vì tám ô ngang hàng. */
-.vt-grid--featured > .vt-card:first-child { grid-column: span 2; grid-row: span 2; }
-.vt-grid--featured > .vt-card:first-child .vt-card-title { font-size: var(--vt-t-md); }
+/* 🔴 `:nth-last-child(n+5)` = "và tổng cộng có ít nhất 5 thẻ".
+   Không có mệnh đề này thì lúc catalog mới có 1–4 sản phẩm, ô đầu vẫn nở 2×2
+   và để lại hai, ba cột trắng trơn bên cạnh — đo 13/09 với 1 sản phẩm: thẻ
+   680px, ba cột trống. Đủ hàng để lấp thì bố cục mosaic mới có nghĩa. */
+.vt-grid--featured > .vt-card:first-child:nth-last-child(n+5) {
+  grid-column: span 2; grid-row: span 2;
+}
+.vt-grid--featured > .vt-card:first-child:nth-last-child(n+5) .vt-card-title {
+  font-size: var(--vt-t-md);
+}
 @media (max-width: 768px) {
-  .vt-grid--featured > .vt-card:first-child { grid-column: span 2; grid-row: span 1; }
+  .vt-grid--featured > .vt-card:first-child:nth-last-child(n+5) {
+    grid-column: span 2; grid-row: span 1;
+  }
 }
 
 .vt-card { position: relative; display: flex; flex-direction: column; }

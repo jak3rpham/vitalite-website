@@ -417,3 +417,53 @@ add_action('add_meta_boxes', function () {
         'low'
     );
 });
+
+/* -------------------------------------------------------------------------
+ * 9. PDP — sửa bốn chỗ của template mặc định WooCommerce
+ *
+ * Theme KHÔNG đè template trang sản phẩm đơn (chỉ đè archive-product.php và
+ * content-product.php). Bốn filter dưới đây vá những chỗ chướng nhất của bản
+ * mặc định — không phải thiết kế lại PDP.
+ * ---------------------------------------------------------------------- */
+
+/**
+ * 9.1 — Ảnh PDP: dùng file gốc, đừng dùng bản 600px.
+ *
+ * Đo 13/09: `woocommerce_single` của ảnh đã upload được sinh ở **600×600**, trong
+ * khi PDP hiển thị ở 653px → phóng to, mờ. Theme khai `single_image_width => 1000`
+ * nhưng option `woocommerce_single_image_width` trong database ghi đè theme support,
+ * và ảnh đã upload thì đổi option cũng KHÔNG sinh lại cỡ — phải regenerate.
+ *
+ * Trả 'full' là bỏ qua toàn bộ chuyện đó: file gốc đã là 1000×1000.
+ *
+ * 🔴 An toàn CHỈ VÌ ảnh sản phẩm hiện tại là mockup 1000×1000, ≤36 KB mỗi file.
+ * Ngày nào upload ảnh chụp 3000px thì dòng này thành phục vụ ảnh 3000px cho mọi
+ * khách — lúc đó đổi sang một cỡ đã đăng ký và regenerate.
+ */
+add_filter('woocommerce_gallery_image_size', function ($size) {
+    return 'full';
+});
+
+/**
+ * 9.2 — Tiêu đề trong tab: "Additional information" → "Details".
+ *
+ * Mục 4 đã đổi NHÃN của tab, nhưng tiêu đề <h2> bên trong là chuỗi riêng.
+ * Bỏ sót là tab ghi "Details" mà nội dung mở ra ghi "Additional information".
+ */
+add_filter('woocommerce_product_additional_information_heading', function () {
+    return __('Details', 'vitalite');
+});
+
+/**
+ * 9.3 — Bỏ Color và Size khỏi bảng Details.
+ *
+ * Chúng là thuộc tính biến thể — khách vừa chọn ngay phía trên. Liệt kê lại
+ * "COLOR: Black, White" bên dưới là nhắc lại thứ đã chọn, và tệ hơn: nó liệt
+ * MỌI màu chứ không phải màu khách đang xem.
+ *
+ * Bảng chỉ nên còn spec thật: Fabric · Fit · Collection · Print.
+ */
+add_filter('woocommerce_display_product_attributes', function ($attributes, $product) {
+    unset($attributes['attribute_pa_color'], $attributes['attribute_pa_size']);
+    return $attributes;
+}, 10, 2);
