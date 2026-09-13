@@ -493,6 +493,96 @@
   })();
 
   /* ---------------------------------------------------------------
+   * PDP — chấm màu / nút size điều khiển <select> của WooCommerce
+   *
+   * Nút KHÔNG tự giữ trạng thái. Nguồn sự thật duy nhất vẫn là <select>:
+   * bấm nút → gán value → bắn `change` → Woo tự đổi giá, ảnh, tồn kho.
+   * Rồi đọc ngược lại từ select để tô nút nào đang chọn, nút nào hết hàng.
+   *
+   * Vì sao đọc ngược thay vì tự nhớ: khi khách chọn màu, Woo VIẾT LẠI danh
+   * sách option của select size — size nào không còn tổ hợp hợp lệ thì biến
+   * mất. Tự nhớ là sớm muộn hiện một nút mua không được.
+   * ------------------------------------------------------------ */
+  (function () {
+    var WRAP = '.vt-varpick';
+
+    function sync() {
+      var wraps = document.querySelectorAll(WRAP);
+      Array.prototype.forEach.call(wraps, function (wrap) {
+        var sel = wrap.querySelector('select');
+        if (!sel) return;
+
+        // Option nào còn tồn tại = tổ hợp đó còn mua được.
+        var available = {};
+        Array.prototype.forEach.call(sel.options, function (o) {
+          if (o.value) available[o.value] = true;
+        });
+
+        var picks = wrap.querySelectorAll('[data-value]');
+        Array.prototype.forEach.call(picks, function (b) {
+          var v      = b.getAttribute('data-value');
+          var active = (sel.value === v);
+          var ok     = !!available[v];
+
+          b.classList.toggle('is-active', active);
+          b.classList.toggle('is-unavailable', !ok);
+          b.setAttribute('aria-pressed', active ? 'true' : 'false');
+          b.disabled = !ok;
+        });
+      });
+    }
+
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest(WRAP + ' [data-value]');
+      if (!b || b.disabled) return;
+      e.preventDefault();
+
+      var wrap = b.closest(WRAP);
+      var sel  = wrap && wrap.querySelector('select');
+      if (!sel) return;
+
+      var v = b.getAttribute('data-value');
+      // Bấm lại chính nút đang chọn = bỏ chọn, giống bấm "Clear" của Woo.
+      sel.value = (sel.value === v) ? '' : v;
+      sel.dispatchEvent(new Event('change', { bubbles: true }));
+      sync();
+    });
+
+    /*
+     * Đồng bộ sau khi Woo xử lý xong.
+     * Listener này ở document nên chạy ở pha nổi bọt — sau handler mà Woo gắn
+     * thẳng lên <select>, tức là sau khi Woo đã viết lại các option.
+     */
+    document.addEventListener('change', function (e) {
+      if (e.target && e.target.tagName === 'SELECT' && e.target.closest(WRAP)) sync();
+    });
+
+    /*
+     * Lưới an toàn: Woo còn bắn sự kiện riêng qua jQuery (`woocommerce_update_
+     * variation_values`) mà listener thuần không bắt được — nút "Clear", hoặc
+     * lần dựng đầu tiên. Quan sát thay đổi option thì bắt được mọi trường hợp
+     * mà không phải phụ thuộc jQuery.
+     */
+    function observe() {
+      var wraps = document.querySelectorAll(WRAP);
+      if (!wraps.length || !window.MutationObserver) return;
+
+      var mo = new MutationObserver(function () { sync(); });
+      Array.prototype.forEach.call(wraps, function (wrap) {
+        var sel = wrap.querySelector('select');
+        if (sel) mo.observe(sel, { childList: true });
+      });
+      sync();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', observe);
+    } else {
+      observe();
+    }
+  })();
+
+  /* ---------------------------------------------------------------
    * Tiện ích
    * ------------------------------------------------------------ */
   function idle(fn) {

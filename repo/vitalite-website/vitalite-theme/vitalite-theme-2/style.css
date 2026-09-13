@@ -5,7 +5,7 @@ Description: Child theme cho VITALITÉ — streetwear, WooCommerce. Header/foote
 Author: Vitalité
 Author URI: https://vitalite.io.vn
 Template: hello-elementor
-Version: 2.6.1
+Version: 2.6.2
 Requires at least: 6.0
 Requires PHP: 8.0
 Text Domain: vitalite
@@ -1580,4 +1580,72 @@ body.woocommerce-account:not(.logged-in) .vt-woo-page { max-width: 520px; }
 @media print {
   .vt-header, .vt-footer, .vt-hero-media, .vt-iri-layer { display: none !important; }
   body { background: #fff; color: #000; }
+}
+
+/* ==========================================================================
+   PDP — chấm màu / nút size thay dropdown biến thể
+   Markup sinh ở inc/woocommerce.php mục 10, điều khiển ở assets/js/site.js.
+   ========================================================================== */
+
+/* <select> vẫn còn trong DOM và VẪN focus được — chỉ ẩn khỏi mắt.
+   display:none là mất khỏi cây trợ năng, mất luôn cả bàn phím. */
+.vt-varpick select {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.vt-varpick-list { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+/* ---- Chấm màu ---- */
+.vt-varpick-dot {
+  width: 26px; height: 26px; padding: 0;
+  border-radius: 999px; border: 1px solid var(--vt-line-strong);
+  cursor: pointer; appearance: none; -webkit-appearance: none;
+  transition: box-shadow var(--vt-fast) var(--vt-ease), transform var(--vt-fast) var(--vt-ease);
+}
+.vt-varpick-dot:hover { transform: scale(1.08); }
+.vt-varpick-dot.is-active {
+  box-shadow: 0 0 0 2px var(--vt-paper), 0 0 0 3px var(--vt-ink);
+}
+
+/* ---- Nút size ---- */
+.vt-varpick-btn {
+  min-width: 46px; padding: 9px 12px;
+  font-family: var(--vt-font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: .10em; text-transform: uppercase;
+  background: transparent; color: var(--vt-ink);
+  border: 1px solid var(--vt-line-strong); border-radius: 999px;
+  cursor: pointer; appearance: none; -webkit-appearance: none;
+  transition: background var(--vt-fast) var(--vt-ease), color var(--vt-fast) var(--vt-ease);
+}
+.vt-varpick-btn:hover { background: var(--vt-tint); }
+.vt-varpick-btn.is-active {
+  background: var(--vt-ink); color: var(--vt-paper); border-color: var(--vt-ink);
+}
+
+/* ---- Tổ hợp không mua được ----
+   Gạch chéo, KHÔNG ẩn đi. Ẩn là nút nhảy chỗ mỗi lần khách đổi màu, và khách
+   không bao giờ biết size đó có tồn tại. Thấy mà hết hàng là thông tin thật. */
+.vt-varpick-dot.is-unavailable,
+.vt-varpick-btn.is-unavailable {
+  opacity: .32; cursor: not-allowed; position: relative;
+}
+.vt-varpick-btn.is-unavailable::after,
+.vt-varpick-dot.is-unavailable::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top left,
+    transparent calc(50% - 1px), var(--vt-ink) calc(50% - 1px),
+    var(--vt-ink) calc(50% + 1px), transparent calc(50% + 1px));
+  border-radius: inherit;
+}
+
+/* Bảng .variations mặc định của Woo — bỏ khung kẻ, xếp dọc cho thoáng */
+.woocommerce div.product form.cart table.variations { border: 0; margin-bottom: 18px; }
+.woocommerce div.product form.cart table.variations td { border: 0; padding: 0 0 14px; }
+.woocommerce div.product form.cart table.variations th.label { border: 0; padding: 0 0 6px; text-align: left; }
+.woocommerce div.product form.cart table.variations th.label label {
+  font-family: var(--vt-font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase; opacity: .7;
 }

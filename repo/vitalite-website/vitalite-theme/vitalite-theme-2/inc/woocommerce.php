@@ -467,3 +467,70 @@ add_filter('woocommerce_display_product_attributes', function ($attributes, $pro
     unset($attributes['attribute_pa_color'], $attributes['attribute_pa_size']);
     return $attributes;
 }, 10, 2);
+
+/* -------------------------------------------------------------------------
+ * 10. PDP — chấm màu và nút size thay cho dropdown "Choose an option"
+ *
+ * 🔴 KHÔNG bỏ thẻ <select>. JS biến thể của WooCommerce đọc thẳng từ nó để
+ * tính giá, đổi ảnh, kiểm tồn kho. Thay nó bằng markup tự chế là phải viết lại
+ * toàn bộ logic đó — và là chỗ dễ vỡ nhất trong stack.
+ *
+ * Cách làm: giữ <select>, ẩn khỏi mắt (vẫn focus được, trình đọc màn hình vẫn
+ * đọc), rồi vẽ nút bên cạnh. Bấm nút → gán giá trị vào select → bắn sự kiện
+ * `change`. Woo lo phần còn lại y như khách tự chọn trong dropdown.
+ * ---------------------------------------------------------------------- */
+
+add_filter('woocommerce_dropdown_variation_attribute_options_html', function ($html, $args) {
+
+    $attribute = isset($args['attribute']) ? $args['attribute'] : '';
+    if (!in_array($attribute, array('pa_color', 'pa_size'), true)) {
+        return $html;
+    }
+
+    $product = isset($args['product']) ? $args['product'] : false;
+    $options = isset($args['options']) ? $args['options'] : array();
+    if (!$product || empty($options)) {
+        return $html;
+    }
+
+    // slug → tên hiển thị. Đọc term để lấy đúng tên, không đoán từ slug.
+    $names = array();
+    $terms = wc_get_product_terms($product->get_id(), $attribute, array('fields' => 'all'));
+    if (!is_wp_error($terms)) {
+        foreach ($terms as $term) {
+            $names[$term->slug] = $term->name;
+        }
+    }
+
+    $is_color = ($attribute === 'pa_color');
+    $buttons  = '';
+
+    foreach ($options as $slug) {
+        $label = isset($names[$slug]) ? $names[$slug] : $slug;
+
+        if ($is_color) {
+            $hex = vt_color_hex(isset($names[$slug]) ? $names[$slug] : $slug);
+            if ($hex === '#DDDDE1') $hex = vt_color_hex($slug);
+
+            $buttons .= sprintf(
+                '<button type="button" class="vt-varpick-dot" data-value="%1$s" aria-pressed="false" title="%2$s" style="background:%3$s"><span class="screen-reader-text">%2$s</span></button>',
+                esc_attr($slug),
+                esc_attr($label),
+                esc_attr($hex)
+            );
+        } else {
+            $buttons .= sprintf(
+                '<button type="button" class="vt-varpick-btn" data-value="%1$s" aria-pressed="false">%2$s</button>',
+                esc_attr($slug),
+                esc_html(strtoupper($label))
+            );
+        }
+    }
+
+    return sprintf(
+        '<div class="vt-varpick vt-varpick--%1$s">%2$s<div class="vt-varpick-list">%3$s</div></div>',
+        $is_color ? 'color' : 'size',
+        $html,
+        $buttons
+    );
+}, 10, 2);
