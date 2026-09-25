@@ -59,5 +59,12 @@ dc-runtime/
 # Sinh lai bat cu luc nao bang: python docs/build-theme-zip.py
 # Khong commit vi no la ban sao 5,5 MB cua thu muc theme da co trong repo.
 # Ten zip suy ra tu `Theme Name` trong style.css nen no doi theo phien ban.
-vitalite-*.zip
+# Khong co gach noi: bat ca vitalite20.zip / vitalitetheme.zip, hai ten da lot luoi mot lan.
+vitalite*.zip
 _upload/
+
+# --- Ban xem truoc toan site (SINH RA, dung commit) ---
+# `python docs/make-site-preview.py` dung lai thu muc nay tu dau moi lan chay.
+# 17MB va TOAN BO la ban sao cua file da co trong git (style.css, assets, video,
+# 96 frame scroll-sequence). Commit vao la nhan doi repo ma khong them thong tin nao.
+deliverables/preview/site/

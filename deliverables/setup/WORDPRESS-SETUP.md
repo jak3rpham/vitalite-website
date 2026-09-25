@@ -141,6 +141,10 @@ Xoá category `Uncategorized` sau khi đã có category thật.
 ⚠️ **Polylang phải cấu hình xong TRƯỚC bước này.** Attribute term là taxonomy term.
 Tạo term trước khi bật Polylang cho `pa_*` thì phải gán ngôn ngữ tay cho từng term.
 
+> 📄 **Nhập từng sản phẩm** (variable product, gắn ảnh cho biến thể để bấm màu ra
+> đúng ảnh màu đó, quy ước ảnh trước/sau, tài khoản khách, thu thập email khuyến mãi):
+> xem **`WOOCOMMERCE-SETUP.md`**. File này chỉ lo cấu hình toàn cục.
+
 ---
 
 ## 7. WooCommerce

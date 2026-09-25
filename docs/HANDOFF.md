@@ -354,6 +354,21 @@ python docs/make-guideline.py        # sinh guideline.html từ tokens.css
 🔴 **Sửa trang tĩnh thì sửa `docs/make-pages.py`, không sửa `.html`** — lần chạy sau ghi đè.
 🔴 **Sửa trang About thì sửa `about.src.html`**, `about.html` là bản sinh ra.
 
+### Xem trước toàn site trên localhost
+
+```bash
+python docs/make-site-preview.py
+python -m http.server 8000 -d deliverables/preview/site
+```
+
+16 trang, bấm qua lại được, dùng **đúng `style.css` của theme** (copy, không chép tay).
+🔴 Nó KHÔNG chứng minh theme chạy — không có PHP thì không chạy được template thật.
+Nó chỉ duyệt được **bố cục và điều hướng**. Đọc `deliverables/preview/README.md`
+trước khi dùng để kết luận bất cứ điều gì.
+
+⚠️ Header/footer trong script đó là **bản chép** của `site-header.php` / `site-footer.php`.
+**Sửa file theme thì sửa cả script**, nếu không hai bên trôi khỏi nhau.
+
 ---
 
 ## 10. 🔴 Hạn chế môi trường — đọc trước khi tự kiểm
