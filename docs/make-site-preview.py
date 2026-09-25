@@ -632,21 +632,49 @@ def read_fragment(path):
     return io.open(path, encoding='utf-8').read()
 
 
+# Tiền tố ngôn ngữ. 🔴 Quyết định 01/09 (CLAUDE.md §5): CẢ HAI ngôn ngữ đều có
+# prefix, `/` chuyển hướng sang `/en`. Từ đó `docs/make-pages.py` sinh link
+# `/en/faq` chứ không còn `/faq`.
+#
+# `relink()` viết ngày 27/08, trước quyết định đó, nên nó chỉ biết `/faq`.
+# Hệ quả im lặng: 16 link trong bản xem trước trỏ `/en/...` và 404 hết — footer,
+# bảng số đo, chính sách đổi trả. Không ai thấy vì trang vẫn hiện bình thường,
+# chỉ chết khi BẤM vào. Bắt được 25/09 lúc rà đường dẫn tuyệt đối.
+LANG_PREFIXES = ('/en', '/vi', '')
+
+
 def relink(html):
-    """Fragment viết link theo slug WordPress (`/shipping`, `/about`).
-    Bản tĩnh chạy bằng file .html nên phải đổi sang tên file."""
+    """Fragment viết link theo slug WordPress (`/en/shipping`, `/about`).
+    Bản tĩnh chạy bằng file .html nên phải đổi sang tên file.
+
+    🔴 MỌI ĐƯỜNG DẪN RA PHẢI TƯƠNG ĐỐI, không có dấu `/` ở đầu. Bản này còn
+    được đem đặt trong thư mục con (portfolio: /vitalite/demo/), mà đường dẫn
+    tuyệt đối thì trỏ về gốc tên miền — tức là ra ngoài bản demo.
+    """
     slugs = ['about', 'collection', 'complaints', 'contact', 'faq', 'payment', 'privacy',
              'returns', 'seller-information', 'shipping', 'size-guide', 'terms']
-    for s in slugs:
-        html = re.sub(r'href="/%s/?"' % re.escape(s), 'href="%s.html"' % s, html)
-    # Link động của WordPress/Woo — gom hết về trang tương ứng của bản tĩnh.
-    # Bản tĩnh không có query string nên `?collection=` hay `?orderby=` rụng đi;
-    # đó là giới hạn đã biết, không phải lỗi.
-    html = re.sub(r'href="/shop[^"]*"', 'href="shop.html"', html)
-    html = re.sub(r'href="/product-category/[^"]*"', 'href="shop.html"', html)
-    html = re.sub(r'href="/product/[^"]*"', 'href="product.html"', html)
-    html = re.sub(r'href="/(?:my-account|cart|checkout)[^"]*"', 'href="cart.html"', html)
+    for pre in LANG_PREFIXES:
+        for s in slugs:
+            html = re.sub(r'href="%s/%s/?(?:[?#][^"]*)?"' % (re.escape(pre), re.escape(s)),
+                          'href="%s.html"' % s, html)
+        # Link động của WordPress/Woo — gom hết về trang tương ứng của bản tĩnh.
+        # Bản tĩnh không có query string nên `?collection=` hay `?orderby=` rụng đi;
+        # đó là giới hạn đã biết, không phải lỗi.
+        p = re.escape(pre)
+        html = re.sub(r'href="%s/shop[^"]*"' % p, 'href="shop.html"', html)
+        html = re.sub(r'href="%s/product-category/[^"]*"' % p, 'href="shop.html"', html)
+        html = re.sub(r'href="%s/product/[^"]*"' % p, 'href="product.html"', html)
+        html = re.sub(r'href="%s/(?:my-account|cart|checkout)[^"]*"' % p, 'href="cart.html"', html)
+        if pre:
+            html = re.sub(r'href="%s/?"' % p, 'href="index.html"', html)
     html = re.sub(r'href="/"', 'href="index.html"', html)
+
+    # Chuỗi frame trang About trỏ tuyệt đối vào /wp-content/uploads/seq/0823/,
+    # đúng đường của hosting. Trong bản tĩnh thư mục đó nằm NGAY CẠNH about.html
+    # nên bỏ dấu `/` đầu là chạy, và chạy ở cả thư mục con.
+    html = html.replace('"/wp-content/', '"wp-content/')
+    html = html.replace('\n                   /wp-content/', '\n                   wp-content/')
+
     # Fragment PDP/cart trỏ ảnh mockup theo đường tương đối tính từ
     # deliverables/woo-templates/. Trong bản tĩnh chúng nằm ở theme/mockups/.
     html = html.replace('../../mockup-all/webp/', 'theme/mockups/')
