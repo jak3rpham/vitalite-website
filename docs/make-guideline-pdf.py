@@ -24,6 +24,8 @@ import re
 import subprocess
 import sys
 
+from theme_fonts import font_url
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOKENS = os.path.join(ROOT, 'deliverables', 'brand', 'tokens.css')
 OUT_HTML = os.path.join(ROOT, 'deliverables', 'brand', 'guideline-print.html')
@@ -476,7 +478,7 @@ def build_html():
       tên bộ <i>Black Sabbath</i> là tên chính thức hay tên thư mục, và thương hiệu có bộ phông riêng không.</p>
       <p class="end">vitalitevn@gmail.com</p>"""))
 
-    html = SHELL % dict(tokens=root_block(tk), pages=''.join(P))
+    html = SHELL % dict(fonts=font_url(), tokens=root_block(tk), pages=''.join(P))
     io.open(OUT_HTML, 'w', encoding='utf-8', newline='\n').write(html)
     return OUT_HTML
 
@@ -484,7 +486,7 @@ def build_html():
 SHELL = """<!doctype html><html lang="vi"><head><meta charset="utf-8">
 <title>VITALITE Brand Guideline</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Archivo+Expanded:wght@800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="%(fonts)s">
 <style>
 %(tokens)s
 @page{size:297mm 210mm;margin:0}

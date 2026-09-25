@@ -3,8 +3,14 @@
   "configurations": [
     {
       "name": "vitalite-preview",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8000", "-d", "deliverables/preview/site"],
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8000",
+        "-d",
+        "deliverables/preview/site"
+      ],
       "port": 8000
     }
   ]

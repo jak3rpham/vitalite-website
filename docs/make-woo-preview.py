@@ -14,9 +14,13 @@ import io
 import os
 import re
 
+from theme_fonts import font_url
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOKENS = os.path.join(ROOT, 'deliverables', 'brand', 'tokens.css')
 OUT = os.path.join(ROOT, 'deliverables', 'woo-templates')
+THEME = os.path.join(ROOT, 'repo', 'vitalite-website',
+                     'vitalite-theme', 'vitalite-theme-2')
 
 
 def root_block():
@@ -31,7 +35,7 @@ def root_block():
 HEAD = """<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>%(title)s</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Archivo+Expanded:wght@800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="%(fonts)s">
 <style>
 %(tokens)s
 *{box-sizing:border-box}
@@ -53,7 +57,7 @@ def build():
         if not os.path.isfile(path):
             continue
         body = io.open(path, encoding='utf-8').read()
-        html = (HEAD % dict(title=title, tokens=tokens)) + body + '\n</body></html>\n'
+        html = (HEAD % dict(fonts=font_url(), title=title, tokens=tokens)) + body + '\n</body></html>\n'
         io.open(os.path.join(OUT, out), 'w', encoding='utf-8', newline='\n').write(html)
         made.append(out)
     return made

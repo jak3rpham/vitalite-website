@@ -32,6 +32,8 @@ import os
 import re
 import shutil
 
+from theme_fonts import font_url
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 THEME = os.path.join(ROOT, 'repo', 'vitalite-website', 'vitalite-theme', 'vitalite-theme-2')
 OUT = os.path.join(ROOT, 'deliverables', 'preview', 'site')
@@ -39,6 +41,8 @@ NL = '\n'
 
 BRAND = 'VITALITÉ'
 EMAIL = 'vitalitevn@gmail.com'          # inc/helpers.php vt_contact_info()
+
+
 
 ICONS = {
     'bag':    '<path d="M6 7h12l1 13H5L6 7Z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/>',
@@ -88,18 +92,22 @@ HEAD = """<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>%(title)s — %(brand)s</title>
 <meta name="theme-color" content="%(theme_color)s">
+<!-- Bản demo cho portfolio. KHÔNG được để công cụ tìm kiếm lập chỉ mục:
+     nó mang đúng tên và giá thật của cửa hàng, index vào là cạnh tranh
+     từ khoá với chính vitalite.io.vn và dẫn khách vào chỗ không mua được. -->
+<meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Archivo+Expanded:wght@800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="%(fonts)s">
 <link rel="stylesheet" href="theme/style.css">
 <link rel="stylesheet" href="preview-bar.css">
 </head>
 <body class="%(body_class)s">
 
 <div class="vtpv-bar">
-  <strong>BẢN XEM TRƯỚC TĨNH</strong>
-  <span>Không phải site thật · không có PHP/WooCommerce · thẻ sản phẩm là <b>[PLACEHOLDER]</b></span>
-  <a href="index.html">Trang chủ</a>
+  <strong>DEMO</strong>
+  <span>Bản dựng tĩnh để xem giao diện · sản phẩm và giá là thật, nhưng <b>không bán được ở đây</b></span>
+  <a href="https://vitalite.io.vn" rel="noopener">Cửa hàng thật →</a>
 </div>
 """
 
@@ -208,6 +216,7 @@ def footer():
 
 def shell(title, body, active='', tone='', body_class=''):
     return (HEAD % dict(title=title, brand=BRAND, body_class=body_class,
+                        fonts=font_url(),
                         theme_color='#0A0A0A' if tone == 'dark' else '#FFFFFF')
             + header(active, tone) + body + footer())
 
@@ -215,53 +224,117 @@ def shell(title, body, active='', tone='', body_class=''):
 # ---------------------------------------------------------------------------
 # Thẻ sản phẩm GIẢ
 #
-# 🔴 Site chưa có sản phẩm nào. Bản thật render empty-state, không render lưới.
-# Ở đây cố tình dựng lưới GIẢ vì mục đích của bản xem trước là DUYỆT BỐ CỤC —
-# hai section trống thì không duyệt được gì.
+# 🔴 CATALOG DƯỚI ĐÂY LÀ THẬT. Không có [PLACEHOLDER] nào nữa.
 #
-# CLAUDE.md §2: "Placeholder chỉ chấp nhận khi gắn nhãn [PLACEHOLDER] rõ ràng."
-# Nên mỗi thẻ mang badge "PH", tên bắt đầu bằng [PLACEHOLDER], giá là 0.000.000 ₫.
-# Không có tên SKU thật, không có giá thật, không có màu thật ở đây.
-# Ảnh mockup là ảnh THẬT — chúng chỉ minh hoạ tỷ lệ khung, không gắn với SKU nào.
+# Trước 25/09/2026 chỗ này dựng lưới GIẢ vì site chưa nhập sản phẩm. Nhưng dữ
+# liệu thật đã có sẵn từ 12/09 và nằm rải ở ba file:
+#
+#   reference/BRAND_FACTS_OBSERVED.md §3  — giá đọc trực tiếp từ Shopee
+#   deliverables/woo/NHAP-SAN-PHAM.md §3  — tên, màu, vải, fit, print (user chốt 12/09)
+#   deliverables/woo/product-images/      — 16 ảnh thật, đủ trước+sau × 2 màu × 4 SP
+#
+# Nên bản xem trước không cần bịa gì cả. Mọi con số dưới đây truy được về một
+# trong ba nguồn trên. CLAUDE.md §2 cấm bịa tên/giá/chất liệu — luật đó vẫn
+# nguyên, ta chỉ thôi không cần lách nó nữa.
+#
+# 🔴 KHÔNG CÓ GIÁ GẠCH NGANG. Shopee hiện -14%/-16%, nhưng NHAP-SAN-PHAM §3.0
+# ghi rõ giá gốc CHƯA ĐỌC ĐƯỢC (trang shop chặn danh sách, đòi đăng nhập).
+# Tính ngược 276.100 ÷ 0,84 = 328.690 là BỊA. Nên ở đây hiện ĐÚNG MỘT GIÁ —
+# giá đang bán. Thiếu fact thì bỏ hẳn, không suy ra.
+#
+# Mỗi sản phẩm là MỘT thẻ mang nhiều màu, không phải mỗi màu một thẻ. Đó là
+# mô hình WooCommerce đã chốt (variation), và cũng là lý do v2.6.0 làm chấm màu.
 # ---------------------------------------------------------------------------
 
-# Độ dài tên khác nhau là CÓ CHỦ Ý: tên dài mới lộ ra chỗ thẻ bị vỡ dòng.
-PH_NAMES = [
-    'Sample Tee',
-    'Sample Heavyweight Boxy Hoodie In Washed Black',
-    'Sample Tee Two',
-    'Sample Longsleeve',
-    'Sample Cap',
-    'Sample Oversized Tee With A Deliberately Long Name',
-    'Sample Shorts',
-    'Sample Jacket',
+# Tên màu → hex. Chép y theo vt_color_hex() trong inc/helpers.php.
+# Lệch bảng này là chấm màu trên bản xem trước khác production.
+COLOR_HEX = {
+    'Black': '#0A0A0A',
+    'White': '#FFFFFF',
+    'Pure White': '#FFFFFF',
+    'Grey': '#B8B8BC',
+    'Cream': '#EFE7D2',
+}
+
+IMG = 'theme/products/%s'
+
+CATALOG = [
+    dict(slug='iconic', name='ICONIC', cat='T-Shirts',
+         prices=[282680],
+         colors=[('Black', 'graffiti-blue-black'), ('White', 'graffiti-blue-white')]),
+    dict(slug='pink-graffiti', name='Pink Graffiti', cat='T-Shirts',
+         # Hai màu KHÁC GIÁ trên Shopee: đen 276.100 (-16%), trắng 282.680 (-14%).
+         # Woo hiện khoảng giá cho sản phẩm biến thể, nên thẻ cũng phải hiện khoảng.
+         prices=[276100, 282680],
+         colors=[('Black', 'pink-graffiti-black'), ('White', 'pink-graffiti-white')]),
+    dict(slug='porsche', name='Need Money For Porsche', cat='T-Shirts',
+         prices=[282680],
+         colors=[('Black', 'porsche-black'), ('White', 'porsche-white')]),
+    dict(slug='moments-hoodie', name="The Moments Boxy Hoodie", cat='Outerwear',
+         prices=[599100],
+         colors=[('Grey', 'moments-hoodie-grey'), ('Pure White', 'moments-hoodie-pure-white')]),
 ]
 
 
-def card(i, mock_count):
-    front = 'theme/mockups/%d.webp' % ((i % mock_count) + 1)
-    back = 'theme/mockups/%d.webp' % (((i + 1) % mock_count) + 1)
-    sizes = ''.join('<a href="product.html">%s</a>' % s for s in ('S', 'M', 'L'))
+def vnd(n):
+    """1234567 -> '1.234.567 ₫'. Dấu chấm phân nhóm, đúng quy ước VN."""
+    return '{:,}'.format(int(n)).replace(',', '.') + '&nbsp;₫'
+
+
+def price_html(prices):
+    """Chép theo markup WooCommerce trả về từ get_price_html()."""
+    lo, hi = min(prices), max(prices)
+    amt = '<span class="woocommerce-Price-amount amount">%s</span>'
+    if lo == hi:
+        return amt % vnd(lo)
+    return (amt % vnd(lo)) + ' – ' + (amt % vnd(hi))
+
+
+def card(p):
+    """Chép theo template-parts/product-card.php của theme v2.6.2.
+
+    Ba thứ phải khớp bản thật, nếu không bản xem trước nói dối:
+      · .vt-card-media là <div>, KHÔNG phải <a> — <a> lồng <a> là HTML hỏng
+      · chấm màu dùng <button data-vt-img> và bọc trong .is-interactive,
+        vì site.js (bản THẬT, copy nguyên) bắt đúng selector đó
+      · ảnh mặt sau là ảnh cấp SẢN PHẨM, chỉ có cho màu đầu tiên
+    """
+    first = p['colors'][0][1]
+    sizes = ''.join('<a href="product.html?c=%s&s=%s">%s</a>' % (p['slug'], s, s)
+                    for s in ('S', 'M', 'L'))
+    dots = []
+    for cname, base in p['colors']:
+        dots.append(
+            '<button type="button" class="vt-card-swatch" style="background: %s"'
+            ' data-vt-img="%s" title="%s">'
+            '<span class="screen-reader-text">%s</span></button>'
+            % (COLOR_HEX.get(cname, '#DDDDE1'), IMG % (base + '-front.webp'), cname, cname))
     return """
-<article class="vt-card">
+<article class="vt-card product">
   <div class="vt-card-media">
-    <a class="vt-card-media-link" href="product.html" tabindex="-1" aria-hidden="true"></a>
-    <span class="vt-card-badge vtpv-ph">PH</span>
+    <a class="vt-card-media-link" href="product.html?c=%(slug)s" tabindex="-1" aria-hidden="true"></a>
     <img class="vt-card-front" src="%(f)s" alt="" width="600" height="600" loading="lazy" decoding="async">
     <img class="vt-card-back" src="%(b)s" alt="" width="600" height="600" loading="lazy" decoding="async">
     <span class="vt-card-quick">%(sizes)s</span>
   </div>
   <div class="vt-card-body">
-    <h3 class="vt-card-title"><a href="product.html">[PLACEHOLDER] %(name)s</a></h3>
-    <div class="vt-card-price"><span class="woocommerce-Price-amount">0.000.000&nbsp;₫</span></div>
+    <h3 class="vt-card-title"><a href="product.html?c=%(slug)s">%(name)s</a></h3>
+    <div class="vt-card-price">%(price)s</div>
+    <div class="vt-card-swatches is-interactive" aria-label="Available colours">%(dots)s</div>
   </div>
-</article>""" % dict(f=front, b=back, sizes=sizes, name=PH_NAMES[i % len(PH_NAMES)])
+</article>""" % dict(slug=p['slug'], name=p['name'],
+                     f=IMG % (first + '-front.webp'), b=IMG % (first + '-back.webp'),
+                     sizes=sizes, price=price_html(p['prices']), dots=''.join(dots))
 
 
-def grid(n, mock_count, featured=False):
+def grid(items, featured=False):
     return ('<div class="vt-grid%s">%s</div>'
             % (' vt-grid--featured' if featured else '',
-               ''.join(card(i, mock_count) for i in range(n))))
+               ''.join(card(p) for p in items)))
+
+
+def by_cat(cat):
+    return [p for p in CATALOG if p['cat'] == cat]
 
 
 def section_head(number, kicker, title, right):
@@ -417,25 +490,25 @@ def section_services():
 </div></div></section>"""
 
 
-def home(mock_count, images):
+def home(images):
     return ''.join([
         hero(),
         '<section class="vt-section"><div class="vt-wrap">',
         section_head('01', 'Featured', 'T-Shirts', VIEW_ALL),
-        grid(7, mock_count, featured=True),
+        grid(by_cat('T-Shirts'), featured=True),
         '</div></section>',
         section_collection(),
         section_gallery(images),
         section_iridescent(),
         '<section class="vt-section"><div class="vt-wrap">',
         section_head('04', 'Outerwear', 'Heavyweight', VIEW_ALL),
-        grid(4, mock_count),
+        grid(by_cat('Outerwear')),
         '</div></section>',
         section_services(),
     ])
 
 
-def shop(mock_count):
+def shop():
     """Shop archive. Chép theo woocommerce/archive-product.php:
     banner đầu trang (tràn viền) + breadcrumb + toolbar + lưới."""
     return """
@@ -453,9 +526,9 @@ def shop(mock_count):
   <nav class="woocommerce-breadcrumb" aria-label="Breadcrumb">
     <a href="index.html">Home</a> <span aria-hidden="true">/</span> Shop All</nav>
   <div class="vt-section-head"><div><p class="vt-eyebrow">%(n)d products</p></div>
-    <span class="vt-mono" style="color: var(--vt-muted);">[PLACEHOLDER]</span></div>
+    <span class="vt-mono" style="color: var(--vt-muted);">Sort by latest</span></div>
   %(grid)s
-</div></div>""" % dict(n=12, grid=grid(12, mock_count))
+</div></div>""" % dict(n=len(CATALOG), grid=grid(CATALOG))
 
 
 # ---------------------------------------------------------------------------
@@ -504,7 +577,19 @@ def copy_assets():
         if os.path.isdir(src):
             shutil.copytree(src, os.path.join(theme_out, sub))
 
-    # Mockup dùng cho thẻ [PLACEHOLDER]
+    # 16 ảnh sản phẩm THẬT — nguồn cho mọi thẻ trong CATALOG.
+    # Cùng bộ file mà deliverables/woo/NHAP-SAN-PHAM.md §3 dặn upload lên
+    # Media Library, nên thẻ ở đây dùng đúng ảnh sẽ chạy trên production.
+    prod_src = os.path.join(ROOT, 'deliverables', 'woo', 'product-images')
+    prod_out = os.path.join(theme_out, 'products')
+    os.makedirs(prod_out)
+    if os.path.isdir(prod_src):
+        for f in sorted(os.listdir(prod_src)):
+            if f.endswith('.webp'):
+                shutil.copy2(os.path.join(prod_src, f), os.path.join(prod_out, f))
+
+    # Mockup — CHƯA bỏ được: fragment PDP/cart vẫn trỏ vào chúng qua relink().
+    # Gỡ nốt khi PDP dùng ảnh thật.
     mock_src = os.path.join(ROOT, 'mockup-all', 'webp')
     mock_out = os.path.join(theme_out, 'mockups')
     os.makedirs(mock_out)
@@ -548,6 +633,132 @@ def relink(html):
     # deliverables/woo-templates/. Trong bản tĩnh chúng nằm ở theme/mockups/.
     html = html.replace('../../mockup-all/webp/', 'theme/mockups/')
     return html
+
+
+def real_pdp(html):
+    """Thay ảnh mockup + số BỊA trong `pdp.html` bằng dữ liệu thật.
+
+    🔴 VÌ SAO SỬA Ở ĐÂY CHỨ KHÔNG SỬA `pdp.html`.
+    Prototype đó tự khai trong comment rằng 697.000₫ là SUY RA (599.100 / 0,86),
+    giữ lại để duyệt bố cục khối giá lúc có sale. Với một file nội bộ, có nhãn
+    rõ ràng, đó là lựa chọn hợp lệ — và vẫn cần, vì không có nó thì không ai
+    duyệt được layout <del> + phần trăm giảm.
+
+    Nhưng bản demo này ĐƯA RA CÔNG KHAI dưới đúng tên brand. Một con số suy ra
+    hiển thị như giá gạch thật ở đó không còn là ghi chú nội bộ nữa — nó là bịa
+    giá, đúng thứ CLAUDE.md §2 cấm. Nên demo hiện ĐÚNG MỘT GIÁ.
+
+    Tách ở tầng build giữ được cả hai: prototype còn nguyên công dụng,
+    bản công khai không mang số nào không đọc được từ Shopee.
+    """
+    M = '../../mockup-all/webp/%s.webp'
+    P = '../../../woo/product-images/%s.webp'   # relink() không đụng, sẽ đổi ở dưới
+
+    # Gallery hoodie: 4 ô mockup -> đúng 4 ảnh thật (trước/sau × 2 màu),
+    # khớp luôn hai swatch Grey / Pure White đã có sẵn trong fragment.
+    for mock, real in (('13', 'moments-hoodie-grey-front'),
+                       ('14', 'moments-hoodie-grey-back'),
+                       ('15', 'moments-hoodie-pure-white-front'),
+                       ('16', 'moments-hoodie-pure-white-back'),
+                       ('1',  'graffiti-blue-black-front'),
+                       ('5',  'pink-graffiti-black-front'),
+                       ('9',  'porsche-black-front')):
+        html = html.replace(M % mock, 'theme/products/%s.webp' % real)
+
+    # Giá gạch + % giảm: cả hai đều suy ra từ 599.100. Gỡ hẳn.
+    html = re.sub(r'\s*<del>697\.000&#8363;</del>', '', html)
+    html = re.sub(r'\s*<span class="vpd-off">&#8722;14%</span>', '', html)
+
+    # Sản phẩm liên quan: 280.000₫ không khớp giá thật nào (thật: 276.100 / 282.680).
+    # 'Starlight' có trên IG nhưng KHÔNG có trên Shopee — không có giá, không có
+    # ảnh nào xác minh được. Thay bằng SKU thật đã có đủ cả hai.
+    for name, newname, price in (
+            ('The Iconic Tee', 'ICONIC', '282.680&#8363;'),
+            ('Pink Graffiti Tee', 'Pink Graffiti', '276.100&#8363; – 282.680&#8363;'),
+            ('Starlight Tee', 'Need Money For Porsche', '282.680&#8363;')):
+        html = html.replace(
+            '<p class="vpd-card-name">%s</p><p class="vpd-card-price">280.000&#8363;</p>' % name,
+            '<p class="vpd-card-name">%s</p><p class="vpd-card-price">%s</p>' % (newname, price))
+
+    # Tiêu đề khối: 'More from The Moments' mà liệt kê 3 áo thun dòng khác là sai.
+    html = html.replace('More from The Moments', 'More from VITALITÉ')
+
+    # Badge 'Sale' đi kèm giá gạch. Gỡ giá gạch mà giữ badge là nói có giảm giá
+    # nhưng không cho thấy giảm từ đâu — khách không kiểm được, và đó là kiểu
+    # nhãn giảm giá mà luật bảo vệ người tiêu dùng soi đầu tiên.
+    html = re.sub(r'\s*<span class="vpd-tag vpd-tag--sale">Sale</span>', '', html)
+
+    # ---- Ba ô cam nội bộ. Cả ba đều ĐÃ LỖI THỜI, không chỉ "không nên công khai".
+    #
+    # Chúng trỏ vào CAU-HOI-CHO-BRAND.md, mà CLAUDE.md §7 đã khai tử file đó từ
+    # 30/08: "những gì brand không trả lời là KHÔNG CÓ, không phải chờ trả lời".
+    # Hai trong ba ô hỏi những thứ brand ĐÃ trả lời ngày 29/08.
+
+    # 1. Shipping & returns — đã có fact thật, điền vào thay vì xoá trắng.
+    #    Nguồn: CLAUDE.md §5. Không nêu tên hãng cho chặng quốc tế: đơn đi Mỹ là
+    #    hàng xách tay theo lô, ghi "FedEx" là sai fact.
+    ship_real = """<dl class="vpd-spec">
+            <div><dt>Việt Nam</dt><dd>SPX · 30.000₫<br>Miễn phí từ 3 áo</dd></div>
+            <div><dt>Thời gian</dt><dd>Nội thành 1 ngày<br>Tỉnh 1–3 ngày</dd></div>
+            <div><dt>COD</dt><dd>Có<br>chỉ nội địa</dd></div>
+            <div><dt>Hoa Kỳ</dt><dd>1–2 tuần<br>phân phối nội địa Mỹ</dd></div>
+            <div><dt>Đổi trả</dt><dd>5 ngày · 1 lần/đơn<br>khách chịu ship 2 chiều</dd></div>
+            <div><dt>Không đổi</dt><dd>Hàng sale<br>và hàng tặng kèm</dd></div>
+          </dl>"""
+    html = re.sub(r'<div class="vpd-flag">\s*<b>Chưa có dữ liệu vận chuyển</b>[\s\S]*?</div>',
+                  ship_real, html)
+
+    # 2. Số đo hoodie — KHÔNG có thật, và cũng không được bịa (CLAUDE.md §2:
+    #    "size/fit là vùng rủi ro pháp lý"). Nên gỡ HẲN cả khối lẫn link trỏ tới nó.
+    #    Đây đúng là hành vi của theme thật: inc/woocommerce.php:222 chỉ in bảng
+    #    số đo cho category `t-shirts`, hoodie không có bảng. Bỏ hẳn khối này là
+    #    KHỚP production, không phải né tránh.
+    html = re.sub(r'\s*<details id="size">[\s\S]*?</details>', '', html)
+    html = html.replace('<span>Size</span><a href="#size">Size guide</a>', '<span>Size</span>')
+    return html
+
+
+def real_cart(html):
+    """Giỏ hàng mẫu: thay giá bịa 280.000₫ bằng giá thật, tính lại tổng.
+
+    Giá thật của ICONIC là 282.680₫ (BRAND_FACTS_OBSERVED §3), không phải
+    280.000₫ — số tròn đó không khớp SKU nào. Sửa giá thì phải sửa cả dòng
+    thành tiền và tổng, nếu không màn giỏ hàng cộng sai ngay trước mắt người xem.
+
+      282.680 × 2 = 565.360        (trước: 280.000 × 2 = 560.000)
+      599.100 + 565.360 = 1.164.460  (trước: 1.159.100)
+
+    Giỏ đang có 3 áo nên freeship nội địa đã kích hoạt (VT_FREE_SHIP_MIN_QTY = 3
+    trong inc/woocommerce.php) — vì thế tổng bằng đúng tạm tính, không cộng ship.
+    """
+    for old, new in (('280.000', '282.680'), ('560.000', '565.360'),
+                     ('1.159.100', '1.164.460')):
+        html = html.replace(old + '&#8363;', new + '&#8363;')
+    for mock, real in (('1', 'graffiti-blue-black-front'),
+                       ('13', 'moments-hoodie-grey-front')):
+        html = html.replace('../../mockup-all/webp/%s.webp' % mock,
+                            'theme/products/%s.webp' % real)
+
+    # 🔴 `.vwc-flag` là ghi chú NỘI BỘ được in thẳng ra trang, không phải comment
+    # nên strip_comments() không với tới. Ba khối, nội dung kiểu "Chưa có phí ship
+    # — xem câu 5 đến 16 trong CAU-HOI-CHO-BRAND.md". Trên prototype để duyệt thì
+    # đúng chỗ; trên bản công khai thì vừa lộ trạng thái dự án, vừa trỏ vào một
+    # file không ai ngoài đọc được, lại còn SAI: shipping đã chốt từ 29/08
+    # (SPX, 30k, freeship từ 3 áo — CLAUDE.md §5).
+    # `class="vwc-flag"` có khối kèm thêm style inline, nên khớp theo tiền tố
+    # chứ không khớp đúng dấu `>` — thiếu chỗ này là sót đúng một ô ở màn 3.
+    html = re.sub(r'\s*<div class="vwc-flag"[^>]*>[\s\S]*?</div>', '', html)
+    return html
+
+
+# Comment HTML là ghi chú nội bộ: lý do kỹ thuật, số đã biết là suy ra, chỗ còn
+# nợ. Trên bản nội bộ chúng đáng giá. Trên bản công khai chúng vừa lộ ghi chú
+# vừa nặng thêm. `docs/make-pages.py` đã cắt từ 31/08 (c315e60), đây làm y vậy.
+RE_COMMENT = re.compile(r'<!--(?!\[if)(?!<!)[\s\S]*?-->')
+
+
+def strip_comments(html):
+    return RE_COMMENT.sub('', html)
 
 
 def woo_screens(html, keep):
@@ -610,14 +821,14 @@ def build():
     made = []
 
     def write(name, title, body, active='', tone='', body_class=''):
-        html = shell(title, body, active, tone, body_class)
+        html = strip_comments(shell(title, body, active, tone, body_class))
         io.open(os.path.join(OUT, name), 'w', encoding='utf-8', newline=NL).write(html)
         made.append((name, len(html)))
 
     # Trang chủ — body.vt-banner-top: header đè lên hero, đúng như front-page.php
-    write('index.html', 'Home', home(mock_count, images),
+    write('index.html', 'Home', home(images),
           active='', tone='dark', body_class='vt-banner-top')
-    write('shop.html', 'Shop All', shop(mock_count),
+    write('shop.html', 'Shop All', shop(),
           active='shop.html', tone='dark', body_class='vt-banner-top')
 
     for name, title, src, active, screens in FRAGMENTS:
@@ -625,8 +836,11 @@ def build():
             print('  BO QUA (khong co file): %s' % name)
             continue
         body = read_fragment(src)
+        if name == 'product.html':
+            body = real_pdp(body)
         if screens:
             body = woo_screens(body, set(screens))
+            body = real_cart(body)
         # Trang About mở bằng chuỗi frame nền ĐEN cao 500vh. Header trắng đè lên
         # đó cắt trang làm hai ngay giây đầu. Khớp với vt_top_banner_tone()
         # trong inc/helpers.php, chỗ 'about' đã được khai là trang banner tối.

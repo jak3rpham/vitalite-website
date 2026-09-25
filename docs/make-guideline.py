@@ -13,6 +13,8 @@ import io
 import os
 import re
 
+from theme_fonts import font_url
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOKENS = os.path.join(ROOT, 'deliverables', 'brand', 'tokens.css')
 OUT = os.path.join(ROOT, 'deliverables', 'brand', 'guideline.html')
@@ -164,6 +166,7 @@ def build():
         for w in (400, 500, 600, 700, 800))
 
     html = HTML % dict(
+        fonts=font_url(),
         tokens=root_block(tk),
         logos=logo_cards,
         neutral=table(colors_neutral),
@@ -184,7 +187,7 @@ HTML = """<!doctype html><html lang="vi"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>VITALITÉ Brand guideline</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Archivo+Expanded:wght@800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="%(fonts)s">
 <style>
 %(tokens)s
 *{box-sizing:border-box}
