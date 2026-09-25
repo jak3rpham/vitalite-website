@@ -5,7 +5,7 @@ Description: Child theme cho VITALITÉ — streetwear, WooCommerce. Header/foote
 Author: Vitalité
 Author URI: https://vitalite.io.vn
 Template: hello-elementor
-Version: 2.6.2
+Version: 2.6.3
 Requires at least: 6.0
 Requires PHP: 8.0
 Text Domain: vitalite
@@ -915,13 +915,59 @@ body.vt-banner-top .site-main { padding-top: 0; }
    lấp đầy khe 2px thành một đường liền — nhìn y hệt, nhưng cột trống thì trống thật. */
 .vt-grid {
   display: grid; gap: var(--vt-hair);
-  grid-template-columns: repeat(4, 1fr);
+  /* 🔴 12 CỘT, KHÔNG PHẢI 4 — và đó không phải chuyện thẩm mỹ.
+     Ô thường chiếm 3 cột = 4 ô một hàng, nhìn y hệt bản cũ. Nhưng 12 chia hết
+     cho 4, 3 VÀ 2, nên số ô mỗi hàng đổi bằng cách đổi ĐỘ RỘNG CỦA Ô chứ không
+     phải đổi số cột của lưới. Nhờ vậy mới viết được luật "ít thẻ thì ô nở ra"
+     ở khối ngay dưới — với lưới 4 cột thì 3 thẻ không chia được, đành chịu. */
+  grid-template-columns: repeat(12, 1fr);
   background: transparent;
   grid-auto-flow: dense;
 }
-.vt-grid > * { background: var(--vt-paper); box-shadow: 0 0 0 1px var(--vt-line); }
-@media (max-width: 1100px) { .vt-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 768px)  { .vt-grid { grid-template-columns: repeat(2, 1fr); } }
+.vt-grid > * {
+  background: var(--vt-paper); box-shadow: 0 0 0 1px var(--vt-line);
+  grid-column: span 3;                                   /* 4 ô / hàng */
+}
+@media (max-width: 1100px) { .vt-grid > * { grid-column: span 4; } }   /* 3 ô / hàng */
+@media (max-width: 768px)  { .vt-grid > * { grid-column: span 6; } }   /* 2 ô / hàng */
+
+/* ==== LƯỚI CHƯA ĐỦ HÀNG ====
+   Đo 25/09 trên bản xem trước với catalog THẬT (4 SKU, NHAP-SAN-PHAM §3):
+     · section "T-Shirts"  — 3 thẻ trong lưới 4 cột →  340px trống (¼ hàng)
+     · section "Outerwear" — 1 thẻ trong lưới 4 cột → 1022px trống (¾ hàng)
+
+   Khối comment đầu mục này đã xử chuyện cột trống lộ mảng xám. Nhưng nó không
+   xử được chuyện còn lại: một thẻ nằm lẻ ở mép trái, ba phần tư hàng trắng trơn.
+   Người xem không đọc ra "catalog nhỏ", họ đọc ra "trang lỗi".
+
+   Đây KHÔNG phải cảnh hiếm. Nó xảy ra ở: catalog mới, category ít hàng, kết quả
+   lọc, kết quả tìm kiếm, và "sản phẩm liên quan" của SKU cuối cùng trong dòng.
+   Đúng lý do `:nth-last-child(n+5)` ở bố cục featured ra đời ngày 13/09.
+
+   Cách xử: ô nở ra cho kín hàng. Đếm bằng `:first-child:nth-last-child(n)` —
+   cùng một thủ thuật, không thêm class nào từ PHP, nên shop archive, tìm kiếm,
+   trang chủ và bản xem trước tĩnh đều ăn theo mà không phải sửa template. */
+
+/* 3 thẻ → 3 ô / hàng */
+.vt-grid > *:first-child:nth-last-child(3),
+.vt-grid > *:first-child:nth-last-child(3) ~ * { grid-column: span 4; }
+
+/* 2 thẻ → 2 ô / hàng */
+.vt-grid > *:first-child:nth-last-child(2),
+.vt-grid > *:first-child:nth-last-child(2) ~ * { grid-column: span 6; }
+
+/* 1 thẻ → nửa hàng, CANH GIỮA.
+   Không cho nó rộng cả hàng: ảnh sản phẩm là vuông 1:1, tràn 1361px thì thẻ
+   cao đúng 1361px và khách phải cuộn hết một màn hình chỉ để qua một cái áo. */
+.vt-grid > *:only-child { grid-column: 4 / span 6; }
+
+@media (max-width: 768px) {
+  /* Điện thoại: 2 ô/hàng, nên 3 thẻ xuống thành 2+1 chứ không ép 3 ô một hàng */
+  .vt-grid > *:first-child:nth-last-child(3),
+  .vt-grid > *:first-child:nth-last-child(3) ~ * { grid-column: span 6; }
+  /* Một thẻ thì tràn hàng — ở 375px thẻ chỉ cao 375px, không phải vấn đề */
+  .vt-grid > *:only-child { grid-column: 1 / -1; }
+}
 
 /* Bố cục FEATURED: ô đầu tiên chiếm 2×2, phần còn lại 1×1.
    Một sản phẩm được nâng lên làm trung tâm thay vì tám ô ngang hàng. */
@@ -930,14 +976,14 @@ body.vt-banner-top .site-main { padding-top: 0; }
    và để lại hai, ba cột trắng trơn bên cạnh — đo 13/09 với 1 sản phẩm: thẻ
    680px, ba cột trống. Đủ hàng để lấp thì bố cục mosaic mới có nghĩa. */
 .vt-grid--featured > .vt-card:first-child:nth-last-child(n+5) {
-  grid-column: span 2; grid-row: span 2;
+  grid-column: span 6; grid-row: span 2;          /* 6/12 = nửa hàng, như span 2 của lưới 4 cột cũ */
 }
 .vt-grid--featured > .vt-card:first-child:nth-last-child(n+5) .vt-card-title {
   font-size: var(--vt-t-md);
 }
 @media (max-width: 768px) {
   .vt-grid--featured > .vt-card:first-child:nth-last-child(n+5) {
-    grid-column: span 2; grid-row: span 1;
+    grid-column: span 12; grid-row: span 1;       /* tràn hàng, như span 2 của lưới 2 cột cũ */
   }
 }
 

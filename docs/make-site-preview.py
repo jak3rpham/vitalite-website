@@ -43,6 +43,24 @@ BRAND = 'VITALITÉ'
 EMAIL = 'vitalitevn@gmail.com'          # inc/helpers.php vt_contact_info()
 
 
+def css_ver():
+    """Chuỗi đổi mỗi khi style.css của theme đổi, gắn vào link CSS.
+
+    🔴 KHÔNG phải tối ưu vặt. Đây là bẫy đã mất 15 phút ngày 25/09.
+    `python -m http.server` trả `Last-Modified` và trình duyệt cache rất dai.
+    Sửa style.css, dựng lại, bấm F5 — trang vẫn nạp CSS CŨ. Lúc đó người sửa
+    ngồi đo một bố cục không còn tồn tại và kết luận là "luật CSS không ăn",
+    rồi đi sửa một thứ vốn đã đúng.
+
+    Nguy hiểm ở chỗ nó IM LẶNG và có vẻ hợp lý: trang vẫn hiện, chỉ là hiện
+    bản cũ. Gắn version vào URL thì đổi CSS là đổi URL, cache không còn cửa.
+
+    Dùng mtime chứ không dùng hash: rẻ, và bản xem trước không cần chống
+    trùng lặp ở mức nội dung.
+    """
+    return str(int(os.path.getmtime(os.path.join(THEME, 'style.css'))))
+
+
 
 ICONS = {
     'bag':    '<path d="M6 7h12l1 13H5L6 7Z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/>',
@@ -99,7 +117,7 @@ HEAD = """<!doctype html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="%(fonts)s">
-<link rel="stylesheet" href="theme/style.css">
+<link rel="stylesheet" href="theme/style.css?v=%(cssver)s">
 <link rel="stylesheet" href="preview-bar.css">
 </head>
 <body class="%(body_class)s">
@@ -216,7 +234,7 @@ def footer():
 
 def shell(title, body, active='', tone='', body_class=''):
     return (HEAD % dict(title=title, brand=BRAND, body_class=body_class,
-                        fonts=font_url(),
+                        fonts=font_url(), cssver=css_ver(),
                         theme_color='#0A0A0A' if tone == 'dark' else '#FFFFFF')
             + header(active, tone) + body + footer())
 
